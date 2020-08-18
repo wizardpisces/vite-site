@@ -20,6 +20,5 @@ then
   git commit -m "[build] $VERSION"
 
   # publish
-  git push origin refs/tags/v$VERSION
-  git push
+  git push origin master
 fi
