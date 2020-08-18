@@ -13,7 +13,11 @@ then
   # build
   VERSION=$VERSION npm run build
 
-  cp -rf dist docs
+  rm -rf docs
+  mv dist docs
+  mv docs/_assets docs/assets
+
+  node script/changesource.js
 
   # commit
   git add -A
