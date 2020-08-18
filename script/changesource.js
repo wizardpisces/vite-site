@@ -1,15 +1,35 @@
 const fs = require('fs');
 const path = require('path');
 
-let sourcePath = path.join(__dirname,'../docs/index.html')
+function correctFileContent(filePath) {
+    let content = fs.readFileSync(filePath, 'utf8')
+    content = content.replace(/_assets/gi, 'assets');
+    fs.writeFile(filePath, content, (err) => {
+        if (err) {
+            throw err;
+        }
+    })
+}
 
-let content = fs.readFileSync(sourcePath, 'utf8')
+function walkDir(dir) {
+    fs.readdir(dir, (err, results) => {
+        results.forEach((filename) => {
+            let filePath = path.join(dir, filename),
+                stat = fs.lstatSync(filePath)
 
-content = content.replace(/_assets/gi, 'assets');
+            if (stat.isFile()) {
+               correctFileContent(filePath)
+            }else if (stat.isDirectory()) {
+                walkDir(filePath, (err, res) => {
+                    if (err) {
+                        done(err);
+                    }
+                })
+            }
+        })
+    })
+}
 
-fs.writeFile(sourcePath, content,(err)=>{
-    if(err){
-        throw err;
-    }
-    console.log('change _assets to asset success')
-})
+let sourcePath = path.join(__dirname, '../docs')
+
+walkDir(sourcePath)
