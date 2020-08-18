@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "publish":"sh script/releash.sh"
   },
   "dependencies": {
     "vue": "^3.0.0-rc.1"

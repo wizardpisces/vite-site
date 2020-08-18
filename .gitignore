@@ -1,6 +1,6 @@
 node_modules
 .DS_Store
 *.local
-
+dist
 # logs
 npm-debug.log
