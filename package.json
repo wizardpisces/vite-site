@@ -1,27 +1,19 @@
 {
-  "name": "nuxt-project",
+  "name": "wizardpisces.github.io",
   "version": "1.0.0",
-  "description": "Nuxt.js project",
-  "author": "刘泽 <1275839779@qq.com>",
-  "private": true,
-  "dependencies": {
-    "nuxt": "latest"
-  },
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate",
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "eslint": "^3.15.0",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-loader": "^1.6.1",
-    "eslint-plugin-html": "^2.0.0",
-    "eslint-plugin-promise": "^3.4.1",
-    "eslint-plugin-standard": "^2.0.1"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wizardpisces/wizardpisces.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wizardpisces/wizardpisces.github.io/issues"
+  },
+  "homepage": "https://github.com/wizardpisces/wizardpisces.github.io#readme"
 }
