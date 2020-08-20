@@ -1,4 +1,3 @@
-## todos
+# readme
 
-1. integrate lz-blog
-2. integrate tiny-sass-compiler
+[Homepage](https://wizardpisces.github.io/)
