@@ -1,15 +1,14 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3.0 + Vites" />
+  <Menu msg="Hello Vue 3.0 + Vites" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Menu from './components/menu.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Menu
   }
 }
 </script>
