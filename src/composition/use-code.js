@@ -71,6 +71,7 @@ export default () => {
             });
             sourceCodeMirror.on('change', (cm) => {
                 sourceCode = cm.getValue()
+                window.requestAnimationFrame(change)
             })
             sourceCodeMirror.setSize(null,'100%')
         }
