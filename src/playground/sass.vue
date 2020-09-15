@@ -31,12 +31,13 @@
 </template>
 
 <script>
+import { onMounted, ref } from 'vue'
 import Code from '../composition/use-code.js'
-import CustomButton from './button.vue'
+// import CustomButton from './button.vue'
 export default {
   name: 'SassPlayground',
   components: {
-    CustomButton
+    // CustomButton,
   },
   setup(props) {
 
@@ -45,6 +46,10 @@ export default {
       cssRef,
       change
     } = Code()
+
+    onMounted(() => {
+      console.log('sass playground mounted!')
+    })
 
     return {
       sassRef,
@@ -72,14 +77,15 @@ export default {
     display: flex;
     height: 100%;
     flex-direction: row;
-    .source-editor,.dist-editor {
+    .source-editor,
+    .dist-editor {
       flex: 1;
-      .head{
-        background:silver;
+      .head {
+        background: silver;
         font-size: 20px;
-        padding-left:10px;
+        padding-left: 10px;
       }
-      .content{
+      .content {
         height: 100%;
       }
     }

@@ -131,8 +131,8 @@ function createBundleRenderer (
 
 ### reference
 
-[node vm](https://nodejs.org/api/vm.html)
-[node module](https://nodejs.org/api/modules.html#modules_the_module_wrapper)
-[node require解析](https://segmentfault.com/a/1190000008587112)
-[vue ssr in depth](https://harttle.land/2020/02/10/deep-into-vue-ssr.html)
-[vue ssr in depth2](https://zhuanlan.zhihu.com/p/61348429)
+* [node vm](https://nodejs.org/api/vm.html)
+* [node module](https://nodejs.org/api/modules.html#modules_the_module_wrapper)
+* [node require解析](https://segmentfault.com/a/1190000008587112)
+* [vue ssr in depth](https://harttle.land/2020/02/10/deep-into-vue-ssr.html)
+* [vue ssr in depth2](https://zhuanlan.zhihu.com/p/61348429)

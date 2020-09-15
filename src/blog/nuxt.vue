@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { html } from '../md-blog/vue-ssr.md'
+import { html } from '../md-blog/nuxt.md'
 export default {
   setup() {
     return {

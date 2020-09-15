@@ -1,14 +1,32 @@
 <template>
-  <sass-playground></sass-playground>
+  <div id="app">
+    <ul class="head-menu">
+      <li><router-link to="/">Home</router-link></li>
+      <li><router-link to="/blog">blog</router-link></li>
+    </ul>
+    <router-view />
+  </div>
 </template>
 
 <script>
-import SassPlayground from './components/sass-playground.vue'
-
 export default {
   name: 'App',
-  components: {
-    SassPlayground
-  }
 }
 </script>
+<style lang="scss">
+  #app{
+    .head-menu{
+      display: flex;
+      flex-direction: row;
+      margin: 5px 0;
+      padding: 0;
+      li{
+        display: flex;
+        padding:10px;
+        &:first-child{
+          padding-left: 0;
+        }
+      }
+    }
+  }
+</style>

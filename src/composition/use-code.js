@@ -3,13 +3,6 @@ import {
     onMounted
 } from 'vue';
 
-// import '../util/global-code-mirror.js'
-// import CodeMirror from 'codemirror/src/codemirror.js'
-// import 'codemirror/lib/codemirror.css'
-// import 'codemirror/theme/mdn-like.css'
-// import 'codemirror/mode/css/css.js'
-// import 'codemirror/mode/sass/sass.js'
-
 import {
     compile
 } from 'tiny-sass-compiler/dist/tiny-sass-compiler.esm-browser.prod.js'
@@ -86,6 +79,7 @@ export default () => {
     }
 
     onMounted(() => {
+        console.log('use code mounted!')
         paint()
     })
 
