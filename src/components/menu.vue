@@ -10,13 +10,16 @@
 <script>
 import useCounter from '../composition/use-counter'
 export default {
-  name: 'HelloWorld',
+  name: 'Menu',
   props: {
     msg: String
   },
-  setup(){
-    const counter = useCounter('hello world')
-    return counter
+  setup(props) {
+    const { add, count } = useCounter(props.msg)
+    return {
+      add,
+      count
+    }
   }
 }
 </script>
