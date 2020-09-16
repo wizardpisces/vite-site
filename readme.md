@@ -3,3 +3,7 @@
 ## homepage
 
 [Homepage](https://wizardpisces.github.io/)
+
+## Todos
+
+1. add page analysis
