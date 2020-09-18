@@ -13,15 +13,24 @@
 
         </div>
       </div>
-      <span
+      <!-- <span
         role="presentation"
         class="Resizer vertical "
-      ></span>
+      ></span> -->
       <div class="dist-editor">
         <div class="head">css</div>
         <div
           class="content"
           ref="cssRef"
+        >
+
+        </div>
+      </div>
+      <div class="dist-precompile-ast-editor">
+        <div class="head">precompile ast</div>
+        <div
+          class="content"
+          ref="precompileAstRef"
         >
 
         </div>
@@ -44,6 +53,7 @@ export default {
     const {
       sassRef,
       cssRef,
+      precompileAstRef,
       change
     } = Code()
 
@@ -54,6 +64,7 @@ export default {
     return {
       sassRef,
       cssRef,
+      precompileAstRef,
       change
     }
   }
@@ -78,7 +89,8 @@ export default {
     height: 100%;
     flex-direction: row;
     .source-editor,
-    .dist-editor {
+    .dist-editor,
+    .dist-precompile-ast-editor {
       flex: 1;
       .head {
         background: silver;
@@ -88,6 +100,9 @@ export default {
       .content {
         height: 100%;
       }
+    }
+    .dist-precompile-ast-editor{
+      display: none;
     }
     .vertical {
       background-repeat: repeat-y;

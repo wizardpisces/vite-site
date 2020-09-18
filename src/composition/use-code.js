@@ -4,7 +4,8 @@ import {
 } from 'vue';
 
 import {
-    compile
+    compile,
+    parse
 } from 'tiny-sass-compiler/dist/tiny-sass-compiler.esm-browser.prod.js'
 
 const CodeMirrorOptions = {
@@ -12,7 +13,7 @@ const CodeMirrorOptions = {
     mode: "sass",
     indentUnit: 4,
     theme: 'mdn-like',
-    height:'100px',
+    height: '100px',
     lineNumbers: true,
     smartIndent: true,
     tabSize: 2,
@@ -40,19 +41,44 @@ body .test{
 export default () => {
     const sassRef = ref(null);
     const cssRef = ref(null);
+    const precompileAstRef = ref(null);
     let sourceCode = rawCode,
         distCode = compile(sourceCode).code,
+        distPreCompileAst = parse(sourceCode,{source:sourceCode,filename:'default.scss'}),
         sourceCodeMirror,
-        distCodeMirror;
+        distCodeMirror,
+        distPrecompileAstCodeMirror;
+
+    function createErrorInfo(e) {
+        let line = e.loc.start.line,
+            column = e.loc.start.column,
+            len = e.loc.end.offset - e.loc.start.offset,
+            source = sourceCode.split('\n')[line-1];
+
+        return `${e.message.split('\n')[0]}
+╷
+│${source}
+│${' '.repeat(column-1)}${'^'.repeat(len)}
+╵
+stdin ${line}:${column} root stylesheet on line ${line} at column ${column}
+        `;
+    }
 
     const change = () => {
         let distCode = '';
-        try{
+        try {
             distCode = compile(sourceCode).code
-        }catch(e){
-            distCode = e.message;
+            distPreCompileAst = parse(sourceCode, {
+                source: sourceCode,
+                filename: 'default.scss'
+            })
+        } catch (e) {
+            console.log(e)
+            distCode = createErrorInfo(e)
         }
         distCodeMirror.setOption('value', distCode)
+
+        distPrecompileAstCodeMirror.setOption('value', distCode)
     }
 
     const paint = () => {
@@ -66,15 +92,24 @@ export default () => {
                 sourceCode = cm.getValue()
                 window.requestAnimationFrame(change)
             })
-            sourceCodeMirror.setSize(null,'100%')
+            sourceCodeMirror.setSize(null, '100%')
         }
         if (!distCodeMirror) {
             distCodeMirror = CodeMirror(cssRef.value, {
                 ...CodeMirrorOptions,
-                mode:'css',
+                mode: 'css',
                 value: distCode
             });
             distCodeMirror.setSize(null, '100%')
+        }
+        if (!distPrecompileAstCodeMirror) {
+            // console.log('distPreCompileAst', distPreCompileAst,'error')
+            distPrecompileAstCodeMirror = CodeMirror(precompileAstRef.value, {
+                ...CodeMirrorOptions,
+                mode: 'javascript',
+                value: `function{console.log(${JSON.stringify(distPreCompileAst)})}`
+            });
+            distPrecompileAstCodeMirror.setSize(null, '100%')
         }
     }
 
@@ -86,6 +121,7 @@ export default () => {
     return {
         change,
         sassRef,
-        cssRef
+        cssRef,
+        precompileAstRef
     }
 }

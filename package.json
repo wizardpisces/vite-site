@@ -16,6 +16,7 @@
     "vue-router": "^4.0.0-beta.6"
   },
   "devDependencies": {
+    "highlight.js": "^10.2.0",
     "sass": "^1.26.10",
     "vite": "^1.0.0-rc.4",
     "vite-plugin-markdown": "^1.1.0"

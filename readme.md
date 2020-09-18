@@ -6,4 +6,4 @@
 
 ## Todos
 
-1. add page analysis
+1. code split router (rollup)
