@@ -6,7 +6,7 @@ import {
 import {
     compile,
     parse
-} from 'tiny-sass-compiler/dist/tiny-sass-compiler.esm-browser.prod.js'
+} from 'tiny-sass-compiler'
 
 const CodeMirrorOptions = {
     value: '',
