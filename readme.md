@@ -1,9 +1,3 @@
-## vite + vue-next to build a simple blog
-
-## homepage
+# readme
 
 [Homepage](https://wizardpisces.github.io/)
-
-## Todos
-
-1. code split router (rollup)
