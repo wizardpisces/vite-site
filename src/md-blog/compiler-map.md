@@ -2,7 +2,7 @@
 
 ### Introduction of map
 
-* sourceCode (scanning)-> tokens (parsing)-> syntaxTree(**step3**) (analysis)-> intermediateRepresentation or IR(**step4**) (codeGen)-> machineCode
+* sourceCode (scanning)-> tokens (parsing)-> syntaxTree(**step3**) (analysis/transform)-> intermediateRepresentation or IR(**step4**) (codeGen)-> machineCode
 * **step4** -> (Optimizing **step4**) 
 * **step4** (codeGen + sourceMap)-> byteCode(virtualMachine run! )
 * **step3** -> highLevelLanguage(transpiling) -> **step4**   (short cuts)
