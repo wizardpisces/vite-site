@@ -1,6 +1,6 @@
 //实现函数 partial，满足以下条件
-function partial(){
-    
+function partial() {
+
 }
 
 function add(a, b, c) {

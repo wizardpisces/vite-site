@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "codemirror": "^5.57.0",
-    "tiny-sass-compiler": "^0.8.3",
+    "tiny-sass-compiler": "0.11.0",
     "vue": "^3.0.0-rc.10",
     "vue-router": "^4.0.0-beta.6"
   },
