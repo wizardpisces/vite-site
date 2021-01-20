@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import useCounter from '../composition/use-counter'
+import useCounter from './composition/use-counter'
 export default {
   name: 'Menu',
   props: {

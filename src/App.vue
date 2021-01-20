@@ -3,6 +3,7 @@
     <ul class="head-menu">
       <li><router-link to="/">Home</router-link></li>
       <li><router-link to="/blog">blog</router-link></li>
+      <li><router-link to="/vue3-test">vue3-test</router-link></li>
     </ul>
     <router-view />
   </div>

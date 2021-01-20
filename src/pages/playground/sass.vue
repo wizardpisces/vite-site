@@ -41,7 +41,7 @@
 
 <script>
 import { onMounted, ref } from 'vue'
-import Code from '../composition/use-code.js'
+import Code from './composition/use-code.js'
 // import CustomButton from './button.vue'
 export default {
   name: 'SassPlayground',

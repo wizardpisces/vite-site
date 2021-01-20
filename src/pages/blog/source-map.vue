@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { html } from '../md-blog/source-map.md'
+import { html } from './md-blog/source-map.md'
 export default {
   setup() {
     return {
