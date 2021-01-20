@@ -1,7 +1,7 @@
 <template>
   <div class="sass-playground">
     <div class="pannel">
-      <!-- <custom-button v-on:click.stop.prevent="change">Run</custom-button> -->
+      <button @click="toggleAst"> show ast </button>
     </div>
     <div class="editor">
       <div class='source-editor'>
@@ -26,8 +26,8 @@
 
         </div>
       </div>
-      <div class="dist-precompile-ast-editor">
-        <div class="head">precompile ast</div>
+      <div :class="astEditorCls">
+        <div class="head">scss related ast</div>
         <div
           class="content"
           ref="precompileAstRef"
@@ -42,30 +42,39 @@
 <script>
 import { onMounted, ref } from 'vue'
 import Code from './composition/use-code.js'
-// import CustomButton from './button.vue'
 export default {
   name: 'SassPlayground',
   components: {
     // CustomButton,
   },
-  setup(props) {
-
+  setup(props,ctx) {
+    const astEditorCls = ref('dist-precompile-ast-editor-hidden')
     const {
       sassRef,
       cssRef,
       precompileAstRef,
-      change
+      changeCompiler
     } = Code()
 
     onMounted(() => {
       console.log('sass playground mounted!')
     })
 
+    function toggleAst(){
+      if(astEditorCls.value === 'dist-precompile-ast-editor-hidden'){
+        astEditorCls.value  = 'dist-precompile-ast-editor'
+      }else{
+        astEditorCls.value = 'hidden'
+      }
+    }
+
     return {
       sassRef,
       cssRef,
       precompileAstRef,
-      change
+      changeCompiler,
+      toggleAst,
+      astEditorCls
     }
   }
 }
@@ -77,6 +86,9 @@ export default {
   position: absolute;
   display: flex;
   flex-direction: column;
+  .hidden{
+    display: none;
+  }
   .pannel {
     display: flex;
     width: 100%;
@@ -100,9 +112,6 @@ export default {
       .content {
         height: 100%;
       }
-    }
-    .dist-precompile-ast-editor{
-      display: none;
     }
     .vertical {
       background-repeat: repeat-y;

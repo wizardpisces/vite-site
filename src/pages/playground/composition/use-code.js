@@ -44,7 +44,10 @@ export default () => {
     const precompileAstRef = ref(null);
     let sourceCode = rawCode,
         distCode = compile(sourceCode).code,
-        distPreCompileAst = parse(sourceCode,{source:sourceCode,filename:'default.scss'}),
+        distPreCompileAst = parse(sourceCode, {
+            source: sourceCode,
+            filename: 'default.scss'
+        }),
         sourceCodeMirror,
         distCodeMirror,
         distPrecompileAstCodeMirror;
@@ -53,7 +56,7 @@ export default () => {
         let line = e.loc.start.line,
             column = e.loc.start.column,
             len = e.loc.end.offset - e.loc.start.offset,
-            source = sourceCode.split('\n')[line-1];
+            source = sourceCode.split('\n')[line - 1];
 
         return `${e.message.split('\n')[0]}
 ╷
@@ -106,8 +109,11 @@ stdin ${line}:${column} root stylesheet on line ${line} at column ${column}
             // console.log('distPreCompileAst', distPreCompileAst,'error')
             distPrecompileAstCodeMirror = CodeMirror(precompileAstRef.value, {
                 ...CodeMirrorOptions,
-                mode: 'javascript',
-                value: `function{console.log(${JSON.stringify(distPreCompileAst)})}`
+                mode: {
+                    name:'javascript',
+                    json:true
+                },
+                value: JSON.stringify(distPreCompileAst)
             });
             distPrecompileAstCodeMirror.setSize(null, '100%')
         }
@@ -119,7 +125,6 @@ stdin ${line}:${column} root stylesheet on line ${line} at column ${column}
     })
 
     return {
-        change,
         sassRef,
         cssRef,
         precompileAstRef
