@@ -48,7 +48,7 @@ export default {
     // CustomButton,
   },
   setup(props,ctx) {
-    const astEditorCls = ref('dist-precompile-ast-editor-hidden')
+    const astEditorCls = ref('hidden')
     const {
       sassRef,
       cssRef,
@@ -61,7 +61,7 @@ export default {
     })
 
     function toggleAst(){
-      if(astEditorCls.value === 'dist-precompile-ast-editor-hidden'){
+      if(astEditorCls.value === 'hidden'){
         astEditorCls.value  = 'dist-precompile-ast-editor'
       }else{
         astEditorCls.value = 'hidden'
