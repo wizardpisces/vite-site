@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <tabs v-model="active">
-      {{active}}
+    <tabs
+      v-model="route.name"
+      @tab-click="onTabClick"
+    >
       <tab-panel
-        v-for="menu in menuList"
-        :key='menu.name'
-        :name='menu.name'
+        v-for="route in routes"
+        :key='route.name'
+        :name='route.name'
       >
-        <router-link :to="menu.route">{{menu.name}}</router-link>
+        <!-- <router-link :to="menu.route">{{menu.name}}</router-link> -->
       </tab-panel>
     </tabs>
     <router-view />
@@ -15,9 +17,10 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Tabs, TabPanel } from './components/tabs'
-
+import { useRoute, useRouter } from 'vue-router'
+import { routes } from './router'
 export default {
   name: 'App',
   components: {
@@ -25,43 +28,25 @@ export default {
     Tabs
   },
   setup(props, ctx) {
-    let active = ref('Home')
-    const menuList = [
-      {
-        route: '/',
-        name: 'Home'
-      },
-      {
-        route: '/blog',
-        name: 'Blog'
-      },
-      {
-        route: '/vue3-test',
-        name: 'Vue3-test'
-      },
-    ]
+    let route = useRoute(),
+      router = useRouter();
+
+    // console.log('route',route.query,route.params)
+    function onTabClick(name) {
+      let path = routes.filter(route => route.name === name)[0].path
+      router.push({ path })
+    }
 
     return {
-      menuList,
-      active
+      routes,
+      route,
+      onTabClick
     }
   }
 }
 </script>
 <style lang="scss">
 #app {
-  .head-menu {
-    display: flex;
-    flex-direction: row;
-    margin: 5px 0;
-    padding: 0;
-    li {
-      display: flex;
-      padding: 10px;
-      &:first-child {
-        padding-left: 0;
-      }
-    }
-  }
+ padding:10px;
 }
 </style>

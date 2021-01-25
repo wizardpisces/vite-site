@@ -16,7 +16,7 @@ export default {
   },
   setup(props, ctx) {
     const rootValue = inject(rootTabs);
-    
+
     let active = computed(() => {
       return props.name === rootValue.curValue.value
     }), panel = {
@@ -38,8 +38,3 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.tab-panel {
-  background: silver;
-}
-</style>
