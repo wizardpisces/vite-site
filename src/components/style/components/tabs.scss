@@ -1,0 +1,72 @@
+@use '../bootstrap.scss';
+@mixin tabPositionBorder($position: top, $color-primary: blue) {
+    border: none;
+
+    @if $position==top {
+        border-bottom: 2px solid bootstrap.$color-primary;
+    }
+
+    @else if $position==left {
+        border-right: 2px solid bootstrap.$color-primary;
+    }
+}
+
+.klk-tabs {
+    display: flex;
+
+    .tabs-header {
+        display: flex;
+
+        .tabs-items {
+            display: flex;
+            flex-direction: row;
+
+            .tabs-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 48px;
+                color: #000;
+                font-size: 14px;
+                padding: 0 10px;
+                border-bottom: 2px solid transparent;
+
+                &:hover {
+                    cursor: pointer;
+                    color: bootstrap.$color-primary;
+                }
+            }
+
+            .tabs-item-active {
+                @include tabPositionBorder(bottom);
+                color: blue;
+                border-bottom: 2px solid bootstrap.$color-primary;
+            }
+        }
+    }
+
+    &.is-left {
+        .tabs-header {
+            display: flex;
+
+            .tabs-items {
+                flex-direction: column;
+
+                .tabs-item {
+                    height: 28px;
+                }
+
+                .tabs-item-active {
+                    @include tabPositionBorder(left);
+                }
+            }
+        }
+    }
+
+    .tabs-body {
+        .klk-tab-panel {
+            display: flex;
+            padding: 10px;
+        }
+    }
+}

@@ -1,7 +1,7 @@
 <template>
   <div class="sass-playground">
     <div class="pannel">
-      <button @click="toggleAst"> show ast </button>
+      <klk-button @click="toggleAst">show ast</klk-button>
     </div>
     <div class="editor">
       <div class='source-editor'>
@@ -82,8 +82,8 @@ export default {
 <style lang="scss">
 .sass-playground {
   width: 100%;
-  height: 100%;
-  position: absolute;
+  height: 500px;
+  position: relative;
   display: flex;
   flex-direction: column;
   .hidden{

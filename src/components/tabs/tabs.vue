@@ -1,8 +1,5 @@
 <template>
-  <div
-    class='tabs'
-    :class="tabsClass"
-  >
+  <div :class="tabsClass">
     <div class='tabs-header'>
       <div class='tabs-items'>
         <div
@@ -22,7 +19,7 @@
 import { provide, ref, watch, watchEffect } from 'vue'
 export const rootTabs = Symbol('rootTabs')
 export default {
-  name: 'Tabs',
+  name: 'klk-tabs',
   props: {
     modelValue: String,
     tabPosition: {
@@ -75,67 +72,9 @@ export default {
       panels,
       handleTabClick,
       getItemClass,
-      tabsClass: ['tabs-header', `is-${props.tabPosition}`]
+      tabsClass: ['klk-tabs', `is-${props.tabPosition}`]
     }
   }
 }
 
 </script>
-<style lang="scss" scoped>
-$color-primary: blue;
-@mixin tabPositionBorder($position: top, $color-primary: blue) {
-  border: none;
-  @if $position == top {
-    border-bottom: 2px solid $color-primary;
-  } @else if $position == left {
-    border-right: 2px solid $color-primary;
-  }
-}
-.tabs {
-  &-header {
-    display: flex;
-    .tabs-items {
-      display: flex;
-      flex-direction: row;
-      .tabs-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 48px;
-        color: #000;
-        font-size: 14px;
-        padding: 0 10px;
-        border-bottom: 2px solid transparent;
-        &:hover {
-          cursor: pointer;
-          color: $color-primary;
-        }
-      }
-
-      .tabs-item-active {
-        @include tabPositionBorder(bottom);
-        color: blue;
-        border-bottom: 2px solid $color-primary;
-      }
-    }
-  }
-  &.is-left {
-    flex-direction: row;
-    .tabs-items {
-      flex-direction: column;
-      .tabs-item {
-        height: 28px;
-      }
-      .tabs-item-active {
-        @include tabPositionBorder(left);
-      }
-    }
-  }
-  .tabs-body {
-    .tab-panel {
-      display: flex;
-      padding: 10px;
-    }
-  }
-}
-</style>

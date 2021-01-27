@@ -1,7 +1,7 @@
 <template>
   <div
     v-show='active'
-    class='tab-panel'
+    class='klk-tab-panel'
   >
     <slot></slot>
   </div>
@@ -10,7 +10,7 @@
 import { computed, inject, onMounted, onBeforeUnmount, ref } from 'vue'
 import { rootTabs } from './tabs.vue'
 export default {
-  name: 'TabPanel',
+  name: 'klk-tab-panel',
   props: {
     name: String
   },
