@@ -4,3 +4,5 @@ var result1 = stringconcat("a", "b");
 var stringconcatWithPrefix = stringconcat.prefix("hellworld"); // prefix的实现
 var result2 = stringconcatWithPrefix("a", "b", "c");
 // result2 = "hellworld+a+b+c"
+
+// solution

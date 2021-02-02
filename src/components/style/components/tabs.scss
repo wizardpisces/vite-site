@@ -39,7 +39,7 @@
 
             .tabs-item-active {
                 @include tabPositionBorder(bottom);
-                color: blue;
+                color: bootstrap.$color-primary;
                 border-bottom: 2px solid bootstrap.$color-primary;
             }
         }
