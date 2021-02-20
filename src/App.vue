@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { routes } from './router'
 export default {

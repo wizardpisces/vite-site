@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
 
 import { html as nuxt } from './md-blog/nuxt.md'
 import { html as sourceMap } from './md-blog/source-map.md'
@@ -34,9 +33,6 @@ export const blogs = [
 export default {
   name: 'BlogVueSSr',
   setup() {
-    const router = useRouter(),
-        route = useRoute();
-
     const activeBlog = ref('nuxt') 
 
     return {

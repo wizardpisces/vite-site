@@ -1,0 +1,77 @@
+@use '../bootstrap.scss';
+
+$btn-primary-color: bootstrap.$color-white;
+$btn-primary-bg: bootstrap.$color-primary;
+$btn-primary-border: bootstrap.$color-primary;
+
+$btn-font-size: 16px;
+$btn-min-width: 86px;
+$border-radius-normal: 4px !default;
+$btn-padding: 10px 20px;
+$btn-line-height: 22px;
+
+$btn-font-size: 16px;
+$btn-font-size__mini: 12px;
+$btn-font-size__small: 14px;
+$btn-font-size__large: 16px;
+
+$btn-padding: 10px 20px;
+$btn-padding__mini: 5px 12px;
+$btn-padding__small: 7px 16px;
+$btn-padding__large: 12px 24px;
+
+$btn-line-height: 22px;
+$btn-line-height__mini: 16px;
+$btn-line-height__small: 20px;
+$btn-line-height__large: 22px;
+
+$btn-height: 44px;
+$btn-height__mini: 28px;
+$btn-height__small: 36px;
+$btn-height__large: 48px;
+
+$btn-min-width: 86px;
+$btn-min-width__mini: 72px;
+$btn-min-width__small: 72px;
+$btn-min-width__large: 86px;
+
+.klk-button {
+    min-width: $btn-min-width;
+    display: inline-block;
+    font-size: $btn-font-size;
+    font-stretch: normal;
+    font-style: normal;
+    border-radius: $border-radius-normal;
+    padding: $btn-padding;
+    margin: 0;
+    text-align: center;
+    line-height: $btn-line-height;
+    outline: none;
+    user-select: none;
+    appearance: none;
+    text-transform: none;
+    text-decoration: none;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+// primary
+.klk-button-primary {
+    color: $btn-primary-color;
+    background-color: $btn-primary-bg;
+    border: 1px solid $btn-primary-border;
+}
+
+.klk-button-small {
+    min-width: $btn-min-width__small;
+    line-height: $btn-line-height__small;
+    font-size: $btn-font-size__small;
+    padding: $btn-padding__small;
+}
+
+.klk-button-large {
+    min-width: $btn-min-width__large;
+    line-height: $btn-line-height__large;
+    font-size: $btn-font-size__large;
+    padding: $btn-padding__large;
+}

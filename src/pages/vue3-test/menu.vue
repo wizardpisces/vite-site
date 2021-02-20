@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ msg }}</h1>
-    <button @click="add">count is: {{ count }}</button>
+    <klk-button size = 'small' @click="add">count is: {{ count }}</klk-button>
     <router-link to="/blog/vue-ssr">Vue ssr</router-link>
     <router-view />
   </div>

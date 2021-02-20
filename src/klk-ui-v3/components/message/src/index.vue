@@ -1,14 +1,16 @@
 <template>
-  <button :class="cClass">
-    <slot></slot>
-  </button>
+  <div :class="cClass">
+    klk-message
+  </div>
 </template>
 <script>
 export default {
-  name: 'klk-button',
+  name: 'klk-message',
+  props: {
+  },
   setup(props, ctx) {
     const cClass = {
-      'klk-button': true
+      'klk-message': true,
     }
     return {
       cClass

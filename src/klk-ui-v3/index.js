@@ -1,9 +1,11 @@
-import Tabs from './tabs'
-import Button from './button'
+import Tabs from './components/tabs'
+import Button from './components/button'
+import Message from './components/message'
 
 const components = {
     Tabs,
-    Button
+    Button,
+    Message
 }
 
 function install(Vue, opts = {}) {
