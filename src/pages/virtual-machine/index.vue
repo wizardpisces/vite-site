@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script>
+<script type="ts">
 import { ref } from 'vue';
 
 import { code, run, assemble } from '../../vm/code'
