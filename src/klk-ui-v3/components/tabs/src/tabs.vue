@@ -15,55 +15,71 @@
     </div>
   </div>
 </template>
-<script>
-import { provide, ref, watch, watchEffect } from 'vue'
-export const rootTabs = Symbol('rootTabs')
+<script lang="ts">
+import { provide, ref, watch, Ref, ComputedRef } from "vue";
+
+export const rootTabs = Symbol("rootTabs");
+
+export type Panel = {
+  active: ComputedRef<boolean>;
+  name: string;
+};
+
+export interface RootTabs {
+  curValue: Ref<string>;
+  onPanelAdd: (panel: Panel) => void;
+  onPanelRemove: (panel: Panel) => void;
+}
+
 export default {
-  name: 'klk-tabs',
+  name: "klk-tabs",
   props: {
     modelValue: String,
     tabPosition: {
       type: String,
-      default: 'top', // 'top' | 'left' | 'bottom' | 'right'
+      default: "top", // 'top' | 'left' | 'bottom' | 'right'
     },
   },
   setup(props, ctx) {
     const panels = ref([]),
-      curValue = ref(props.modelValue || '');
+      curValue = ref(props.modelValue || "");
 
-    watch(() => props.modelValue, (val) => {
-      changeCurrentName(val)
-    })
+    watch(
+      () => props.modelValue,
+      (val) => {
+        changeCurrentName(val);
+      }
+    );
 
-    provide(rootTabs, {
+    provide<RootTabs>(rootTabs, {
       curValue: curValue,
-      onPanelAdd: (panel) => {
+      onPanelAdd: (panel: Panel) => {
         if (panels.value.includes(panel)) return;
         panels.value.push(panel);
       },
-      onPanelRemove: (panel) => {
+      onPanelRemove: (panel: Panel) => {
         const index = panels.value.indexOf(panel);
         if (index !== -1) {
-          panels.value.splice(index, 1)
+          panels.value.splice(index, 1);
         }
-      }
-    })
+      },
+    });
 
-    function changeCurrentName(value) {
+    function changeCurrentName(value:Panel['name']) {
       curValue.value = value;
-      ctx.emit('input', value);
-      ctx.emit('update:modelValue', value)
+      ctx.emit("input", value);
+      ctx.emit("update:modelValue", value);
     }
 
-    function handleTabClick(panel) {
-      changeCurrentName(panel.name)
-      ctx.emit('tab-click', panel.name);
+    function handleTabClick(panel:Panel) {
+      changeCurrentName(panel.name);
+      ctx.emit("tab-click", panel.name);
     }
 
-    function getItemClass(panel) {
+    function getItemClass(panel:Panel) {
       return {
-        'tabs-item': true,
-        'tabs-item-active': panel.active,
+        "tabs-item": true,
+        "tabs-item-active": panel.active,
         // 'klk-tabs-item-disabled': panel.disabled,
       };
     }
@@ -72,9 +88,8 @@ export default {
       panels,
       handleTabClick,
       getItemClass,
-      tabsClass: ['klk-tabs', `is-${props.tabPosition}`]
-    }
-  }
-}
-
+      tabsClass: ["klk-tabs", `is-${props.tabPosition}`],
+    };
+  },
+};
 </script>

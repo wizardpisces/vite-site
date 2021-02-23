@@ -6,35 +6,39 @@
     <slot></slot>
   </div>
 </template>
-<script>
-import { computed, inject, onMounted, onBeforeUnmount, ref } from 'vue'
-import { rootTabs } from './tabs.vue'
+<script lang='ts'>
+import { computed, inject, onMounted, onBeforeUnmount, ref } from "vue";
+import { rootTabs, RootTabs } from "./tabs.vue";
 export default {
-  name: 'klk-tab-panel',
+  name: "klk-tab-panel",
   props: {
-    name: String
+     name: {
+      type: String,
+      default: '',
+    },
   },
   setup(props, ctx) {
-    const rootValue = inject(rootTabs);
+    const rootValue = inject<RootTabs>(rootTabs);
 
     let active = computed(() => {
-      return props.name === rootValue.curValue.value
-    }), panel = {
-      ...props,
-      active
-    };
+        return props.name === rootValue.curValue.value;
+      }),
+      panel = {
+        ...props,
+        active,
+      };
 
     onMounted(() => {
-      rootValue.onPanelAdd(panel)
-    })
+      rootValue.onPanelAdd(panel);
+    });
 
     onBeforeUnmount(() => {
-      rootValue.onPanelRemove(panel)
-    })
+      rootValue.onPanelRemove(panel);
+    });
 
     return {
-      active
-    }
-  }
-}
+      active,
+    };
+  },
+};
 </script>
