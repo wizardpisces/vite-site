@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<script>
+<script lang='ts'>
 import useCounter from './composition/use-counter'
 export default {
   name: 'Menu',

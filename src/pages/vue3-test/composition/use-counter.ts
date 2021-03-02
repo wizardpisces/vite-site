@@ -3,7 +3,7 @@ import {
     onMounted
 } from 'vue';
 
-export default (title)=>{
+export default (title:string)=>{
     const count = ref(0);
     const add = ()=>{
         count.value++

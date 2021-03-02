@@ -41,6 +41,7 @@ export function assemble(code) {
 
 export function run(txtBytes) {
     let bytes = getBytes(txtBytes);
+    output = ''
 
     vm.init(bytes, (txt) => output += txt + '\n');
     vm.run();

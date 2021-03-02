@@ -20,9 +20,9 @@
 <script>
 import { ref } from 'vue';
 
-import { html as nuxt } from './md-blog/nuxt.md'
-import { html as sourceMap } from './md-blog/source-map.md'
-import { html as vueSSR } from './md-blog/vue-ssr.md'
+import { html as nuxt } from '../../share/md-blog/nuxt.md'
+import { html as sourceMap } from '../../share/md-blog/source-map.md'
+import { html as vueSSR } from '../../share/md-blog/vue-ssr.md'
 
 export const blogs = [
   { name: 'nuxt', value: nuxt },
