@@ -52,8 +52,7 @@ export default {
     const {
       sassRef,
       cssRef,
-      precompileAstRef,
-      changeCompiler
+      precompileAstRef
     } = Code()
 
     onMounted(() => {
@@ -72,7 +71,6 @@ export default {
       sassRef,
       cssRef,
       precompileAstRef,
-      changeCompiler,
       toggleAst,
       astEditorCls
     }
@@ -82,7 +80,7 @@ export default {
 <style lang="scss">
 .sass-playground {
   width: 100%;
-  height: 500px;
+  height: 700px;
   position: relative;
   display: flex;
   flex-direction: column;

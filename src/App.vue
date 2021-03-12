@@ -1,5 +1,6 @@
 <template>
-  <div id="app-2">
+  <div id="app">
+    <a class="github" href="https://github.com/wizardpisces/tiny-sass-compiler">Github</a>
     <klk-tabs
       v-model="route.name"
       @tab-click="onTabClick"
@@ -39,3 +40,17 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding:0 10px;
+  .github{
+    position: fixed;
+    right: 20px;
+    top: 10px;
+  }
+}
+
+</style>
