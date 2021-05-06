@@ -81,3 +81,7 @@ deno detail
     * 如何区分 devDependencies 跟 dependencies
     * 没有 npm script，如何构建使用命令行？用 makefile 或者 sh？
 * package如何版本管理？如果出现问题，漏洞如何修复？
+
+## More
+
+### How to bundle a project

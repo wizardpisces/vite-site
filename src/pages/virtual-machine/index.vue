@@ -3,7 +3,7 @@
     <div class="source-code">
       <h3>Instructions</h3>
       <textarea
-        v-html="code"
+        v-model="code"
         type="text"
       >
         </textarea>
@@ -11,7 +11,7 @@
     <div class="machine-code">
       <h3>machine code</h3>
       <textarea
-        v-html="machineCode"
+        v-model="machineCode"
         type="text"
       >
         </textarea>
@@ -20,7 +20,7 @@
     <div class="result">
       <h3>instruction result</h3>
       <textarea
-        v-html="result"
+        v-model="result"
         type="text"
       >
         </textarea>

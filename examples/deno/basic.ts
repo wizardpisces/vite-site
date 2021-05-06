@@ -1,5 +1,5 @@
 /**
- * deno run --allow-net simple.ts
+ * deno run --allow-net basic.ts
  */
 
 import { serve } from "https://deno.land/std/http/server.ts";
