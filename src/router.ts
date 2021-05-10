@@ -2,10 +2,10 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router'
-import Vue3Test from './pages/vue3-test/menu.vue'
-import Blog from './pages/blog/index.vue'
-import SassPlayground from './pages/playground/sass.vue'
-import VirtualMachine from './pages/virtual-machine/index.vue'
+const Vue3Test = () => import('./pages/vue3-test/menu.vue')
+const Blog = () => import('./pages/blog/index.vue')
+const SassPlayground = () => import('./pages/playground/sass.vue')
+const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
 
 const routerHistory = createWebHistory()
 
