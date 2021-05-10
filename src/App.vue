@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <a class="github" href="https://github.com/wizardpisces/tiny-sass-compiler">Github</a>
+    <a class="github" href="https://github.com/wizardpisces">Github home</a>
     <klk-tabs
       v-model="route.name"
       @tab-click="onTabClick"
