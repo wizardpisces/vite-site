@@ -9,6 +9,9 @@ npm run build
 # 进入输出产物文件夹
 cd dist
 
+# 解决直接访问 domain/path 404 从而触发访问根目录的404.html导致寻址成功
+cp index.html 404.html
+
 # 如果你要部署到自定义域名
 # echo 'www.example.com' > CNAME
 
