@@ -8,7 +8,7 @@
     <klk-button
       size='small'
       @click="incGaModuleCount"
-    >count is: {{ storeCount }}</klk-button>
+    >store count is: {{ storeCount }}</klk-button>
     <router-link to="/blog/vue-ssr">Vue ssr</router-link>
     <router-view />
   </div>
@@ -17,7 +17,7 @@
 <script lang='ts'>
 import useCounter from "./composition/use-counter";
 import { useStore } from "../../store";
-import { computed } from '@vue/runtime-core';
+import { computed } from 'vue';
 
 export default {
   name: "Menu",
@@ -27,16 +27,12 @@ export default {
   setup(props) {
     const { add, count } = useCounter(props.msg as string);
     const store = useStore();
-    function incGaModuleCount() {
-      store.commit("gaModule/increment");
-    }
-    let storeCount = computed(()=>store.getters['gaModule/count'])
-
+  console.log('store',store)
     return {
       add,
       count,
-      incGaModuleCount,
-      storeCount
+      incGaModuleCount:()=>store.commit("gaModule/increment"),
+      storeCount:computed(()=>store.getters['gaModule/count'])
     };
   },
 };

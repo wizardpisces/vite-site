@@ -20,7 +20,6 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { routes } from './router'
-import {useStore} from './store'
 
 export default {
   name: 'App',
@@ -28,15 +27,10 @@ export default {
     let route = useRoute(),
       router = useRouter();
 
-    // console.log('route',route.query,route.params)
     function onTabClick(name) {
       let path = routes.filter(route => route.name === name)[0].path
       router.push({ path })
     }
-
-    const store = useStore()
-
-    console.log('store.state.test',store.state.test)
 
     return {
       routes,
