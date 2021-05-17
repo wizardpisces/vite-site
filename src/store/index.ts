@@ -1,24 +1,40 @@
 import { InjectionKey } from 'vue'
-import { createStore, createLogger, useStore as baseUseStore, Store } from 'vuex'
-import gaModule, { State as GaModuleState} from './modules/gaModule'
+import { createStore, createLogger, useStore as baseUseStore, Store, Module, ModuleTree } from 'vuex'
 
-const debug = process.env.NODE_ENV !== 'production'
-
+type GlobContext = {
+    [key: string]: { [key: string]: any; 'default': any }
+}
 export interface State {
     count: number
     test: string
 }
 
+const debug = process.env.NODE_ENV !== 'production'
+
 export const key: InjectionKey<Store<State>> = Symbol()
 
-export default createStore<State>({
-    modules: {
-        gaModule
-    },
+let pathList: any = []
+
+function loadModules(): any {
+    // @ts-ignore
+    const contextGlob: GlobContext = import.meta.globEager('./modules/*.ts')
+    console.log('modules', contextGlob)
+    pathList = Object.keys(contextGlob)
+    return pathList.reduce((modules: { [key: string]: any }, modulePath: string) => {
+        //@ts-ignore
+        let moduleName = modulePath.match(/([a-z_]+)\.ts$/i)[1]
+        modules[moduleName] = contextGlob[modulePath].default
+        return modules
+    }, {})
+}
+
+let modules = loadModules()
+const store = createStore<State>({
+    modules,
     plugins: debug ? [createLogger()] : [],
     state() {
         return {
-            count: 0,
+            count: 1,
             test: 'test string'
         }
     },
@@ -29,24 +45,30 @@ export default createStore<State>({
     }
 })
 
+console.log('old store', store)
+
 export function useStore() {
     return baseUseStore(key)
 }
 
-// // Load all modules.
-// function loadModules() {
-//     const context = require.context("./modules", false, /([a-z_]+)\.js$/i)
+// @ts-ignore
+if (import.meta.hot) {
 
-//     const modules = context
-//         .keys()
-//         .map((key) => ({ key, name: key.match(/([a-z_]+)\.js$/i)[1] }))
-//         .reduce(
-//             (modules, { key, name }) => ({
-//                 ...modules,
-//                 [name]: context(key).default
-//             }),
-//             {}
-//         )
+    /**
+     * 如何解决 hot.accept没法传递变量，导致没法批量hot.accept？
+     */
 
-//     return { context, modules }
-// }
+    // @ts-ignore
+    import.meta.hot.accept(['./modules/gaModule.ts'], (newModules) => {
+        console.log('newGaModule', newModules)
+        
+        store.hotUpdate({
+            modules: {
+                gaModule: newModules[0].default
+            }
+        })
+        console.log('new store', store)
+    })
+}
+
+export default store

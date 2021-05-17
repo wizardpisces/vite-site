@@ -9,7 +9,6 @@
       size='small'
       @click="incGaModuleCount"
     >store count is: {{ storeCount }}</klk-button>
-    <router-link to="/blog/vue-ssr">Vue ssr</router-link>
     <router-view />
   </div>
 </template>
@@ -27,7 +26,7 @@ export default {
   setup(props) {
     const { add, count } = useCounter(props.msg as string);
     const store = useStore();
-  console.log('store',store)
+
     return {
       add,
       count,

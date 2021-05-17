@@ -16,7 +16,7 @@ const module: Module<State, any> = {
 
     mutations: {
         increment(state) {
-            state.count++
+            state.count = state.count+2
         }
     },
 
