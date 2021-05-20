@@ -1,36 +1,32 @@
 import { InjectionKey } from 'vue'
-import { createStore, createLogger, useStore as baseUseStore, Store, Module, ModuleTree } from 'vuex'
+import { createStore, createLogger, useStore as baseUseStore, Store } from 'vuex'
 
-type GlobContext = {
-    [key: string]: { [key: string]: any; 'default': any }
-}
 export interface State {
     count: number
     test: string
 }
 
+//@ts-ignore
 const debug = process.env.NODE_ENV !== 'production'
 
 export const key: InjectionKey<Store<State>> = Symbol()
 
-let pathList: any = []
-
+type GlobContext = {
+    [key: string]: { [key: string]: any; 'default': any }
+}
 function loadModules(): any {
     // @ts-ignore
     const contextGlob: GlobContext = import.meta.globEager('./modules/*.ts')
-    console.log('modules', contextGlob)
-    pathList = Object.keys(contextGlob)
-    return pathList.reduce((modules: { [key: string]: any }, modulePath: string) => {
+    return Object.keys(contextGlob).reduce((modules: { [key: string]: any }, modulePath: string) => {
         //@ts-ignore
         let moduleName = modulePath.match(/([a-z_]+)\.ts$/i)[1]
         modules[moduleName] = contextGlob[modulePath].default
         return modules
     }, {})
 }
-
-let modules = loadModules()
+ 
 const store = createStore<State>({
-    modules,
+    modules: loadModules(),
     plugins: debug ? [createLogger()] : [],
     state() {
         return {
@@ -45,8 +41,6 @@ const store = createStore<State>({
     }
 })
 
-console.log('old store', store)
-
 export function useStore() {
     return baseUseStore(key)
 }
@@ -60,14 +54,11 @@ if (import.meta.hot) {
 
     // @ts-ignore
     import.meta.hot.accept(['./modules/gaModule.ts'], (newModules) => {
-        console.log('newGaModule', newModules)
-        
         store.hotUpdate({
             modules: {
                 gaModule: newModules[0].default
             }
         })
-        console.log('new store', store)
     })
 }
 
