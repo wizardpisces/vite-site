@@ -116,6 +116,14 @@ function createBundleRenderer (
     bundle, //(used webpack generated server manifest object)
     rendererOptions
   ){
+    /**
+     * type entry = string(filename)
+     * interface files = {[string(key):string]: string(source-code)}
+     * 
+     * 如果是远程CDN拉取打包好的组件源码，想要在本地进行 SSR，是否可以直接构造一个 bundle manifest出来？
+     * 
+    */
+
     let run = createBundleRunner(entry,files,basedir,rendererOptions.runInNewContext) 
     return {
         renderToString(context){
