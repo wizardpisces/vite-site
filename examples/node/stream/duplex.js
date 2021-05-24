@@ -5,6 +5,7 @@ const {
 const inoutStream = new Duplex({
     write(chunk, encoding, callback) {
         console.log(chunk.toString());
+        this.push(chunk.toString())
         callback();
     },
 
