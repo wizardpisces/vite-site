@@ -11,11 +11,16 @@ let sandBox = vm.createContext({
     setTimeout: setTimeout,
     console: console
 })
+// console.log('wrappedCode', wrappedCode)
 
 let compiledScript = new vm.Script(wrappedCode)
+// console.log('compiledScript', typeof compiledScript)
 
 // runInContext 性能会比 runInThisContext 低
 let runableWrapper = compiledScript.runInContext(sandBox)
+// let runableWrapper = compiledScript.runInThisContext()
+
+console.log('runableWrapper', runableWrapper);
 
 let m = {
     exports: {}
