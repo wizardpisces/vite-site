@@ -1,10 +1,12 @@
+/**
+ * node http.js
+ */
 const http = require('http');
-
+let count = 1;
 const server = http.createServer((req, res) => {
     // req 是一个 http.IncomingMessage 实例，它是可读流。
     // res 是一个 http.ServerResponse 实例，它是可写流。
 
-    let body = '';
     // 接收数据为 utf8 字符串，
     // 如果没有设置字符编码，则会接收到 Buffer 对象。
     req.setEncoding('utf8');
@@ -14,22 +16,9 @@ const server = http.createServer((req, res) => {
         body += chunk;
     });
 
-    req.pipe(res)
+    console.log('body', count++, typeof res)
 
-    // 'end' 事件表明整个请求体已被接收。 
-    // req.on('end', () => {
-    //     try {
-    //         const data = JSON.parse(body);
-    //         // 响应信息给用户。
-    //         // res.write(body);
-            
-    //         res.end();
-    //     } catch (er) {
-    //         // json 解析失败。
-    //         res.statusCode = 400;
-    //         return res.end(`错误: ${er.message}`);
-    //     }
-    // });
+    req.pipe(res)
 });
 
 server.listen(1337);

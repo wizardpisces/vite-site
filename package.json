@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "sh script/deploy.sh"
+    "deploy": "sh script/deploy.sh",
+    "test": "node -r ts-node/register ./examples/node/stream/server/tiny-server.ts",
+    "test2": "node -r ts-node/register ./examples/node/stream/server/http2.js"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -22,9 +24,11 @@
     "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^15.0.2",
+    "@types/node": "^15.6.1",
     "highlight.js": "^10.2.0",
     "sass": "^1.32.4",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.2",
     "vite": "^2.2.4",
     "vite-plugin-markdown": "^2.0.2"
   }

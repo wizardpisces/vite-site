@@ -8,7 +8,8 @@
         "jsx": "preserve",
         "moduleResolution": "node",
         "types": [
-            "vite/client"
+            "vite/client",
+            "node"
         ]
     }
 }
