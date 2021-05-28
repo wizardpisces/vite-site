@@ -1,12 +1,27 @@
+/**
+ * Copyright(c) 2021 wizardpisces
+ */
+
 const http = require('http');
 
+type Next<T = void> = (err?: Error | null) => void;
+type RequestHandler<T, U, V = void> = (
+    req: T,
+    res: U,
+    next: Next<V>
+) => V;
+
+type Handler<T, U, V = void> = RequestHandler<T, U, V>
+
+type Handle = RequestHandler<any, any, void>
+
 type LayerOptions = {
-    handle: Function;
+    handle: Handle;
     url: string
 }
 
 class Layer {
-    handle: Function
+    handle: Handle
     url: string
     constructor(options: LayerOptions) {
         this.handle = options.handle
@@ -40,7 +55,7 @@ class App {
         next(i, null)
     }
 
-    use(path: string, handle: Function) {
+    use(path: string, handle: Handle) {
         let url = '/'
         if (typeof path === 'function') {
             handle = path
@@ -60,4 +75,23 @@ class App {
     }
 }
 
-module.exports = App
+function compose< T, U, V = void> (handlers: Handler < T, U, V > []) {
+    let len = handlers.length,
+        i = 0;
+    return (req: T, res: U, done: Next<V>) => {
+
+        function dispatch(i: number, err?: any) {
+            if (i === len) return done(err)
+            handlers[i](req, res, (err) => {
+                dispatch(i + 1, err);
+            })
+        }
+
+        dispatch(i)
+    }
+}
+
+module.exports = {
+    App,
+    compose
+}

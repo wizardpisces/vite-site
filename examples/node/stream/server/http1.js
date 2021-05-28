@@ -4,8 +4,9 @@
  */
 const http = require('http');
 
+const UpCaseTransformStream = require('./middleware/upcase-transform').UpCaseTransformStream
+
 const {
-    UpCaseTransformStream,
     RenderStream
 } = require('./base')
 

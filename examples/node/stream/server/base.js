@@ -1,21 +1,4 @@
 const Stream = require('stream')
-
-class UpCaseTransformStream extends Stream.Transform {
-    constructor() {
-        super()
-    }
-
-    _transform(chunk, encoding, callback) {
-        this.push(chunk.toString().toUpperCase());
-        callback();
-    }
-
-    // _flush(done) {
-    //     this.emit('beforeEnd')
-    //     done()
-    // }
-}
-
 class RenderStream extends Stream.Readable {
     constructor(render) {
         super();
@@ -36,7 +19,6 @@ class RenderStream extends Stream.Readable {
     }
 
     _read(size) {
-        console.log('done', this.done)
         if (this.done) {
             this.push(null)
             return
@@ -46,6 +28,5 @@ class RenderStream extends Stream.Readable {
 }
 
 module.exports = {
-    UpCaseTransformStream,
     RenderStream
 }
