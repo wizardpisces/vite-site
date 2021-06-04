@@ -2,5 +2,6 @@
 ## test
 
 ```
-node ./examples/commonjs.js
+node ./examples/my-esm.js
 ```
+## 结论
