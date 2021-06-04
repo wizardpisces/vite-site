@@ -1,4 +1,4 @@
-import b,{number} from './b.mjs';
+import {number,b} from './b.mjs';
 
 b.fn()
 console.log('number',number)
