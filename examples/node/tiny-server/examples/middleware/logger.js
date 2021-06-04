@@ -1,6 +1,6 @@
 module.exports = function logger() {
     return (req, res, next) => {
-        console.log('------logger----', req.url);
+        console.log('[tiny-server logger]: ', req.url);
         next()
     }
 }

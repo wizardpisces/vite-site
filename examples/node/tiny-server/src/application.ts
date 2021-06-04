@@ -38,7 +38,7 @@ class App {
     handle(req: any, res: any) {
 
         let middleware: Layer[] = this.stack.filter((layer) => {
-            return layer.url === '/' || req.path === layer.url
+            return req.url === layer.url
         });
 
         let len = middleware.length, i = 0;
@@ -72,10 +72,21 @@ class App {
     listen(port: number, cb: Function) {
         let server = http.createServer(this.handle.bind(this))
         server.listen(port, cb);
-    }
+
+        /**
+         * Todos: should be modified
+         */
+        this.stack.push(new Layer({
+            handle:(req, res)=>{
+                res.status = 404
+                res.end('not found')
+            },
+            url: '/404'
+        }))
+}
 }
 
-function compose< T, U, V = void> (handlers: Handler < T, U, V > []) {
+function compose<T, U, V = void>(handlers: Handler<T, U, V>[]) {
     let len = handlers.length,
         i = 0;
     return (req: T, res: U, done: Next<V>) => {

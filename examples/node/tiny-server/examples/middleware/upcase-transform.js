@@ -1,4 +1,19 @@
 const Stream = require('stream');
+class UpCaseTransformStream extends Stream.Transform {
+    constructor() {
+        super()
+    }
+
+    _transform(chunk, encoding, callback) {
+        this.push(chunk.toString().toUpperCase());
+        callback();
+    }
+
+    // _flush(done) {
+    //     this.emit('beforeEnd')
+    //     done()
+    // }
+}
 
 module.exports = function upcaseTransform() {
 
@@ -15,6 +30,9 @@ module.exports = function upcaseTransform() {
             _write = res.write;
 
         res.on = function on(type, listener) {
+            if (type !== 'drain') {
+                return _on.call(this, type, listener)
+            }
             return stream.on(type, listener)
         }
 
@@ -27,6 +45,7 @@ module.exports = function upcaseTransform() {
         }
 
         stream.on('data', function onStreamData(chunk) {
+            // 处理背压问题
             if (_write.call(res, chunk) === false) {
                 stream.pause()
             }
@@ -36,28 +55,13 @@ module.exports = function upcaseTransform() {
             _end.call(res)
         })
 
+        // 恢复由于背压问题暂停的可读流
         _on.call(res, 'drain', function onResponseDrain() {
             stream.resume()
         })
 
         next()
     }
-}
-
-class UpCaseTransformStream extends Stream.Transform {
-    constructor() {
-        super()
-    }
-
-    _transform(chunk, encoding, callback) {
-        this.push(chunk.toString().toUpperCase());
-        callback();
-    }
-
-    // _flush(done) {
-    //     this.emit('beforeEnd')
-    //     done()
-    // }
 }
 
 exports.UpCaseTransformStream = UpCaseTransformStream

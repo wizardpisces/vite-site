@@ -1,11 +1,11 @@
 const {
     App,
     compose
-} = require('./tiny-express');
+} = require('../index');
 
 const {
     RenderStream
-} = require('./base')
+} = require('./util')
 
 const upcaseTransform = require('./middleware/upcase-transform')
 const logger = require('./middleware/logger')
@@ -32,10 +32,6 @@ app.use('/', (req, res) => {
         end('this is the end')
     }).pipe(res)
     // res.end(req.str)
-})
-
-app.use('*', (req, res) => {
-    res.end('404 not found')
 })
 
 app.listen(port, () => {

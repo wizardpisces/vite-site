@@ -27,6 +27,11 @@ class RenderStream extends Stream.Readable {
     }
 }
 
+function info(str){
+    return `[tiny-server]: ${str}`
+}
+
 module.exports = {
-    RenderStream
+    RenderStream,
+    info
 }
