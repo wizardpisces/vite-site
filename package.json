@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "deploy": "sh script/deploy.sh",
-    "test": "node -r ts-node/register ./examples/node/tiny-server/examples/router"
+    "test:router": "node -r ts-node/register ./examples/node/tiny-server/examples/router",
+    "test:complicated": "node -r ts-node/register ./examples/node/tiny-server/examples/complicated"
   },
   "engines": {
     "node": ">=10.0.0"

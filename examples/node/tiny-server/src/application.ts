@@ -3,56 +3,15 @@
  */
 
 const http = require('http');
-
-type Next<T = void> = (err?: Error | null) => void;
-type RequestHandler<T, U, V = void> = (
-    req: T,
-    res: U,
-    next: Next<V>
-) => V;
-
-type Handler<T, U, V = void> = RequestHandler<T, U, V>
-
-type Handle = RequestHandler<any, any, void>
-
-type LayerOptions = {
-    handle: Handle;
-    url: string
-}
-
-class Layer {
-    handle: Handle
-    url: string
-    constructor(options: LayerOptions) {
-        this.handle = options.handle
-        this.url = options.url
-    }
-}
-
-class App {
-    stack: Layer[]
+const Router = require('./router')
+module.exports = class App {
+    _router:typeof Router 
     constructor() {
-        this.stack = []
+        this._router = new Router()
     }
 
     handle(req: any, res: any) {
-
-        let middleware: Layer[] = this.stack.filter((layer) => {
-            return req.url === layer.url
-        });
-
-        let len = middleware.length, i = 0;
-
-        const next = (i: number, err: any) => {
-            if (err) {
-                throw new Error(err)
-            }
-            if (i >= len) return
-
-            middleware[i].handle(req, res, (err: any) => next(i + 1, err))
-        }
-
-        next(i, null)
+        this._router.handle(req, res)
     }
 
     use(path: string, handle: Handle) {
@@ -63,10 +22,7 @@ class App {
             url = path;
         }
 
-        this.stack.push(new Layer({
-            handle,
-            url
-        }))
+        this._router.use(url, handle)
     }
 
     listen(port: number, cb: Function) {
@@ -76,33 +32,12 @@ class App {
         /**
          * Todos: should be modified
          */
-        this.stack.push(new Layer({
-            handle:(req, res)=>{
-                res.status = 404
-                res.end('not found')
-            },
-            url: '/404'
-        }))
-}
-}
-
-function compose<T, U, V = void>(handlers: Handler<T, U, V>[]) {
-    let len = handlers.length,
-        i = 0;
-    return (req: T, res: U, done: Next<V>) => {
-
-        function dispatch(i: number, err?: any) {
-            if (i === len) return done(err)
-            handlers[i](req, res, (err) => {
-                dispatch(i + 1, err);
-            })
-        }
-
-        dispatch(i)
+        // this.stack.push(new Layer({
+        //     handle: (req, res) => {
+        //         res.status = 404
+        //         res.end('not found')
+        //     },
+        //     url: '/404'
+        // }))
     }
-}
-
-module.exports = {
-    App,
-    compose
 }
