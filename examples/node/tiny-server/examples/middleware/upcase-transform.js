@@ -1,3 +1,6 @@
+/**
+ * 主要测试 stream 的劫持
+ */
 const Stream = require('stream');
 class UpCaseTransformStream extends Stream.Transform {
     constructor() {
