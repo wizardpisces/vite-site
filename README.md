@@ -2,7 +2,7 @@
 
 A project based on Vite@2 + vue@3 + vuex@4 + vue-router@4
 
-# lunzi project
+# Lunzi project
 * [sass compiler](https://github.com/wizardpisces/tiny-sass-compiler)
 * [js自执行/编译成汇编/编译成llvm/](https://github.com/wizardpisces/js-ziju)
 * [huffman 编码/解码](https://github.com/wizardpisces/huffman-ts)
