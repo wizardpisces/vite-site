@@ -1,6 +1,8 @@
-const App = require('./src/application')
-const compose = require('./src/compose')
-module.exports = {
+import App from './src/application'
+import compose from './src/compose'
+export  {
     App,
     compose
 }
+
+export default App

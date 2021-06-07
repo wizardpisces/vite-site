@@ -1,11 +1,12 @@
 /**
  * Copyright(c) 2021 wizardpisces
  */
+import {Handle} from './type'
 
 const http = require('http');
-const Router = require('./router')
-module.exports = class App {
-    _router:typeof Router 
+import Router from './router'
+export default class App {
+    _router: Router 
     constructor() {
         this._router = new Router()
     }

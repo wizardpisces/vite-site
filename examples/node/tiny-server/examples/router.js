@@ -1,6 +1,4 @@
-const {
-    App
-} = require('../index');
+const App = require('../index').default;
 const logger = require('./middleware/logger')
 
 const {
@@ -15,8 +13,10 @@ app.use('/home', (req, res) => {
     res.end(info('home route is ok'))
 })
 
-app.use('/', (req, res) => {
-    res.end(info('route is ok'))
+app.use('/', (req, res,next) => {
+    req.test = 'this is a slash path'
+    next()
+    // res.end(info('route is ok'))
 })
 
 app.use('*', (req, res) => {
