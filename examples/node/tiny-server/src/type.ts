@@ -8,9 +8,13 @@ export type RequestHandler<T, U, V = void> = (
 
 export type Handler<T, U, V = void> = RequestHandler<T, U, V>
 
+/**
+ * Todos
+ * replace any with actual req/res.next type
+ */
 export type Handle = RequestHandler<any, any, void>
 
 export type LayerOptions = {
     handle: Handle;
-    url: string
+    path: string
 }

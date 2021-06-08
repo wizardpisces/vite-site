@@ -1,20 +1,29 @@
 import { Handle, LayerOptions } from './type'
+import { parseUrl } from './lib/query'
 class Layer {
     handle: Handle
-    url: string
-    asterisk:boolean // * 通配符
+    path: string
+    asterisk: boolean // * 通配符
+    all_slash: boolean
     constructor(options: LayerOptions) {
         this.handle = options.handle
-        this.url = options.url
-        this.asterisk = this.url === '*'
+        this.path = options.path
+        this.asterisk = this.path === '*'
+        this.all_slash = this.path === '/'
     }
 
-    match(reqPath:string){
-        if(this.asterisk){
+    match(reqPath: string) {
+        let { path } = parseUrl(reqPath)
+        // console.log('----', path, this.path, '--')
+        if (this.asterisk) {
             return true
         }
 
-        return reqPath === this.url
+        if (this.all_slash) {
+            return true
+        }
+
+        return path === this.path
     }
 }
 
@@ -25,10 +34,10 @@ export default class Router {
         this.stack = []
     }
 
-    use(url: string, handle: Handle) {
+    use(path: string, handle: Handle) {
         this.stack.push(new Layer({
             handle,
-            url
+            path
         }))
     }
 

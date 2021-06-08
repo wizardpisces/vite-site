@@ -1,29 +1,29 @@
 /**
  * Copyright(c) 2021 wizardpisces
  */
-import {Handle} from './type'
-
+import { Handle } from './type'
+import query from './lib/query'
 const http = require('http');
 import Router from './router'
 export default class App {
-    _router: Router 
+    _router: Router
     constructor() {
         this._router = new Router()
+        this.use(query())
     }
 
     handle(req: any, res: any) {
         this._router.handle(req, res)
     }
 
-    use(path: string, handle: Handle) {
-        let url = '/'
-        if (typeof path === 'function') {
-            handle = path
-        } else {
-            url = path;
+    use(url: string | Handle, handle?: Handle) {
+        let path = '/'
+        if (typeof url === 'function') {
+            handle = url;
+            url = path
         }
 
-        this._router.use(url, handle)
+        this._router.use(url, handle as Handle)
     }
 
     listen(port: number, cb: Function) {
