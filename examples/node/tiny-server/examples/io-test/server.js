@@ -4,6 +4,7 @@ const {
     App
 } = require('../../index');
 const logger = require('../middleware/logger')
+const responseTime = require('../middleware/response-time')
 
 let app = new App(),
     port = 8080,
@@ -11,6 +12,8 @@ let app = new App(),
     globalId = 0;
 
 // app.use(logger())
+
+app.use(responseTime())
 
 app.use('/multiple', (req, res, next) => {
     
@@ -22,6 +25,7 @@ app.use('/multiple', (req, res, next) => {
         method: 'get',
         path: `/async?id=${req.query.id}`
     }).then(result=>{
+        res.writeHead(200)
         res.end(`[tiny-server]: ${result} ${req.query.id}: ${globalId}`)
     })
 

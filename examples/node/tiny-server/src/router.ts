@@ -1,5 +1,5 @@
 import { Handle, LayerOptions } from './type'
-import { parseUrl } from './lib/query'
+import { parseUrl } from './middleware/query'
 class Layer {
     handle: Handle
     path: string

@@ -2,7 +2,7 @@
  * Copyright(c) 2021 wizardpisces
  */
 import { Handle } from './type'
-import query from './lib/query'
+import query from './middleware/query'
 const http = require('http');
 import Router from './router'
 export default class App {
