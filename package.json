@@ -7,9 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "deploy": "sh script/deploy.sh",
-    "test:router": "ts-node ./examples/node/tiny-server/examples/router",
-    "test:complicated": "ts-node ./examples/node/tiny-server/examples/complicated"
+    "deploy": "sh script/deploy.sh"
   },
   "engines": {
     "node": ">=10.0.0"
