@@ -7,6 +7,10 @@
         "strict": true,
         "jsx": "preserve",
         "moduleResolution": "node",
+        // interop between ESM and CJS modules. Recommended by TS
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports":true,
         "types": [
             "vite/client",
             "node"
