@@ -5,9 +5,9 @@
   "author": "wizardpisces",
   "description": "A vite github.io project",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run blog && vite",
     "blog": "ts-node script/blog.ts",
-    "build": "vite build",
+    "build": "npm run blog && vite build",
     "deploy": "sh script/deploy.sh"
   },
   "engines": {

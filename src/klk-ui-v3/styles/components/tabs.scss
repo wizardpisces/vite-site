@@ -1,4 +1,5 @@
 @use '../bootstrap.scss';
+
 @mixin tabPositionBorder($position: top, $color-primary: blue) {
     border: none;
 
@@ -16,7 +17,6 @@
 
     .tabs-header {
         display: flex;
-
         .tabs-items {
             display: flex;
             flex-direction: row;

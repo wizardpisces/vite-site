@@ -1,8 +1,8 @@
 <template>
   <div class="sass-playground">
-    <div class="pannel">
+    <!-- <div class="pannel">
       <klk-button @click="toggleAst" size='small'>toggle ast</klk-button>
-    </div>
+    </div> -->
     <div class="editor">
       <div class='source-editor'>
         <div class="head">scss</div>

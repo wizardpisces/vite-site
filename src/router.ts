@@ -2,7 +2,7 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router'
-const Vue3Test = () => import('./pages/vue3-test/menu.vue')
+// const Vue3Test = () => import('./pages/vue3-test/menu.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const SassPlayground = () => import('./pages/playground/sass.vue')
 const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
@@ -20,10 +20,6 @@ export const routes = [{
     query: {
         name: 'nuxt'
     }
-}, {
-    path: '/vue3-test',
-    name: 'vue3Test',
-    component: Vue3Test
 }, {
     path: '/virtual-machine',
     name: 'VirtualMachine',

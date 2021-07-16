@@ -34,15 +34,17 @@ export interface RootTabs {
 export default {
   name: "klk-tabs",
   props: {
-    modelValue: String,
+    modelValue: {
+      type: String,
+    },
     tabPosition: {
       type: String,
       default: "top", // 'top' | 'left' | 'bottom' | 'right'
     },
   },
   setup(props, ctx) {
-    const panels = ref([]),
-      curValue = ref(props.modelValue || "");
+    const panels = ref<Panel[]>([]),
+      curValue = ref<string>(props.modelValue || "");
 
     watch(
       () => props.modelValue,
@@ -65,18 +67,18 @@ export default {
       },
     });
 
-    function changeCurrentName(value:Panel['name']) {
+    function changeCurrentName(value: Panel["name"]) {
       curValue.value = value;
       ctx.emit("input", value);
       ctx.emit("update:modelValue", value);
     }
 
-    function handleTabClick(panel:Panel) {
+    function handleTabClick(panel: Panel) {
       changeCurrentName(panel.name);
       ctx.emit("tab-click", panel.name);
     }
 
-    function getItemClass(panel:Panel) {
+    function getItemClass(panel: Panel) {
       return {
         "tabs-item": true,
         "tabs-item-active": panel.active,
