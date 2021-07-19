@@ -1,6 +1,6 @@
 <template>
   <section :class="cls">
-    <p class="sidebar-heading">{{folder.categoryName}}</p>
+    <h2 class="sidebar-heading">{{folder.categoryName}}</h2>
     <ul class="tree-folder-contents">
       <li
         v-for="(categoryOrBlogSub,index) in folder.items"
@@ -50,9 +50,13 @@ export default {
     .sidebar-heading{
         font-weight: 700;
         font-size: 18px;
+        margin:0;
     }
     ul{
         list-style-type: none;
+        li{
+          line-height: 30px;
+        }
     }
 }
 </style>

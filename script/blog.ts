@@ -1,6 +1,7 @@
-import path from 'path'
-import fs from 'fs'
+import * as path from 'path'
+import * as fs from 'fs'
 import glob from 'fast-glob'
+import fm from 'front-matter'
 
 export type SubHeader = {
     subTitle: string
@@ -65,9 +66,22 @@ async function createLinkCollect() {
     return linkCollect
 }
 
-function createGroupItem(blogLink: string, blogTitle: string) {
+
+type FormatContentType = {
+    title:string
+    description?:string
+}
+async function createGroupItem(blogLink: string, blogTitle: string) {
+    let blogPath = path.join(root,blogLink.substring('/src'.length))
+    let content = fs.readFileSync(blogPath,'utf-8')
+    let formatedContent = fm<FormatContentType>(content)
+    debug('formatedContent',formatedContent.attributes)
+    if(formatedContent.attributes.title){
+        blogTitle = formatedContent.attributes.title
+    }
+
     return {
-        blogTitle: 'blog title: ' + blogTitle,
+        blogTitle: blogTitle,
         blogLink: blogLink,
         subHeaders: [
             // { subTitle: 'subtitle1', link: 'subheader link' },
@@ -76,17 +90,18 @@ function createGroupItem(blogLink: string, blogTitle: string) {
         ]
     }
 }
-function createCategoryGroup(categoryDir: Record<string, any>, categoryName: string = 'blog') {
+
+async function createCategoryGroup(categoryDir: Record<string, any>, categoryName: string = 'blog') {
     let group: CategoryGroup = {
-        categoryName: `categoryName: ` + categoryName,
+        categoryName: categoryName,
         items: []
     }
 
-    Object.keys(categoryDir).forEach(key => {
+    Object.keys(categoryDir).forEach(async key => {
         if (typeof categoryDir[key] === 'string') {
-            group.items.push(createGroupItem(categoryDir[key], key))
+            group.items.push(await createGroupItem(categoryDir[key], key))
         } else {
-            group.items.push(createCategoryGroup(categoryDir[key], key))
+            group.items.push(await createCategoryGroup(categoryDir[key], key))
         }
     })
 
@@ -95,9 +110,11 @@ function createCategoryGroup(categoryDir: Record<string, any>, categoryName: str
 
 
 async function write() {
+    debug('running blog metadata generation')
+
     let linkCollect: Record<string, any> = await createLinkCollect()
 
-    let categoryGroup: CategoryGroup = createCategoryGroup(linkCollect)
+    let categoryGroup: CategoryGroup = await createCategoryGroup(linkCollect)
 
     let source = `
     /* auto generated, should not be manually changed */
@@ -108,7 +125,7 @@ async function write() {
         categoryGroup
     }`
 
-    fs.writeFileSync(path.join(root, '.blog-temp-data.ts'), source)
+    fs.writeFileSync(path.join(root, '.blog/blog-metadata.ts'), source)
 }
 
 write()

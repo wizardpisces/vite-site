@@ -1,7 +1,7 @@
 import { ref, watch } from "vue";
 import { BlogItem } from "../../../../script/blog";
 
-import { categoryGroup} from '../../../.blog-temp-data'
+import { categoryGroup} from '../../../.blog/blog-metadata'
 
 // type BlogItem = {
 //     originalName: string;

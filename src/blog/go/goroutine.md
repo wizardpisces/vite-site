@@ -1,3 +1,7 @@
+---
+title: Go 简介
+description: 
+---
 # Goroutine
 Goroutine 可以看作对 thread 加的一层抽象，它更轻量级，可以单独执行。因为有了这层抽象，Gopher 不会直接面对 thread。
 

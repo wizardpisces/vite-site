@@ -28,6 +28,7 @@
     "chokidar": "^3.5.2",
     "execa": "^5.1.1",
     "fast-glob": "^3.2.7",
+    "front-matter": "^4.0.2",
     "highlight.js": "^10.2.0",
     "sass": "^1.32.4",
     "ts-node": "^10.0.0",
