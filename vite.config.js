@@ -20,5 +20,12 @@ export default {
                 }
             }
         })
-    ]
+    ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@use "./src/klk-ui-v3/styles/vars.scss" as *;`
+            },
+        },
+    },
 }

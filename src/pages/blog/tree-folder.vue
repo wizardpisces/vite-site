@@ -1,15 +1,18 @@
 <template>
-  <section class="tree-folder sidebar-group depth-0">
+  <section :class="cls">
     <p class="sidebar-heading">{{folder.categoryName}}</p>
-    <ul class="tree-folder-contents sidebar-links sidebar-group-items">
+    <ul class="tree-folder-contents">
       <li
         v-for="(categoryOrBlogSub,index) in folder.items"
         :key="index"
       >
-        <tree-folder v-if="categoryOrBlogSub.categoryName" :folder="categoryOrBlogSub"></tree-folder>
+        <tree-folder
+          v-if="categoryOrBlogSub.categoryName"
+          :folder="categoryOrBlogSub"
+        ></tree-folder>
         <tree-folder-contents
           v-else
-          :content="categoryOrBlogSub"
+          :blog="categoryOrBlogSub"
         ></tree-folder-contents>
       </li>
     </ul>
@@ -20,7 +23,7 @@
 <script lang="ts">
 import { PropType } from "@vue/runtime-core";
 import { CategoryGroup } from "../../../script/blog";
-import TreeFolderContents from "./tree-folder-contents.vue";
+import TreeFolderContents from "./tree-folder-content.vue";
 export default {
   name: "TreeFolder",
   props: {
@@ -29,14 +32,27 @@ export default {
     },
   },
   components: {
-    TreeFolderContents
+    TreeFolderContents,
   },
   setup(props) {
-    return {};
+      let cls = {
+          "tree-folder":true,
+        //   "active":
+      }
+    return {
+        cls
+    };
   },
 };
 </script>
 <style lang="scss">
 .tree-folder {
+    .sidebar-heading{
+        font-weight: 700;
+        font-size: 18px;
+    }
+    ul{
+        list-style-type: none;
+    }
 }
 </style>

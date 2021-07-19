@@ -1,11 +1,31 @@
 import path from 'path'
-import glob from 'fast-glob'
 import fs from 'fs'
+import glob from 'fast-glob'
+
+export type SubHeader = {
+    subTitle: string
+    // sub header link
+    link: string
+}
+
+// one blog
+export type BlogItem = {
+    blogTitle: string
+    // blogContent: Promise<any>
+    blogLink: string // import() path
+    subHeaders?: SubHeader[]
+}
+
+// same dir with one categoryName, may have nested dirs
+export type CategoryGroup = {
+    // isCategory == true
+    categoryName: string
+    items: (BlogItem | CategoryGroup)[]
+}
 
 const debug = (...args: any[]) => console.log.apply(null, ['blog.ts:'].concat(args))
 
 const root = path.join(process.cwd(), 'src')
-
 
 function globMarkdown(pattern = "**/*.md") {
     return glob(pattern, {
@@ -18,27 +38,6 @@ function globMarkdown(pattern = "**/*.md") {
     })
 }
 
-export type SubHeader = {
-    subTitle: string
-    // sub header link
-    link: string
-}
-
-// one blog
-export type BlogItem = {
-    blogTitle: string
-    // blogContent: Promise<any>
-    blogContent: string // import() path
-    subHeaders?: SubHeader[]
-}
-
-// same dir with one categoryName, may have nested dirs
-export type CategoryGroup = {
-    // isCategory == true
-    categoryName: string
-    items: (BlogItem | CategoryGroup)[]
-}
-
 /**
  * root dir，
  * blogs must be categorized under one dir,
@@ -49,7 +48,7 @@ async function createLinkCollect() {
     let blogRelatives = await globMarkdown()
     let linkCollect: Record<string, any> = {}
     blogRelatives.forEach((relativePath: string) => {
-        let importPath = `/src/blog/${relativePath}?import`
+        let importPath = `/src/blog/${relativePath}`
 
         let pathSplited: string[] = relativePath.split('/')
 
@@ -66,14 +65,14 @@ async function createLinkCollect() {
     return linkCollect
 }
 
-function createGroupItem(blogContent: string, blogTitle: string) {
+function createGroupItem(blogLink: string, blogTitle: string) {
     return {
         blogTitle: 'blog title: ' + blogTitle,
-        blogContent: blogContent,
+        blogLink: blogLink,
         subHeaders: [
-            { subTitle: 'subtitle1', link: 'subheader link' },
-            { subTitle: 'subtitle2', link: 'subheader link' },
-            { subTitle: 'subtitle3', link: 'subheader link' },
+            // { subTitle: 'subtitle1', link: 'subheader link' },
+            // { subTitle: 'subtitle2', link: 'subheader link' },
+            // { subTitle: 'subtitle3', link: 'subheader link' },
         ]
     }
 }
