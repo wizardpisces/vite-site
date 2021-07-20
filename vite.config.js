@@ -1,12 +1,12 @@
 import mdPlugin from 'vite-plugin-markdown'
 const hljs = require('highlight.js');
 import vue from '@vitejs/plugin-vue'
+import md2HtmlPlugin from './plugins/vite-plugin-markdown2html'
 
 export default {
     plugins: [
         vue(),
-        mdPlugin({
-            mode: ['vue', 'html'],
+        md2HtmlPlugin({
             markdownIt: {
                 html: true,
                 highlight: function (str, lang) {
@@ -19,7 +19,22 @@ export default {
                     return ''; // use external default escaping
                 }
             }
-        })
+        }),
+        // mdPlugin({
+        //     mode: ['vue', 'html'],
+        //     markdownIt: {
+        //         html: true,
+        //         highlight: function (str, lang) {
+        //             if (lang && hljs.getLanguage(lang)) {
+        //                 try {
+        //                     return hljs.highlight(lang, str).value;
+        //                 } catch (__) {}
+        //             }
+
+        //             return ''; // use external default escaping
+        //         }
+        //     }
+        // })
     ],
     css: {
         preprocessorOptions: {

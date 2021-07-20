@@ -5,8 +5,9 @@
     </aside>
     <main class='page'>
       <div class="content">
-        <p v-html="blogContent"></p>
-        <Circular :check="4"></Circular>
+        <p v-if="blogContent" v-html="blogContent"></p>
+        <h2 v-else>This is Blog Home</h2>
+        <!-- <Circular :check="4"></Circular> -->
       </div>
     </main>
   </div>

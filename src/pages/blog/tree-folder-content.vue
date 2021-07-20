@@ -5,28 +5,19 @@
       @click="onBlogClick(blog)"
       class="tree-folder-content-title"
     >{{blog.blogTitle}}</a>
-    <ul class="tree-folder-content-sub-titles">
-      <li
-        v-for="(subHeader,index) in blog.subHeaders"
-        :key="index"
-        class="sidebar-sub-header"
-      >
-        <a
-          :href="subHeader.link"
-          class="active sidebar-link"
-          aria-current="page"
-        >{{subHeader.subTitle}}</a>
-      </li>
-    </ul>
+    <tree-folder-sub-headers v-if="blog.subHeaders.length && cls.active" :headers="blog.subHeaders"></tree-folder-sub-headers>
   </div>
 </template>
 <script lang="ts">
 import { computed, PropType } from "@vue/runtime-core";
 import { BlogItem } from "../../../script/blog";
 import useBlog from "./composition/use-blog";
-
+import TreeFolderSubHeaders from './tree-folder-sub-headers.vue'
 export default {
   name: "TreeFolderContent",
+  components:{
+    TreeFolderSubHeaders
+  },
   props: {
     blog: {
       type: Object as PropType<BlogItem>,
@@ -62,7 +53,7 @@ export default {
     color: #2c3e50;
   }
   &.active{
-    a{
+    &>a{
       font-weight: 500;
       color: $color-primary;
     }

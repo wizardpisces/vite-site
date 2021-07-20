@@ -1,12 +1,13 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import glob from 'fast-glob'
-import fm from 'front-matter'
+import {createMarkdown2HtmlMetadata} from '../plugins/vite-plugin-markdown2html'
 
 export type SubHeader = {
     subTitle: string
     // sub header link
     link: string
+    children: SubHeader[]
 }
 
 // one blog
@@ -45,49 +46,55 @@ function globMarkdown(pattern = "**/*.md") {
  * which means root dir only contains dirs
  */
 
-async function createLinkCollect() {
+type BlogTree = {
+    [key: string]: string | BlogTree
+}
+async function createBlogTree(): Promise<BlogTree> {
     let blogRelatives = await globMarkdown()
-    let linkCollect: Record<string, any> = {}
+    let blogTree: BlogTree = {}
+
     blogRelatives.forEach((relativePath: string) => {
+        let chain = blogTree
         let importPath = `/src/blog/${relativePath}`
+        let pathSections: string[] = relativePath.split('/')
 
-        let pathSplited: string[] = relativePath.split('/')
-
-        pathSplited.reduce((res: any, cur: string) => {
-            if (!res[cur]) {
-                res[cur] = {}
-                if (cur.endsWith('.md')) {
-                    res[cur] = importPath
+        pathSections.forEach((pathSection: string) => {
+            if (!chain[pathSection]) {
+                chain[pathSection] = {}
+                if (pathSection.endsWith('.md')) {
+                    chain[pathSection] = importPath
                 }
             }
-            return res[cur]
-        }, linkCollect)
+            chain = chain[pathSection] as BlogTree
+        })
     });
-    return linkCollect
+
+    return blogTree
 }
 
-
-type FormatContentType = {
-    title:string
-    description?:string
-}
 async function createGroupItem(blogLink: string, blogTitle: string) {
-    let blogPath = path.join(root,blogLink.substring('/src'.length))
-    let content = fs.readFileSync(blogPath,'utf-8')
-    let formatedContent = fm<FormatContentType>(content)
-    debug('formatedContent',formatedContent.attributes)
-    if(formatedContent.attributes.title){
-        blogTitle = formatedContent.attributes.title
+    let blogPath = path.join(root, blogLink.substring('/src'.length))
+    let content = fs.readFileSync(blogPath, 'utf-8')
+    let metadata = createMarkdown2HtmlMetadata(content)
+
+    if (metadata.attributes.title) {
+        blogTitle = metadata.attributes.title
     }
 
+    debug(metadata.hList)
+
+    let subHeaders:SubHeader[] = []
+    metadata.hList.forEach(h=>{
+        subHeaders.push({
+            subTitle:h.content,
+            link: '#'+h.content,
+            children:[]
+        })
+    })
     return {
         blogTitle: blogTitle,
         blogLink: blogLink,
-        subHeaders: [
-            // { subTitle: 'subtitle1', link: 'subheader link' },
-            // { subTitle: 'subtitle2', link: 'subheader link' },
-            // { subTitle: 'subtitle3', link: 'subheader link' },
-        ]
+        subHeaders: subHeaders
     }
 }
 
@@ -110,22 +117,26 @@ async function createCategoryGroup(categoryDir: Record<string, any>, categoryNam
 
 
 async function write() {
-    debug('running blog metadata generation')
+    let s = Date.now()
+    debug(`start blog metadata generation`)
 
-    let linkCollect: Record<string, any> = await createLinkCollect()
+    let blogTree: Record<string, any> = await createBlogTree()
 
-    let categoryGroup: CategoryGroup = await createCategoryGroup(linkCollect)
+    let categoryGroup: CategoryGroup = await createCategoryGroup(blogTree)
 
     let source = `
     /* auto generated, should not be manually changed */
-    const linkCollect = ${JSON.stringify(linkCollect)};
+    const blogTree = ${JSON.stringify(blogTree)};
     const categoryGroup = ${JSON.stringify(categoryGroup)};
     export {
-        linkCollect,
+        blogTree,
         categoryGroup
     }`
 
     fs.writeFileSync(path.join(root, '.blog/blog-metadata.ts'), source)
+
+    debug(`end blog metadata generation in ${Date.now() - s}ms`)
+
 }
 
 write()

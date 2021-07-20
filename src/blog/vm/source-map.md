@@ -10,7 +10,7 @@ description: 原理及其应用
 ### 前端开发
 “A source map provides a way of mapping code within a compressed file back to it’s original position in a source file”
 
-##### V3 spec example:
+### V3 spec example:
 ```json
 {
     version : 3,

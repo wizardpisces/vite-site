@@ -1,6 +1,6 @@
 import * as path from 'path'
 import * as chokidar from 'chokidar'
-import * as execa from 'execa'
+import execa from 'execa'
 
 const root = path.join(process.cwd())
 
@@ -15,7 +15,8 @@ function watch() {
 
     watcher.on('change', async (file: string) => {
         console.log(file, ' changed, running "npm run blog"')
-        execa('npm', ['run','blog'])
+
+        execa('npm', ['run', 'blog'], { stdio: 'inherit' })
     })
 
 }

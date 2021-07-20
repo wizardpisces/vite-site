@@ -505,7 +505,7 @@ function parse(input: LexicalStream) {
 
 最后预祝大家元旦快乐。。
 
-预告下一篇：[实现Transform 把源码(sass)关联的AST转换为目标代码(css)关联的 AST]()
+<!-- 预告下一篇：实现Transform 把源码(sass)关联的AST转换为目标代码(css)关联的 AST -->
 
 
 [原文地址](https://juejin.cn/post/6910037343026020359)
