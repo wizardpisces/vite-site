@@ -40,14 +40,11 @@ export function createMarkdown2HtmlMetadata(code: string, options: MarkdownOptio
 
     hElements.forEach(ele => {
         let hName = DomUtils.textContent(ele)
-        // inject hash link to blog content
+        ele.attribs['id'] = '#'+hName
 
+        // inject hash link to blog content
         let newEle = new Element('a', { href: '#' + hName }, undefined)
-        
-        DomUtils.appendChild(
-            newEle,
-            new Text('#')
-        )
+        // DomUtils.appendChild(newEle,new Text('#'))
         DomUtils.prependChild(ele, newEle)
 
         hList.push({
