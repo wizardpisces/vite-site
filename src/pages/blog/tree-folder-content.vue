@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 import { computed, PropType } from "@vue/runtime-core";
-import { BlogItem } from "../../../script/blog";
+import { BlogDescriptor } from "../../../script/blog";
 import useBlog from "./composition/use-blog";
 import TreeFolderSubHeaders from './tree-folder-sub-headers.vue'
 export default {
@@ -20,24 +20,21 @@ export default {
   },
   props: {
     blog: {
-      type: Object as PropType<BlogItem>,
+      type: Object as PropType<BlogDescriptor>,
     },
   },
   setup(props) {
-    let { setBlogContent, setActiveBlog, activeBlog } = useBlog();
+    let { setActiveBlog, activeBlog, fetchBlog } = useBlog();
     let cls = computed(()=>{
       return {
         "tree-folder-content": true,
         active:activeBlog.value.blogLink === props.blog?.blogLink,
       }
     })
-    function onBlogClick(blog: BlogItem) {
+    function onBlogClick(blog: BlogDescriptor) {
       setActiveBlog(blog);
-
-      // fetch blog content
-      import(blog.blogLink).then((mod) => {
-        setBlogContent(mod.html);
-      });
+      // dynamic fetch blog content
+      fetchBlog(blog.blogLink)
     }
 
     return {

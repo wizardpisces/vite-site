@@ -11,7 +11,7 @@ export type SubHeader = {
 }
 
 // one blog
-export type BlogItem = {
+export type BlogDescriptor = {
     blogTitle: string
     // blogContent: Promise<any>
     blogLink: string // import() path
@@ -22,7 +22,7 @@ export type BlogItem = {
 export type CategoryGroup = {
     // isCategory == true
     categoryName: string
-    items: (BlogItem | CategoryGroup)[]
+    items: (BlogDescriptor | CategoryGroup)[]
 }
 
 const debug = (...args: any[]) => console.log.apply(null, ['blog.ts:'].concat(args))

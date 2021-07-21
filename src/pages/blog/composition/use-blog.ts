@@ -1,39 +1,13 @@
-import { ref, watch } from "vue";
-import { BlogItem } from "../../../../script/blog";
-
+import { ref } from "vue";
+import { BlogDescriptor } from "../../../../script/blog";
 import { categoryGroup} from '../../../.blog/blog-metadata'
 
-// type BlogItem = {
-//     originalName: string;
-//     name: string;
-//     value: () => Promise<any>;
-// };
-
-// // @ts-ignore
-// const modules = import.meta.glob("../../../blog/**/*.md");
-// console.log('modules', modules)
-// const blogMap: Record<string, () => Promise<any>> = modules;
-
-// const blogList: BlogItem[] = Object.keys(modules).reduce(
-//     (list: BlogItem[], originalName) => {
-//         // @ts-ignore
-//         let blogName = originalName.match(/\/([^\/]+).md$/)[1];
-
-//         blogMap[blogName] = blogMap[originalName];
-
-//         list.push({
-//             originalName,
-//             name: blogName,
-//             value: modules[originalName],
-//         });
-//         return list;
-//     },
-//     []
-// );
+// @ts-ignore
+const blogMap: Record<string, () => Promise<any>>  = import.meta.glob("/src/blog/**/*.md");
 
 let blogContent = ref('')
 
-let activeBlog = ref<BlogItem>({
+let activeBlog = ref<BlogDescriptor>({
     blogTitle:'default',
     blogLink:''
 })
@@ -44,15 +18,21 @@ export default () => {
         blogContent.value = content
     }
 
-    function setActiveBlog(blog:BlogItem){
-        activeBlog.value = blog
+    function setActiveBlog(blogDescriptor:BlogDescriptor){
+        activeBlog.value = blogDescriptor
+    }
+
+    function fetchBlog(blogLink:BlogDescriptor['blogLink']){
+        return blogMap[blogLink]().then(mod=>{
+            setBlogContent(mod.html)
+        })
     }
 
     return {
         categoryGroup,
-        setBlogContent,
         setActiveBlog,
         blogContent,
-        activeBlog
+        activeBlog,
+        fetchBlog
     }
 }
