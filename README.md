@@ -2,12 +2,23 @@
 
 A project based on Vite@2 + vue@3 + vuex@4 + vue-router@4
 
-# experiment project
-* [sass compiler](https://github.com/wizardpisces/tiny-sass-compiler)
-* [js自执行/编译成汇编/编译成llvm/](https://github.com/wizardpisces/js-ziju)
-* [node server](https://github.com/wizardpisces/lerna-repo)
-* [tiny vite](https://github.com/wizardpisces/lerna-repo)
-* [tiny module](https://github.com/wizardpisces/vite-site/blob/master/examples/node/tiny-module/readme.md)
+## Purpose
+
+* tech playground
+* my blog system
+* for you to reference
 # Demo page
 
 [Homepage](https://wizardpisces.github.io/)
+
+## Todos
+
+* ~~自动遍历 .md 来生成路由结构~~
+* ~~change title by markdown plugin front-matter exports~~
+* ~~md2html vite plugin~~
+* reveal subheaders navigation
+* ~~connect blog title with url~~
+* ~~code split blog (聚合处在不同文件夹下的 .md)~~
+* hot .md
+* blog search
+* support mobile
