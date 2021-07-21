@@ -1,20 +1,27 @@
 <template>
- <ul class="tree-folder-sub-headers">
-      <li
-        v-for="(subHeader,index) in headers"
-        :key="index"
-        class="tree-folder-sub-header"
-      >
-        <a
-          :href="subHeader.link"
-          class="active sidebar-link"
-          aria-current="page"
-        >{{subHeader.subTitle}}</a>
-        <tree-folder-sub-headers v-if="subHeader.children" :headers="subHeader.children"></tree-folder-sub-headers>
-      </li>
-    </ul>
+  <ul class="tree-folder-sub-headers">
+    <li
+      v-for="(subHeader,index) in headers"
+      :key="index"
+      :class="{
+        'tree-folder-sub-header':true,
+        'active': activeSubHeader.subTitle === subHeader.subTitle
+      }"
+    >
+      <a
+        :href="subHeader.link"
+        class="sidebar-link"
+        @click="onSubHeaderClick(subHeader)"
+      >{{subHeader.subTitle}}</a>
+      <tree-folder-sub-headers
+        v-if="subHeader.children"
+        :headers="subHeader.children"
+      ></tree-folder-sub-headers>
+    </li>
+  </ul>
 </template>
 <script lang="ts">
+import { ref } from "vue";
 import { PropType } from "@vue/runtime-core";
 import { SubHeader } from "../../../script/blog";
 
@@ -26,12 +33,17 @@ export default {
     },
   },
   setup(props) {
-      let cls = {
-          "tree-folder-sub-headers":true,
-        //   "active":
-      }
+    let activeSubHeader = ref({
+      subTitle:''
+    });
+
+    function onSubHeaderClick(subHeader: SubHeader) {
+      activeSubHeader.value = subHeader;
+    }
+
     return {
-        cls
+      onSubHeaderClick,
+      activeSubHeader
     };
   },
 };
@@ -39,13 +51,15 @@ export default {
 
 <style lang="scss">
 .tree-folder-sub-headers {
-  a{
+  a {
     color: #2c3e50;
   }
-  &.active{
-    a{
-      font-weight: 500;
-      color: $color-primary;
+  .tree-folder-sub-header {
+    &.active {
+      a {
+        font-weight: 500;
+        color: $color-primary;
+      }
     }
   }
 }

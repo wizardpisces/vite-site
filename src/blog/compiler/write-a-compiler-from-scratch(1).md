@@ -1,9 +1,9 @@
 ---
 title: 从0到1实现编译器
 ---
-#### SASS简介
+## SASS简介
 [SASS](https://sass-lang.com/documentation)是css的增强扩展，让开发能够使用variables, nested rules, mixins, functions等能力去书写css;
-#### 本篇目标
+## 本篇目标
 从零到1实现SASS编译器(将sass转为css语法)，系列文章会按照如下流程进行:
 
 code -> AST([Abstract Syntax Tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree)) -> transformed AST -> transformed code

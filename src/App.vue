@@ -59,7 +59,12 @@ export default {
 
     function onTabClick(name) {
       let path = routes.filter(route => route.name === name)[0].path
-      router.push({ path })
+
+      if(name=== 'blog'){
+        router.push({path:'/blog/introduction'})
+      }else{
+        router.push({ path })
+      }
     }
 
     return {

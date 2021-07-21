@@ -54,6 +54,7 @@ export default {
     }
     ul{
         list-style-type: none;
+        padding-left:20px;
         li{
           line-height: 30px;
         }

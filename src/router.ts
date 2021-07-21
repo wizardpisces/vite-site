@@ -14,12 +14,9 @@ export const routes = [{
     name: 'home',
     component: SassPlayground
 }, {
-    path: '/blog',
+    path: '/blog/:blogName',
     component: Blog,
-    name: 'blog',
-    query: {
-        name: 'nuxt'
-    }
+    name: 'blog'
 }, {
     path: '/virtual-machine',
     name: 'VirtualMachine',

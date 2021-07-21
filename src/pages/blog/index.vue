@@ -5,8 +5,11 @@
     </aside>
     <main class='page'>
       <div class="content">
-        <p v-if="blogContent" v-html="blogContent"></p>
-        <h2 v-else>This is Blog Home</h2>
+        <p
+          v-if="blogContent && !loadingBlog"
+          v-html="blogContent"
+        ></p>
+        <h2 v-else>Loading blog ....</h2>
         <!-- <Circular :check="4"></Circular> -->
       </div>
     </main>
@@ -14,6 +17,8 @@
 </template>
 
 <script lang="ts">
+import { onMounted, ref } from "vue";
+import {useRoute} from 'vue-router'
 import useBlog from "./composition/use-blog";
 import TreeFolder from "./tree-folder.vue";
 import A from "./a.vue";
@@ -24,15 +29,18 @@ export default {
     Circular: A,
   },
   setup() {
-    let { categoryGroup, blogContent } = useBlog();
-
+    let route = useRoute()
+    let { categoryGroup, blogContent, initBlogByTitle,loadingBlog } = useBlog();
+    onMounted(() => {
+      initBlogByTitle(route.params.blogName as string)
+    });
     return {
       blogContent,
       categoryGroup,
+      loadingBlog
     };
   },
 };
-
 </script>
 <style lang="scss">
 .blog {
