@@ -54,7 +54,7 @@ export default () => {
                     findBlog(categoryOrBlog as CategoryGroup)
                 } else{
                     // is blog
-                     if(categoryOrBlog.blogTitle === blogTitle){
+                    if (normalizeBlogTitle(categoryOrBlog.blogTitle) === normalizeBlogTitle(blogTitle)){
                          blogDescriptor = categoryOrBlog
                      }
                 }
@@ -66,13 +66,15 @@ export default () => {
         return blogDescriptor
     }
 
+    function normalizeBlogTitle(blogTitle:string){
+        return blogTitle.toLocaleLowerCase()
+    }
+
     function initBlogByTitle(blogTitle: string) {
         let blogDescriptor: BlogDescriptor = findBlogDescriptorByName(categoryGroup, blogTitle) as BlogDescriptor
         setActiveBlog(blogDescriptor)
         fetchBlog(blogDescriptor.blogLink)
     }
-
-
 
     return {
         categoryGroup,
