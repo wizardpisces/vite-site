@@ -5,8 +5,8 @@ A project based on Vite@2 + vue@3 + vuex@4 + vue-router@4
 ## Purpose
 
 * tech playground
-* my blog system
-* for you to reference
+* my blog
+* for reference
 # Demo page
 
 [Homepage](https://wizardpisces.github.io/)

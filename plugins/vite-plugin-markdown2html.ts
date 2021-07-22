@@ -5,6 +5,12 @@ import { Element, Text } from 'domhandler'
 import { Plugin } from 'vite'
 import renderDom from 'dom-serializer'
 
+export type HItem = { level: number; title: string }
+export interface NestedHItem extends HItem {
+    children: NestedHItem[]
+}
+
+export type NestedHList = NestedHItem[]
 export interface PluginOptions {
     markdownIt?: MarkdownOptions
 }
@@ -26,8 +32,6 @@ class ExportedContent {
     }
 }
 
-type HItem = { level: string; content: string }
-
 export function createMarkdown2HtmlMetadata(code: string, options: MarkdownOptions = { html: true }) {
     let fmContent = fm<Record<string, any>>(code)
     const html = new MarkdownIt(options).render(fmContent.body)
@@ -40,7 +44,7 @@ export function createMarkdown2HtmlMetadata(code: string, options: MarkdownOptio
 
     hElements.forEach(ele => {
         let hName = DomUtils.textContent(ele)
-        ele.attribs['id'] = '#'+hName
+        ele.attribs['id'] = '#' + hName
 
         // inject hash link to blog content
         let newEle = new Element('a', { href: '#' + hName }, undefined)
@@ -48,16 +52,16 @@ export function createMarkdown2HtmlMetadata(code: string, options: MarkdownOptio
         DomUtils.prependChild(ele, newEle)
 
         hList.push({
-            level: ele.tagName.replace('h', ''),
-            content: hName,
+            level: parseInt(ele.tagName.replace('h', '')),
+            title: hName
         })
     })
 
     return {
         attributes: fmContent.attributes,
         html: renderDom(rootDom),
-        // html,
-        hList
+        hList,
+        nestedHList: createNestedHList(hList)
     }
 }
 
@@ -88,27 +92,68 @@ export const plugin = (options: PluginOptions = {}): Plugin => {
 
 
 /**
- *  [ {level:1}, {level:2}, {level:3}, {level:2}, {level:4}, {level:2} ] =>
- *  [
- *      [ {level:1}, {level:2}, {level:3} ],
- *      [ {level:2}, {level:4} ],
- *      [ {level:2} ]
- *  ]
+ *  let hList = [ {level:1}, {level:2}, {level:2}, {level:3}, {level:2}, {level:4}]
+ *  let nestedHList = createNestedHList(hList); 
+ * [
+    [
+        {
+            level: 1,
+            children: [
+                { level: 2 },
+                {
+                    level: 2,
+                    children: [{ level: 3 }]
+                }
+            ]
+        }
+    ],
+    [
+        { 
+            level: 2, 
+            children: [{ level: 4 }] 
+        }
+    ]
+]
  */
 
-export function createLayer(layerList: { level: string; content: string }[]) {
-    if (!layerList.length) return []
-    let result: HItem[][] = []
-    let tmp: HItem[] = [layerList[0]]
-    layerList.slice(1).forEach(layer => {
-        if (tmp[tmp.length - 1].level < layer.level) {
-            tmp.push(layer)
-        } else {
-            result.push(tmp)
-            tmp = [layer]
+export function createNestedHList(hList: HItem[]): NestedHList {
+    if (!hList.length) return []
+
+    let nestedHList: NestedHItem[] = hList.map(h => {
+        return {
+            ...h,
+            children: [],
         }
     })
-    return result
+
+    let prevHItem = nestedHList[0]
+    let prevChildren: NestedHList = prevHItem.children
+    let rootNestedHeaders: NestedHList = [prevHItem]
+
+    // 标记是否在第一层，如果是，那么对于 level 相等的情况则需要 用 rootNestedHeaders push
+    let inRootChildren = true;
+
+    nestedHList.slice(1).forEach((curHItem) => {
+        if (prevHItem.level < curHItem.level) {
+            prevChildren = prevHItem.children
+            prevChildren.push(curHItem)
+            prevHItem = curHItem
+            inRootChildren = false
+        } else if (prevHItem.level === curHItem.level) {
+            if (inRootChildren){
+                rootNestedHeaders.push(curHItem)
+            }else{
+                prevChildren.push(curHItem)
+            }
+            prevHItem = curHItem
+        } else if (prevHItem.level > curHItem.level) {
+            rootNestedHeaders.push(curHItem)
+            prevHItem = curHItem
+            inRootChildren = true
+        }
+    })
+
+    return rootNestedHeaders
 }
 
 export default plugin

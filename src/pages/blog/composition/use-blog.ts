@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import { BlogDescriptor, CategoryGroup } from "../../../../script/blog";
+import { BlogDescriptor, CategoryGroup, SubHeader } from "../../../../script/blog";
 import { categoryGroup } from '../../../.blog/blog-metadata'
 
 // @ts-ignore
@@ -11,6 +11,10 @@ let activeBlog = ref<BlogDescriptor>({
     blogTitle: 'default',
     blogLink: ''
 })
+
+let activeSubHeader = ref({
+    title: ''
+});
 
 let loadingBlog = ref(false)
 
@@ -24,6 +28,10 @@ export default () => {
         activeBlog.value = blogDescriptor
     }
 
+    function setActiveSubHeader(subHeader:SubHeader){
+        activeSubHeader.value = subHeader
+    }
+
     function fetchBlog(blogLink: BlogDescriptor['blogLink']) {
         loadingBlog.value = true
         return blogMap[blogLink]().then(mod => {
@@ -35,12 +43,16 @@ export default () => {
     function findBlogDescriptorByName(categoryGroup: CategoryGroup, blogTitle: string): BlogDescriptor {
         let blogDescriptor:BlogDescriptor
 
+        function isCategory(categoryOrBlog:CategoryGroup | BlogDescriptor):boolean{
+            return Object.prototype.hasOwnProperty.call(categoryOrBlog,'items')
+        }
+
         function findBlog(categoryGroup: CategoryGroup){
             categoryGroup.items.forEach((categoryOrBlog) => {
-                if (categoryOrBlog.categoryName) {
+                if (isCategory(categoryOrBlog)) {
                     // is category
                     findBlog(categoryOrBlog as CategoryGroup)
-                } else if (categoryOrBlog.blogTitle) {
+                } else{
                     // is blog
                      if(categoryOrBlog.blogTitle === blogTitle){
                          blogDescriptor = categoryOrBlog
@@ -60,13 +72,17 @@ export default () => {
         fetchBlog(blogDescriptor.blogLink)
     }
 
+
+
     return {
         categoryGroup,
-        setActiveBlog,
-        blogContent,
         activeBlog,
-        initBlogByTitle,
+        activeSubHeader,
+        blogContent,
+        setActiveBlog,
+        setActiveSubHeader,
         fetchBlog,
-        loadingBlog
+        initBlogByTitle,
+        loadingBlog,
     }
 }

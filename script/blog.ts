@@ -1,10 +1,10 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import glob from 'fast-glob'
-import {createMarkdown2HtmlMetadata} from '../plugins/vite-plugin-markdown2html'
+import { createMarkdown2HtmlMetadata, NestedHList, NestedHItem } from '../plugins/vite-plugin-markdown2html'
 
 export type SubHeader = {
-    subTitle: string
+    title: string
     // sub header link
     link: string
     children: SubHeader[]
@@ -81,16 +81,28 @@ async function createGroupItem(blogLink: string, blogTitle: string) {
         blogTitle = metadata.attributes.title
     }
 
-    debug(metadata.hList)
-
-    let subHeaders:SubHeader[] = []
-    metadata.hList.forEach(h=>{
-        subHeaders.push({
-            subTitle:h.content,
-            link: '#'+h.content,
-            children:[]
+    function createSubHeader(hItem: NestedHItem):SubHeader {
+        return {
+            title: hItem.title,
+            // level:hItem.level
+            link: '#' + hItem.title,
+            children: []
+        }
+    }
+    function createSubHeaders(nestedHList: NestedHList):SubHeader[] {
+        let subHeaders: SubHeader[] = []
+        nestedHList.forEach((nestedHItem: NestedHItem) => {
+            let subHeader: SubHeader = createSubHeader(nestedHItem)
+            subHeader.children = createSubHeaders(nestedHItem.children)
+            subHeaders.push(subHeader)
         })
-    })
+        return subHeaders
+    }
+    let subHeaders: SubHeader[] = createSubHeaders(metadata.nestedHList)
+
+    // debug(metadata.hList)
+    // debug(metadata.nestedHList)
+    // debug(subHeaders)
     return {
         blogTitle: blogTitle,
         blogLink: blogLink,

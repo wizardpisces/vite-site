@@ -5,14 +5,14 @@
       :key="index"
       :class="{
         'tree-folder-sub-header':true,
-        'active': activeSubHeader.subTitle === subHeader.subTitle
+        'active': activeSubHeader.title === subHeader.title
       }"
     >
       <a
         :href="subHeader.link"
         class="sidebar-link"
         @click="onSubHeaderClick(subHeader)"
-      >{{subHeader.subTitle}}</a>
+      >{{subHeader.title}}</a>
       <tree-folder-sub-headers
         v-if="subHeader.children"
         :headers="subHeader.children"
@@ -24,6 +24,7 @@
 import { ref } from "vue";
 import { PropType } from "@vue/runtime-core";
 import { SubHeader } from "../../../script/blog";
+import useBlog from './composition/use-blog';
 
 export default {
   name: "TreeFolderSubHeaders",
@@ -33,12 +34,10 @@ export default {
     },
   },
   setup(props) {
-    let activeSubHeader = ref({
-      subTitle:''
-    });
+    let { activeSubHeader,setActiveSubHeader } = useBlog();
 
     function onSubHeaderClick(subHeader: SubHeader) {
-      activeSubHeader.value = subHeader;
+      setActiveSubHeader(subHeader)
     }
 
     return {
@@ -56,7 +55,7 @@ export default {
   }
   .tree-folder-sub-header {
     &.active {
-      a {
+      &>a {
         font-weight: 500;
         color: $color-primary;
       }
