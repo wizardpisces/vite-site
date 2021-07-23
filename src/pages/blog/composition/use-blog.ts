@@ -9,11 +9,14 @@ let blogContent = ref('')
 
 let activeBlog = ref<BlogDescriptor>({
     blogTitle: 'default',
-    blogLink: ''
+    blogLink: '',
+    subHeaders:[]
 })
 
 let activeSubHeader = ref({
-    title: ''
+    title: '',
+    link:'',
+    children:[]
 });
 
 let loadingBlog = ref(false)
@@ -74,10 +77,35 @@ export default () => {
         return blogTitle.toLocaleLowerCase()
     }
 
-    function initBlogByTitle(blogTitle: string) {
+    function findSubHeaderByTitle(title:string):SubHeader{
+        let subHeaders = activeBlog.value.subHeaders || [],
+            subHeader:SubHeader | null = null;
+        function findSubHeaderFromSubHeaders(subHeaders:SubHeader[]){
+            subHeaders?.forEach(header=>{
+                if(header.title === title){
+                    subHeader = header
+                }else{
+                    findSubHeaderFromSubHeaders(header.children)
+                }
+            })
+        }
+
+        findSubHeaderFromSubHeaders(subHeaders)
+
+        if(subHeader){
+            return subHeader
+        }else{
+            return activeSubHeader.value
+        }
+    }
+
+    function initBlogByTitle(blogTitle: string,blogHash:string) {
         let blogDescriptor: BlogDescriptor = findBlogDescriptorByName(categoryGroup, blogTitle) as BlogDescriptor
         setActiveBlog(blogDescriptor)
-        fetchBlog(blogDescriptor.blogLink)
+        if(blogHash){
+            setActiveSubHeader(findSubHeaderByTitle(blogHash.substring(1)))
+        }
+        return fetchBlog(blogDescriptor.blogLink)
     }
 
     return {

@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import glob from 'fast-glob'
-import { createMarkdown2HtmlMetadata, NestedHList, NestedHItem } from '../plugins/vite-plugin-markdown2html'
+import { createMarkdown2HtmlMetadata, NestedHList, NestedHItem } from 'vite-plugin-md2html'
 
 export type SubHeader = {
     title: string

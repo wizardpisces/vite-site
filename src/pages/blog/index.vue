@@ -9,9 +9,12 @@
           v-if="blogContent && !loadingBlog"
           v-html="blogContent"
         ></p>
-        <h2 v-else>Loading blog ....</h2>
+        <h2 v-show="false">
+          Loading blog ....
+          below is a md2html test:<p v-html="introduction"></p>
+        </h2>
         <!-- <Circular :check="4"></Circular> -->
-        below is a md2html test:<p v-html="introduction"></p>
+        
       </div>
     </main>
   </div>
@@ -34,9 +37,15 @@ export default {
     let route = useRoute();
     let { categoryGroup, blogContent, initBlogByTitle, loadingBlog } =
       useBlog();
+
     onMounted(() => {
-      initBlogByTitle(route.params.blogName as string);
+      initBlogByTitle(route.params.blogName as string, route.hash).then((_) => {
+        location.hash = "";
+        console.log(route.hash);
+        location.hash = route.hash;
+      });
     });
+
     return {
       blogContent,
       categoryGroup,
