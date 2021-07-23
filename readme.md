@@ -18,6 +18,7 @@ A project based on Vite@2 + vue@3 + vuex@4 + vue-router@4
 * ~~blog title navigation~~
 * ~~code split blog .md~~
 * ~~subheader hash navigation~~
+    * highlight hash navigated title
 * hot .md
 * blog search
 * blog review

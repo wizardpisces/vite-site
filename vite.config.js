@@ -1,6 +1,7 @@
 const hljs = require('highlight.js');
 import vue from '@vitejs/plugin-vue'
-import md2HtmlPlugin from './plugins/vite-plugin-markdown2html'
+// import md2HtmlPlugin from './plugins/vite-plugin-markdown2html'
+import md2HtmlPlugin from 'vite-plugin-md2html'
 
 export default {
     plugins: [

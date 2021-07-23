@@ -1,5 +1,6 @@
 ---
 title: vite 简介与原理
+description: vite in depth
 ---
 ## vite 简介 与 原理
 
