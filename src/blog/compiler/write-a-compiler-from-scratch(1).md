@@ -503,8 +503,6 @@ function parse(input: LexicalStream) {
 3. AST优化转换
 4. 源码生成(+sourceMap)）
 
-最后预祝大家元旦快乐。。
-
 <!-- 预告下一篇：实现Transform 把源码(sass)关联的AST转换为目标代码(css)关联的 AST -->
 
 

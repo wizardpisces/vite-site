@@ -46,7 +46,7 @@ but not match client
 * in dev : true(代表plugin middleware等文件会在每个请求进入的时候重新载入)
 * in production: false （代表不会重新载入plugin，只会反复执行返回的函数）
 
-### vue SSR code structure (删除了很多代码，只保留了基本骨架)
+### SSR code demo
 
 1. bundle code
 

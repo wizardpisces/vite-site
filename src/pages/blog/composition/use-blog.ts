@@ -47,15 +47,19 @@ export default () => {
             return Object.prototype.hasOwnProperty.call(categoryOrBlog,'items')
         }
 
+        function isBlog(categoryOrBlog:CategoryGroup | BlogDescriptor):boolean{
+            return Object.prototype.hasOwnProperty.call(categoryOrBlog,'blogTitle')
+        }
+
         function findBlog(categoryGroup: CategoryGroup){
             categoryGroup.items.forEach((categoryOrBlog) => {
                 if (isCategory(categoryOrBlog)) {
                     // is category
                     findBlog(categoryOrBlog as CategoryGroup)
-                } else{
+                } else if (isBlog(categoryOrBlog)){
                     // is blog
-                    if (normalizeBlogTitle(categoryOrBlog.blogTitle) === normalizeBlogTitle(blogTitle)){
-                         blogDescriptor = categoryOrBlog
+                    if (normalizeBlogTitle((categoryOrBlog as BlogDescriptor).blogTitle) === normalizeBlogTitle(blogTitle)){
+                         blogDescriptor = categoryOrBlog as BlogDescriptor
                      }
                 }
             })
@@ -63,7 +67,7 @@ export default () => {
 
         findBlog(categoryGroup)
 
-        return blogDescriptor
+        return blogDescriptor!
     }
 
     function normalizeBlogTitle(blogTitle:string){

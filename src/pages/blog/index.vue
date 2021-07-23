@@ -11,6 +11,7 @@
         ></p>
         <h2 v-else>Loading blog ....</h2>
         <!-- <Circular :check="4"></Circular> -->
+        below is a md2html test:<p v-html="introduction"></p>
       </div>
     </main>
   </div>
@@ -18,9 +19,10 @@
 
 <script lang="ts">
 import { onMounted, ref } from "vue";
-import {useRoute} from 'vue-router'
+import { useRoute } from "vue-router";
 import useBlog from "./composition/use-blog";
 import TreeFolder from "./tree-folder.vue";
+import { html as introduction } from "../../blog/introduction.md";
 import A from "./a.vue";
 export default {
   name: "BlogVueSSr",
@@ -29,15 +31,17 @@ export default {
     Circular: A,
   },
   setup() {
-    let route = useRoute()
-    let { categoryGroup, blogContent, initBlogByTitle,loadingBlog } = useBlog();
+    let route = useRoute();
+    let { categoryGroup, blogContent, initBlogByTitle, loadingBlog } =
+      useBlog();
     onMounted(() => {
-      initBlogByTitle(route.params.blogName as string)
+      initBlogByTitle(route.params.blogName as string);
     });
     return {
       blogContent,
       categoryGroup,
-      loadingBlog
+      loadingBlog,
+      introduction,
     };
   },
 };
@@ -64,6 +68,15 @@ export default {
     .content {
       max-width: 740px;
       margin: 0 auto;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        padding-top: 60px;
+        margin-top: -44px;
+      }
     }
   }
 }

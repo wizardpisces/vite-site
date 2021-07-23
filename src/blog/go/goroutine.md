@@ -44,7 +44,7 @@ Runtime 会在程序启动的时候，创建 M 个线程（CPU 执行调度的�
 
 ## 例子
 
-参照 examples/go
+[go的例子](https://github.com/wizardpisces/vite-site/tree/master/examples/go)
 
 ## Reference
 
