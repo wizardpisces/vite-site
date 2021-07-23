@@ -145,7 +145,13 @@ async function write() {
         categoryGroup
     }`
 
-    fs.writeFileSync(path.join(root, '.blog/blog-metadata.ts'), source)
+    let blogMetadataPath = path.join(root, '.blog')
+
+    if(!fs.existsSync(blogMetadataPath)){
+        fs.mkdirSync(blogMetadataPath, { recursive: true })
+    }
+
+    fs.writeFileSync(path.join(blogMetadataPath,'blog-metadata.ts'), source)
 
     debug(`end blog metadata generation in ${Date.now() - s}ms`)
 
