@@ -1,10 +1,9 @@
 ---
-title: vite 简介与原理
-description: vite in depth
+title: vite简介与原理
 ---
-## vite 简介 与 原理
+# vite简介与原理
 
-**内容概要**
+**讲解范围**
 
 0. 背景
 1. vite是什么
@@ -61,6 +60,8 @@ HMR 是在原生 ESM 上执行的。当编辑一个文件时，Vite 只需要精
 
 ## 预构建
 
+[预构建图](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
+
 基于 esbuild 的**依赖**预打包
 
 1. 减少模块/请求数量；
@@ -101,8 +102,7 @@ Esbuild 使用 Go 编写，并且比以 JavaScript 编写的打包器预构建�
 
 ### 原理
 
-* [构建HMR图]((https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html))
-* [触发HMR图](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
+* [HMR图](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
 
 **server build moduleGraph**
 
@@ -153,7 +153,7 @@ if (import.meta.hot) {
 [插件图例子](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
 
 在 rollup 插件基础上 扩展出 vite 的 plugin API，以及执行机制。好处：一套插件可能在 rollup 跟 vite 同时兼容使用（如果并未使用vite独有的插件hook），扩大 vite的生态圈，直接运行大部分的 rollup插件
-## 比较
+## 趋势
 
 [snowpack vs vite](https://www.npmtrends.com/snowpack-vs-vite)
 
@@ -174,13 +174,13 @@ if (import.meta.hot) {
 ### vite还有哪些问题？
 1. 服务端渲染 (SSR) 支持还处在实验阶段，产线使用仍需等待
 
-### vite的现状
-1. ykfe/ssr 已经集成 vite SSR
-2. Nuxt正在集成 vite SSR
-3. 市面上已经存在 vite 的 ssr框架
 ### 修改 node_modules 源文件是否触发热更新？
 
 不会
+
+### 如何入手 vite 源码
+
+[简化版 vite](https://github.com/wizardpisces/lerna-repo/tree/master/packages/litepack)，供初入坑
 
 **原因：**
 * 由于预构建，node_modules里面的源代码已经被打包到 node_modules/.vite下面，目前此路径并未注册到热替换图里面
@@ -193,9 +193,9 @@ if (import.meta.hot) {
 3. esbuild: 强调性能，内置了对css、图片、react、typescript等内置支持，编译速度特别快（是webpack和rollup速度的100倍+),缺点是目前插件系统较为简单（框架作者还在迭代中），生态不如webpack和rollup成熟。
 ## Reference
 
+* https://github.com/wizardpisces/lerna-repo/tree/master/packages/litepack
 * https://vitejs.dev/guide/
 * https://github.com/evanw/esbuild
-* https://xiaohanglin.site/pages/b632f1/#%E8%83%8C%E6%99%AF
 * https://segmentfault.com/a/1190000039264055
 
 ## 下期预告

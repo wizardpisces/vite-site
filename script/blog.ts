@@ -101,7 +101,7 @@ async function createGroupItem(blogLink: string, blogTitle: string) {
     let subHeaders: SubHeader[] = createSubHeaders(metadata.nestedHeaders)
 
     // debug(metadata.hList)
-    // debug(metadata.nestedHList)
+    // debug(metadata.nestedHeaders)
     // debug(subHeaders)
     return {
         blogTitle: blogTitle,

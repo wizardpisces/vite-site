@@ -21,7 +21,6 @@
   </ul>
 </template>
 <script lang="ts">
-import { ref } from "vue";
 import { PropType } from "@vue/runtime-core";
 import { SubHeader } from "../../../script/blog";
 import useBlog from './composition/use-blog';

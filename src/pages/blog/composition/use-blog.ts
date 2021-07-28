@@ -13,7 +13,7 @@ let activeBlog = ref<BlogDescriptor>({
     subHeaders:[]
 })
 
-let activeSubHeader = ref({
+let activeSubHeader = ref<SubHeader>({
     title: '',
     link:'',
     children:[]

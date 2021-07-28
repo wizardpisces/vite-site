@@ -20,7 +20,10 @@ A project based on Vite@2 + vue@3 + vuex@4 + vue-router@4
 * ~~subheader hash navigation~~
     * ~~highlight hash navigated title~~
 * vue3 nav loading for blog
-* hot .md
+* add blog date水印
+* ~~hot .md~~
 * blog search
 * blog review
 * support mobile
+* add debounce to watchblog
+* highlight code snippet

@@ -3,17 +3,17 @@
     <h2 class="sidebar-heading">{{folder.categoryName}}</h2>
     <ul class="tree-folder-contents">
       <li
-        v-for="(categoryOrBlogSub,index) in folder.items"
+        v-for="(categoryOrBlogDescriptor,index) in folder.items"
         :key="index"
       >
         <tree-folder
-          v-if="categoryOrBlogSub.categoryName"
-          :folder="categoryOrBlogSub"
+          v-if="categoryOrBlogDescriptor.categoryName"
+          :folder="categoryOrBlogDescriptor"
         ></tree-folder>
-        <tree-folder-contents
+        <tree-folder-content
           v-else
-          :blog="categoryOrBlogSub"
-        ></tree-folder-contents>
+          :blog="categoryOrBlogDescriptor"
+        ></tree-folder-content>
       </li>
     </ul>
 
@@ -23,7 +23,7 @@
 <script lang="ts">
 import { PropType } from "@vue/runtime-core";
 import { CategoryGroup } from "../../../script/blog";
-import TreeFolderContents from "./tree-folder-content.vue";
+import TreeFolderContent from "./tree-folder-content.vue";
 export default {
   name: "TreeFolder",
   props: {
@@ -32,7 +32,7 @@ export default {
     },
   },
   components: {
-    TreeFolderContents,
+    TreeFolderContent,
   },
   setup(props) {
       let cls = {

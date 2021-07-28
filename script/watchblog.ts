@@ -17,6 +17,10 @@ function watch() {
         console.log(file, ' changed, running "npm run blog"')
 
         execa('npm', ['run', 'blog'], { stdio: 'inherit' })
+    }).on('unlink', async (file: string) => {
+        console.log(file, ' deleted, running "npm run blog"')
+
+        execa('npm', ['run', 'blog'], { stdio: 'inherit' })
     })
 
 }
