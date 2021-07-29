@@ -4,7 +4,7 @@ title: cpu profile
 
 ## 性能分析
 
-最近通过 alinode 的CPU火焰图找出了项目中存在的一个吞吐率阻塞点，简单分享一下
+最近通过 alinode 的CPU火焰图找出了项目中吞吐率阻塞点，简单分享
 
 * profile的原理？
 * 如何对profile结果做可视化？

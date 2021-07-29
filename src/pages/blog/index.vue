@@ -41,7 +41,6 @@ export default {
     onMounted(() => {
       initBlogByTitle(route.params.blogName as string, route.hash).then((_) => {
         location.hash = "";
-        console.log(route.hash);
         location.hash = route.hash;
       });
     });
