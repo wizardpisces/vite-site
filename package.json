@@ -5,7 +5,7 @@
   "author": "wizardpisces",
   "description": "A vite github.io project",
   "scripts": {
-    "dev": "npm run blog && vite & npm run watchblog",
+    "dev": "vite",
     "blog": "ts-node script/blog.ts",
     "watchblog": "ts-node script/watchblog.ts",
     "build": "npm run blog && vite build",
@@ -19,6 +19,7 @@
     "@vue/compiler-sfc": "^3.0.11",
     "codemirror": "^5.57.0",
     "tiny-sass-compiler": "0.11.0",
+    "vite-plugin-md2html": "^1.0.4",
     "vue": "^3.0.11",
     "vue-router": "^4.0.6",
     "vuex": "^4.0.0"
@@ -38,7 +39,6 @@
     "sass": "^1.32.4",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2",
-    "vite": "^2.2.4",
-    "vite-plugin-md2html": "^1.0.2"
+    "vite": "^2.2.4"
   }
 }

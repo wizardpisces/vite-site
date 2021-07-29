@@ -1,3 +1,10 @@
+/**
+ * 存在的价值？
+ * 保证每篇 blog 的加载在前端是 lazy 的
+ * 
+ * 如何做到？
+ * 在build阶段把所有的blog 组成的metad数据打包出来，例如：blogTitle需要读取文件内容后才能确定
+ */
 import * as path from 'path'
 import * as fs from 'fs'
 import glob from 'fast-glob'
@@ -46,7 +53,7 @@ function globMarkdown(pattern = "**/*.md") {
  * which means root dir only contains dirs
  */
 
-type BlogTree = {
+export type BlogTree = {
     [key: string]: string | BlogTree
 }
 async function createBlogTree(): Promise<BlogTree> {

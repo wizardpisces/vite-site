@@ -1,5 +1,5 @@
 ---
-title: Nuxt 实践经验
+title: Nuxt实践经验
 description: 执行过程，缓存，压测，内存分析
 ---
 ## nuxt JS

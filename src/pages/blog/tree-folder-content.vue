@@ -29,7 +29,7 @@ export default {
   },
   setup(props) {
     let router = useRouter();
-    let { setActiveBlog, activeBlog, fetchBlog } = useBlog();
+    let { setActiveBlog, activeBlog, fetchMetaByBlogLink } = useBlog();
     let cls = computed(() => {
       return {
         "tree-folder-content": true,
@@ -40,10 +40,11 @@ export default {
       setActiveBlog(blog);
 
       // dynamic fetch blog content
-      fetchBlog(blog.blogLink);
+      fetchMetaByBlogLink(blog.blogLink).then(meta=>{
+        router.push({
+          path: `/blog/${blog.blogTitle}`,
+        });
 
-      router.push({
-        path: `/blog/${blog.blogTitle}`,
       });
     }
 
