@@ -35,29 +35,32 @@ export default {
     TreeFolderContent,
   },
   setup(props) {
-      let cls = {
-          "tree-folder":true,
-        //   "active":
-      }
+    let cls = {
+      "tree-folder": true,
+      //   "active":
+    };
     return {
-        cls
+      cls,
     };
   },
 };
 </script>
 <style lang="scss">
 .tree-folder {
-    .sidebar-heading{
-        font-weight: 700;
-        font-size: 18px;
-        margin:0;
+  .sidebar-heading {
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0;
+  }
+  ul {
+    list-style-type: none;
+    padding-left: 20px;
+    li {
+      line-height: 30px;
     }
-    ul{
-        list-style-type: none;
-        padding-left:20px;
-        li{
-          line-height: 30px;
-        }
-    }
+  }
+  a:hover {
+    color: $color-primary;
+  }
 }
 </style>

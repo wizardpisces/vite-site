@@ -1,5 +1,5 @@
 ---
-title: cpu profile
+title: Profile
 ---
 
 ## 性能分析
@@ -10,6 +10,29 @@ title: cpu profile
 * 如何对profile结果做可视化？
 * 火焰图如何分析？
 * 如何development/production进行profile
+
+## 浏览器Profiler简介
+Chrome profiler 为了找到那些耗时最多的代码，Chrome 分析器每 100μs 捕获一个堆栈跟踪。
+
+这意味着，如果一个函数只需要 50μs 的执行时间，就可能不会在分析器中显示出来！
+
+当你分析几毫秒以上的时间时，可以准确了解应用程序在何时花费最多的时间。 但是，当你放大 profiler 面板想看更精准的时间时，信息会变得不太准确。
+
+分析器也会不一致。 每次运行时，会产生一个稍微不同的结果。 有时可能会记录非常短的函数调用，而在其他时间再次运行这些函数调用信息可能会丢失。
+
+### performance
+
+* Scripting
+* Rendering
+* Painting
+* Other
+* Idle
+```
+Rendering events are about computing styles associated with each DOM node (i.e. "Style Recalculate") and elements position on the page ("Layout"). Paint category is about actually painting pixels and includes events like "Paint" itself and "Decode Image" / "Resize Image".
+```
+### javascript-profiler
+
+* CPU Profiles
 
 ## cpu profile种类
 
@@ -28,7 +51,8 @@ title: cpu profile
 >>JVM 只能在[safepoint](https://www.jianshu.com/p/c79c5e02ebe6)采样,是否就违背了第二条原则？最终导致profile不太准
 
 * 适合场景
->Sampling由于低开销的特性，更适合用在CPU密集型的应用中，以及不可接受大量性能开销的线上服务中。也是一般Profiler的实现机制，典型的就是alinode
+>Sampling由于低开销的特性，更适合用在CPU密集型的应用中，以及不可接受大量性能开销的线上服务中。
+>也是一般Profiler的实现机制，典型的就是alinode
 
 ### Instrumentation 
 
@@ -52,9 +76,9 @@ Instrumentation方式对几乎所有方法添加了额外的AOP（Aspect Oriente
 
 ### 火焰图含义
 
-y 轴表示调用栈，每一层都是一个函数。调用栈越深，火焰就越高，顶部就是正在执行的函数，下方都是它的父函数。
-
-x 轴表示抽样数，如果一个函数在 x 轴占据的宽度越宽，就表示它被抽到的次数多，即执行的时间长。注意，x 轴不代表时间，而是所有的调用栈合并后，按字母顺序排列的。
+* sampling
+>y 轴表示调用栈，每一层都是一个函数。调用栈越深，火焰就越高，顶部就是正在执行的函数，下方都是它的父函数。
+>x 轴表示抽样数，如果一个函数在 x 轴占据的宽度越宽，就表示它被抽到的次数多，即执行的时间长。注意，x 轴不代表时间，而是所有的调用栈合并后，按字母顺序排列的。
 
 **火焰图就是看顶层的哪个函数占据的宽度最大。只要有"平顶"（plateaus），就表示该函数可能存在性能问题。**
 
@@ -122,6 +146,12 @@ start_thread;func_a;func_d 2
 3. 部署上线，然后进行 cpu在线Profile，转储后在线分析（支持火焰图跟dev tool模式）
 
 感兴趣的可以参考[这里](https://zhuanlan.zhihu.com/p/72729044)
+
+### Demo
+1. 跳转到 Test 路由
+2. 点击 cpu-profiling
+3. 打开console，点击Javascript Profiler，点击record，6秒后点击stop
+4. 点击 cpu-profiling
 
 ## Reference
 

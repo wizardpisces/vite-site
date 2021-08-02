@@ -2,7 +2,7 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router'
-// const Vue3Test = () => import('./pages/vue3-test/menu.vue')
+const Test = () => import('./pages/test/test.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const SassPlayground = () => import('./pages/playground/sass.vue')
 const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
@@ -21,6 +21,10 @@ export const routes = [{
     path: '/virtual-machine',
     name: 'VirtualMachine',
     component: VirtualMachine
+}, {
+    path: '/test',
+    name: 'Test',
+    component: Test
 }]
 
 const router = createRouter({
