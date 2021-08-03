@@ -4,18 +4,17 @@ export default () => {
     let profileInterval:any = null,
         bigTaskRunedTimes = ref(0);
     
-    function createBigObj() {
-        let len = 20000,
-            obj: Record<number, number> = {};
-        while (len--) {
-            obj[len] = Math.random();
+    function createBigObj(keyLen:number) {
+        let obj: Record<number, number> = {};
+        while (keyLen--) {
+            obj[keyLen] = Math.random();
         }
 
         return obj
     }
 
-    function cloneBigObjTask() {
-        let obj = createBigObj(),
+    function cloneBigObjTask(keyLen:number) {
+        let obj = createBigObj(keyLen),
             cloneObj: Record<number, number> = {}
         for (let key in obj) {
             cloneObj[key] = obj[key]
@@ -23,30 +22,41 @@ export default () => {
     }
 
     function runBigTask() {
-        let num = 100
-        while (num--) {
-            cloneBigObjTask()
-        }
+        // let num = 1
+        // while (num--) {
+            cloneBigObjTask(20000*100)
+        // }
     }
 
     function runBigTask2() {
-        let num = 50
-        while (num--) {
-            cloneBigObjTask()
+        /**
+         * the profiler captures a stack trace every 100 μs.
+         * This means that, if a function only takes 50 μs to execute, it may not show up in the profiler at all!
+         */
+        function mayNotBeCaptured(){
+            cloneBigObjTask(20*100)
         }
+        let num = 1
+        while (num--) {
+            cloneBigObjTask(20000*50)
+            mayNotBeCaptured()
+        }
+    }
+
+    const profileFun = () => {
+        bigTaskRunedTimes.value++;
+        // run bigtask every second
+        if (Math.random() > 0.5) {
+            runBigTask()
+        } else {
+            runBigTask2()
+        }
+        profileInterval = setTimeout(profileFun, 1000)
     }
 
     function onProfileClick() {
         if (!profileInterval) {
-            profileInterval = setInterval(() => {
-                bigTaskRunedTimes.value++;
-                // run bigtask every second
-                if(Math.random()>0.5){
-                    runBigTask()
-                }else{
-                    runBigTask2()
-                }
-            }, 1000);
+            profileFun()
         } else {
             clearInterval(profileInterval);
             profileInterval = null;

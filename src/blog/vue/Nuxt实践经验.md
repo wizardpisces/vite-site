@@ -53,30 +53,3 @@ redis-commander
 ```
 ### 结论：
 目前先使用memory（node-cache）做缓存，后面遇到对一致性要求比较强的需求(比如：抢购会启动几十到几百个实例，缺少一致性会影响到缓存效果)时，再改为redis（note : Redis cache is an external cache and is not reset when redeploy application）
-
-## 性能测试
-autocannon -c 100 -d 5 -p 1 http://127.0.0.1:3000/
-### 压测
-ab -c 10 -n 1000 http://localhost:3000/en-US/
-or 
-autocannon -c 10 -a 1000 http://localhost:3000/en-US/
-combined with
-
-### 内存泄露分析基本步骤
-
-0. 添加 require('heapdump') 到 server/index.ts
-1. npm run build
-2. npm run start
-3. lsof -i:3000
-4. kill -USR2 <pid>（第三步查看到的pid）
-5. 根据情况调整压测参数 autocannon -c 10 -a 10 http://localhost:3000/en-US/
-6. 重复执行3次步骤 4，5
-7. 浏览器打开控制台memory栏目，按照生成顺序载入生产的内存快照  heapdump开头的文件
-
-### 复杂内存node分析基本步骤（主要是增加了访问量，以及线上环境模拟）
-
-改变 autocannon 参数： autocannon -c 10 -d 60 http://localhost:3000/en-US/
-其它同上
-
-Todos:
-1. 需要增加更丰富的线上环境模拟

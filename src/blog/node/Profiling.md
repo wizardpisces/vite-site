@@ -11,7 +11,7 @@ title: Profile
 * 火焰图如何分析？
 * 如何development/production进行profile
 
-## 浏览器Profiler简介
+## Chrome Profiler运行机制
 Chrome profiler 为了找到那些耗时最多的代码，Chrome 分析器每 100μs 捕获一个堆栈跟踪。
 
 这意味着，如果一个函数只需要 50μs 的执行时间，就可能不会在分析器中显示出来！
@@ -148,14 +148,17 @@ start_thread;func_a;func_d 2
 感兴趣的可以参考[这里](https://zhuanlan.zhihu.com/p/72729044)
 
 ### Demo
-1. 跳转到 Test 路由
+1. 跳转到 [Test 路由](https://wizardpisces.github.io/test)
 2. 点击 cpu-profiling
 3. 打开console，点击Javascript Profiler，点击record，6秒后点击stop
-4. 点击 cpu-profiling
+4. 再次点击 cpu-profiling
+
+更多精细demo, 本地运行这个[工程](https://github.com/wizardpisces/vite-site)，修改pages/test/use-test.ts里面的参数，再次走上面流程，看下100微秒的捕获丢失效果，以及最小的时间单元是否是 0.1毫秒（也就是100微秒）
 
 ## Reference
 
 * https://github.com/brendangregg/FlameGraph
+* https://www.mattzeunert.com/2016/08/06/show-native-functions-in-js-profile.html
 * https://nodesource.com/blog/diagnostics-in-NodeJS-2
 * https://www.ruanyifeng.com/blog/2017/09/flame-graph.html
 * https://tech.meituan.com/2019/10/10/jvm-cpu-profiler.html

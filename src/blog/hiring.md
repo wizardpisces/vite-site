@@ -11,13 +11,12 @@ title: Hiring
 3. 成年人
 ### 岗位相关
 * 10/7/5
-* 国际化氛围，英文有一定要求
+* 英文有一定要求
 * 相关技术
     * 打包构建：vite, webpack, rollup 等
-    * 开发框架：vue + vuex + vue-router 等
-    * 服务相关：Nuxt, koa, nginx 等
-    * 小程序: uniapp
-    * 部署：docker, pm2 等
+    * 开发框架：vue, uniapp, Nuxt, eggjs, ssr 等
+    * 服务相关：koa, nginx 等
+    * 部署监控：docker, pm2, alinode 等
     * 其它：typescript 等
 * 每周羽毛球等
 * 女生比例高
