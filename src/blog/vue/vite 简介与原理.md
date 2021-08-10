@@ -53,14 +53,14 @@ HMR 是在原生 ESM 上执行的。当编辑一个文件时，Vite 只需要精
 
 ## 基本架构
 
+![基本架构图](https://pic3.zhimg.com/80/v2-31d7184b441c76cf972f740264fb5f0e_1440w.jpg)
+
 1. server 预构建 -> 启用服务 node + connect + ws
 2. 浏览器请求 -> server中间件处理 -> server插件调用（（路径改写，hot注入，依赖图生成） -> 返回 client
 
-[基本架构图](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
-
 ## 预构建
 
-[预构建图](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
+![预构建图](https://pic4.zhimg.com/80/v2-c4c7642a3d9166294ffaf7f4589652b3_1440w.jpg)
 
 基于 esbuild 的**依赖**预打包
 
@@ -102,7 +102,8 @@ Esbuild 使用 Go 编写，并且比以 JavaScript 编写的打包器预构建�
 
 ### 原理
 
-* [HMR图](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
+* ![构建HMR图](https://pic4.zhimg.com/80/v2-ba85e5e1a85f75966eeb63ec4def066f_1440w.jpg)
+* ![HMR交互图](https://pic3.zhimg.com/80/v2-1ed0d753300fe600cb6f9aafa2479c5a_1440w.jpg)
 
 **server build moduleGraph**
 
@@ -150,7 +151,7 @@ if (import.meta.hot) {
 
 
 ## vite 插件机制
-[插件图例子](https://app.diagrams.net/#Hwizardpisces%2Flerna-repo%2Fmaster%2Fpackages%2Flitepack%2Flitepack%20Diagram.html)
+![插件图例子 vite-plugin-vue](https://pic1.zhimg.com/80/v2-206f26236414d03f4283ac19054f6f64_1440w.jpg)
 
 在 rollup 插件基础上 扩展出 vite 的 plugin API，以及执行机制。好处：一套插件可能在 rollup 跟 vite 同时兼容使用（如果并未使用vite独有的插件hook），扩大 vite的生态圈，直接运行大部分的 rollup插件
 ## 趋势
