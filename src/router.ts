@@ -17,11 +17,13 @@ export const routes = [{
     path: '/blog/:blogName',
     component: Blog,
     name: 'blog'
-}, {
+}, 
+{
     path: '/virtual-machine',
     name: 'VirtualMachine',
     component: VirtualMachine
-}, {
+}, 
+{
     path: '/test',
     name: 'Test',
     component: Test
