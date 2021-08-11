@@ -31,10 +31,14 @@ var newTree = render(count);
 var patches = diff(tree, newTree); // VNode diff
 rootNode = patch(rootNode, patches); // Patch
 ```
-#### Reference
+### Tools
+* [html2hscript](https://github.com/twilson63/html2hscript) - Parse HTML into hyperscript 
+* [html2hscript.herokuapp.com](http://html2hscript.herokuapp.com/) - Online Tool that converts html snippets to hyperscript
+* [html2hyperscript](https://github.com/unframework/html2hyperscript) - Original commandline utility to convert legacy HTML markup into hyperscript
+### Reference
+* [hyperscript](https://github.com/hyperhype/hyperscript)
 * [virtual-dom](https://github1s.com/Matt-Esch/virtual-dom/blob/HEAD/README.md)
-
-## Dom Manipulation
+## HTML Manipulation
 
 ```ts
 import MarkdownIt from 'markdown-it'
