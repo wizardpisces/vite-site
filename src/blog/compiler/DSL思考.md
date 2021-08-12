@@ -38,6 +38,7 @@ rootNode = patch(rootNode, patches); // Patch
 ### Reference
 * [hyperscript](https://github.com/hyperhype/hyperscript)
 * [virtual-dom](https://github1s.com/Matt-Esch/virtual-dom/blob/HEAD/README.md)
+* [snabbdom](https://github.com/snabbdom/snabbdom)
 ## HTML Manipulation
 
 ```ts

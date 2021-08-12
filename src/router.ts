@@ -6,6 +6,7 @@ const Test = () => import('./pages/test/test.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const SassPlayground = () => import('./pages/playground/sass.vue')
 const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
+const Bookmark = () => import('./pages/bookmark/index.vue')
 
 const routerHistory = createWebHistory()
 
@@ -27,7 +28,13 @@ export const routes = [{
     path: '/test',
     name: 'Test',
     component: Test
-}]
+},
+{
+    path: '/bookmark',
+    name: 'Bookmark',
+    component: Bookmark
+},
+]
 
 const router = createRouter({
     history: routerHistory,
