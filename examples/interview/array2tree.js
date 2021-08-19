@@ -45,6 +45,59 @@ console.log(JSON.stringify(tree) === JSON.stringify([{
     }
 ])) // true
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // one possible solution
 function array2tree(arr) {
     arr = arr.map(item => {

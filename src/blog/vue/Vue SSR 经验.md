@@ -23,15 +23,20 @@ but not match client
 ```html
 <div><a></a></div>
 ```
-### vue-lazy-hydrate原理
+## 协同的库
+### [vue-lazy-hydrate](https://github.com/maoberlehner/vue-lazy-hydration)原理
 * 服务端：
 
-1. hydrate=true -> 渲染出来的正常待hydrate的 html 占位
+1. hydrate=true -> 根据component 渲染出来的正常 html
+
 * 客户端：
 
-1. 最初hydrate=false 渲染最外层标签，刚好满足hydrate成功 -> 直接渲染原来服务端输出的html
-2. 在 visible | idle 等条件触发时修改 hydrate=true -> 触发 render -> 根据 hydrate=true 输出正常组件替换原来位置
-### vue-no-ssr原理
+将组件封装成 async component，在条件成熟的时候resolve（浏览器空闲/dom可见/事件触发）
+
+#### 结论
+原理上不是真实意义上的hydrate，而是异步组件的渲染；
+所以如果一个组件在转换成 async的时候会出问题（例如：会有跟激活的组件的交互），那就不适用这个package
+### vue-client-only原理
 
 * 服务端：
 
@@ -40,13 +45,13 @@ but not match client
 
 1. 根据parent._isMounted 返回正常组件替换
 
-## SSR runInNewContext
+## 坑
  
 ### in NuxtJs
 * in dev : true(代表plugin middleware等文件会在每个请求进入的时候重新载入)
 * in production: false （代表不会重新载入plugin，只会反复执行返回的函数）
 
-### SSR code demo
+### SSR runInNewContext demo
 
 1. bundle code
 

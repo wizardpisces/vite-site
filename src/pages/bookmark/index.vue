@@ -72,6 +72,15 @@ export default {
           }
         ]
       },
+      {
+        title: '工具',
+        marks: [
+          {
+            title: "imgcook",
+            url: 'https://www.imgcook.com/'
+          }
+        ]
+      },
 
     ]
     return { bookmarks }
