@@ -55,11 +55,12 @@ export default {
 };
 </script>
 <style lang="scss">
+$sidebar-width:260px;
 .blog {
   .sidebar {
     font-size: 16px;
     background-color: #fff;
-    width: 300px;
+    width: $sidebar-width;
     position: fixed;
     z-index: 10;
     margin: 0;
@@ -71,10 +72,11 @@ export default {
     overflow-y: auto;
   }
   .page {
-    padding-left: 200px;
+    padding-left: $sidebar-width;
     display: block;
     .content {
       max-width: 740px;
+      padding:0 20px;
       margin: 0 auto;
       h1,
       h2,
@@ -87,5 +89,17 @@ export default {
       }
     }
   }
+}
+
+@media (max-width: 719px){
+    .blog{
+      .sidebar{
+        transform: translateX(-100%);
+        transition: transform 0.2s ease;
+      }
+      .page{
+        padding-left: 0;
+      }
+    }
 }
 </style>

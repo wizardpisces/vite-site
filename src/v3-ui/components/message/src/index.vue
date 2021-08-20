@@ -1,16 +1,16 @@
 <template>
   <div :class="cClass">
-    klk-message
+    v3-message
   </div>
 </template>
 <script>
 export default {
-  name: 'klk-message',
+  name: 'v3-message',
   props: {
   },
   setup(props, ctx) {
     const cClass = {
-      'klk-message': true,
+      'v3-message': true,
     }
     return {
       cClass

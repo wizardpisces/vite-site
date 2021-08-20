@@ -4,10 +4,13 @@ import {
 import App from './App.vue'
 import './index.css'
 import router from './router'
-import KlkUi from './klk-ui-v3'
+import v3Ui from './v3-ui'
 import store,{key} from './store'
+// inject svg sprites
+import 'virtual:svg-icons-register';
+
 createApp(App)
     .use(router)
     .use(store, key)
-    .use(KlkUi)
+    .use(v3Ui)
     .mount('#app');

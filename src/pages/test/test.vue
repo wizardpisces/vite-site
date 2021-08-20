@@ -1,17 +1,17 @@
 <template>
   <div>
     <h1>{{ msg }}</h1>
-    <klk-button
+    <v3-button
       size='small'
       @click="add"
-    >count is: {{ count }}</klk-button>
-    <klk-button
+    >count is: {{ count }}</v3-button>
+    <v3-button
       size='small'
       @click="incGaModuleCount"
     >store count is: {{ storeCount }}
-    </klk-button>
-    <klk-button @click="onProfileClick"> cpu profiling： {{bigTaskRunedTimes}}
-    </klk-button>
+    </v3-button>
+    <v3-button @click="onProfileClick"> cpu profiling： {{bigTaskRunedTimes}}
+    </v3-button>
     <router-view />
   </div>
 </template>

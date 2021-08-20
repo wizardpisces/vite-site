@@ -35,7 +35,7 @@ $btn-min-width__mini: 72px;
 $btn-min-width__small: 72px;
 $btn-min-width__large: 86px;
 
-.klk-button {
+.v3-button {
     min-width: $btn-min-width;
     display: inline-block;
     font-size: $btn-font-size;
@@ -56,20 +56,20 @@ $btn-min-width__large: 86px;
 }
 
 // primary
-.klk-button-primary {
+.v3-button-primary {
     color: $btn-primary-color;
     background-color: $btn-primary-bg;
     border: 1px solid $btn-primary-border;
 }
 
-.klk-button-small {
+.v3-button-small {
     min-width: $btn-min-width__small;
     line-height: $btn-line-height__small;
     font-size: $btn-font-size__small;
     padding: $btn-padding__small;
 }
 
-.klk-button-large {
+.v3-button-large {
     min-width: $btn-min-width__large;
     line-height: $btn-line-height__large;
     font-size: $btn-font-size__large;

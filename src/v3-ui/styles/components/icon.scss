@@ -1,0 +1,16 @@
+@use '../bootstrap.scss';
+
+.v3-icon {
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+
+    &.up-triangle {
+        color: bootstrap.$color-primary;
+    }
+
+    &.down-triangle {
+        color: #f44b48;
+        transform: rotate(180deg);
+    }
+}

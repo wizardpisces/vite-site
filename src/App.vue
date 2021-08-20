@@ -6,40 +6,22 @@
         target="__blank"
         href="https://github.com/wizardpisces"
       >Github home
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-          focusable="false"
-          x="0px"
-          y="0px"
-          viewBox="0 0 100 100"
-          width="15"
-          height="15"
-          class="icon outbound"
-        >
-          <path
-            fill="currentColor"
-            d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"
-          ></path>
-          <polygon
-            fill="currentColor"
-            points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"
-          ></polygon>
-        </svg>
+      <v3-icon type="outbound" size="16" color="#aaa"></v3-icon>
+      <v3-icon type="menu"></v3-icon>
       </a>
 
-      <klk-tabs
+      <v3-tabs
         v-model="route.name"
         @tab-click="onTabClick"
       >
-        <klk-tab-panel
+        <v3-tab-panel
           v-for="route in routes"
           :key='route.name'
           :name='route.name'
         >
           <!-- <router-link :to="menu.route">{{menu.name}}</router-link> -->
-        </klk-tab-panel>
-      </klk-tabs>
+        </v3-tab-panel>
+      </v3-tabs>
     </header>
     <main class="content">
       <router-view />
@@ -98,10 +80,9 @@ export default {
     }
     a {
       display: inline-block;
-      color: inherit;
+      color:inherit;
       font-weight: 500;
-      .icon {
-        color: #aaa;
+      .v3-icon {
         display: inline-block;
         vertical-align: middle;
         position: relative;

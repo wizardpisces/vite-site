@@ -5,7 +5,7 @@
 </template>
 <script lang="ts">
 export default {
-  name: "klk-button",
+  name: "v3-button",
   props: {
     type: {
       type: String,
@@ -23,9 +23,9 @@ export default {
   },
   setup(props:any, ctx) {
     const cClass = {
-      "klk-button": true,
-      [`klk-button-${props.type}`]: true,
-      [`klk-button-${props.size}`]: !!props.size,
+      "v3-button": true,
+      [`v3-button-${props.type}`]: true,
+      [`v3-button-${props.size}`]: !!props.size,
     };
     return {
       cClass,

@@ -15,7 +15,7 @@
         type="text"
       >
         </textarea>
-      <klk-button @click="onAssembleClick">assemble</klk-button>
+      <v3-button @click="onAssembleClick">assemble</v3-button>
     </div>
     <div class="result">
       <h3>instruction result</h3>
@@ -24,7 +24,7 @@
         type="text"
       >
         </textarea>
-      <klk-button @click="onRunClick">run</klk-button>
+      <v3-button @click="onRunClick">run</v3-button>
 
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
     border-right: 1px solid red;
     padding: 20px;
     font-size: 12px;
-    .klk-button {
+    .v3-button {
       width: 100px;
     }
     textarea {

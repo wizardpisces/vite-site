@@ -32,7 +32,7 @@ export interface RootTabs {
 }
 
 export default {
-  name: "klk-tabs",
+  name: "V3Tabs",
   props: {
     modelValue: {
       type: String,
@@ -82,7 +82,7 @@ export default {
       return {
         "tabs-item": true,
         "tabs-item-active": panel.active,
-        // 'klk-tabs-item-disabled': panel.disabled,
+        // 'v3-tabs-item-disabled': panel.disabled,
       };
     }
 
@@ -90,7 +90,7 @@ export default {
       panels,
       handleTabClick,
       getItemClass,
-      tabsClass: ["klk-tabs", `is-${props.tabPosition}`],
+      tabsClass: ["v3-tabs", `is-${props.tabPosition}`],
     };
   },
 };
