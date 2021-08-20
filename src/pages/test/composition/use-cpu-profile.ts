@@ -1,25 +1,30 @@
 import {ref} from 'vue'
 
+export {
+    createBigObj,
+    cloneBigObjTask
+}
+
+function createBigObj(keyLen:number) {
+    let obj: Record<number, number> = {};
+    while (keyLen--) {
+        obj[keyLen] = Math.random();
+    }
+    return obj
+}
+
+function cloneBigObjTask(keyLen:number) {
+    let obj = createBigObj(keyLen),
+        cloneObj: Record<number, number> = {}
+    for (let key in obj) {
+        cloneObj[key] = obj[key]
+    }
+}
+
 export default () => {
     let profileInterval:any = null,
         bigTaskRunedTimes = ref(0);
     
-    function createBigObj(keyLen:number) {
-        let obj: Record<number, number> = {};
-        while (keyLen--) {
-            obj[keyLen] = Math.random();
-        }
-
-        return obj
-    }
-
-    function cloneBigObjTask(keyLen:number) {
-        let obj = createBigObj(keyLen),
-            cloneObj: Record<number, number> = {}
-        for (let key in obj) {
-            cloneObj[key] = obj[key]
-        }
-    }
 
     function runBigTask() {
         // let num = 1
@@ -44,6 +49,9 @@ export default () => {
     }
 
     const profileFun = () => {
+        if (bigTaskRunedTimes.value>=20){
+            return; // 限制最高的计算量，避免忘记停止 profile 导致 cpu 卡死
+        }
         bigTaskRunedTimes.value++;
         // run bigtask every second
         if (Math.random() > 0.5) {
