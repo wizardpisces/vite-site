@@ -19,11 +19,11 @@ export const routes = [{
     component: Blog,
     name: 'blog'
 }, 
-{
-    path: '/virtual-machine',
-    name: 'VirtualMachine',
-    component: VirtualMachine
-}, 
+// {
+//     path: '/virtual-machine',
+//     name: 'VirtualMachine',
+//     component: VirtualMachine
+// }, 
 {
     path: '/test',
     name: 'Test',

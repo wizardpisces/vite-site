@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    this is vuex test:
+    cpu profiling test:
     <v3-button @click="onProfileClick"> cpu profiling： {{bigTaskRunedTimes}}
     </v3-button>
   </div>

@@ -78,6 +78,10 @@ export default {
           {
             title: "imgcook",
             url: 'https://www.imgcook.com/'
+          },
+          {
+            title: "3D web muse",
+            url: 'https://www.muse.place/'
           }
         ]
       },

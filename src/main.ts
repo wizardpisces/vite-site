@@ -2,7 +2,6 @@ import {
     createApp
 } from 'vue'
 import App from './App.vue'
-import './index.css'
 import router from './router'
 import v3Ui from './v3-ui'
 import store,{key} from './store'

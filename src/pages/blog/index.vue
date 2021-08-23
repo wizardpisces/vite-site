@@ -1,8 +1,5 @@
 <template>
   <div class="blog">
-    <aside class='sidebar'>
-      <tree-folder :folder='categoryGroup'></tree-folder>
-    </aside>
     <main class='page'>
       <div class="content">
         <p
@@ -21,21 +18,19 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import useBlog from "./composition/use-blog";
-import TreeFolder from "./tree-folder.vue";
 import { html as introduction } from "../../blog/introduction.md";
 import A from "./a.vue";
 export default {
   name: "BlogVueSSr",
   components: {
-    TreeFolder,
     Circular: A,
   },
   setup() {
     let route = useRoute();
-    let { categoryGroup, blogContent, initBlogByTitle, loadingBlog } =
+    let {  blogContent, initBlogByTitle, loadingBlog } =
       useBlog();
 
     onMounted(() => {
@@ -47,7 +42,6 @@ export default {
 
     return {
       blogContent,
-      categoryGroup,
       loadingBlog,
       introduction,
     };
@@ -57,20 +51,6 @@ export default {
 <style lang="scss">
 $sidebar-width:260px;
 .blog {
-  .sidebar {
-    font-size: 16px;
-    background-color: #fff;
-    width: $sidebar-width;
-    position: fixed;
-    z-index: 10;
-    margin: 0;
-    top: 50px;
-    left: 0;
-    bottom: 0;
-    box-sizing: border-box;
-    border-right: 1px solid #eaecef;
-    overflow-y: auto;
-  }
   .page {
     padding-left: $sidebar-width;
     display: block;
@@ -88,18 +68,17 @@ $sidebar-width:260px;
         margin-top: -44px;
       }
     }
+    img{
+      width: 100%;
+    }
   }
 }
-
-@media (max-width: 719px){
-    .blog{
-      .sidebar{
-        transform: translateX(-100%);
-        transition: transform 0.2s ease;
-      }
-      .page{
-        padding-left: 0;
-      }
+@media (max-width: 719px) {
+    .blog {
+        .page {
+            padding-left: 0;
+        }
     }
 }
+
 </style>

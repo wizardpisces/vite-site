@@ -1,61 +1,49 @@
 <template>
-  <div id="app">
-    <header class="navbar">
-      <a
-        class="github"
-        target="__blank"
-        href="https://github.com/wizardpisces"
-      >Github home
-      <v3-icon type="outbound" size="16" color="#aaa"></v3-icon>
-      <v3-icon type="menu"></v3-icon>
-      </a>
-
-      <v3-tabs
-        v-model="route.name"
-        @tab-click="onTabClick"
-      >
-        <v3-tab-panel
-          v-for="route in routes"
-          :key='route.name'
-          :name='route.name'
-        >
-          <!-- <router-link :to="menu.route">{{menu.name}}</router-link> -->
-        </v3-tab-panel>
-      </v3-tabs>
-    </header>
-    <main class="content">
-      <router-view />
-    </main>
-  </div>
+  <header class="navbar">
+    <v3-icon
+      type="menu"
+      size="20"
+      class="mobile-menu-button"
+      @click="onSideBarToggle"
+    ></v3-icon>
+    <nav-links></nav-links>
+  </header>
+  <sidebar :class="sidebarClass"></sidebar>
+  <main class="content">
+    <router-view />
+  </main>
 </template>
 
-<script>
-import { useRoute, useRouter } from 'vue-router'
-import { routes } from './router'
+<script lang="ts">
+import { computed, ref } from "@vue/runtime-core";
+import NavLinks from "./components/navLinks.vue";
+import Sidebar from "./components/sidebar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+  components: {
+    NavLinks,
+    Sidebar,
+  },
   setup(props, ctx) {
-    let route = useRoute(),
-      router = useRouter();
+    let sideBarOpened = ref(false);
 
-    function onTabClick(name) {
-      let path = routes.filter(route => route.name === name)[0].path
-
-      if(name=== 'blog'){
-        router.push({path:'/blog/introduction'})
-      }else{
-        router.push({ path })
-      }
+    function onSideBarToggle() {
+      sideBarOpened.value = !sideBarOpened.value;
     }
+
+    let sidebarClass = computed(() => {
+      return {
+        "sidebar-open": sideBarOpened.value,
+      };
+    });
 
     return {
-      routes,
-      route,
-      onTabClick
-    }
-  }
-}
+      sidebarClass,
+      onSideBarToggle,
+    };
+  },
+};
 </script>
 <style lang="scss">
 #app {
@@ -63,6 +51,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   & > .navbar {
+    display: flex;
     position: fixed;
     z-index: 20;
     top: 0;
@@ -73,26 +62,20 @@ export default {
     background-color: #fff;
     box-sizing: border-box;
     border-bottom: 1px solid #eaecef;
-    .github {
-      position: fixed;
-      right: 20px;
-      top: 10px;
-    }
-    a {
-      display: inline-block;
-      color:inherit;
-      font-weight: 500;
-      .v3-icon {
-        display: inline-block;
-        vertical-align: middle;
-        position: relative;
-        top: -1px;
-      }
-    }
+  }
+
+  &>.sidebar-open {
+      transform: translateX(0);
   }
 
   & > .content {
     padding-top: 50px;
   }
+  .mobile-menu-button {
+    cursor: pointer;
+    display: none;
+    margin: 16px 10px 0 20px;
+  }
+  @import "./mobile.scss";
 }
 </style>

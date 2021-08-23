@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    this is composition test:
+    composition api example:
     <v3-button
       size='small'
       @click="add"

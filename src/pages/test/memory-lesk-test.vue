@@ -10,11 +10,11 @@ import { ref } from "@vue/reactivity";
 import { defineComponent } from "vue";
 import { createBigObj } from "./composition/use-cpu-profile";
 
-let bigObj = createBigObj(100000);
-  // @ts-ignore
-window.leakFn = () => {
-  let big = bigObj
-};
+// let bigObj = createBigObj(100000);
+//   // @ts-ignore
+// window.leakFn = () => {
+//   let big = bigObj
+// };
 export default defineComponent({
   setup() {
     let count = ref(0);

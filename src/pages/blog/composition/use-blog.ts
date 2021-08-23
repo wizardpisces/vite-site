@@ -1,6 +1,8 @@
 import { ref } from "vue";
 import { NestedHItem, NestedHList, Md2HtmlExports } from "vite-plugin-md2html";
 
+export default composition
+
 export type SubHeader = {
     title: string
     // sub header link
@@ -239,5 +241,3 @@ function composition() {
         loadingBlog,
     }
 }
-
-export default composition
