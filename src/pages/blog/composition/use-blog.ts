@@ -193,7 +193,7 @@ let categoryGroup = ref<CategoryGroup>(createCategoryGroup(blogTree)),
     }),
     blogContent = ref(''),
     loadingBlog = ref(false);
-debug(blogTree,categoryGroup)
+// debug(blogTree,categoryGroup)
 
 function composition() {
     function setBlogContent(content: string) {

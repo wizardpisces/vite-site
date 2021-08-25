@@ -26,7 +26,6 @@ $sidebar-width: 260px;
 .sidebar {
   font-size: 16px;
   background-color: #fff;
-  width: $sidebar-width;
   position: fixed;
   z-index: 10;
   margin: 0;
@@ -43,6 +42,7 @@ $sidebar-width: 260px;
 
 @media (max-width: 719px) {
   .sidebar {
+    width: $sidebar-width;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
     .nav-links {

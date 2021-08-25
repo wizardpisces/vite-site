@@ -1,14 +1,18 @@
 <template>
   <header class="navbar">
     <v3-icon
+      ref="menuRef"
       type="menu"
       size="20"
       class="mobile-menu-button"
-      @click="onSideBarToggle"
+      @click="onSideBarToggle()"
     ></v3-icon>
     <nav-links></nav-links>
   </header>
-  <sidebar :class="sidebarClass"></sidebar>
+  <sidebar
+    :class="sidebarClass"
+    v-clickoutside = "hideSidebar"
+  ></sidebar>
   <main class="content">
     <router-view />
   </main>
@@ -26,10 +30,18 @@ export default {
     Sidebar,
   },
   setup(props, ctx) {
-    let sideBarOpened = ref(false);
+    let sideBarOpened = ref(false),
+        menuRef = ref(null);
 
     function onSideBarToggle() {
       sideBarOpened.value = !sideBarOpened.value;
+    }
+    function hideSidebar(e) {
+      // 符合以下两种情况，说明切换按钮被主动点击了
+      if(e.target === menuRef.value.$el || menuRef.value.$el.contains(e.target)){
+        return;
+      }
+      sideBarOpened.value = false
     }
 
     let sidebarClass = computed(() => {
@@ -41,6 +53,9 @@ export default {
     return {
       sidebarClass,
       onSideBarToggle,
+      hideSidebar,
+      sideBarOpened,
+      menuRef
     };
   },
 };
@@ -64,8 +79,8 @@ export default {
     border-bottom: 1px solid #eaecef;
   }
 
-  &>.sidebar-open {
-      transform: translateX(0);
+  & > .sidebar-open {
+    transform: translateX(0);
   }
 
   & > .content {

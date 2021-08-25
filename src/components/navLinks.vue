@@ -7,7 +7,7 @@
         'nav-item':true,
         'active-nav':route.name == routeItem.name
       }"
-      @click="onTabClick(routeItem.name)"
+      @click.stop="onTabClick(routeItem.name)"
     >
       {{routeItem.name}}
     </div>
@@ -15,7 +15,7 @@
       <a
         class="github"
         target="__blank"
-        href="https://github.com/wizardpisces"
+        href="https://github.com/wizardpisces/vite-site"
       >Github home
         <v3-icon
           type="outbound"

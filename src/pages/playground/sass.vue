@@ -44,9 +44,6 @@ import { onMounted, ref } from 'vue'
 import Code from './composition/use-code.js'
 export default {
   name: 'SassPlayground',
-  components: {
-    // CustomButton,
-  },
   setup(props,ctx) {
     const astEditorCls = ref('hidden')
     const {
