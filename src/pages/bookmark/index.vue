@@ -13,9 +13,14 @@
         ><a :href="mark.url">{{mark.title}}</a></li>
       </ul>
     </div>
+
+    <div class="other-link">
+      <p v-html="link"></p>
+    </div>
   </div>
 </template>
 <script type="ts">
+import {html as link} from './link.md'
 export default {
   name: 'VirtualMachine',
   setup() {
@@ -85,9 +90,8 @@ export default {
           }
         ]
       },
-
     ]
-    return { bookmarks }
+    return { bookmarks,link }
   }
 }
 </script>

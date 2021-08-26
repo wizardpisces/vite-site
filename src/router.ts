@@ -9,33 +9,28 @@ const SassPlayground = () => import('./pages/playground/sass.vue')
 const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
 const Bookmark = () => import('./pages/bookmark/index.vue')
 
+
+export {
+    routes
+}
+
 const routerHistory = createWebHistory()
 
-export const routes = [
+let routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'Home',
         component: Home
     },
     {
         path: '/sass',
-        name: 'sass',
+        name: 'Sass',
         component: SassPlayground
     },
     {
         path: '/blog/:blogName',
         component: Blog,
-        name: 'blog'
-    },
-    // {
-    //     path: '/virtual-machine',
-    //     name: 'VirtualMachine',
-    //     component: VirtualMachine
-    // }, 
-    {
-        path: '/test',
-        name: 'Test',
-        component: Test
+        name: 'Blog'
     },
     {
         path: '/bookmark',
@@ -43,6 +38,23 @@ export const routes = [
         component: Bookmark
     },
 ]
+// @ts-ignore
+// console.log(import.meta.env)
+// @ts-ignore
+if (import.meta.env.DEV){
+    routes = routes.concat(
+        {
+            path: '/virtual-machine',
+            name: 'VirtualMachine',
+            component: VirtualMachine
+        },
+        {
+            path: '/test',
+            name: 'Test',
+            component: Test
+        },
+    )
+}
 
 const router = createRouter({
     history: routerHistory,

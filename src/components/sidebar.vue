@@ -1,7 +1,7 @@
 <template>
   <aside class='sidebar'>
     <NavLinks></NavLinks>
-    <BlogSidebar v-if="route.name === 'blog'"></BlogSidebar>
+    <BlogSidebar v-if="route.name === 'Blog'"></BlogSidebar>
   </aside>
 </template>
 <script lang='ts'>
