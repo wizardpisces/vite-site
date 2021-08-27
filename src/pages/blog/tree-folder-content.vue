@@ -12,8 +12,8 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, PropType } from "@vue/runtime-core";
-import { useRoute, useRouter } from "vue-router";
+import { computed, PropType,nextTick } from "@vue/runtime-core";
+import { useRoute, useRouter,onBeforeRouteUpdate } from "vue-router";
 import { BlogDescriptor } from "../../../script/blog";
 import useBlog from "./composition/use-blog";
 import TreeFolderSubHeaders from "./tree-folder-sub-headers.vue";
@@ -44,7 +44,6 @@ export default {
         router.push({
           path: `/blog/${blog.blogTitle}`,
         });
-
       });
     }
 

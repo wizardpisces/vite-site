@@ -11,15 +11,15 @@
           below is a md2html test:<p v-html="introduction"></p>
         </h2>
         <!-- <Circular :check="4"></Circular> -->
-        
+
       </div>
     </main>
   </div>
 </template>
 
 <script lang="ts">
-import { onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { onMounted, watch } from "vue";
+import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import useBlog from "./composition/use-blog";
 import { html as introduction } from "../../blog/introduction.md";
 import A from "./a.vue";
@@ -30,8 +30,17 @@ export default {
   },
   setup() {
     let route = useRoute();
-    let {  blogContent, initBlogByTitle, loadingBlog } =
-      useBlog();
+    let { blogContent, initBlogByTitle, loadingBlog } = useBlog();
+
+    watch(
+      () => route.params.blogName,
+      (newBlogName: string) => {
+        document.title = newBlogName + " | Blog";
+      },
+      {
+        immediate: true,
+      }
+    );
 
     onMounted(() => {
       initBlogByTitle(route.params.blogName as string, route.hash).then((_) => {
@@ -49,14 +58,14 @@ export default {
 };
 </script>
 <style lang="scss">
-$sidebar-width:260px;
+$sidebar-width: 260px;
 .blog {
   .page {
     padding-left: $sidebar-width;
     display: block;
     .content {
       max-width: 740px;
-      padding:0 20px;
+      padding: 0 20px;
       margin: 0 auto;
       h1,
       h2,
@@ -68,17 +77,16 @@ $sidebar-width:260px;
         margin-top: -44px;
       }
     }
-    img{
+    img {
       width: 100%;
     }
   }
 }
 @media (max-width: 719px) {
-    .blog {
-        .page {
-            padding-left: 0;
-        }
+  .blog {
+    .page {
+      padding-left: 0;
     }
+  }
 }
-
 </style>

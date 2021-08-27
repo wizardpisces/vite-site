@@ -1,6 +1,7 @@
 import {
     createRouter,
-    createWebHistory
+    createWebHistory,
+    RouteRecordRaw
 } from 'vue-router'
 const Test = () => import('./pages/test/index.vue')
 const Blog = () => import('./pages/blog/index.vue')
@@ -16,16 +17,22 @@ export {
 
 const routerHistory = createWebHistory()
 
-let routes = [
+let routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta:{
+            title:'Home hello world'
+        }
     },
     {
         path: '/sass',
         name: 'Sass',
-        component: SassPlayground
+        component: SassPlayground,
+        meta: {
+            title: 'Tiny sass playground'
+        }
     },
     {
         path: '/blog/:blogName',
@@ -35,7 +42,10 @@ let routes = [
     {
         path: '/bookmark',
         name: 'Bookmark',
-        component: Bookmark
+        component: Bookmark,
+        meta: {
+            title: 'Bookmarks'
+        }
     },
 ]
 // @ts-ignore
@@ -46,12 +56,18 @@ if (import.meta.env.DEV){
         {
             path: '/virtual-machine',
             name: 'VirtualMachine',
-            component: VirtualMachine
+            component: VirtualMachine,
+            meta:{
+                title:"virtual machine"
+            }
         },
         {
             path: '/test',
             name: 'Test',
-            component: Test
+            component: Test,
+            meta: {
+                title: "Test"
+            }
         },
     )
 }
@@ -59,6 +75,12 @@ if (import.meta.env.DEV){
 const router = createRouter({
     history: routerHistory,
     routes
+})
+
+router.beforeEach((to,from)=>{
+    if(to.meta.title){
+        document.title = to.meta.title as string
+    }
 })
 
 export default router;

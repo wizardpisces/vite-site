@@ -8,7 +8,7 @@
     "dev": "vite",
     "blog": "ts-node script/blog.ts",
     "watchblog": "ts-node script/watchblog.ts",
-    "build": "npm run blog && vite build",
+    "build": "vite build",
     "deploy": "sh script/deploy.sh"
   },
   "engines": {
