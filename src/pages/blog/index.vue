@@ -35,7 +35,9 @@ export default {
     watch(
       () => route.params.blogName,
       (newBlogName: string) => {
-        document.title = newBlogName + " | Blog";
+        if(route.name === 'Blog'){
+          document.title = newBlogName + " | Blog";
+        }
       },
       {
         immediate: true,
