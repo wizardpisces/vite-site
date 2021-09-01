@@ -97,7 +97,7 @@ export default {
 </script>
 <style lang="scss">
 .bookmark {
-  padding:0 20px;
+  padding:20px 24px;
   ul{
     display: flex;
     flex-direction: row;

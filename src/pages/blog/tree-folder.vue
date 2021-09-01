@@ -1,6 +1,6 @@
 <template>
   <section :class="cls">
-    <h2 class="sidebar-heading">{{folder.categoryName}}</h2>
+    <h2 class="sidebar-heading" v-show="folder.categoryName!=='blog'">{{folder.categoryName}}</h2>
     <ul class="tree-folder-contents">
       <li
         v-for="(categoryOrBlogDescriptor,index) in folder.items"

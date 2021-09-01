@@ -1,9 +1,10 @@
   @media (max-width: 719px) {
-      .navbar{
-          .mobile-menu-button{
+      .navbar {
+          .mobile-menu-button {
+              cursor: pointer;
               display: block;
           }
-          .nav-links{
+          .nav-links {
               display: none;
           }
       }

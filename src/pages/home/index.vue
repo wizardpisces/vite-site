@@ -24,7 +24,7 @@ export default {
 </script>
 <style lang="scss">
 .home {
-  padding: 20px 60px;
+  padding: 10px 24px;
   .desc {
     font-weight: 500;
     font-size: 20px;

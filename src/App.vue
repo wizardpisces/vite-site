@@ -72,11 +72,12 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    height: 50px;
-    line-height: 30px;
+    height: 58px;
+    line-height: 28px;
     background-color: #fff;
     box-sizing: border-box;
     border-bottom: 1px solid #eaecef;
+    padding: 16px 24px;
   }
 
   & > .sidebar-open {
@@ -87,9 +88,7 @@ export default {
     padding-top: 50px;
   }
   .mobile-menu-button {
-    cursor: pointer;
     display: none;
-    margin: 16px 10px 0 20px;
   }
   @import "./mobile.scss";
 }

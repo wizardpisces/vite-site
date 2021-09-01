@@ -71,7 +71,7 @@ export default {
   .nav-item {
     display: flex;
     align-items: center;
-    margin: 0 10px;
+    margin-right: 20px;
     cursor: pointer;
     font-weight: 500;
     color: #2c3e50;

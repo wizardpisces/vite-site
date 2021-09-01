@@ -43,6 +43,6 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .huffman{
-    padding-left:50px;
+    padding-left:34px;
 }
 </style>
