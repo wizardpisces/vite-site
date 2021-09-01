@@ -60,6 +60,7 @@ export default {
 };
 </script>
 <style lang="scss">
+// @import url('https://cdn.jsdelivr.net/highlight.js/9.1.0/styles/github.min.css');
 $sidebar-width: 260px;
 .blog {
   .page {

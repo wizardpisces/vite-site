@@ -40,27 +40,23 @@
 </template>
 
 <script lang="ts">
-import { onMounted, ref } from 'vue'
-import Code from './composition/use-code.js'
+import { onMounted, ref } from "vue";
+import Code from "./composition/use-code.js";
 export default {
-  name: 'SassPlayground',
-  setup(props,ctx) {
-    const astEditorCls = ref('hidden')
-    const {
-      sassRef,
-      cssRef,
-      precompileAstRef
-    } = Code()
+  name: "SassPlayground",
+  setup(props, ctx) {
+    const astEditorCls = ref("hidden");
+    const { sassRef, cssRef, precompileAstRef } = Code();
 
     onMounted(() => {
-      console.log('sass playground mounted!')
-    })
+      console.log("sass playground mounted!");
+    });
 
-    function toggleAst(){
-      if(astEditorCls.value === 'hidden'){
-        astEditorCls.value  = 'dist-precompile-ast-editor'
-      }else{
-        astEditorCls.value = 'hidden'
+    function toggleAst() {
+      if (astEditorCls.value === "hidden") {
+        astEditorCls.value = "dist-precompile-ast-editor";
+      } else {
+        astEditorCls.value = "hidden";
       }
     }
 
@@ -69,19 +65,21 @@ export default {
       cssRef,
       precompileAstRef,
       toggleAst,
-      astEditorCls
-    }
-  }
-}
+      astEditorCls,
+    };
+  },
+};
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+// @import url("https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/theme/mdn-like.min.css");
 .sass-playground {
   width: 100%;
   height: 700px;
   position: relative;
   display: flex;
   flex-direction: column;
-  .hidden{
+  .hidden {
     display: none;
   }
   .pannel {
