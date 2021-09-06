@@ -1,11 +1,14 @@
 <template>
   <div class="sass-playground">
-    <!-- <div class="pannel">
-      <v3-button @click="toggleAst" size='small'>toggle ast</v3-button>
-    </div> -->
     <div class="editor">
       <div class='source-editor'>
-        <div class="head">scss</div>
+        <div class="head-scss">
+          <span>SCSS</span>
+          <span class="info-scss">This is <a
+              href="https://github.com/wizardpisces/tiny-sass-compiler"
+              target="__blank"
+            >Tiny-Sass-Compiler</a>'s Demo</span>
+        </div>
         <div
           class="content"
           ref="sassRef"
@@ -18,7 +21,7 @@
         class="Resizer vertical "
       ></span> -->
       <div class="dist-editor">
-        <div class="head">css</div>
+        <div class="head-css">CSS</div>
         <div
           class="content"
           ref="cssRef"
@@ -26,7 +29,7 @@
 
         </div>
       </div>
-      <div :class="astEditorCls">
+      <!-- <div :class="astEditorCls">
         <div class="head">scss related ast</div>
         <div
           class="content"
@@ -34,7 +37,7 @@
         >
 
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -79,6 +82,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
+
   .hidden {
     display: none;
   }
@@ -98,10 +102,24 @@ export default {
     .dist-editor,
     .dist-precompile-ast-editor {
       flex: 1;
-      .head {
-        background: silver;
+      .head-scss,
+      .head-css {
         font-size: 20px;
-        padding-left: 10px;
+        line-height: 30px;
+        height: 30px;
+        padding:0 10px;
+        background: #ccc;
+      }
+      .head-scss {
+        display: flex;
+        justify-content: space-between;
+        .info-scss{
+          font-size: 12px;
+          font-weight: bold;
+        }
+      }
+      .head-css {
+        border-left: 1px solid #000;
       }
       .content {
         height: 100%;

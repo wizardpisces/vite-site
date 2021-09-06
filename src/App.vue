@@ -85,7 +85,7 @@ export default {
   }
 
   & > .content {
-    padding-top: 50px;
+    padding-top: 58px;
   }
   .mobile-menu-button {
     display: none;

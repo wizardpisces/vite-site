@@ -1,6 +1,6 @@
 <template>
     <div class="test">
-        vuex@4 with vue@3 example:
+        vuex@4 with vue@3 examples:
         <v3-button
             size='small'
             @click="incGaModuleCount"
