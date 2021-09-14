@@ -29,12 +29,34 @@ const CodeMirrorOptions = {
         }
     }
 }
-let rawCode = `$font-stack:    Helvetica, sans-serif;
-$primary-color: #333;
-
-body .test{
-  font: 100% $font-stack;
-  color: $primary-color;
+let rawCode = `$top : 20px;
+$margin: 2px;
+$right: $top;
+.main2{
+    $margin: 3px;
+    margin: $margin;
+    right: $right;
+}
+.main {
+    top  : $top;   
+    .child1{
+        .child2{
+            background:green;
+        }
+        .child3{
+            background:green;
+        }
+    }
+}
+$property2 : skew(30deg, 20deg);
+@mixin transform($property,$property2) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property $property2;
+}
+.box { 
+  @include transform(rotate(30deg),$property2); 
+  left:1px;
 }
 `
 

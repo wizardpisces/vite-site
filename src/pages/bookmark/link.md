@@ -17,9 +17,3 @@
 ### IOT
 
 * [IOT-For-Beginners](https://github.com/microsoft/IoT-For-Beginners)
-
-### RPC
-
-* [什么是RPC？](https://zhuanlan.zhihu.com/p/148139089)
-* [nodejs实现RPC](https://blog.bitsrc.io/writing-an-rpc-library-in-node-js-673632413f5f)
-* [手写RPC框架](https://zhuanlan.zhihu.com/p/200656764)
