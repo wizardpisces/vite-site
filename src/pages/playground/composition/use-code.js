@@ -29,22 +29,17 @@ const CodeMirrorOptions = {
         }
     }
 }
-let rawCode = `$top : 20px;
-$margin: 2px;
-$right: $top;
+let rawCode = `$margin: 10px;
 .main2{
-    $margin: 3px;
     margin: $margin;
-    right: $right;
 }
 .main {
-    top  : $top;   
     .child1{
         .child2{
-            background:green;
+            color:green;
         }
         .child3{
-            background:green;
+            color:red;
         }
     }
 }
@@ -56,7 +51,6 @@ $property2 : skew(30deg, 20deg);
 }
 .box { 
   @include transform(rotate(30deg),$property2); 
-  left:1px;
 }
 `
 
