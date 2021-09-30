@@ -17,3 +17,12 @@
 ### IOT
 
 * [IOT-For-Beginners](https://github.com/microsoft/IoT-For-Beginners)
+
+### Online Code Executor
+
+* [Java Tutor,  C Tutor,  C++ Tutor,  JavaScript Tutor,  Ruby Tutor](https://pythontutor.com/)
+
+### Tech site
+
+* [v2ex](https://www.v2ex.com/?r=wizardpisces)
+* [redit](https://reddit.com/)
