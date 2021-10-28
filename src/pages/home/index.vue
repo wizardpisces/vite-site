@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>Hello.</h1>
-    <p class="desc">This is a static responsive site by Vite@2+vue@3+vuex@4+vue-router@4</p>
+    <p class="desc">Brief Introduction</p>
     <p class="desc-feature" @click="proxyClick">
       1. <router-link to="/sass">Demo Page</router-link> of <a href="https://github.com/wizardpisces/tiny-sass-compiler" target="__blank">tiny-sass-compiler</a> <br>
       2. <router-link to="/blog/《系统之美》">Blog page</router-link> <br>
