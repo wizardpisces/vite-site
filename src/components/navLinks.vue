@@ -51,7 +51,7 @@ export default {
       let path = routes.filter((route) => route.name === name)[0].path;
 
       if (name === "Blog") {
-        router.push({ path: "/blog/introduction" });
+        router.push({ path: "/blog/hiring" });
       } else {
         router.push({ path });
       }
