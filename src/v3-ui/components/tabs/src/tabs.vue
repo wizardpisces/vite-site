@@ -16,12 +16,13 @@
   </div>
 </template>
 <script lang="ts">
-import { provide, ref, watch, Ref, ComputedRef } from "vue";
+import { provide, ref, watch, Ref, ComputedRef, reactive } from "vue";
 
 export const rootTabs = Symbol("rootTabs");
 
 export type Panel = {
-  active: ComputedRef<boolean>;
+  // active: ComputedRef<boolean>;
+  active:boolean;
   name: string;
 };
 
@@ -43,26 +44,26 @@ export default {
     },
   },
   setup(props, ctx) {
-    const panels = ref<Panel[]>([]),
+    const panels = reactive<Panel[]>([]),
       curValue = ref<string>(props.modelValue || "");
 
     watch(
       () => props.modelValue,
       (val) => {
-        changeCurrentName(val);
+        changeCurrentName(val as string);
       }
     );
 
     provide<RootTabs>(rootTabs, {
       curValue: curValue,
       onPanelAdd: (panel: Panel) => {
-        if (panels.value.includes(panel)) return;
-        panels.value.push(panel);
+        if (panels.includes(panel)) return;
+        panels.push(panel);
       },
       onPanelRemove: (panel: Panel) => {
-        const index = panels.value.indexOf(panel);
+        const index = panels.indexOf(panel);
         if (index !== -1) {
-          panels.value.splice(index, 1);
+          panels.splice(index, 1);
         }
       },
     });

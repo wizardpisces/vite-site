@@ -11,13 +11,13 @@
 
 </template>
 <script lang="ts">
-import { defineComponent,ref } from 'vue'
+import { defineComponent,reactive,ref } from 'vue'
 import {Huffman} from 'huffman-ts'
 export default defineComponent({
 
     setup() {
 
-        let huffmanData = ref({
+        let huffmanData = reactive({
             rawString:'abcaa',
             encodedBit: '',
             encodedCharString: '',
@@ -25,11 +25,11 @@ export default defineComponent({
         })
 
         function onRawDataChange(){
-            let txt = huffmanData.value.rawString
+            let txt = huffmanData.rawString
             let huffman = Huffman.treeFromText(txt)
-            huffmanData.value.encodedBit = huffman.encodeBitString(txt);
-            huffmanData.value.encodedCharString = huffman.encode(txt);
-            huffmanData.value.treeEncoded = JSON.stringify(huffman.encodeTree());
+            huffmanData.encodedBit = huffman.encodeBitString(txt);
+            huffmanData.encodedCharString = huffman.encode(txt);
+            huffmanData.treeEncoded = JSON.stringify(huffman.encodeTree());
         }
 
         onRawDataChange()
