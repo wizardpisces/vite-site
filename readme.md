@@ -1,7 +1,5 @@
 # Description
 
-Static responsive site based on Vite@2 + vue@3 + vuex@4 + vue-router@4
-
 [Homepage](https://wizardpisces.github.io/)
 
 ## Introduction
