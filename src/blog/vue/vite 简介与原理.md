@@ -98,7 +98,7 @@ Esbuild 使用 Go 编写，并且比以 JavaScript 编写的打包器预构建�
 * demo .vue script
 
 2. array accept (not self accept)
-* demo litepack/template-vue-ts/src/mimic-store
+* demo https://github.com/wizardpisces/lerna-repo/tree/master/packages/mini-vite/template-vue-ts/src/mimic-store
 
 ### 原理
 
@@ -181,7 +181,7 @@ if (import.meta.hot) {
 
 ### 如何入手 vite 源码
 
-[简化版 vite](https://github.com/wizardpisces/lerna-repo/tree/master/packages/litepack)，供初入坑
+[简化版 vite](https://github.com/wizardpisces/lerna-repo/tree/master/packages/mini-vite)，供初入坑
 
 **原因：**
 * 由于预构建，node_modules里面的源代码已经被打包到 node_modules/.vite下面，目前此路径并未注册到热替换图里面
@@ -194,7 +194,7 @@ if (import.meta.hot) {
 3. esbuild: 强调性能，内置了对css、图片、react、typescript等内置支持，编译速度特别快（是webpack和rollup速度的100倍+),缺点是目前插件系统较为简单（框架作者还在迭代中），生态不如webpack和rollup成熟。
 ## Reference
 
-* https://github.com/wizardpisces/lerna-repo/tree/master/packages/litepack
+* https://github.com/wizardpisces/lerna-repo/tree/master/packages/mini-vite
 * https://vitejs.dev/guide/
 * https://github.com/evanw/esbuild
 * https://segmentfault.com/a/1190000039264055
