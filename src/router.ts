@@ -10,10 +10,13 @@ const Home = () => import('./pages/home/index.vue')
 const Huffman = () => import('./pages/playground/huffman/index.vue')
 
 const SassPlayground = () => {
+    // @ts-ignore
     return import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.js')
         .then(_ =>
             Promise.all([
+    // @ts-ignore
                 import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/css/css.min.js'),
+    // @ts-ignore
                 import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/sass/sass.min.js'),
             ]))
         .then(_ => {
@@ -25,14 +28,9 @@ const SassPlayground = () => {
 const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
 const Bookmark = () => import('./pages/bookmark/index.vue')
 
-
-export {
-    routes
-}
-
 const routerHistory = createWebHistory()
 
-let routes: RouteRecordRaw[] = [
+export let routes: RouteRecordRaw[] = [
     {
         path: '/',
         name: 'Home',
@@ -71,8 +69,7 @@ let routes: RouteRecordRaw[] = [
         }
     },
 ]
-// @ts-ignore
-// console.log(import.meta.env)
+
 // @ts-ignore
 if (import.meta.env.DEV) {
     routes = routes.concat(

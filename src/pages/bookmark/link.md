@@ -22,7 +22,20 @@
 
 * [Java Tutor,  C Tutor,  C++ Tutor,  JavaScript Tutor,  Ruby Tutor](https://pythontutor.com/)
 
-### Tech site
+### Blockchain
+
+* [what-is-blockchain](http://www.gjermundbjaanes.com/the-blockchain-innovation-part-1-what-is-blockchain/)
+* [what-can-blockchain-solve](http://www.gjermundbjaanes.com/the-blockchain-innovation-part-2-what-can-blockchain-solve/)
+* [exciting-blockchain-projects](http://www.gjermundbjaanes.com/the-blockchain-innovation-part-3-exciting-blockchain-projects/)
+
+#### Ethereum
+* [ethereum-gas-fuel-and-fees](https://media.consensys.net/ethereum-gas-fuel-and-fees-3333e17fe1dc)
+* [understanding-smart-contracts](http://www.gjermundbjaanes.com/understanding-ethereum-smart-contracts/)
+    * [cn版本](https://learnblockchain.cn/2018/01/04/understanding-smart-contracts/)
+* [ethereum-for-web-developers](https://medium.com/@mvmurthy/ethereum-for-web-developers-890be23d1d0c)
+* [full-stack-hello-world-voting-ethereum-dapp-tutorial-part-1](https://medium.com/@mvmurthy/full-stack-hello-world-voting-ethereum-dapp-tutorial-part-1-40d2d0d807c2)
+
+### Other
 
 * [v2ex](https://www.v2ex.com/?r=wizardpisces)
 * [redit](https://reddit.com/)
