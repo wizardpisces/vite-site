@@ -1,5 +1,7 @@
 ## 以下是markdown转换
 
+### 跨端
+* [meituan containerless-framework](https://tech.meituan.com/2021/11/11/meituan-waimai-containerless-framework.html)
 ### JS Memory leak
 * [what-are-the-actual-uses-of-es6-weakmap](https://stackoverflow.com/questions/29413222/what-are-the-actual-uses-of-es6-weakmap)
 * [four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
