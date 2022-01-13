@@ -4,6 +4,8 @@
 * [slow-indexeddb](https://rxdb.info/slow-indexeddb.html)
 ### 跨端
 * [meituan containerless-framework](https://tech.meituan.com/2021/11/11/meituan-waimai-containerless-framework.html)
+#### 小程序
+* [小程序运行机制](https://developers.weixin.qq.com/community/develop/article/doc/0008a4c4f28f30fe3eb863b2750813)
 ### JS Memory leak
 * [what-are-the-actual-uses-of-es6-weakmap](https://stackoverflow.com/questions/29413222/what-are-the-actual-uses-of-es6-weakmap)
 * [four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them](https://auth0.com/blog/four-types-of-leaks-in-your-javascript-code-and-how-to-get-rid-of-them/)
