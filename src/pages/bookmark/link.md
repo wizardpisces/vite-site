@@ -14,6 +14,8 @@
 
 * [txiki-The tiny JavaScript runtime built with QuickJS, libuv](https://github.com/saghul/txiki.js)
 
+### Proposal
+* [es-proposals](https://www.proposals.es/)
 ### Blog
 
 * [操作系统开发](https://wiki.osdev.org/Main_Page)
