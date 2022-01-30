@@ -6,27 +6,27 @@ title: 个人简介
 * github: https://github.com/wizardpisces
 * [blog](https://wizardpisces.github.io/blog/%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6%E6%80%9D%E8%80%83)
 * email: 1275839779@qq.com
-
-# 基本介绍
-
-## 简介
 * 工作经历：去哪儿网 -> 美团网 -> 客路旅行
-* 工作年限：2014.06-2022.01
-* 对技术及其实现比较感兴趣，有简单实现过SASS编译器，Svelte，Vite等，具体可以参见 github；正在研究Rust
+* 前端年限：2014.06-至今
+# 基本介绍
+## 简介
+
+* 对技术及其实现比较感兴趣，有简单实现过SASS编译器，Svelte，Vite等，具体参见 github
 * 热爱分享，在Klook组织过大大小小70多场分享，同时推动Vue Typescript Vite等技术在公司的落地
 
 # 工作经历
 ## 客路旅行(klook) 
 ### 基本情况
-* 人员培养：截止到2022.01，陆续培养了3名manager，分别担任Hotel，WebInfra，ChinaBu前端负责人；（其中2人是自己较低级别招进来，然后花了2-4年时间培养）
-* 技术栈：Vue Typescript Uniapp Koa Eggjs Nginx Webpack Vite Rollup Docker PM2
+* 主要负责 Whitelabel Affiliate 小程序 AMP业务线以及部分基础设施建设
+* 人员培养：截止到2022.01，陆续培养了3名manager，分别担任Hotel，WebInfra，ChinaBu前端负责人；（其中2人是较低级别招进来而后晋升起来）
+* 相关技术：Vue Typescript Uniapp Nuxt Koa Eggjs Nginx Webpack Vite Rollup Docker PM2
 ### 时间轴
 #### 2020.01-至今 Senior Manager（带8人，Covid-19疫情开始，截止到2022.01缩减到带6人）
-* 负责业务：小程序，AMP（ToB 分销），Affiliate（ToC引流），Whitelabel（ToB 解决方案）
+* 负责业务：小程序，AMP（ToB分销），Affiliate（ToC引流），Whitelabel（ToB Partner解决方案）
 * Infra: Klook-UI（ToC组件库） Storybook（产研协作平台），Nuxt（Vue SSR）落地
 #### 2019.01 Manager (带8人)
 * 负责的业务：小程序，AMP，Affiliate，Whitelabel，HotelIpad项目后期停止，Merchant交接给了其它部门
-* Infra: Klook私有库搭建，推进Typescript在公司内落地
+* Infra: Klook私有库搭建，推进Typescript
 #### 2018.01 Senior Engineer（带3人）
 * 负责业务：AMP，Merchant，HotelIpad
 * Infra：推动Vue在公司内取代Jquery，推动Webpack替换Gulp
@@ -40,29 +40,30 @@ title: 个人简介
 * 职位：平台事业群-前端工程师
 * 入职时间：2015.06-2016.04
 * 业务：店铺推广，商家入驻
-* 技术：gulp react backbone jquery node
+* 技术：Gulp React Backbone Jquery
 
 ## 去哪儿网(qunar) 
 * 职位：酒店事业部-前端工程师
 * 入职时间：2014.06-2015.06
 * 业务：供应商系统，admin
-* 技术：fekit backbone jquery zepto
+* 技术：Fekit Backbone Jquery Zepto
 
-# 项目详情
+# 主要项目详情
 
 ## Affiliate系统升级
 * 时间：2021.08-至今
-* 功能：affiliate合作联盟渠道，为C端引流
-* 升级目的：提升系统的可维护性、稳定性
+* 功能：affiliate合作联盟渠道（主要包括portal，widget，server三部分），主要为C端引流，
+* 升级目的：提升系统的可维护性、稳定性、dev效率
 * 角色：前端负责人
-    * 拆分Affiliate为多包仓库
+    * 拆分Affiliate为多包仓库（同时配合改动dev流程，部署流程）
     * Widget投放方式升级：从纯静态切换成动静结合
     * widget全面单元测试覆盖
+    * 解决一些node性能问题：拆分middleware，属性Lazy化，多语言深拷贝去除等
 * 成果：后续脚本的升级不再有顾虑，工程拆分或者重构更轻松
 ## Whitelabel平台化
 * 时间：2021.01-至今
-* 功能：商家售卖流程解决方案
-* 平台化目的：保证业务功能更新的及时性；节省人力
+* 功能：为商家提供类似C端购买能力，但需要满足商户的配置要求，例如主题等
+* 平台化目的：保证业务功能更新的及时性、节省人力
 * 角色：前端负责人
     * 提出whitelabel的平台化方案
     * 寻找契机推动各个业务线配合接入
@@ -71,8 +72,9 @@ title: 个人简介
 * 时间：2019.12-至今
 * 功能：web前端组件库
 * 目的：提升开发跟设计效率
-* 角色：组件库负责人（主要推动各端落地，前期参与开发初版，后续交接给其他人负责迭代开发，为公司培养潜在的Infra负责人）
+* 角色：组件库负责人（负责组件库初版上线并应用，后面逐步交接给团队成员迭代开发，培养潜在Infra负责人）
     * 带团队从0到n建立web组件库，支持mobile/PC，支持SSR
+    * 实行边迭代边落地路线
     * 推动组件库在各个业务线落地（设计+开发侧）
     * 推动设计流程配合组件库的迭代以及设计稿的应用
 * 成果：组件已经应用到各个业务线上千次，设计团队也产生一份对应的组件库
@@ -80,8 +82,8 @@ title: 个人简介
 * 时间：2020.03-2021.06
 * 功能：技术改造
 * 目的：普及新的开发思路，提升开发效率，统一技术栈
-* 角色：框架升级负责人之一（主要负责技术分享，以及部分业务线的落地试点）
-    * 带团队落地Nuxt框架的工程结构，渐进式替换HandlerBar模板拼接
+* 角色：框架升级负责人之一（负责业务线的先行落地试点，成熟后分享推动全线升级，渐进式替换HandlerBar模板拼接）
+    * 落地Nuxt框架的工程结构，有发现Nuxt库的BUG并提过[issue](https://github.com/nuxt/nuxt.js/issues/7696)
     * 推动TS的渐进式替换
     * 推动自适应开发理念取代PC/Mobile完全分离协作模式，节省人力
 * 成果：各业务线完成技术升级，新的开发思维得到普及，代码健壮性增强
@@ -90,7 +92,7 @@ title: 个人简介
 * 时间：2019.06-2019.07
 * 功能：面向中国大陆市场的销售渠道
 * 目的：补全销售渠道
-* 角色：前端负责人（后续逐步交接给团队成员对接，培养潜在ChinaBU前端负责人）
+* 角色：前端负责人（负责初版上线，后续逐步交接给团队成员迭代，培养潜在ChinaBU前端负责人）
     * 带团队从0到1创建klook小程序
     * 应运营需要，短时间构建一个流程完备的版本
 * 成果：一个多月从开发到设计超预期完成初版发布，技术选型推动后续跨端水到渠成
