@@ -15,6 +15,7 @@ RN跟微信小程序算是jsbridge最经典的实践
 其他：LLVM是构架编译器(compiler)的框架系统，以C++编写而成，所以编译的IR为LLVM的编程语言（例如Rust）是C语言实现
 
 总结：这些高级语言底层都是C的衍生
+
 推论：
 1. 这些语言能在编译层面互通？不同语言如果都实现C语言提供的bridge interface，那就能直接在代码编译后通信（API层面？）？
 2. 所有语言都能在
@@ -29,4 +30,4 @@ RN跟微信小程序算是jsbridge最经典的实践
 * [React Native原理与实践](https://juejin.cn/post/6916452544956858382)
 * [NativeScript的工作原理：用JavaScript调用原生API实现跨平台 ](https://blog.51cto.com/u_15047484/4605055)
 
-**本文属于个人的见解，酌情观看**
+***本文属于个人的见解，酌情观看***
