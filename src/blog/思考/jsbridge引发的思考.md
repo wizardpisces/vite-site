@@ -17,7 +17,7 @@ RN跟微信小程序算是jsbridge最经典的实践
 总结：这些高级语言底层都是C的衍生
 
 推论：
-1. 这些语言能在编译层面互通？不同语言如果都实现C语言提供的bridge interface，那就能直接在代码编译后通信（API层面？）？
+1. 这些语言能在编译层面互通？不同语言如果都实现C语言提供的bridge interface，那就能直接在代码编译后通信（API层面？）？Foreign_function_interface？
 2. 所有语言都能在
 
 其他跨语言通信，例如协议（独立于语言层面的标准）：rpc等
@@ -29,5 +29,7 @@ RN跟微信小程序算是jsbridge最经典的实践
 * [tiny-sass-compiler Plugin](https://github.com/wizardpisces/tiny-sass-compiler/blob/master/transform.md)
 * [React Native原理与实践](https://juejin.cn/post/6916452544956858382)
 * [NativeScript的工作原理：用JavaScript调用原生API实现跨平台 ](https://blog.51cto.com/u_15047484/4605055)
+* https://en.wikipedia.org/wiki/Foreign_function_interface
+* https://blog.risingstack.com/how-to-use-rust-with-node-when-performance-matters/
 
 ***本文属于个人的见解，酌情观看***
