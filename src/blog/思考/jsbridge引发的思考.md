@@ -26,16 +26,30 @@ Web端和Native可以类比于Client/Server模式，Web端调用原生接口时�
 * 兼容性：无兼容性问题
 * 性能：URL request 创建请求有一定的耗时（一般通过webview创建iframe方式发送），Android比较差
 * 局限：URL 字符串长度有限制
-#### 注入式
+#### 注入式（主流）
 * 原理：通过 WebView 提供的接口向 JS 全局上下文对象（window）中注入对象或者方法，当 JS 调用时，可直接执行相应的 Native 代码逻辑，从而达到 Web 调用 Native 的目的。
+>Native端
+```java
+// Android（4.2+）提供了addJavascriptInterface注入
+// 注入全局JS对象
+webView.addJavascriptInterface(new NativeBridge(this), "NativeBridge");
+
+class NativeBridge {
+  private Context ctx;
+  NativeBridge(Context ctx) {
+    this.ctx = ctx;
+  }
+
+  // 增加JS调用接口
+  @JavascriptInterface
+  public void showNativeDialog(String text) {
+    new AlertDialog.Builder(ctx).setMessage(text).create().show();
+  }
+}
+```
+>web端
 ```js
-JSContext *context = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-
-context[@"getAppInfo"] = ^(msg) {
-    return @"ggl_2693";
-};
-window.getAppInfo(); // 'ggl_2693'
-
+window.NativeBridge.showNativeDialog('hello');
 ```
 * 场景：各种系统API的直接调动（存储等）
 
