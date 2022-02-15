@@ -112,14 +112,13 @@ Esbuild 使用 Go 编写，并且比以 JavaScript 编写的打包器预构建�
 
 **client build hotModulesMap**
 ```
-// hot injection
+
+// hot injection，分析代码包含 "import.meta.hot"，就会在头部插入如下代码进行热替换图构建
 import { createHotContext as __litepack__createHotContext } from "/@litepack/client";
 import.meta.hot = __litepack__createHotContext("/src/mimic-store/index.ts");
-
-// compile 后的源码
 ...
 
-// hot injection
+// hot injection，源代码
 if (import.meta.hot) {
   import.meta.hot.accept(["/src/mimic-store/module1.ts"], ([module12, module22]) => {
     let param = {};
@@ -131,24 +130,6 @@ if (import.meta.hot) {
 }
 
 ```
-
-
-vite分析源码中*import.meta.hot*的存在从而进行 *__vite__createHotContext* 上线文插入，例如:
-文件 '/src/store/index.ts' 中存在如下 import.meta.hot 的守卫
-```
-if (import.meta.hot) {
-  import.meta.hot.accept("/src/store/modules/gaModule.ts", (newGaModule) => {
-    console.log("newGaModule", newGaModule);
-    store.hotUpdate({
-      modules: {
-        gaModule: newGaModule.default
-      }
-    });
-  });
-}
-```
-则会在文件'/src/store/index.ts'返回源码头部插入如下
-
 
 ## vite 插件机制
 ![插件图例子 vite-plugin-vue](https://pic1.zhimg.com/80/v2-206f26236414d03f4283ac19054f6f64_1440w.jpg)
