@@ -69,7 +69,7 @@ An iOS/OSX bridge for sending messages between Obj-C and JavaScript in UIWebView
 
 其他：LLVM是构架编译器(compiler)的框架系统，以C++编写而成，所以编译的IR为LLVM的编程语言（例如Rust）是C语言实现
 
-总结：这些高级语言底层都是C的衍生
+总结：这些高级语言底层都是C的衍生；API："C" 部分定义了外部函数所使用的 应用二进制接口（application binary interface，ABI） —— ABI 定义了如何在汇编语言层面调用此函数。"C" ABI 是最常见的，并遵循 C 编程语言的 ABI。
 
 推导：
 1. 这些语言能在编译层面互通，不同语言如果都实现C语言提供的bridge interface，那就能直接在代码编译后通信（API层面？）？Foreign_function_interface？
@@ -83,6 +83,7 @@ An iOS/OSX bridge for sending messages between Obj-C and JavaScript in UIWebView
 * [tiny-sass-compiler Plugin](https://github.com/wizardpisces/tiny-sass-compiler/blob/master/transform.md)
 * [React Native原理与实践](https://juejin.cn/post/6916452544956858382)
 * [NativeScript的工作原理：用JavaScript调用原生API实现跨平台 ](https://blog.51cto.com/u_15047484/4605055)
+* [Rust程序语言设计之不安全的Rust](https://kaisery.github.io/trpl-zh-cn/ch19-01-unsafe-rust.html?highlight=extern#%E8%B0%83%E7%94%A8%E4%B8%8D%E5%AE%89%E5%85%A8%E5%87%BD%E6%95%B0%E6%88%96%E6%96%B9%E6%B3%95)
 * https://en.wikipedia.org/wiki/Foreign_function_interface
 * https://blog.risingstack.com/how-to-use-rust-with-node-when-performance-matters/
 * https://www.teqng.com/2021/08/01/jsbridge-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5/#JSB_yuan_li
