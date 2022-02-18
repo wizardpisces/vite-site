@@ -10,7 +10,7 @@ NAN 将 v8/libuv 相关的 API 进行了封装，对外是稳定的抽象层 API
 ### N-API
 自从 Node.js v8.0.0 发布之后，Node.js 推出了全新的用于开发 C++ 原生模块的接口，N-API。本质其实是将 NAN 这层抽象挪到了 node 源码中，在 node 编译的时候就编译好这层对外抽象，这样 N-API 对外就是稳定的 ABI 了。
 
-一句话理解：v8之上node层的封装，跟随Node编译
+一句话理解：v8之上node层的封装，跟随Node编译，独立于操作系统
 
 ## 应用
 ### C++扩展
@@ -68,7 +68,19 @@ node-gyp rebuild # ./build/Release/demo.node
 const demo = require('./build/Release/demo.node')
 demo.sayHello() // Hello World
 ```
-### Rust扩展
+
+# 思考
+
+node扩展方式
+
+* 插件开发
+* WebAssembly
+
+哪种更快些？或者分别适用于哪些场景？
+
+Wasm被保证与可以运行您的Electron应用程序的任何操作系统兼容。
+C，C++和Rust将没有此保证。除了从JavaScript调用的开销之外，它们将更加高效。
+正在积极地处理从JavaScript调用Wasm的开销，并且正在减少或完全消除这种开销。
 # Reference
 * [N-API入门](https://nodejs.fasionchan.com/zh_CN/latest/napi/quick-start.html)
 * Rust bindings for writing safe and fast native Node.js modules.[neon](https://github.com/neon-bindings/neon)
