@@ -8,7 +8,7 @@
         ></p>
         <h2 v-show="false">
           Loading blog ....
-          below is a md2html test:<p v-html="hiring"></p>
+          below is a md2html test:<p v-html="Introduction"></p>
         </h2>
         <!-- <Circular :check="4"></Circular> -->
 
@@ -21,7 +21,7 @@
 import { onMounted, watch } from "vue";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import useBlog from "./composition/use-blog";
-import { html as hiring } from "../../blog/hiring.md";
+import { html as Introduction } from "../../blog/Introduction.md";
 import A from "./a.vue";
 export default {
   name: "BlogVueSSr",
@@ -54,7 +54,7 @@ export default {
     return {
       blogContent,
       loadingBlog,
-      hiring,
+      Introduction,
     };
   },
 };
