@@ -61,6 +61,27 @@ window.NativeBridge.showNativeDialog('hello');
 [WebViewJavascriptBridge](https://github.com/marcuswestin/WebViewJavascriptBridge)
 An iOS/OSX bridge for sending messages between Obj-C and JavaScript in UIWebViews/WebViews
 
+### 如何处理安全问题
+
+在 APP 内 JSBridge 可以实现 Web 和 Native 的通信，但是如果 APP 打开一个恶意的页面，页面可以任意调用 JSBridge 方法，获取各种隐私的数据，就会引起安全问题。
+
+* 限定域名白名单，只允许指定域名调用
+
+## JSI
+RN 在0.59 版本使用JSI 取代了先前的JSBridge 。
+
+React Native JSI (JavaScript Interface) 可以使 JavaScript 和 原生模块 更快、更简单的通信。它也是React Native 新的架构体系中Fabric UI层 和 Turbo 模块的核心部分。
+
+### JSI有什么不同
+JSI 移除了原生代码和JavaScript代码之间的桥接（bridge），同时也省去了两端相互调用时大量的JSON序列化和反序列化操作。JSI为原生和JS交互打开了新的大门。下面是一些JSI的特点：
+
+* JavaScript Interface 允许我们向JavaScript 运行时注册方法。这些方法在js环境中可以通过 global对象获取并调用。
+* 我们完全可以使用C++或者在iOS里使用OC ，在Android里使用Java实现这些注册方法。
+* 原先使用bridge 的方式实现的原生模块可以通过增加一层C++，快速转化为通过JSI实现。
+* 在iOS端实现非常简单，因为C++和OC 可以方便的实现混编。
+* 在Android中，我们需要通过JNI 做一些转化。
+* 这些方法可以是完全同步的，这意味着不必强制使用async。await。
+
 ## 其他角度分析
 
 * Javascript的编译器V8是C++实现，C++编译器是C，所以Javascript的编译器是C语言实现
@@ -83,6 +104,9 @@ An iOS/OSX bridge for sending messages between Obj-C and JavaScript in UIWebView
 * [tiny-sass-compiler Plugin](https://github.com/wizardpisces/tiny-sass-compiler/blob/master/transform.md)
 * [React Native原理与实践](https://juejin.cn/post/6916452544956858382)
 * [NativeScript的工作原理：用JavaScript调用原生API实现跨平台 ](https://blog.51cto.com/u_15047484/4605055)
+* [React Native JSI：实现RN与原生通信](https://juejin.cn/post/6999432558366703630#heading-1)
+* https://tsejx.github.io/cross-platform-guidebook/hybird/jsbridge/
+* https://juejin.cn/post/6844903585268891662
 * https://en.wikipedia.org/wiki/Foreign_function_interface
 * https://blog.risingstack.com/how-to-use-rust-with-node-when-performance-matters/
 * https://www.teqng.com/2021/08/01/jsbridge-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E8%B7%B5/#JSB_yuan_li
