@@ -5,7 +5,7 @@ description:
 
 # Vue SSR
 
-## vue ssr hydrate 原理
+## ssr hydrate 原理
 
 基本猜想： 
 
@@ -32,22 +32,24 @@ but not match client
 * 客户端：
 
 将组件封装成 async component，在条件成熟的时候resolve（浏览器空闲/dom可见/事件触发）
+```js
+export function makeNonce({ component, hydrationPromise }) {
+  if (isServer) return component;
 
+  return () => hydrationPromise.then(() => resolveComponent(component));
+}
+```
 #### 结论
 原理上不是真实意义上的hydrate，而是异步组件的渲染；
 所以如果一个组件在转换成 async的时候会出问题（例如：会有跟激活的组件的交互），那就不适用这个package
 ### vue-client-only原理
-
-* 服务端：
-
-1. h(false) 占位
-* 客户端：
-
-1. 根据parent._isMounted 返回正常组件替换
+原理：vue-client-only 组件的 render 函数简单封装
+* 服务端返回h(false) 占位
+* 客户端：根据parent._isMounted 返回正常组件 （在浏览器mounted的时候）
 
 ## 坑
  
-### in NuxtJs
+### in NuxtJs框架
 * in dev : true(代表plugin middleware等文件会在每个请求进入的时候重新载入)
 * in production: false （代表不会重新载入plugin，只会反复执行返回的函数）
 
