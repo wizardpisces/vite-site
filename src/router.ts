@@ -69,33 +69,33 @@ export let routes: RouteRecordRaw[] = [
       title: "huffman online",
     },
   },
-  {
-    path: "/app-react",
-    name: "SubAppReact",
-    component: SubAppReact,
-  },
 ];
 
 // @ts-ignore
 if (import.meta.env.DEV) {
     routes = routes.concat(
-        {
-            path: '/virtual-machine',
-            name: 'VirtualMachine',
-            component: VirtualMachine,
-            meta: {
-                title: "virtual machine"
-            }
+      {
+        path: "/virtual-machine",
+        name: "VirtualMachine",
+        component: VirtualMachine,
+        meta: {
+          title: "virtual machine",
         },
-        {
-            path: '/test',
-            name: 'Test',
-            component: Test,
-            meta: {
-                title: "Test"
-            }
-        }
-    )
+      },
+      {
+        path: "/test",
+        name: "Test",
+        component: Test,
+        meta: {
+          title: "Test",
+        },
+      },
+      {
+        path: "/app-react",
+        name: "SubAppReact",
+        component: SubAppReact,
+      }
+    );
 }
 
 const router = createRouter({
