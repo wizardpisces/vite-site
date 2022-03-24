@@ -6,6 +6,7 @@ import {
 const Test = () => import('./pages/test/index.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const Home = () => import('./pages/home/index.vue')
+const SubAppReact = () => import("./pages/sub-app-react/index.vue");
 
 const Huffman = () => import('./pages/playground/huffman/index.vue')
 
@@ -31,44 +32,49 @@ const Bookmark = () => import('./pages/bookmark/index.vue')
 const routerHistory = createWebHistory()
 
 export let routes: RouteRecordRaw[] = [
-    {
-        path: '/',
-        name: 'Home',
-        component: Home,
-        meta: {
-            title: 'Home hello world'
-        }
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+    meta: {
+      title: "Home hello world",
     },
-    {
-        path: '/sass',
-        name: 'Sass',
-        component: SassPlayground,
-        meta: {
-            title: 'Tiny sass playground'
-        }
+  },
+  {
+    path: "/sass",
+    name: "Sass",
+    component: SassPlayground,
+    meta: {
+      title: "Tiny sass playground",
     },
-    {
-        path: '/blog/:blogName',
-        component: Blog,
-        name: 'Blog'
+  },
+  {
+    path: "/blog/:blogName",
+    component: Blog,
+    name: "Blog",
+  },
+  {
+    path: "/bookmark",
+    name: "Bookmark",
+    component: Bookmark,
+    meta: {
+      title: "Bookmarks",
     },
-    {
-        path: '/bookmark',
-        name: 'Bookmark',
-        component: Bookmark,
-        meta: {
-            title: 'Bookmarks'
-        }
+  },
+  {
+    path: "/playground/huffman",
+    name: "Huffman",
+    component: Huffman,
+    meta: {
+      title: "huffman online",
     },
-    {
-        path: '/playground/huffman',
-        name: 'Huffman',
-        component: Huffman,
-        meta: {
-            title: "huffman online"
-        }
-    },
-]
+  },
+  {
+    path: "/app-react",
+    name: "SubAppReact",
+    component: SubAppReact,
+  },
+];
 
 // @ts-ignore
 if (import.meta.env.DEV) {

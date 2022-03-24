@@ -8,6 +8,7 @@
       @click="onSideBarToggle()"
     ></v3-icon>
     <nav-links></nav-links>
+    <img :src="logo" alt="">
   </header>
   <sidebar
     :class="sidebarClass"
@@ -30,6 +31,7 @@ export default {
     Sidebar,
   },
   setup(props, ctx) {
+    let logo = new URL('./assets/logo.png',import.meta?.url).href
     let sideBarOpened = ref(false),
         menuRef = ref(null);
 
@@ -55,7 +57,8 @@ export default {
       onSideBarToggle,
       hideSidebar,
       sideBarOpened,
-      menuRef
+      menuRef,
+      logo
     };
   },
 };
