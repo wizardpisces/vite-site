@@ -1,17 +1,13 @@
 <template>
   <div class="blog">
-    <main class='page'>
+    <main class="page">
       <div class="content">
-        <p
-          v-if="blogContent && !loadingBlog"
-          v-html="blogContent"
-        ></p>
+        <p v-if="blogContent && !loadingBlog" v-html="blogContent"></p>
         <h2 v-show="false">
-          Loading blog ....
-          below is a md2html test:<p v-html="Introduction"></p>
+          Loading blog .... below is a md2html test:
+          <p v-html="Introduction"></p>
         </h2>
         <!-- <Circular :check="4"></Circular> -->
-
       </div>
     </main>
   </div>
@@ -31,12 +27,18 @@ export default {
   setup() {
     let route = useRoute();
     let { blogContent, initBlogByTitle, loadingBlog } = useBlog();
-
+    function initBlog() {
+      initBlogByTitle(route.params.blogName as string, route.hash).then((_) => {
+        location.hash = "";
+        location.hash = route.hash;
+      });
+    }
     watch(
       () => route.params.blogName,
       (newBlogName: string) => {
-        if(route.name === 'Blog'){
+        if (route.name === "Blog") {
           document.title = newBlogName + " | Blog";
+          initBlog();
         }
       },
       {
@@ -45,10 +47,7 @@ export default {
     );
 
     onMounted(() => {
-      initBlogByTitle(route.params.blogName as string, route.hash).then((_) => {
-        location.hash = "";
-        location.hash = route.hash;
-      });
+      initBlog();
     });
 
     return {
