@@ -8,7 +8,7 @@
       @click="onSideBarToggle()"
     ></v3-icon>
     <nav-links></nav-links>
-    <img :src="logo" alt="">
+    <!-- <img :src="logo" alt=""> -->
   </header>
   <sidebar
     :class="sidebarClass"
@@ -31,7 +31,11 @@ export default {
     Sidebar,
   },
   setup(props, ctx) {
-    let logo = new URL('./assets/logo.png',import.meta?.url).href
+    /**
+     * TypeError: Failed to construct 'URL': Invalid URL
+     * https://github.com/vitejs/vite/issues/5558
+     */
+    // let logo = new URL('./assets/logo.png',import.meta?.url).href
     let sideBarOpened = ref(false),
         menuRef = ref(null);
 
