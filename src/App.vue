@@ -37,14 +37,14 @@ export default {
      */
     // let logo = new URL('./assets/logo.png',import.meta?.url).href
     let sideBarOpened = ref(false),
-        menuRef = ref(null);
+        menuRef = ref<HTMLDivElement>();
 
     function onSideBarToggle() {
       sideBarOpened.value = !sideBarOpened.value;
     }
-    function hideSidebar(e) {
+    function hideSidebar(e:Event) {
       // 符合以下两种情况，说明切换按钮被主动点击了
-      if(e.target === menuRef.value.$el || menuRef.value.$el.contains(e.target)){
+      if(e.target === (menuRef.value as any).$el || (menuRef.value as any).$el.contains(e.target)){
         return;
       }
       sideBarOpened.value = false
@@ -62,7 +62,7 @@ export default {
       hideSidebar,
       sideBarOpened,
       menuRef,
-      logo
+      // logo
     };
   },
 };
