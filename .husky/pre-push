@@ -1,5 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-echo ">>>>>>>>>> Running git pre-push hook: npm run deploy\n"
+# echo ">>>>>>>>>> Running git pre-push hook: npm run deploy\n"
+echo ">>>>>>>> Maybe need manual run: npm run deploy\n"
 # npm run deploy

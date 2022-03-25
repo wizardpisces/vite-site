@@ -23,7 +23,7 @@ export default {
               ? `//localhost:3001/?_t=${new Date().getTime()}`
               : `${
                   window.location.origin
-                }/sub-app-react/?_t=${new Date().getTime()}`,
+                }/app-react/?_t=${new Date().getTime()}`,
           container: "#subAppReact",
           // activeRule: (location) => location.pathname.includes("/app-react"),
           activeRule: "/app-react",
