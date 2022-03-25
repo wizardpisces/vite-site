@@ -43,6 +43,7 @@ export default {
       sideBarOpened.value = !sideBarOpened.value;
     }
     function hideSidebar(e:Event) {
+      console.log(menuRef.value,menuRef.value?.$el)
       // 符合以下两种情况，说明切换按钮被主动点击了
       if(e.target === (menuRef.value as any).$el || (menuRef.value as any).$el.contains(e.target)){
         return;
