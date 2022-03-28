@@ -1,12 +1,12 @@
-# jsbridge引发的思考
+# JsBridge引发的思考
 
-RN跟微信小程序算是jsbridge最经典的实践
+RN跟微信小程序算是JsBridge最经典的实践
 
 ## 疑问
 1. 为什么js能够调用android或者IOS系统的方法？
 2. 不同语言之间如何做到相互调用？
 
-## JSBridge原理
+## JsBridge原理
 Web端和Native可以类比于Client/Server模式，Web端调用原生接口时就如同Client向Server端发送一个请求类似，JSB在此充当类似于HTTP协议的角色，实现JSBridge主要是两点：
 
 * 将Native端原生接口封装成JavaScript接口
@@ -63,7 +63,7 @@ An iOS/OSX bridge for sending messages between Obj-C and JavaScript in UIWebView
 
 ### 如何处理安全问题
 
-在 APP 内 JSBridge 可以实现 Web 和 Native 的通信，但是如果 APP 打开一个恶意的页面，页面可以任意调用 JSBridge 方法，获取各种隐私的数据，就会引起安全问题。
+在 APP 内 JsBridge 可以实现 Web 和 Native 的通信，但是如果 APP 打开一个恶意的页面，页面可以任意调用 JsBridge 方法，获取各种隐私的数据，就会引起安全问题。
 
 * 限定域名白名单，只允许指定域名调用
 
