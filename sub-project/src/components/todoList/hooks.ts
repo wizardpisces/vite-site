@@ -3,6 +3,8 @@ import { useReducer } from "react";
 //mock data
 import { data, Todo } from "./mock-data";
 
+let nextTodoId = data.length
+
 export enum ActionType {
   ADD,
   COMPLETE,
@@ -27,7 +29,7 @@ const reducer = (state: State, action: Action) => {
 
   const addTask = (userInput: string) => [
     ...state,
-    { id: state.length + 1, task: userInput, complete: false },
+    { id: ++nextTodoId, task: userInput, complete: false },
   ];
 
   switch (action.type) {
@@ -42,6 +44,4 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-export const useTodoList = () => {
-  return useReducer(reducer, data);
-};
+export const useTodoList = () => useReducer(reducer, data);

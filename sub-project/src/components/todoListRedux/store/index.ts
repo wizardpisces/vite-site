@@ -1,14 +1,20 @@
-import { createStore } from "redux";
-import reducer from "../redux";
+import { createStore, combineReducers } from "redux";
+import todoList from "./reducers";
 
 export type Todo = {
   id: number;
   task: string;
   complete: boolean;
 };
-export type State = Todo[];
+export type State = {
+  length: number;
+  todoList: Todo[];
+};
 
-let store = createStore(reducer);
+const rootReducer = combineReducers({ todoList });
 
+export type AppState = ReturnType<typeof rootReducer>;
+
+let store = createStore(rootReducer);
 
 export default store;

@@ -1,10 +1,10 @@
 //mock data
-import { data } from "../mock-data";
-import { combineReducers } from "redux";
-import { Action,ActionType } from "../actions";
-import { Todo, State } from "../store";
+import { data } from "../../mock-data";
+import { Action, ActionType } from "../actions";
+import { Todo } from "..";
 
-const initialState: Todo[] = data
+const initialState: Todo[] = data;
+let nextTodoId = data.length;
 
 const todoList = (state = initialState, action: Action) => {
   const handleToggle = (id: number) =>
@@ -21,7 +21,7 @@ const todoList = (state = initialState, action: Action) => {
 
   const addTask = (userInput: string) => [
     ...state,
-    { id: state.length + 1, task: userInput, complete: false },
+    { id: ++nextTodoId, task: userInput, complete: false },
   ];
 
   switch (action.type) {
@@ -36,4 +36,4 @@ const todoList = (state = initialState, action: Action) => {
   }
 };
 
-export default combineReducers({todoList})
+export default todoList;

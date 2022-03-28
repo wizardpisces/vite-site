@@ -29,7 +29,7 @@ export const toggleTodo = (id: number): ToggleAction => ({
 });
 
 export const completeTodo = (): CompleteAction => ({
-  type: ActionType.COMPLETE
+  type: ActionType.COMPLETE,
 });
 
 export type Action = AddAction | CompleteAction | ToggleAction;

@@ -1,8 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { connect } from "react-redux";
-import { addTodo } from "./actions";
+import { addTodo } from "./store/actions";
+import { useSelector, useDispatch } from "react-redux";
 
-const ToDoForm = ({dispatch}) => {
+const ToDoForm = () => {
+  const dispatch = useDispatch()
   const [userInput, setUserInput] = useState("");
 
   const handleChange = (e: ChangeEvent) => {
