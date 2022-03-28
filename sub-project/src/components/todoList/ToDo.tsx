@@ -1,4 +1,4 @@
-import { MouseEvent, useContext } from "react";
+import { MouseEvent, useContext, useMemo } from "react";
 import { TodoContext } from "./context";
 import { ActionType, useTodoList } from "./hooks";
 import { Todo } from "./mock-data";
@@ -15,16 +15,20 @@ const ToDo = ({ todo }: { todo: Todo }) => {
     });
   };
 
-  return (
-    <div
-      id={todo.id + ""}
-      key={todo.id + todo.task}
-      onClick={handleClick}
-      className={todo.complete ? "todo strike" : "todo"}
-    >
-      {todo.task}
-    </div>
-  );
+  // useMemo avoid dep "useContext(TodoContext)" trigger rerender
+  return useMemo(() => {
+    console.log('rerendered!!')
+    return (
+      <div
+        id={todo.id + ""}
+        key={todo.id + todo.task}
+        onClick={handleClick}
+        className={todo.complete ? "todo strike" : "todo"}
+      >
+        {todo.task}
+      </div>
+    );
+  }, [todo.id,todo.task,todo.complete]);
 };
 
 export default ToDo;

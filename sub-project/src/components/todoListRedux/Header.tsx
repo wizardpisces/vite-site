@@ -1,7 +1,7 @@
 const Header = () => {
   return (
     <header>
-      <h1>createContext + useContext + useReducer : To Do List</h1>
+      <h1>Redux: To Do List</h1>
     </header>
   );
 };
