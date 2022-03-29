@@ -5,6 +5,3 @@
 * createContext + useContext + useReducer
 * redux
 * mobx
-
-## Hooks
-* hooks throttle

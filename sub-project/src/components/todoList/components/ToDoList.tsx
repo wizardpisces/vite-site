@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { TodoContext } from "./context";
-import { ActionType } from "./hooks";
-import { Todo } from "./mock-data";
+import { TodoContext } from "../context";
+import { ActionType } from "../hooks";
+import { Todo } from "../mock-data";
 import ToDo from "./ToDo";
 
 const ToDoList = () => {

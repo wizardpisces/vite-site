@@ -2,15 +2,15 @@
 
 import { Provider } from "react-redux";
 //components
-import Header from "./Header";
-import ToDoList from "./ToDoList";
-import ToDoForm from "./ToDoForm";
+import Header from "./components/Header";
+import ToDoList from "./components/ToDoList";
+import ToDoForm from "./components/ToDoForm";
 import "./index.css";
 import store from "./store";
 
-function App() {
+function TodoListRedux() {
   return (
-    <div className="App">
+    <div className="TodoListRedux">
       <Header />
       <Provider store={store}>
         <ToDoList />
@@ -20,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default TodoListRedux;

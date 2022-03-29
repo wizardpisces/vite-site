@@ -1,8 +1,8 @@
 import { MouseEvent } from "react";
 import { connect } from "react-redux";
-import { toggleTodo } from "./store/actions";
+import { toggleTodo } from "../store/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { Todo } from "./store";
+import { Todo } from "../store";
 
 const ToDo = ({ todo }:{todo:Todo}) => {
   const dispatch = useDispatch()

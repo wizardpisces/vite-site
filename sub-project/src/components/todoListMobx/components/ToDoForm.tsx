@@ -1,19 +1,19 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { connect } from "react-redux";
-import { addTodo } from "./store/actions";
-import { useSelector, useDispatch } from "react-redux";
+import { useTodoContext } from "../context";
 
 const ToDoForm = () => {
-  const dispatch = useDispatch()
+
+  let todoList = useTodoContext()
+
   const [userInput, setUserInput] = useState("");
 
   const handleChange = (e: ChangeEvent) => {
     setUserInput((e.currentTarget as HTMLInputElement).value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e:FormEvent) => {
     e.preventDefault();
-    dispatch(addTodo(userInput));
+    todoList.addTask(userInput);
     setUserInput("");
   };
   return (
@@ -29,4 +29,4 @@ const ToDoForm = () => {
   );
 };
 
-export default connect()(ToDoForm);
+export default ToDoForm;

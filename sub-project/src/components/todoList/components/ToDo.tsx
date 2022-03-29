@@ -1,7 +1,7 @@
 import { MouseEvent, useContext, useMemo } from "react";
-import { TodoContext } from "./context";
-import { ActionType, useTodoList } from "./hooks";
-import { Todo } from "./mock-data";
+import { TodoContext } from "../context";
+import { ActionType, useTodoList } from "../hooks";
+import { Todo } from "../mock-data";
 
 const ToDo = ({ todo }: { todo: Todo }) => {
   let { dispatch } = useContext(TodoContext);

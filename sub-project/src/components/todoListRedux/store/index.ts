@@ -6,10 +6,6 @@ export type Todo = {
   task: string;
   complete: boolean;
 };
-export type State = {
-  length: number;
-  todoList: Todo[];
-};
 
 const rootReducer = combineReducers({ todoList });
 

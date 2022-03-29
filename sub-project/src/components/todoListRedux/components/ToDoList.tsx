@@ -1,8 +1,8 @@
 import { connect,ConnectedProps } from "react-redux";
 import { useSelector, useDispatch } from "react-redux";
 import ToDo from "./ToDo";
-import { completeTodo } from "./store/actions";
-import { AppState, Todo } from "./store";
+import { completeTodo } from "../store/actions";
+import { AppState, Todo } from "../store";
 
 // type PropsFromRedux = ConnectedProps<typeof connector>;
 

@@ -3,14 +3,17 @@ import Header from "./components/Header";
 import ToDoList from "./components/ToDoList";
 import ToDoForm from "./components/ToDoForm";
 import "./index.css";
-import { useTodoList } from "./hooks";
 import { TodoContext } from "./context";
-function TodoList() {
-  const [state, dispatch] = useTodoList();
+import { TodoList } from "./store";
+import { data } from "./store/mock-data";
+
+let todoList = new TodoList(data)
+
+function TodoListMobx() {
   return (
-    <div className="TodoList">
+    <div className="TodoListMobx">
       <Header />
-      <TodoContext.Provider value={{ state, dispatch }}>
+      <TodoContext.Provider value={todoList}>
         <ToDoList />
         <ToDoForm />
       </TodoContext.Provider>
@@ -18,4 +21,4 @@ function TodoList() {
   );
 }
 
-export default TodoList;
+export default TodoListMobx;

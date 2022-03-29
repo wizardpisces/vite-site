@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
-import { TodoContext } from "./context";
-import { ActionType } from "./hooks";
+import { TodoContext } from "../context";
+import { ActionType } from "../hooks";
 
 const ToDoForm = () => {
 
