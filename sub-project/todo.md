@@ -11,5 +11,6 @@
 * [] react router
 ## Question
 
-* Mobx 如何做类似 redux 的module拆分？
+* Mobx原理？如何把响应式mutable融合到命令式编程immutable？
+* Mobx如何做类似 redux 的module拆分？
 * Mobx状态管理下react重新执行以及优化机制？reactivity是如何做到的？
