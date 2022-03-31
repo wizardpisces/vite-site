@@ -1,0 +1,26 @@
+.tabs {
+    display: flex;
+    flex-direction: row;
+
+    .tab {
+        display: flex;
+        height: 48px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        border-bottom: 2px solid transparent;
+        color: #212121;
+        font-size: 14px;
+        flex-shrink: 0;
+
+        &.active {
+            color: #ff5b00;
+            border-bottom: 2px solid #ff5b00;
+            font-weight: 600;
+        }
+
+        &>a {
+            display: flex;
+        }
+    }
+}
