@@ -10,7 +10,7 @@ const ToDo = ({ todo }:{todo:Todo}) => {
     e.preventDefault();
     dispatch(toggleTodo(+e.currentTarget.id));
   };
-
+  console.log('executed redux todo')
   return (
     <div
       id={todo.id + ""}

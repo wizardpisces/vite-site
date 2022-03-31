@@ -2,7 +2,7 @@ import { action, computed, makeObservable, observable } from "mobx";
 import { Todo } from ".";
 
 export default class TodoList {
-  @observable.shallow list: Todo[] = [];
+  @observable list: Todo[] = [];
   constructor(todos: string[]) {
     makeObservable(this);
     todos.forEach((text)=>this.addTask(text));

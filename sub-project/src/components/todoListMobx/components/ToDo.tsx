@@ -7,38 +7,26 @@ const ToDo = ({ todo }: { todo: Todo }) => {
     e.preventDefault();
     todo.toggle();
   };
-
+  console.log('executed mobx todo')
   // useMemo avoid <TodoContext.Provider value={todoList}> 's vallue trigger whole rerender
-  
-  // return (
-  //   <Observer>
-  //     {() => {
-  //       console.log("rendered!!");
-  //      return  <div
-  //         id={todo.id + ""}
-  //         key={todo.id + todo.task}
-  //         onClick={handleClick}
-  //         className={todo.complete ? "todo strike" : "todo"}
-  //       >
-  //         {todo.task}
-  //       </div>
-  //     }}
-  //   </Observer>
-  // );
+
   return useMemo(() => {
-    console.log("rendered!!");
+    // console.log("renderred!!");
     return (
       <Observer>
-        {() => (
-          <div
-            id={todo.id + ""}
-            key={todo.id + todo.task}
-            onClick={handleClick}
-            className={todo.complete ? "todo strike" : "todo"}
-          >
-            {todo.task}
-          </div>
-        )}
+        {() => {
+          console.log('mobx todo rendered')
+          return (
+            <div
+              id={todo.id + ""}
+              key={todo.id + todo.task}
+              onClick={handleClick}
+              className={todo.complete ? "todo strike" : "todo"}
+            >
+              {todo.task}
+            </div>
+          )
+        }}
       </Observer>
     );
   }, [todo.id, todo.task, todo.complete]);
