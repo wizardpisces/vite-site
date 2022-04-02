@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "clsx": "^1.1.1",
     "mobx": "^6.5.0",
     "mobx-react": "^7.3.0",
     "react": "^17.0.2",

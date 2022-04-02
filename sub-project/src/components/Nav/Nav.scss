@@ -1,8 +1,8 @@
-.tabs {
+.nav {
     display: flex;
     flex-direction: row;
 
-    .tab {
+    .nav-item {
         display: flex;
         height: 48px;
         align-items: center;
@@ -12,6 +12,7 @@
         color: #212121;
         font-size: 14px;
         flex-shrink: 0;
+        cursor: pointer;
 
         &.active {
             color: #ff5b00;
@@ -21,6 +22,7 @@
 
         &>a {
             display: flex;
+            text-decoration: none !important;
         }
     }
 }
