@@ -15,6 +15,7 @@ specifiers:
   react-router-dom: 6.3.0
   react-transition-group: ^4.4.2
   redux: ^4.1.2
+  redux-persist: ^6.0.0
   typescript: ^4.5.4
   vite: ^2.8.0
 
@@ -30,6 +31,7 @@ dependencies:
   react-router-dom: 6.3.0_react-dom@17.0.2+react@17.0.2
   react-transition-group: 4.4.2_react-dom@17.0.2+react@17.0.2
   redux: 4.1.2
+  redux-persist: 6.0.0_redux@4.1.2
 
 devDependencies:
   '@types/react': 17.0.41
@@ -1191,6 +1193,14 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+    dev: false
+
+  /redux-persist/6.0.0_redux@4.1.2:
+    resolution: {integrity: sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==}
+    peerDependencies:
+      redux: '>4.0.0'
+    dependencies:
+      redux: 4.1.2
     dev: false
 
   /redux/4.1.2:

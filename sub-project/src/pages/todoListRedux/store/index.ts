@@ -1,5 +1,7 @@
 import { createStore, combineReducers } from "redux";
-import todoList from "./reducers";
+import {todoList,test} from "./reducers";
+import { persistStore, persistReducer,PersistConfig } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
 export type Todo = {
   id: number;
@@ -7,10 +9,21 @@ export type Todo = {
   complete: boolean;
 };
 
-const rootReducer = combineReducers({ todoList });
+const rootReducer = combineReducers({ todoList, test });
 
 export type AppState = ReturnType<typeof rootReducer>;
 
-let store = createStore(rootReducer);
+const persistConfig: PersistConfig<AppState> = {
+  key: "TODO_REDUX_STORAGE_KEY",
+  storage,
+  whitelist:['todoList']
+}
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+let store = createStore(persistedReducer);
+let persistor = persistStore(store)
+export {
+  store,
+  persistor
+};

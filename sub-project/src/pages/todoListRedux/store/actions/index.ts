@@ -1,9 +1,8 @@
 export enum ActionType {
   ADD,
   COMPLETE,
-  TOGGLE,
+  TOGGLE
 }
-
 interface AddAction {
   type: ActionType.ADD;
   payload: { userInput: string };

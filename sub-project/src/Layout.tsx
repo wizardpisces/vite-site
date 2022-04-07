@@ -10,10 +10,10 @@ import { Nav, NavItem } from "./components/Nav";
 export default function Layout() {
     let navigate = useNavigate();
     let location = useLocation();
-
+    console.log(location)
     return (
         <div className="App">
-            <Nav activeTab={todoRouteTuple[0][0]}>
+            <Nav activeTab={location.pathname}>
                 {todoRouteTuple.map(routeTuple =>
                     <NavItem key={routeTuple[0]} id={routeTuple[0]} onClick={() => { navigate(routeTuple[0]) }}>{routeTuple[0]}</NavItem>
                 )}
