@@ -1,6 +1,8 @@
 // import logo from './logo.svg'
 import { Routes, Route, useLocation } from "react-router-dom";
-import React from "react";
+import React, { useRef } from "react";
+import KeepAlive, { AliveScope } from 'react-activation'
+
 import {
   TransitionGroup,
   CSSTransition
@@ -15,23 +17,22 @@ const TodoListMobx = React.lazy(() => import('./pages/todoListMobx/index'))
 export let todoRouteTuple: ([string, JSX.Element])[] = [['useReducer', <TodoList />], ['Redux', <TodoListRedux />], ['Mobx', <TodoListMobx />]]
 
 function App() {
-  let location = useLocation();
   return (
-
     <AnimatedRoutes>
-        <Route path="/" element={<Layout />}>
-          <Route key="default" index element={<Default />}></Route>
-          {
-            todoRouteTuple.map(routeTuple =>
-              <Route key={routeTuple[0]} path={routeTuple[0]} element={
+      <Route path="/" element={<Layout />}>
+        <Route key="default" index element={<Default />}></Route>
+        {
+          todoRouteTuple.map(routeTuple =>
+            <Route key={routeTuple[0]} path={routeTuple[0]} element={
+              <KeepAlive key={routeTuple[0]}>
                 <React.Suspense fallback={<>...</>}>
                   {routeTuple[1]}
                 </React.Suspense>
-
-              }></Route>
-            )
-          }
-        </Route>
+              </KeepAlive>
+            }></Route>
+          )
+        }
+      </Route>
     </AnimatedRoutes>
 
   )
@@ -48,11 +49,13 @@ function AnimatedRoutes({
   ...rest
 }) {
   const location = useLocation();
-
+  return <Routes location={location} >
+      {children}
+    </Routes>
   return (
     <TransitionGroup {...rest}>
       <CSSTransition key={location.key} classNames="fade" timeout={300}>
-        <Routes location={location}>
+        <Routes location={location} >
           {children}
         </Routes>
       </CSSTransition>

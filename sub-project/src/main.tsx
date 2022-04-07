@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import KeepAlive, { AliveScope } from 'react-activation'
+
 import { BrowserRouter } from "react-router-dom";
 import "./index.scss";
 import App from "./App";
@@ -13,11 +15,14 @@ function render(props: Props) {
   if (props.container) {
     container = props.container;
   }
+  
   ReactDOM.render(
     <React.StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AliveScope>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AliveScope>
     </React.StrictMode>,
     container
   );
