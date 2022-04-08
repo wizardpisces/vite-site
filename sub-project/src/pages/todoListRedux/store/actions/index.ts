@@ -1,7 +1,11 @@
 export enum ActionType {
   ADD,
   COMPLETE,
-  TOGGLE
+  TOGGLE,
+  TEST
+}
+export interface TestAction {
+  type: ActionType.TEST
 }
 interface AddAction {
   type: ActionType.ADD;
@@ -31,4 +35,4 @@ export const completeTodo = (): CompleteAction => ({
   type: ActionType.COMPLETE,
 });
 
-export type Action = AddAction | CompleteAction | ToggleAction;
+export type Action = AddAction | CompleteAction | ToggleAction | TestAction;
