@@ -1,5 +1,6 @@
 ## Todos
 
+* 了解 mobx-persist 原理
 * [x] Nav 转换成组件
 * [x] react router
     [] cache route

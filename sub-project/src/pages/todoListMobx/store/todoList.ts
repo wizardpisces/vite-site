@@ -1,8 +1,10 @@
 import { action, computed, makeObservable, observable } from "mobx";
 import { Todo } from ".";
-
+import { create, persist } from 'mobx-persist'
 export default class TodoList {
-  @observable list: Todo[] = [];
+  @persist('list')
+  @observable 
+  list: Todo[] = [];
   constructor(todos: string[]) {
     makeObservable(this);
     todos.forEach((text)=>this.addTask(text));

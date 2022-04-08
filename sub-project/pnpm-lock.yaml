@@ -7,6 +7,7 @@ specifiers:
   '@vitejs/plugin-react': ^1.0.7
   clsx: ^1.1.1
   mobx: ^6.5.0
+  mobx-persist: ^0.4.1
   mobx-react: ^7.3.0
   react: ^17.0.2
   react-activation: ^0.10.0
@@ -23,6 +24,7 @@ dependencies:
   '@types/react-transition-group': 4.4.4
   clsx: 1.1.1
   mobx: 6.5.0
+  mobx-persist: 0.4.1
   mobx-react: 7.3.0_3b110ddd052df537d55bc762cdd4d0b8
   react: 17.0.2
   react-activation: 0.10.0_react@17.0.2
@@ -973,6 +975,12 @@ packages:
     resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
     dev: true
 
+  /mobx-persist/0.4.1:
+    resolution: {integrity: sha512-cPxVuZTY5neesxOV/Z25SF4+/NbC6wfHOe9HT5XoSEkAALNxNE41yDK48peJQ3iK14m0G2ywQRklCXeV3wftnQ==}
+    dependencies:
+      serializr: 1.5.4
+    dev: false
+
   /mobx-react-lite/3.3.0_3b110ddd052df537d55bc762cdd4d0b8:
     resolution: {integrity: sha512-U/kMSFtV/bNVgY01FuiGWpRkaQVHozBq5CEBZltFvPt4FcV111hEWkgwqVg9GPPZSEuEdV438PEz8mk8mKpYlA==}
     peerDependencies:
@@ -1245,6 +1253,10 @@ packages:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
     hasBin: true
     dev: true
+
+  /serializr/1.5.4:
+    resolution: {integrity: sha512-ImLlkNfNSSv9d7Ah1j/yrPk1FHbRC1zkD7URcgx/8M1eYHGUxGf/Ig/d8ML04ifqN7QesyYKsfLYA4xjAVAR/g==}
+    dev: false
 
   /side-channel/1.0.4:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
