@@ -22,7 +22,7 @@ const refreshData = createAsyncThunk(
 )
 
 const initialState: Todo[] = [];
-let nextTodoId = ()=>new Date().getTime();
+export let nextTodoId = ()=>new Date().getTime();
 
 export const todoListSlice = createSlice({
     name: 'todoListSlice',
@@ -53,11 +53,19 @@ export const todoListSlice = createSlice({
             })
         }
     },
-    extraReducers:(builder)=>{
-        builder.addCase(refreshData.fulfilled,(state,action:PayloadAction<Todo[]>)=>{
+    extraReducers:{
+        [refreshData.pending.type]: (state, action) => { console.log('loading todolist...', action.type)},
+        [refreshData.fulfilled.type]: (state, action: PayloadAction<Todo[]>)=>{
+            console.log('loading todolist finished....', action.type)
             return action.payload
-        })
+        },
     }
+    
+    // (builder)=>{
+    //     builder.addCase(refreshData.fulfilled,(state,action:PayloadAction<Todo[]>)=>{
+    //         return action.payload
+    //     })
+    // }
 })
 
 export const { addTodo, completeTodo, toggleTodo } = todoListSlice.actions

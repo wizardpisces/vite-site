@@ -8,5 +8,5 @@ npm run dev
 ## TodoList of different versions
 
 * createContext + useContext + useReducer
-* redux
+* redux / @reduxjs/toolkit
 * mobx
