@@ -6,7 +6,7 @@ import { Todo } from "..";
 const initialState: Todo[] = data;
 let nextTodoId = data.length;
 
-export default function todoList(state = initialState, action: Action){
+export default function todoList(state = initialState, action: Action | {type:undefined}){
     const handleToggle = (id: number) =>
         state.map((task: Todo) => {
             return task.id === Number(id)

@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import ToDoList from "./components/ToDoList";
 import ToDoForm from "./components/ToDoForm";
 import "./index.css";
-import { store, persistor } from "./store";
+import { store, persistor } from "./store-v2";
 
 function TodoListRedux() {
   return (
