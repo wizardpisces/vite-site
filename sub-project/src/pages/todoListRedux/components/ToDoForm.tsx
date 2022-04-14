@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { connect } from "react-redux";
-import { addTodo, fetchTodoList } from "../store-v2/reducers/todoListSlice";
+import { addTodo, refreshData } from "../store-v2/reducers/todoListSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const ToDoForm = () => {
@@ -25,7 +25,7 @@ const ToDoForm = () => {
         placeholder="Enter task..."
       />
       <button>Submit</button>
-      <button onClick={() => dispatch(fetchTodoList())}>refreshData</button>
+      <button onClick={() => dispatch(refreshData())}>resetData</button>
     </form>
   );
 };

@@ -1,5 +1,5 @@
 //mock data
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { data } from "../../mock-data";
 
 export type Todo = {
@@ -8,24 +8,33 @@ export type Todo = {
     complete: boolean;
 };
 
-function asyncGetData():Promise<Todo[]>{
-    return new Promise(resolve=>setTimeout(()=>resolve(data),1000))
+function asyncGetData(): Promise<Todo[]> {
+    return new Promise(resolve => setTimeout(() => resolve(data), 1000))
 }
+
+// create the thunk
+const refreshData = createAsyncThunk(
+    'todoListSlice/asyncGetData',
+    async () => {
+        const data = await asyncGetData()
+        return data
+    }
+)
 
 const initialState: Todo[] = [];
 let nextTodoId = ()=>new Date().getTime();
 
 export const todoListSlice = createSlice({
-    name: 'todoList',
+    name: 'todoListSlice',
     initialState,
     reducers: {
-        fetchTodoList:(state) => {
-            console.warn('sending fetch todolist request')
-            asyncGetData().then((data)=>{
-                console.warn('finish fetch todolist request')
-                state = data
-            })
-        },
+        // fetchTodoList:(state) => {
+        //     console.warn('sending fetch todolist request')
+        //     asyncGetData().then((data)=>{
+        //         console.warn('finish fetch todolist request')
+        //         state = data
+        //     })
+        // },
         addTodo: (state, action: PayloadAction<string>) => {
             let userInput = action.payload
             state.push({ id: nextTodoId(), task: userInput, complete: false })
@@ -43,8 +52,15 @@ export const todoListSlice = createSlice({
                 }
             })
         }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(refreshData.fulfilled,(state,action:PayloadAction<Todo[]>)=>{
+            return action.payload
+        })
     }
 })
 
-export const { addTodo, completeTodo, toggleTodo, fetchTodoList } = todoListSlice.actions
+export const { addTodo, completeTodo, toggleTodo } = todoListSlice.actions
+export { refreshData }
+
 export default todoListSlice.reducer
