@@ -22,16 +22,4 @@ const ToDoList = () => {
   );
 };
 
-// const mapStateToProps = (state) => ({
-//   state: state.todoList,
-// });
-
-// const mapDispatchToProps = (dispatch) => ({
-//   clearCompleted: () => dispatch(completeTodo()),
-// });
-
-// const connector = connect(mapStateToProps, mapDispatchToProps);
-
-// export default connector(ToDoList);
-
 export default connect()(ToDoList)

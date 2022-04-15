@@ -9,12 +9,13 @@ export default ({ command }): UserConfigExport =>{
       react(),
       viteMockServe({
         // default
-        mockPath: 'mock',
+        mockPath: 'mock',// 目录下自动搜寻mock config 并注册到middleware
         localEnabled: command === 'serve',
-        injectCode: `
-          import { setupProdMockServer } from './mock/mockProdServer';
-          setupProdMockServer();
-        `,
+
+        // injectCode: `
+        //   import { setupProdMockServer } from './mock/mockProdServer';
+        //   setupProdMockServer();
+        // `, // clientOnly mock
       }),
     ],
 

@@ -1,7 +1,6 @@
 //mock data
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import urlMap from "../../../../url";
-import { data } from "../../mock-data";
 
 export type Todo = {
     id: number;
@@ -16,7 +15,6 @@ async function asyncGetData(): Promise<Todo[]> {
     })
     console.log('res',res)
     return res.data
-    // return new Promise(resolve => setTimeout(() => resolve(data), 1000))
 }
 
 // create the thunk
