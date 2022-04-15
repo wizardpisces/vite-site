@@ -8,7 +8,7 @@ import { AppState } from "../store-v2";
 
 // const ToDoList = ({ state, clearCompleted }: PropsFromRedux) => {
 const ToDoList = () => {
-  const state = useSelector((state:AppState) => state.todoListSlice);
+  const state = useSelector((state:AppState) => state.todoListReducer);
   const dispatch = useDispatch()
   return (
     <div>

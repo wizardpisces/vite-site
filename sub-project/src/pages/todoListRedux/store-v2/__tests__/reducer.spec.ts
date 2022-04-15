@@ -1,6 +1,7 @@
-import { Todo } from '../../store'
-import { todoListSlice as todoListReducer } from '../reducers'
-import { addTodo, completeTodo, toggleTodo } from '../reducers/todoListSlice'
+
+import { addTodo, completeTodo, toggleTodo, Todo, default as todoListReducer, refreshData } from '../reducers/todoListSlice'
+import {store} from '../index'
+import { data } from '../../mock-data'
 
 let previousState: Todo[] = []
 
@@ -27,8 +28,12 @@ describe('reducer test', () => {
         expect(todoListReducer(undefined, { type: undefined })).toEqual([])
     })
 
-    it('resetData action', () => {
+    it('resetData action', async () => {
+        let state = await store.dispatch(refreshData())
         // expect(todoListReducer([],refreshData())).
+        console.log(state.payload)
+        console.log(state.type)
+        expect(state).toMatchObject(data)
     })
 
     it('should handle a todo being added to an list', () => {

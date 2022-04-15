@@ -1,7 +1,8 @@
 import { createStore, combineReducers } from "redux";
 import { configureStore } from '@reduxjs/toolkit'
 
-import {testSlice,todoListSlice} from './reducers'
+import todoListReducer from './reducers/todoListSlice'
+import testReducer from './reducers/testSlice'
 
 import {
   persistStore, persistReducer, PersistConfig, FLUSH,
@@ -13,14 +14,14 @@ import {
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
-const rootReducer = combineReducers({ testSlice, todoListSlice });
+const rootReducer = combineReducers({ testReducer, todoListReducer });
 
 export type AppState = ReturnType<typeof rootReducer>;
 
 const persistConfig: PersistConfig<AppState> = {
   key: "TODO_REDUX_STORAGE_KEY",
   storage,
-  whitelist:['todoListSlice']
+  whitelist: ['todoListReducer']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -1,6 +1,6 @@
-import { Todo } from "./store-v2/reducers/todoListSlice";
+import { Todo } from "../src/pages/todoListRedux/store-v2/reducers/todoListSlice";
 
-function genList() {
+function genTodoList() {
   let list = [
     {
       id: 1,
@@ -34,7 +34,7 @@ function genList() {
     },
   ];
   let i = list.length;
-  while (i < 100) {
+  while (i < 10) {
     list.push({
       id: ++i,
       task: `task ${i}`,
@@ -44,4 +44,4 @@ function genList() {
   return list
 }
 
-export let data: Todo[] = genList() 
+export let data: Todo[] = genTodoList() 

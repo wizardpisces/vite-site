@@ -1,5 +1,6 @@
 //mock data
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import urlMap from "../../../../url";
 import { data } from "../../mock-data";
 
 export type Todo = {
@@ -8,33 +9,31 @@ export type Todo = {
     complete: boolean;
 };
 
-function asyncGetData(): Promise<Todo[]> {
-    return new Promise(resolve => setTimeout(() => resolve(data), 1000))
+async function asyncGetData(): Promise<Todo[]> {
+    let res = await fetch(urlMap.genTodoListUrl()).then(res => {
+        let resp = res.json()
+        return resp
+    })
+    console.log('res',res)
+    return res.data
+    // return new Promise(resolve => setTimeout(() => resolve(data), 1000))
 }
 
 // create the thunk
 const refreshData = createAsyncThunk(
     'todoListSlice/asyncGetData',
     async () => {
-        const data = await asyncGetData()
-        return data
+        return await asyncGetData()
     }
 )
 
 const initialState: Todo[] = [];
-export let nextTodoId = ()=>new Date().getTime();
+export let nextTodoId = () => new Date().getTime();
 
 export const todoListSlice = createSlice({
     name: 'todoListSlice',
     initialState,
     reducers: {
-        // fetchTodoList:(state) => {
-        //     console.warn('sending fetch todolist request')
-        //     asyncGetData().then((data)=>{
-        //         console.warn('finish fetch todolist request')
-        //         state = data
-        //     })
-        // },
         addTodo: (state, action: PayloadAction<string>) => {
             let userInput = action.payload
             state.push({ id: nextTodoId(), task: userInput, complete: false })
@@ -53,14 +52,14 @@ export const todoListSlice = createSlice({
             })
         }
     },
-    extraReducers:{
-        [refreshData.pending.type]: (state, action) => { console.log('loading todolist...', action.type)},
-        [refreshData.fulfilled.type]: (state, action: PayloadAction<Todo[]>)=>{
+    extraReducers: {
+        [refreshData.pending.type]: (state, action) => { console.log('loading todolist...', action.type) },
+        [refreshData.fulfilled.type]: (state, action: PayloadAction<Todo[]>) => {
             console.log('loading todolist finished....', action.type)
             return action.payload
         },
     }
-    
+
     // (builder)=>{
     //     builder.addCase(refreshData.fulfilled,(state,action:PayloadAction<Todo[]>)=>{
     //         return action.payload
