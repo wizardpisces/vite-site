@@ -7,6 +7,14 @@ export default ({ command }): UserConfigExport =>{
   return {
     plugins: [
       react(),
+      /**
+       * 原理1（通过客户端的请求到了server）：
+       * * 自动搜索config文件生成middleware：拦截url请求并返回结果
+       * * 在vite启动的时候注册到connect
+       * 原理2（客户端的请求没有通过server，直接本地拦截）：
+       * * 在入口文件注入代码片段
+       * * 运行阶段拦截浏览器请求并直接（基于mockjs）
+       */
       viteMockServe({
         // default
         mockPath: 'mock',// 目录下自动搜寻mock config 并注册到middleware
