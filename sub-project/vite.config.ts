@@ -19,6 +19,7 @@ export default ({ command }): UserConfigExport =>{
         // default
         mockPath: 'mock',// 目录下自动搜寻mock config 并注册到middleware
         localEnabled: command === 'serve',
+        watchFiles:true
 
         // injectCode: `
         //   import { setupProdMockServer } from './mock/mockProdServer';

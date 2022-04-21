@@ -34,7 +34,7 @@ function genTodoList() {
         },
     ];
     let i = list.length;
-    while (i < 10) {
+    while (i < 50) {
         list.push({
             id: ++i,
             task: `task ${i}`,
