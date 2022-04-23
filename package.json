@@ -6,7 +6,7 @@
   "description": "A vite github.io project",
   "scripts": {
     "dev": "vite",
-    "sub-dev":"cd sub-project && npm run dev",
+    "sub-dev": "cd sub-project && npm run dev",
     "blog": "ts-node script/blog.ts",
     "watchblog": "ts-node script/watchblog.ts",
     "build": "vite build",

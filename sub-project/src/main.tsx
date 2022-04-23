@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import KeepAlive, { AliveScope } from 'react-activation'
+
+import { BrowserRouter } from "react-router-dom";
+import "./index.scss";
 import App from "./App";
 
 type Props = {
@@ -12,9 +15,14 @@ function render(props: Props) {
   if (props.container) {
     container = props.container;
   }
+  
   ReactDOM.render(
     <React.StrictMode>
-      <App />
+      <AliveScope>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AliveScope>
     </React.StrictMode>,
     container
   );
@@ -64,6 +72,6 @@ export async function mount(props: Props) {
 export async function unmount(props: Props) {
   const { container } = props;
   // @ts-ignore
-  ReactDOM.unmountComponentAtNode( container ? container.querySelector("#root") : document.querySelector("#root")
+  ReactDOM.unmountComponentAtNode(container ? container.querySelector("#root") : document.querySelector("#root")
   );
 }

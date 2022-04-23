@@ -1,0 +1,30 @@
+@use '../bootstrap.scss';
+.nav {
+    display: flex;
+    flex-direction: row;
+    background: rgb(247, 243, 243);
+    .nav-item {
+        display: flex;
+        cursor: pointer;
+        height: 48px;
+        font-weight: 500;
+        align-items: center;
+        justify-content: center;
+        padding: 0 24px;
+        border-bottom: 2px solid transparent;
+        color: #212121;
+        font-size: 14px;
+        flex-shrink: 0;
+
+        &.active {
+            color: bootstrap.$color-primary;
+            border-bottom: 2px solid bootstrap.$color-primary;
+            font-weight: 600;
+        }
+
+        &>a {
+            display: flex;
+            text-decoration: none !important;
+        }
+    }
+}
