@@ -1,9 +1,10 @@
 import {
-    createRouter,
-    createWebHistory,
-    RouteRecordRaw
+  createRouter,
+  createWebHistory,
+  RouteRecordRaw
 } from 'vue-router'
 const Test = () => import('./pages/test/index.vue')
+const NotFound = () => import('./pages/not-found/index.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const Home = () => import('./pages/home/index.vue')
 const SubAppReact = () => import("./pages/sub-app-react/index.vue");
@@ -11,18 +12,18 @@ const SubAppReact = () => import("./pages/sub-app-react/index.vue");
 const Huffman = () => import('./pages/playground/huffman/index.vue')
 
 const SassPlayground = () => {
-    // @ts-ignore
-    return import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.js')
-        .then(_ =>
-            Promise.all([
-    // @ts-ignore
-                import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/css/css.min.js'),
-    // @ts-ignore
-                import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/sass/sass.min.js'),
-            ]))
-        .then(_ => {
-            return import('./pages/playground/sass.vue')
-        })
+  // @ts-ignore
+  return import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/codemirror.min.js')
+    .then(_ =>
+      Promise.all([
+        // @ts-ignore
+        import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/css/css.min.js'),
+        // @ts-ignore
+        import('https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.57.0/mode/sass/sass.min.js'),
+      ]))
+    .then(_ => {
+      return import('./pages/playground/sass.vue')
+    })
 
 }
 
@@ -31,14 +32,14 @@ const Bookmark = () => import('./pages/bookmark/index.vue')
 
 const routerHistory = createWebHistory()
 
-export let routes: RouteRecordRaw[] = [
+export let navRoutes = [
   {
     path: "/",
     name: "Home",
     component: Home,
     meta: {
       title: "Home hello world",
-    },
+    }
   },
   {
     path: "/sass",
@@ -68,45 +69,56 @@ export let routes: RouteRecordRaw[] = [
     meta: {
       title: "huffman online",
     },
-  },
+  }
 ];
 
 // @ts-ignore
 if (import.meta.env.DEV) {
-    routes = routes.concat(
-      {
-        path: "/virtual-machine",
-        name: "VirtualMachine",
-        component: VirtualMachine,
-        meta: {
-          title: "virtual machine",
-        },
+  navRoutes = navRoutes.concat(
+    {
+      path: "/virtual-machine",
+      name: "VirtualMachine",
+      component: VirtualMachine,
+      meta: {
+        title: "virtual machine",
       },
-      {
-        path: "/test",
-        name: "Test",
-        component: Test,
-        meta: {
-          title: "Test",
-        },
+    },
+    {
+      path: "/test",
+      name: "Test",
+      component: Test,
+      meta: {
+        title: "Test",
       },
-      {
-        path: "/app-react",
-        name: "SubAppReact",
-        component: SubAppReact,
-      }
-    );
+    },
+    {
+      path: "/app-react",
+      name: "SubAppReact",
+      component: SubAppReact,
+    }
+  );
 }
 
+let routes: RouteRecordRaw[] = navRoutes.concat([
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
+    meta:{
+      title: "not found - test en-SG for liuze'blog and tiny- sass - compiler's demo"
+    }
+  }
+]);
+
 const router = createRouter({
-    history: routerHistory,
-    routes
+  history: routerHistory,
+  routes
 })
 
 router.beforeEach((to, from) => {
-    if (to.meta.title) {
-        document.title = to.meta.title as string
-    }
+  if (to.meta.title) {
+    document.title = to.meta.title as string
+  }
 })
 
 export default router;

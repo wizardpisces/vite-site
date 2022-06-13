@@ -1,7 +1,7 @@
 <template>
   <div class="nav-links">
     <div
-      v-for="routeItem in routes"
+      v-for="routeItem in navRoutes"
       :key="routeItem.name"
       :class="{
         'nav-item':true,
@@ -25,22 +25,11 @@
 
       </a>
     </div>
-    <!-- <v3-tabs
-          v-model="route.name"
-          @tab-click="onTabClick"
-        >
-          <v3-tab-panel
-            v-for="route in routes"
-            :key='route.name'
-            :name='route.name'
-          >
-          </v3-tab-panel>
-        </v3-tabs> -->
   </div>
 </template>
 <script lang="ts">
 import { useRoute, useRouter } from "vue-router";
-import { routes } from "../router";
+import { navRoutes } from "../router";
 export default {
   name: "NavLinks",
   setup() {
@@ -48,7 +37,7 @@ export default {
       router = useRouter();
 
     function onTabClick(name: string) {
-      let path = routes.filter((route) => route.name === name)[0].path;
+      let path = navRoutes.filter((route) => route.name === name)[0].path;
 
       if (name === "Blog") {
         router.push({ path: "/blog/Introduction" });
@@ -58,7 +47,7 @@ export default {
     }
     return {
       onTabClick,
-      routes,
+      navRoutes,
       route,
     };
   },
