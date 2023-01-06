@@ -8,6 +8,10 @@ import store,{key} from './store'
 // inject svg sprites
 import 'virtual:svg-icons-register';
 
+import nameof from "ts-nameof.macro";
+
+console.log(nameof(window.alert));
+
 createApp(App)
     .use(router)
     .use(store, key)

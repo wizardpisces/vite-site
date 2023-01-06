@@ -1,9 +1,11 @@
 import { InjectionKey } from 'vue'
 import { createStore, createLogger, useStore as baseUseStore, Store } from 'vuex'
+import { Mutations } from './type'
 
 export interface State {
     count: number
     test: string
+    showTranslateKey:boolean
 }
 
 //@ts-ignore
@@ -31,12 +33,16 @@ const store = createStore<State>({
     state() {
         return {
             count: 1,
-            test: 'test string'
+            test: 'test string',
+            showTranslateKey:false
         }
     },
     mutations: {
         increment(state) {
             state.count++
+        },
+        [Mutations.TOGGLE_TRANSLATE_KEY](state){
+            state.showTranslateKey = !state.showTranslateKey
         }
     }
 })

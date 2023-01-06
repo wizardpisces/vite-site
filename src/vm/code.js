@@ -58,4 +58,4 @@ function getBytes(txt) {
     return bytes;
 }
 
-run(assemble(code))
+// run(assemble(code))

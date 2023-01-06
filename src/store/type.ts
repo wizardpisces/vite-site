@@ -1,0 +1,3 @@
+export enum Mutations {
+    TOGGLE_TRANSLATE_KEY='TOGGLE_TRANSLATE_KEY'
+}

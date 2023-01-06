@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import viteSvgIcons from 'vite-plugin-svg-icons';
 // import md2HtmlPlugin from './plugins/vite-plugin-markdown2html'
 import md2HtmlPlugin from 'vite-plugin-md2html'
+import macrosPlugin from "vite-plugin-babel-macros"
 
 export default {
   server: {
@@ -29,6 +30,7 @@ export default {
         },
       },
     }),
+    macrosPlugin(),
   ],
   css: {
     preprocessorOptions: {
