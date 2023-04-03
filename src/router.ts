@@ -55,14 +55,6 @@ export let navRoutes = [
     name: "Blog",
   },
   {
-    path: "/bookmark",
-    name: "Bookmark",
-    component: Bookmark,
-    meta: {
-      title: "Bookmarks",
-    },
-  },
-  {
     path: "/playground/huffman",
     name: "Huffman",
     component: Huffman,
@@ -95,7 +87,15 @@ if (import.meta.env.DEV) {
       path: "/app-react",
       name: "SubAppReact",
       component: SubAppReact,
-    }
+    },
+    {
+      path: "/bookmark",
+      name: "Bookmark",
+      component: Bookmark,
+      meta: {
+        title: "Bookmarks",
+      },
+    },
   );
 }
 
