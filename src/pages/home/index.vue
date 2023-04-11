@@ -15,7 +15,7 @@ export default {
       return {
         proxyClick:(e)=>{
           // e.preventDefault();
-          console.log('hehe')
+          console.log('hehe');
         }
       }
   }
