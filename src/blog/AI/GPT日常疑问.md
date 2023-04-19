@@ -107,3 +107,78 @@ Q: 熊猫吃什么？ A: 熊猫吃竹子。
 * 人和机器学习的**数据反馈和评估方式不同**。人的学习可以从多种方式获取数据反馈，例如自我评估、他人评价、奖励惩罚等，而且可以根据反馈来调整自己的学习策略或方法。机器学习通常只能从单一的方式获取数据反馈，例如损失函数或准确率等，而且很难根据反馈来调整自己的学习算法或参数。
 
 以上只是一些可能的原因，实际上还有很多其他因素可能影响人和机器学习的数据效率差异，例如人和机器学习的结构和功能差异、人和机器学习的动态和静态差异、人和机器学习的灵活性和稳定性差异等。这是一个非常复杂而有趣的研究领域，如果你感兴趣，可以进一步阅读相关文献或资料。
+
+## 如何深入 Prompt Engineering
+
+Prompt Engineering 是一种技术，用于设计和优化用于训练 AI 模型的 Prompt。Prompt 是一种自然语言输入，类似于命令或指令，让 AI 模型知道它需要做什么。
+
+如果你想成为 Prompt Engineering，你需要了解不同的 Prompt 类型和技巧，以及如何根据不同的任务和模型来构造和优化 Prompt。
+
+一般来说，你可以从以下几个方面入手：
+
+- 学习 Prompt 的基本概念和价值，以及 Prompt 的基本组成部分，如指令、情景、输入数据、输出指标等。
+- 学习 Prompt 的通用技巧，如从简单开始、指令很重要、具体性、避免不准确、要做还是不做等。
+- 学习不同的 Prompt 构造方法，如人工构造、自动生成、隐空间等。
+- 学习不同的 Prompt 类型，如 prefix prompt 和 cloze prompt，以及它们在不同的任务中的应用，如文本生成、文本分类、命名实体识别、翻译、问答等。
+- 学习不同的模型对 Prompt 的响应和影响，如 GPT-3、BART、T5 等，并了解它们的优缺点和适用范围。
+- 学习一些关于 Prompt Engineering 的书籍或文章，如《Prompt Engineering Guide》，《Language Models are Few-Shot Learners》，《AutoPrompt: Eliciting Knowledge from Language Models with Automatically Generated Prompts》 等。
+
+问：Prompt 隐空间是什么？
+
+答：Prompt 的隐空间是一种不使用自然语言，而使用向量或参数来表示 Prompt 的方法。
+
+这种方法的优点是可以避免自然语言的局限性，如语法、词汇、歧义等，以及自然语言 Prompt 的设计难度和成本。
+
+这种方法的缺点是难以理解和解释，以及需要额外的训练或优化过程。
+
+目前，有一些研究探索了隐空间 Prompt 的可能性，如 Prefix Tuning, Tuning Initialized with Discrete Prompts 和 Hard-Soft Prompt Hybrid Tuning 等。
+
+问：Prefix Tuning 隐空间例子
+
+答：好的，我可以给你一个 Prefix Tuning 的例子。Prefix Tuning 是一种在预训练语言模型的输入端添加一个可学习的向量作为隐空间 Prompt 的方法。
+
+假设你想用 GPT-3 模型来解决一个文本分类任务，例如判断一句话的情感是正面的还是负面的。你可以用 Prefix Tuning 的方法来训练一个隐空间 Prompt，使得它能够指导 GPT-3 生成正确的分类标签。
+
+具体来说，你可以做以下几个步骤：
+
+首先，你需要准备一些训练数据，每个数据包含一句话和它的情感标签，例如 “I love this movie.” -> “positive”。
+然后，你需要初始化一个随机向量作为隐空间 Prompt，并将它与 GPT-3 模型的输入端连接起来。这个向量的维度和 GPT-3 模型的词嵌入维度相同，例如 768。
+接着，你需要将每个训练数据中的句子作为 GPT-3 模型的输入，并让模型生成一个单词作为输出。这个单词应该是情感标签的一种表示，例如 “positive” 或 “p”。
+然后，你需要计算模型输出和真实标签之间的损失函数，并用梯度下降法来更新隐空间 Prompt 的参数。这样，隐空间 Prompt 就会逐渐学习到如何引导 GPT-3 生成正确的分类标签。
+最后，当你想用 GPT-3 模型来预测一个新的句子的情感时，你只需要将这个句子和隐空间 Prompt 一起作为输入，然后让模型生成一个单词作为输出。这个单词就是你想要的分类结果。
+下面是一个可能的隐空间 Prompt 的例子（用数字表示向量中的每个元素）：
+
+[0.12, -0.34, 0.56, …, -0.78]
+
+如果你用这个隐空间 Prompt 和 GPT-3 模型来预测句子 “This movie is terrible.” 的情感，你可能会得到以下的输出：
+
+negative
+
+问：Prompt 类型，如 prefix prompt 和 cloze prompt 的区别，并举例说明
+
+答：Prompt 类型，如 prefix prompt 和 cloze prompt 的区别，是指 Prompt 模板中答案的位置和形式的不同。
+
+cloze prompt 是指在 Prompt 模板中，答案是填在句子中的一个或多个空格中的，类似于完形填空的形式。
+
+例如，对于一个文本分类任务，判断一句话的情感是正面的还是负面的，一个可能的 cloze prompt 是：
+
+[X] The movie is ___.
+
+其中 [X] 是输入句子的占位符，___ 是答案的占位符。如果输入句子是 "I love this movie."，那么 Prompt 的形式就是：
+
+I love this movie. The movie is ___.
+
+cloze prompt 适合于使用 Masked Language Model 的任务，因为它们的训练方式非常类似。
+
+prefix prompt 是指在 Prompt 模板中，答案是放在句子末尾的，类似于前缀的形式。
+
+例如，对于一个文本生成任务，根据一句话生成一个摘要，一个可能的 prefix prompt 是：
+
+[X] Summary:
+
+其中 [X] 是输入句子的占位符，Summary: 是答案的前缀。如果输入句子是 "The movie is about a group of superheroes who save the world from an alien invasion."，那么 Prompt 的形式就是：
+
+The movie is about a group of superheroes who save the world from an alien invasion. Summary:
+
+prefix prompt 适合于生成任务或者使用自回归 Language Model 的任务，因为它们可以更好地控制生成过程。
+

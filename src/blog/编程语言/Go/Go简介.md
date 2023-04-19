@@ -42,12 +42,9 @@ Runtime 会在程序启动的时候，创建 M 个线程（CPU 执行调度的�
 4. 内存同步访问
     * atomic, mutex, channel 等操作
 
-## 例子
-
-[go practice](https://github.com/wizardpisces/dispatch-logic)
-
 ## Reference
 
+[go practice](https://github.com/wizardpisces/dispatch-logic)
 * https://golangbot.com/goroutines/
 * https://rakyll.org/scheduler/
 * https://blog.nindalf.com/posts/how-goroutines-work/
