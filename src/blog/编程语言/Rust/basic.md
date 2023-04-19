@@ -1,6 +1,6 @@
 # Rust Introduction
-![rust](https://img-blog.csdnimg.cn/c6593afeec6e46f89c3dafc75cb218ef.png)
 
+[Rust Practice](https://github.com/wizardpisces/dispatch-logic-rust)
 # Reference
 
 1. https://zhuanlan.zhihu.com/p/134009415

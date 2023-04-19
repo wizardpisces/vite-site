@@ -296,4 +296,10 @@ GPT 进化前提：更丰富更高质量的资料样本（可能是局限）；�
 
 其他角度：记忆是学习的一种手段。记忆的目标是重现（有限，可知），学习的目标是泛化（无限，未知）
 
-***Mostly reference gpt***
+### 一些资料
+
+* [GPT-4论文精读【论文精读·53】](https://www.youtube.com/watch?v=K0SZ9mdygTw)
+* [通向AGI之路：大型语言模型（LLM）技术精要](https://zhuanlan.zhihu.com/p/597586623)
+* [Maximizing the Potential of LLMs: A Guide to Prompt Engineering](https://www.ruxu.dev/articles/ai/maximizing-the-potential-of-llms/)
+* [Large language model - Wikipedia](https://en.wikipedia.org/wiki/Large_language_model)
+* [ChatGPT - Wikipedia](https://en.wikipedia.org/wiki/ChatGPT#:~:text=ChatGPT%20is%20an%20artificial%2Dintelligence,supervised%20and%20reinforcement%20learning%20techniques)
