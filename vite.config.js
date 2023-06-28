@@ -5,7 +5,7 @@ import viteSvgIcons from 'vite-plugin-svg-icons';
 // import md2HtmlPlugin from './plugins/vite-plugin-markdown2html'
 import md2HtmlPlugin from 'vite-plugin-md2html'
 import macrosPlugin from "vite-plugin-babel-macros"
-
+import checker from 'vite-plugin-checker'
 export default {
   server: {
     port: 3000,
@@ -31,6 +31,10 @@ export default {
       },
     }),
     macrosPlugin(),
+    checker({
+      // e.g. use TypeScript check
+      typescript: true
+    })
   ],
   css: {
     preprocessorOptions: {
@@ -39,4 +43,5 @@ export default {
       },
     },
   },
+
 };

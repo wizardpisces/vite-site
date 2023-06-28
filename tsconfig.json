@@ -1,21 +1,18 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "es2017",
-        "allowJs": true,
-        "experimentalDecorators": true,
-        // this enables stricter inference for data properties on `this`
+        "target": "esnext",
+        "useDefineForClassFields": true,
+        "module": "esnext",
+        "moduleResolution": "node",
         "strict": true,
         "jsx": "preserve",
-        "moduleResolution": "node",
-        // interop between ESM and CJS modules. Recommended by TS
-        "esModuleInterop": true,
         "skipLibCheck": true,
-        "allowSyntheticDefaultImports":true,
-        "types": [
-            "vite/client",
-            "node",
-            "types"
-        ]
-    }
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "noImplicitAny": false,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "lib": ["esnext", "dom"]
+    },
+    "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
