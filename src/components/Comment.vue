@@ -3,6 +3,7 @@
 </template>
 <script lang="ts">
 import { onMounted, ref } from "vue";
+import md5 from 'md5';
 import Gitalk from "gitalk";
 import 'gitalk/dist/gitalk.css'
 
@@ -12,7 +13,7 @@ export default {
     const init = () => {
       if (window) {
         let gitTalk = new Gitalk({
-          id: location.pathname, // 可选。默认为 location.href，但是对于 /blog/name#hash 的就会出问题，所以选 location.pathname
+          id: md5(location.pathname), // 可选长度不能超过 50，这里需要做 唯一值的 hash 运算（实际是少于 50 内的 hash 运算）
           owner: "wizardpisces", // GitHub repository 所有者
           repo: "docs-comment", // GitHub repo
           clientID: "ad89973e3795c60bd06f", // clientID
