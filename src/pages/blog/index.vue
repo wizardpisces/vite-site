@@ -7,6 +7,8 @@
           Loading blog .... below is a md2html test:
           <p v-html="Introduction"></p>
         </h2>
+        <p></p>
+        <Comment :key="blogName"></Comment>
         <!-- <Circular :check="4"></Circular> -->
       </div>
     </main>
@@ -14,15 +16,18 @@
 </template>
 
 <script lang="ts">
-import { onMounted, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
-import useBlog from "./composition/use-blog";
-import { html as Introduction } from "../../blog/Introduction.md";
+import useBlog from "@/composition/use-blog";
+import { html as Introduction } from "@/blog/Introduction.md";
 import A from "./a.vue";
+import Comment from '@/components/Comment.vue'
+
 export default {
   name: "BlogVueSSr",
   components: {
     Circular: A,
+    Comment
   },
   setup() {
     let route = useRoute();
@@ -33,12 +38,14 @@ export default {
         location.hash = route.hash;
       });
     }
+    const num = ref(0)
     watch(
       () => route.params.blogName,
-      (newBlogName: string) => {
+      (newBlogName) => {
         if (route.name === "Blog") {
           document.title = newBlogName + " | Blog";
           initBlog();
+          num.value++
         }
       },
       {
@@ -54,6 +61,7 @@ export default {
       blogContent,
       loadingBlog,
       Introduction,
+      blogName: num,
     };
   },
 };

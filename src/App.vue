@@ -7,6 +7,7 @@
       class="mobile-menu-button"
       @click="onSideBarToggle()"
     ></v3-icon>
+    <!-- 主要用在宽屏，窄屏会隐藏，触发 sidebar 中包含的 nav -->
     <nav-links></nav-links>
     <!-- <img :src="logo" alt=""> -->
   </header>
@@ -22,7 +23,7 @@
 <script lang="ts">
 import { computed, ref } from "@vue/runtime-core";
 import NavLinks from "./components/navLinks.vue";
-import Sidebar from "./components/sidebar.vue";
+import Sidebar from "./components/Sidebar/index.vue";
 
 export default {
   name: "App",
@@ -43,7 +44,7 @@ export default {
       sideBarOpened.value = !sideBarOpened.value;
     }
     function hideSidebar(e:Event) {
-      console.log(menuRef.value,menuRef.value?.$el)
+      // console.log(menuRef.value,menuRef.value?.$el)
       // 符合以下两种情况，说明切换按钮被主动点击了
       if(e.target === (menuRef.value as any).$el || (menuRef.value as any).$el.contains(e.target)){
         return;

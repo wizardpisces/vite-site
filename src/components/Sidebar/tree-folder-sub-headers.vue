@@ -23,7 +23,7 @@
 <script lang="ts">
 import { PropType } from "@vue/runtime-core";
 import { SubHeader } from "../../../script/blog";
-import useBlog from './composition/use-blog';
+import useBlog from '@/composition/use-blog';
 
 export default {
   name: "TreeFolderSubHeaders",

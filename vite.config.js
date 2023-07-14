@@ -33,9 +33,14 @@ export default {
     macrosPlugin(),
     checker({
       // e.g. use TypeScript check
-      typescript: true
+      // typescript: true
     })
   ],
+  resolve:{
+    alias:{
+      '@':path.resolve(__dirname,'src')
+    }
+  },
   css: {
     preprocessorOptions: {
       scss: {

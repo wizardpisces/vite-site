@@ -1,13 +1,14 @@
 <template>
   <aside class='sidebar'>
+    <!-- 支持小屏幕的 NavLinks -->
     <NavLinks></NavLinks>
     <BlogSidebar v-if="route.name === 'Blog'"></BlogSidebar>
   </aside>
 </template>
 <script lang='ts'>
 import { useRoute } from "vue-router";
-import NavLinks from "./navLinks.vue";
-import BlogSidebar from "../pages/blog/blogSidebar.vue";
+import NavLinks from "../navLinks.vue";
+import BlogSidebar from "./blogSidebar.vue";
 
 export default {
   components: {

@@ -15,7 +15,7 @@
 import { computed, PropType,nextTick } from "@vue/runtime-core";
 import { useRoute, useRouter,onBeforeRouteUpdate } from "vue-router";
 import { BlogDescriptor } from "../../../script/blog";
-import useBlog from "./composition/use-blog";
+import useBlog from "@/composition/use-blog";
 import TreeFolderSubHeaders from "./tree-folder-sub-headers.vue";
 export default {
   name: "TreeFolderContent",
