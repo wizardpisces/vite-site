@@ -28,7 +28,7 @@ $sidebar-width: 260px;
   font-size: 16px;
   background-color: #fff;
   position: fixed;
-  z-index: 10;
+  z-index: 100;
   margin: 0;
   top: 50px;
   left: 0;
