@@ -10,6 +10,7 @@ const Home = () => import('./pages/home/index.vue')
 const SubAppReact = () => import("./pages/sub-app-react/index.vue");
 
 const Huffman = () => import('./pages/playground/huffman/index.vue')
+const JSONSchema = () => import('./pages/playground/typescript-json-schema/index.vue')
 
 const SassPlayground = () => {
   // @ts-ignore
@@ -96,6 +97,14 @@ if (import.meta.env.DEV) {
         title: "Bookmarks",
       },
     },
+    {
+      path: "/playground/typescript-json-schema",
+      name: "TypeScript-Json-Schema",
+      component: JSONSchema,
+      meta: {
+        title: "typescript json schema playground",
+      },
+    }
   );
 }
 
