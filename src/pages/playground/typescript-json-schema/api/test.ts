@@ -24,6 +24,6 @@ export const getTestData = ()=> {
                 // }
             }
         }
-        return validateAPI(res, schema)
-    }
+    return validateAPI(res, schema)
+}
 

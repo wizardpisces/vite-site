@@ -7,6 +7,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import {getTestData}  from './api/test'
+
 export default defineComponent({
   props: {
     msg: String,

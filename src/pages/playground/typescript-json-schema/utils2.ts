@@ -2,7 +2,7 @@ import Ajv, { ValidateFunction } from 'ajv'
 import { Response } from './type'
 const ajv = new Ajv()
 import schema from './api/scheme.json'
-ajv.addSchema(schema,'/api')
+ajv.addSchema(schema, '/#')
 function reportError(error, res) {
     // TODO: 上报
     console.error('scheme validation error: ', error, res)

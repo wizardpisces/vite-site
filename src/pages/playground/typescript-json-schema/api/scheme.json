@@ -1,70 +1,40 @@
 {
-  "$ref": "#/definitions/ApiSchema",
+  "$id": "api",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "ApiSchema": {
       "additionalProperties": false,
       "properties": {
-        "testArray": {
-          "maxItems": 0,
-          "minItems": 0,
-          "type": "array"
+        "age": {
+          "type": "number"
         },
-        "testObject": {
-          "additionalProperties": false,
-          "properties": {
-            "arr": {
-              "maxItems": 0,
-              "minItems": 0,
-              "type": "array"
-            },
-            "obj": {
-              "additionalProperties": false,
-              "properties": {
-                "age": {
-                  "type": "number"
-                },
-                "name": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "name",
-                "age"
-              ],
-              "type": "object"
-            },
-            "optionalObj": {
-              "additionalProperties": false,
-              "properties": {
-                "key1": {
-                  "type": "string"
-                },
-                "key2": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "key1",
-                "key2"
-              ],
-              "type": "object"
-            },
-            "simpleType": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "arr",
-            "obj",
-            "simpleType"
-          ],
-          "type": "object"
+        "name": {
+          "type": "string"
+        },
+        "otherApi": {
+          "$ref": "#/definitions/ApiSchema2"
         }
       },
       "required": [
-        "testArray",
-        "testObject"
+        "name",
+        "age",
+        "otherApi"
+      ],
+      "type": "object"
+    },
+    "ApiSchema2": {
+      "additionalProperties": false,
+      "properties": {
+        "age": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "age"
       ],
       "type": "object"
     }
