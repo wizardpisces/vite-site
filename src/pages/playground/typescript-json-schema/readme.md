@@ -2,6 +2,14 @@
 
 ts -> ts-json-schema-generator 生成 json schema -> ajv validate
 
+## How to run
+
+```
+npm run dev
+```
+
+visit http://localhost:3000/playground/typescript-json-schema, open console and check error msg
+
 ## 特殊场景
 
 1. 在 ts-json-schema-generator 对于 只有 一个 export type ApiSchema 的文件会生成带 **$ref 属性**的JSON；用 ajv.compile(schema) 验证会一切正常
@@ -53,13 +61,29 @@ ts -> ts-json-schema-generator 生成 json schema -> ajv validate
 import schema from './api/scheme.json'
 ajv.addSchema(schema,'/api') // 通过 addSchema 将整个 schema 注册到 $id 上
 ```
-ts-json-schema-generator 没有在 $ref 拼上 $id 前缀，导致 ajv 寻址不到，PS：typescript-json-schema 会自动拼上 id
-相关 Issue：https://github.com/vega/ts-json-schema-generator/issues/1732
+
 ## TODO 
 
-[x] ts-json-schema-generator 生成 JSON，并用 ajv validate
-[x] 错误数据对象跟数组等必须对象补全
-[] 循环类型补全，补全 $ref
-[] Union type 补全：A | {string}
-[] 监听文件 API Schema 类型变化并实时生成 JSON schema 
-[] 
+* [x] ts-json-schema-generator 生成 JSON，并用 ajv validate
+* [x] 错误数据对象跟数组等必须对象补全
+* [] 补全 $ref 
+    * [x] 普通的 $ref ：需要找到引用类型，并进一步分析补全
+    * [] 多级引用 a->b->c->d
+    * [] 循环类型 ，是否需要补全？得看接口不存在这种？
+    * [] Union type 补全：A | {string}，随机选定一个补全
+* [] 监听文件 API Schema 类型变化并实时生成 JSON schema 
+* [] 拆分 API 生成的 JSON Schema 到多个文件
+
+## 注意事项
+
+* ts-json-schema-generator 不支持交叉类型，例如 ColoredShape 生成的类型会有问题
+
+```ts
+type Color = "red" | "green" | "blue";
+type Shape = "circle" | "square" | "triangle";
+export type ColoredShape = Color & Shape;
+```
+* ts-json-schema-generator 没有在 $ref 拼上 $id 前缀，目前是手动对结果做的拼接，相关 Issue：https://github.com/vega/ts-json-schema-generator/issues/1732
+
+* ts-json-schema-generator 只对 export 类型做生成到 definitions（typescript-json-schema 则会生成所有到 definitions）
+

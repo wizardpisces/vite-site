@@ -1,16 +1,28 @@
 export type Recursive = {
     recur: Recursive
 } | number
-  
+
+export type Human = {
+    basicInfo: {
+        name: string,
+        age: number
+    },
+    otherInfo: {
+
+    }
+}
+
+export type ChainReferenceNumber = {
+    testChain:number
+}
+export type ChainReference = ChainReferenceNumber
+
 export type ApiSchema = {
     testArray: [],
+    testChainReference: ChainReference,
+    testReference: Human,
     testObject: {
         arr: [],
-        obj: {
-            name: string,
-            age: number,
-            recursive: Recursive
-        },
         optionalObj?: {
             key1: string,
             key2: number
@@ -19,6 +31,9 @@ export type ApiSchema = {
     },
 }
 
+// type Color = "red" | "green" | "blue";
+// type Shape = "circle" | "square" | "triangle";
+// export type ColoredShape = Color & Shape;
 
 // export type ApiSchema = {
 //     name: string,
