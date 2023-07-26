@@ -31,7 +31,7 @@ ts -> ts-json-schema-generator 生成 json schema -> ajv validate
           "type": "string"
         },
         "otherApi": {
-          "$ref": "#/definitions/ApiSchema2"
+          "$ref": "#/definitions/ApiSchema2" // 实际这里缺少了 api 前缀, "$ref": "api#/definitions/ApiSchema2"，看起来是 ts-json-schema-generator 的 BUG ？
         }
       },
       "required": [
@@ -47,13 +47,19 @@ ts -> ts-json-schema-generator 生成 json schema -> ajv validate
   }
 }
 ```
+解决方案：
 
-
+```ts
+import schema from './api/scheme.json'
+ajv.addSchema(schema,'/api') // 通过 addSchema 将整个 schema 注册到 $id 上
+```
+ts-json-schema-generator 没有在 $ref 拼上 $id 前缀，导致 ajv 寻址不到，PS：typescript-json-schema 会自动拼上 id
+相关 Issue：https://github.com/vega/ts-json-schema-generator/issues/1732
 ## TODO 
 
 [x] ts-json-schema-generator 生成 JSON，并用 ajv validate
 [x] 错误数据对象跟数组等必须对象补全
-[] 循环类型补全
+[] 循环类型补全，补全 $ref
 [] Union type 补全：A | {string}
 [] 监听文件 API Schema 类型变化并实时生成 JSON schema 
 [] 

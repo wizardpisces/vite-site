@@ -2,41 +2,94 @@
   "$id": "api",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "ApiSchema": {
-      "additionalProperties": false,
-      "properties": {
-        "age": {
+    "Recursive": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "recur": {
+              "$ref": "api#/definitions/Recursive"
+            }
+          },
+          "required": [
+            "recur"
+          ],
+          "additionalProperties": false
+        },
+        {
           "type": "number"
-        },
-        "name": {
-          "type": "string"
-        },
-        "otherApi": {
-          "$ref": "#/definitions/ApiSchema2"
         }
-      },
-      "required": [
-        "name",
-        "age",
-        "otherApi"
-      ],
-      "type": "object"
+      ]
     },
-    "ApiSchema2": {
-      "additionalProperties": false,
+    "ApiSchema": {
+      "type": "object",
       "properties": {
-        "age": {
-          "type": "number"
+        "testArray": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 0
         },
-        "name": {
-          "type": "string"
+        "testObject": {
+          "type": "object",
+          "properties": {
+            "arr": {
+              "type": "array",
+              "minItems": 0,
+              "maxItems": 0
+            },
+            "obj": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "age": {
+                  "type": "number"
+                },
+                "recursive": {
+                  "$ref": "api#/definitions/Recursive"
+                }
+              },
+              "required": [
+                "name",
+                "age",
+                "recursive"
+              ],
+              "additionalProperties": false
+            },
+            "optionalObj": {
+              "type": "object",
+              "properties": {
+                "key1": {
+                  "type": "string"
+                },
+                "key2": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "key1",
+                "key2"
+              ],
+              "additionalProperties": false
+            },
+            "simpleType": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "arr",
+            "obj",
+            "simpleType"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
-        "name",
-        "age"
+        "testArray",
+        "testObject"
       ],
-      "type": "object"
+      "additionalProperties": false
     }
   }
 }

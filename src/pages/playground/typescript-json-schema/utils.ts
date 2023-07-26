@@ -44,6 +44,13 @@ function completeDataBySchema(data, schema: Record<string, any> = {}) { // TODO:
                 if (missingPropertySchema.type === 'array') {
                     data[key] = []
                 }
+
+
+                if(missingPropertySchema.anyOf){ // 这里先不做特别处理补全，理论上接口定义不会有 Union 形式的对象选择
+                    missingPropertySchema.anyOf.forEach(schema => { // 对 Union 类型进行补全，理论上这里不会有太多的嵌套
+                        completeDataBySchema(data[key], schema)
+                    })
+                }
             }
         }
     }
@@ -68,20 +75,20 @@ export function validateAPI<T>(res: Response<T>, schema: Record<string, any>): R
 
         const valid = validate(data)
         if (!valid) {
-            // validate.errors?.forEach(error => {
-            //     if (error.keyword === 'required') { // 触发补全
+            validate.errors?.forEach(error => {
+                if (error.keyword === 'required') { // 触发补全
 
-            //         if (error.params.missingProperty) {
+                    if (error.params.missingProperty) {
 
-            //             let missingPropertyName = error.params.missingProperty
+                        let missingPropertyName = error.params.missingProperty
 
-            //             if (Array.isArray(schema.required) && schema.required.includes(missingPropertyName)) { // 只补全必须的，不补全可选项
-            //                 completeDataBySchema(data, schema)
-            //             }
+                        if (Array.isArray(schema.required) && schema.required.includes(missingPropertyName)) { // 只补全必须的，不补全可选项
+                            completeDataBySchema(data, schema)
+                        }
 
-            //         }
-            //     }
-            // });
+                    }
+                }
+            });
             reportError(validate.errors, res)
         }
     }
