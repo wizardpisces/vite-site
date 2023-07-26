@@ -66,6 +66,66 @@
     "ChainReference": {
       "$ref": "api#/definitions/ChainReferenceNumber"
     },
+    "TestChainReference": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "$ref": "api#/definitions/ChainReference"
+        }
+      },
+      "required": [
+        "reference"
+      ],
+      "additionalProperties": false
+    },
+    "BasicObj": {
+      "type": "object",
+      "properties": {
+        "arr": {
+          "type": "array",
+          "minItems": 0,
+          "maxItems": 0
+        },
+        "obj": {
+          "type": "object",
+          "properties": {
+            "obj2": {
+              "type": "object",
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "obj2"
+          ],
+          "additionalProperties": false
+        },
+        "optionalObj": {
+          "type": "object",
+          "properties": {
+            "key1": {
+              "type": "string"
+            },
+            "key2": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "key1",
+            "key2"
+          ],
+          "additionalProperties": false
+        },
+        "simpleType": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "arr",
+        "obj",
+        "simpleType"
+      ],
+      "additionalProperties": false
+    },
     "ApiSchema": {
       "type": "object",
       "properties": {
@@ -77,47 +137,20 @@
         "testChainReference": {
           "$ref": "api#/definitions/ChainReference"
         },
+        "cycleReference": {
+          "$ref": "api#/definitions/Recursive"
+        },
         "testReference": {
           "$ref": "api#/definitions/Human"
         },
         "testObject": {
-          "type": "object",
-          "properties": {
-            "arr": {
-              "type": "array",
-              "minItems": 0,
-              "maxItems": 0
-            },
-            "optionalObj": {
-              "type": "object",
-              "properties": {
-                "key1": {
-                  "type": "string"
-                },
-                "key2": {
-                  "type": "number"
-                }
-              },
-              "required": [
-                "key1",
-                "key2"
-              ],
-              "additionalProperties": false
-            },
-            "simpleType": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "arr",
-            "simpleType"
-          ],
-          "additionalProperties": false
+          "$ref": "api#/definitions/BasicObj"
         }
       },
       "required": [
         "testArray",
         "testChainReference",
+        "cycleReference",
         "testReference",
         "testObject"
       ],

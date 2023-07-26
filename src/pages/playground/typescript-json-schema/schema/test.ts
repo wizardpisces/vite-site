@@ -15,20 +15,33 @@ export type Human = {
 export type ChainReferenceNumber = {
     testChain:number
 }
+
 export type ChainReference = ChainReferenceNumber
+
+export type TestChainReference = {
+    reference: ChainReference
+}
+
+export type BasicObj = {
+    arr: [],
+    obj: {
+        obj2: {
+            
+        }
+    },
+    optionalObj?: {
+        key1: string,
+        key2: number
+    }
+    simpleType: string
+}
 
 export type ApiSchema = {
     testArray: [],
     testChainReference: ChainReference,
+    cycleReference: Recursive
     testReference: Human,
-    testObject: {
-        arr: [],
-        optionalObj?: {
-            key1: string,
-            key2: number
-        }
-        simpleType: string
-    },
+    testObject: BasicObj
 }
 
 // type Color = "red" | "green" | "blue";

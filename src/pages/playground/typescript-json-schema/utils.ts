@@ -86,7 +86,7 @@ function completeDataBySchema(data, schema: Record<string, any> = {}) { // TODO:
 
 }
 
-export function validateAPI<T>(res: Response<T>, schema: Record<string, any>): Response<T> {
+export function validateAndFixAPI<T>(res: Response<T>, schema: Record<string, any>): Response<T> {
     let data = res.data
     try { // 避免校验过程中出现错误，而导致业务代码无法运行
         if (res) {
