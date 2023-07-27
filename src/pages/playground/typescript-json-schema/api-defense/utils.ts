@@ -8,7 +8,7 @@ export function resolveSchemaByRef(ref: string, fullSchema: Record<string, any>)
     return schema
 }
 
-export function reportError(msgObj: { msg: string, schema: Record<string, any>, data: Record<string, any>, other?: any }) {
+export function reportError(msgObj: { msg: string, schema?: Record<string, any>, data?: Record<string, any>, errorDetail?: any }) {
     // TODO: 上报
     console.error('[validateAndFixAPI]', msgObj)
 }
@@ -17,9 +17,9 @@ export function reportError(msgObj: { msg: string, schema: Record<string, any>, 
  * 检测 json schema 是否有循环引用，如果有，则不去做补全操作，并提示循环点
  * @param jsonSchema 
  * @param fullSchema 
- * @returns 
+ * @returns [boolean, string]
  */
-export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: Record<string, any>) {
+export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: Record<string, any>):[boolean, string] {
     let traversedCache = new Set(), refs: string[] = []
     let isCyclic = false, cycleReferenceName
     function traverse(obj: Record<string, any>) { // 深度优先遍历，缓存已经遍历过的对象，检测是否有循环引用

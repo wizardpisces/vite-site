@@ -1,17 +1,16 @@
-# demo of ts json schema
+# Api Defense
 
 解决API未按照为空约定返回，而是 null，主要对本应该是 null 的对象做补全兜底
 
 ts -> ts-json-schema-generator 生成 json schema -> ajv validate and 补全
 
 
-## How to run
+## How to run demo
 
 ```
-npm run dev
+import { demo } from "./api-defense/demo";
+demo()
 ```
-
-visit http://localhost:3000/playground/typescript-json-schema, open console and check error msg
 
 ## 特殊场景
 

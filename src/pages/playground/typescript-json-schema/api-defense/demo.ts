@@ -1,10 +1,12 @@
-import scheme from './__tests__/api/scheme.json'
 import { ApiSchema } from "./__tests__/schema/test";
-import { validateAndFixAPI } from ".";
+import { getApiDefenseFn } from ".";
 import { Response } from './type';
+import fullSchema from './__tests__/api/scheme.json'
+const schema = fullSchema['definitions']['ApiSchema']
+const fullSchemaId = '/api'
 
-const schema = scheme['definitions']['ApiSchema']
-export const getTestData = () => { // use in code to see how it work, eg: getTestData()
+const validateAndFixAPI = getApiDefenseFn(fullSchema, fullSchemaId)
+export const demo = () => { // use in code to see how it work, eg: require('api-defense/demo').getTestData()
     const res: Response<ApiSchema> = {
         code: 0,
         data: {

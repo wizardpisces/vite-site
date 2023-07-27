@@ -6,14 +6,14 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { getTestData } from "./api-defense/demo";
+import { demo } from "./api-defense/demo";
 
 export default defineComponent({
   props: {
     msg: String,
   },
   setup(props) {
-    getTestData();
+    demo();
     return {};
   },
 });
