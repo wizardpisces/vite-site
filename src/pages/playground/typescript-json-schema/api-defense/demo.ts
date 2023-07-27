@@ -1,10 +1,10 @@
-import scheme from './scheme.json'
-import { ApiSchema } from "../schema/test";
-import { validateAndFixAPI } from "../utils";
-import { Response } from '../type';
+import scheme from './__tests__/api/scheme.json'
+import { ApiSchema } from "./__tests__/schema/test";
+import { validateAndFixAPI } from ".";
+import { Response } from './type';
 
 const schema = scheme['definitions']['ApiSchema']
-export const getTestData = () => {
+export const getTestData = () => { // use in code to see how it work, eg: getTestData()
     const res: Response<ApiSchema> = {
         code: 0,
         data: {

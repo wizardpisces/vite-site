@@ -6,17 +6,15 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import {getTestData}  from './api/test'
+import { getTestData } from "./api-defense/demo";
 
 export default defineComponent({
   props: {
     msg: String,
   },
   setup(props) {
-    getTestData()
-    return {
-        
-    }
+    getTestData();
+    return {};
   },
 });
 </script>

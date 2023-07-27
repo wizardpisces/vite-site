@@ -8,7 +8,7 @@ export type Human = {
         age: number
     },
     otherInfo: {
-
+        test: string
     }
 }
 
@@ -54,7 +54,8 @@ export type ApiSchema = {
 //     otherApi: ApiSchema2
 // }
 
-// export type ApiSchema2 = {
-//     name: string,
-//     age: number
-// }
+export type ApiSchema2 = {
+    name: string,
+    age: number,
+    test1: number
+}

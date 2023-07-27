@@ -42,6 +42,14 @@
         },
         "otherInfo": {
           "type": "object",
+          "properties": {
+            "test": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "test"
+          ],
           "additionalProperties": false
         }
       },
@@ -153,6 +161,22 @@
         "cycleReference",
         "testReference",
         "testObject"
+      ],
+      "additionalProperties": false
+    },
+    "ApiSchema2": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "age"
       ],
       "additionalProperties": false
     }

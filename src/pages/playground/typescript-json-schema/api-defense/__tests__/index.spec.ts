@@ -1,8 +1,8 @@
 import { describe, expect, test } from '@jest/globals';
-import { validateAndFixAPI } from '../utils';
-import { ApiSchema, BasicObj, TestChainReference } from '../schema/test';
+import { validateAndFixAPI } from '..';
+import { ApiSchema, BasicObj, TestChainReference } from './schema/test';
 import { Response } from '../type';
-import scheme from '../api/scheme.json'
+import scheme from './api/scheme.json'
 // function sum(a: number, b: number) {
 //     return a + b;
 // }
@@ -11,6 +11,7 @@ import scheme from '../api/scheme.json'
 //         expect(sum(1, 2)).toBe(3);
 //     });
 // });
+
 
 describe('validateAPI', () => {
     test('基本对象 null 补全，支持嵌套补全，跳过 optional 跟 普通类型， 跳过未在类型中定义的', () => {

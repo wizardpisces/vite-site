@@ -71,14 +71,16 @@ ajv.addSchema(schema,'/api') // 通过 addSchema 将整个 schema 注册到 $id 
 * [x] 错误数据对象跟数组等必须对象补全
 * [] 补全 $ref 
     * [x] 普通的 $ref ：需要找到引用类型，并进一步分析补全
-    * [] 多级引用 a->b->c->d
-    * [] 循环类型 ，是否需要补全？得看接口不存在这种？
+    * [x] 多级引用 a->b->c->d
+    * [] 循环引用 JSON Schema：判定出循环引用的 JSON Schema 后就不做补全，Dev 抛错提示，用 Nullable 等其他方案做兜底
     * [] Union type 补全：A | {string}，随机选定一个补全
 * [] 监听文件 API Schema 类型变化并实时生成 JSON schema 
 * [] 拆分 API 生成的 JSON Schema 到多个文件
+* [] 解决编译类型同名覆盖
 
 ## 注意事项
 
+* 同名覆盖： 如果 ts-json-schema-generator 编译 test.ts 跟 test2.ts 中有同名类型，则会覆盖彼此，只保留一个
 * ts-json-schema-generator 不支持交叉类型，例如 ColoredShape 生成的类型会有问题
 
 ```ts
