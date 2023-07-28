@@ -3,3 +3,7 @@ export type ApiSchema2 = {
     name: string,
     age: number
 }
+
+export type ApiSchema3 = {
+    name: any
+}

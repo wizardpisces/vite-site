@@ -1,3 +1,4 @@
+import { ValidateAndFixAPIError } from "./type"
 
 export function resolveSchemaByRef(ref: string, fullSchema: Record<string, any>): Record<string, any> { // 需要考虑循环引用 $ref，类型引用自身
     let path: string[] = ref.split('/') // "api#/definitions/Human" => ["api#", "definitions", "Human"]
@@ -8,7 +9,7 @@ export function resolveSchemaByRef(ref: string, fullSchema: Record<string, any>)
     return schema
 }
 
-export function reportError(msgObj: { msg: string, schema?: Record<string, any>, data?: Record<string, any>, errorDetail?: any }) {
+export function reportError(msgObj: { msg: string, type?:ValidateAndFixAPIError, schema?: Record<string, any>, data?: Record<string, any>, errorDetail?: any } = {msg:'',type:ValidateAndFixAPIError.Other}) {
     // TODO: 上报
     console.error('[validateAndFixAPI]', msgObj)
 }
@@ -21,7 +22,7 @@ export function reportError(msgObj: { msg: string, schema?: Record<string, any>,
  */
 export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: Record<string, any>):[boolean, string] {
     let traversedCache = new Set(), refs: string[] = []
-    let isCyclic = false, cycleReferenceName
+    let isCyclic = false, cycleReferenceName = ''
     function traverse(obj: Record<string, any>) { // 深度优先遍历，缓存已经遍历过的对象，检测是否有循环引用
         if (isCyclic) { // 判断出循环引用后直接返回
             return true
@@ -32,7 +33,7 @@ export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: 
 
         if (traversedCache.has(obj)) { // 对遍历的节点再次访问，说明遇到循环引用
             isCyclic = true
-            cycleReferenceName = refs.pop()
+            cycleReferenceName = refs.pop() as string
             return true
         }
 
@@ -71,7 +72,7 @@ export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: 
  * @returns 
  */
 
-export function completeDataBySchema(data, schema: Record<string, any> = {}, fullSchema: Record<string, any> = {}) { // TODO: 如何补全递归类型
+export function completeDataBySchema(data, schema: Record<string, any>, fullSchema: Record<string, any>) {
     if (typeof schema !== "object" || typeof data !== "object") {
         return
     }
@@ -91,7 +92,7 @@ export function completeDataBySchema(data, schema: Record<string, any> = {}, ful
             if (shouldMend(parentData[dataKey])) {
                 parentData[dataKey] = {}
             }
-            completeDataBySchema(parentData[dataKey], dataKeyRelatedSchema)
+            completeDataBySchema(parentData[dataKey], dataKeyRelatedSchema,fullSchema)
         } else if (dataKeyRelatedSchema.type === 'array') {
             if (shouldMend(parentData[dataKey])) {
                 parentData[dataKey] = []
@@ -110,10 +111,10 @@ export function completeDataBySchema(data, schema: Record<string, any> = {}, ful
         }
     }
 
-    for (let key of schema.required) {
-        let missingPropertySchema = schema.properties?.[key]
-        if (missingPropertySchema) {
-            completeDataBySchemaInner(data, missingPropertySchema, key)
+    for (let key of schema.required) { // 对 required 类型做 null 消除
+        let requiredPropertySchema = schema.properties?.[key]
+        if (requiredPropertySchema) {
+            completeDataBySchemaInner(data, requiredPropertySchema, key)
         }
     }
 

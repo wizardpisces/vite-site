@@ -1,5 +1,5 @@
 import Ajv, { ValidateFunction, Options } from 'ajv'
-import { Response } from './type'
+import { Response, ValidateAndFixAPIError } from './type'
 
 import { completeDataBySchema, isCyclicJsonSchema, reportError } from './utils'
 
@@ -12,9 +12,6 @@ let ajv, fullSchema
  * @returns validateAndFixAPI
  */
 export function getApiDefenseFn(schema, fullSchemaId) {
-    if (ajv) {
-        return validateAndFixAPI
-    }
     ajv = new Ajv()
     ajv.addSchema(schema, fullSchemaId) // 注册 /api 的路径，便于 $ref 引用准确，让 validate 准确；让补全也准确
     fullSchema = schema
@@ -63,7 +60,7 @@ function validateAndFixAPI<T>(res: Response<T>, schema: Record<string, any>): Re
                             "message": "must be array"
                         }
                      */
-                    reportError({ errorDetail: error, data: res, msg: 'type misMatch', schema })
+                    reportError({ errorDetail: error, data: res, msg: 'type misMatch', schema, type: ValidateAndFixAPIError.TypeMismatch })
                 } else if (error.keyword === 'required') { // 只在 type 情况下触发补全，其余情况触发报错即可
                     /**
                      * error:
@@ -77,15 +74,15 @@ function validateAndFixAPI<T>(res: Response<T>, schema: Record<string, any>): Re
                             "message": "must have required property 'testObject'"
                         }
                     */
-                    reportError({ errorDetail: error, data: res, schema, msg: 'missing property' })
+                    reportError({ errorDetail: error, data: res, schema, msg: 'missing property', type: ValidateAndFixAPIError.Required })
                 } else {
-                    reportError({ errorDetail: error, data: res, schema, msg: 'unknown error' })
+                    reportError({ errorDetail: error, data: res, schema, msg: 'unknown validate error detail' })
                 }
 
                 const [isCyclic, cycleReferenceName] = isCyclicJsonSchema(schema, fullSchema)
 
                 if (isCyclic) {// 如果是循环引用则不做补全（不确定该如何做补全）
-                    reportError({ msg: `Schema contains cyclic reference, will not do complete work; please check ${cycleReferenceName} or use Nullable to fix potential error`, schema, data: res })
+                    reportError({ msg: `Schema contains cyclic reference, will not do complete work; please check ${cycleReferenceName} or use Nullable to fix potential error`,type:ValidateAndFixAPIError.SchemaContainsRecursiveReference, schema, data: res })
                     return res
                 } else {
                     completeDataBySchema(data, schema, fullSchema) // 从头到尾扫描 schema 补全

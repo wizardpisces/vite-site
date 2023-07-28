@@ -9,6 +9,7 @@ const {
     createGenerator
 } = require("ts-json-schema-generator");
 
+const schemaId = 'api';
 module.exports = (filePath,outputPath,tsconfigPath) => {
     // 监听 test.txt 文件的变化
     watch(filePath, (event, filename) => {
@@ -19,7 +20,6 @@ module.exports = (filePath,outputPath,tsconfigPath) => {
     function t2j() {
         try {
             console.log(`generating json schema from ${filePath}/*.ts...`)
-            const schemaId = 'api';
             /** @type {import('ts-json-schema-generator/dist/src/Config').Config} */
             const config = {
                 path: join(filePath, '/*.ts'),
@@ -34,7 +34,7 @@ module.exports = (filePath,outputPath,tsconfigPath) => {
 
             /**
              * 这里补丁 $id prefix 到 $ref
-             * 原因： ts - json - schema - generator 没有在 $ref 拼上 $id 前缀， 导致 ajv 寻址不到
+             * 原因： ts-json-schema-generator 没有在 $ref 拼上 $id 前缀， 导致 ajv 寻址不到
              * 相关 Issue： https: //github.com/vega/ts-json-schema-generator/issues/1732
              * PS： typescript-json-schema 会自动拼上 id  但是使用如下命令会报错 typescript-json-schema './tsconfig.json' * --include 'src/pages/playground/typescript-json-schema/schema/*.ts'  -o 'src/pages/playground/typescript-json-schema/api/scheme.json' --id='api'
              */
