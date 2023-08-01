@@ -1,4 +1,4 @@
-import { ValidateAndFixAPIError } from "./type"
+import { ValidateAndFixAPIError, OnErrorOptions } from "./type"
 
 export function resolveSchemaByRef(ref: string, fullSchema: Record<string, any>): Record<string, any> { // 需要考虑循环引用 $ref，类型引用自身
     let path: string[] = ref.split('/') // "api#/definitions/Human" => ["api#", "definitions", "Human"]
@@ -9,9 +9,9 @@ export function resolveSchemaByRef(ref: string, fullSchema: Record<string, any>)
     return schema
 }
 
-export function reportError(msgObj: { msg: string, type?:ValidateAndFixAPIError, schema?: Record<string, any>, data?: Record<string, any>, errorDetail?: any } = {msg:'',type:ValidateAndFixAPIError.Other}) {
-    // TODO: 上报
-    console.error('[validateAndFixAPI]', msgObj)
+export function reportError(OnErrorOptions: OnErrorOptions = { msg: '', type: ValidateAndFixAPIError.Other }, onError:(error: OnErrorOptions)=>any ) {
+    console.error('[API-Defense]', OnErrorOptions)
+    onError(OnErrorOptions)
 }
 
 /**
@@ -20,7 +20,7 @@ export function reportError(msgObj: { msg: string, type?:ValidateAndFixAPIError,
  * @param fullSchema 
  * @returns [boolean, string]
  */
-export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: Record<string, any>):[boolean, string] {
+export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: Record<string, any>): [boolean, string] {
     let traversedCache = new Set(), refs: string[] = []
     let isCyclic = false, cycleReferenceName = ''
     function traverse(obj: Record<string, any>) { // 深度优先遍历，缓存已经遍历过的对象，检测是否有循环引用
@@ -92,7 +92,7 @@ export function completeDataBySchema(data, schema: Record<string, any>, fullSche
             if (shouldMend(parentData[dataKey])) {
                 parentData[dataKey] = {}
             }
-            completeDataBySchema(parentData[dataKey], dataKeyRelatedSchema,fullSchema)
+            completeDataBySchema(parentData[dataKey], dataKeyRelatedSchema, fullSchema)
         } else if (dataKeyRelatedSchema.type === 'array') {
             if (shouldMend(parentData[dataKey])) {
                 parentData[dataKey] = []

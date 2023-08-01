@@ -4,7 +4,7 @@
 
 ts -> ts-json-schema-generator 生成 json schema -> ajv validate and 补全
 
-
+**注意**：非正常的返回则避免使用本校验工具，例如： 返回的 success 是false 或者 code 不为 0 等正确的结果情况，则跳过校验
 ## How to run
 
 可以参照 Demo 或者 test case
@@ -27,13 +27,14 @@ npm run test
     * [x] 循环引用 JSON Schema：判定出循环引用的 JSON Schema 后就不做补全，Dev 抛错提示，用 Nullable 等其他方案做兜底
     * [x] Union type 补全：A | {string}，随机选定一个补全
 * [x] 监听文件 API Schema 类型变化并实时生成 JSON schema 
+* [] 报错的时候获取到 API path 并上报
 * [] 拆分 API 生成的 JSON Schema 到多个文件
 * [] 解决编译类型同名覆盖（理论上同名的类型应该是同一类型，目前可以临时通过强制同名类型为同类型解决，但是需要做出编译时候的提示）
 
 ## 注意事项
 
 ### 可能触发 BUG
-* 同名覆盖： 如果 ts-json-schema-generator 编译 test.ts 跟 test2.ts 中有同名类型，则会覆盖彼此，只保留一个
+* 同名覆盖： 如果 ts-json-schema-generator 编译 test.ts 跟 test2.ts 中有同名类型，则会覆盖彼此，只保留一个，相关 Issue: https://github.com/vega/ts-json-schema-generator/issues/1738
 * ts-json-schema-generator 不支持交叉类型，例如 ColoredShape 生成的类型会有问题
 
 ```ts
@@ -109,7 +110,7 @@ type B = {
 解决方案：
 
 ```ts
-import schema from './api/scheme.json'
+import schema from './api/schema.json'
 ajv.addSchema(schema,'/api') // 通过 addSchema 将整个 schema 注册到 $id 上
 ```
 

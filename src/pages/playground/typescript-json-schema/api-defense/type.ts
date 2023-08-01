@@ -9,3 +9,11 @@ export enum ValidateAndFixAPIError {
     SchemaContainsRecursiveReference = 'SchemaContainsRecursiveReference',
     Other = 'Other',
 }
+
+export type OnErrorOptions = {
+    msg: string,
+    type?: ValidateAndFixAPIError,
+    schema?: Record<string, any>,
+    data?: Record<string, any>,
+    errorDetail?: any
+}

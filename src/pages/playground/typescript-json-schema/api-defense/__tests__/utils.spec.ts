@@ -1,6 +1,6 @@
 import { describe, expect, jest, test } from "@jest/globals";
 import { resolveSchemaByRef, isCyclicJsonSchema, completeDataBySchema } from "../utils";
-import fullSchema from "./api/scheme.json"
+import fullSchema from "./api/schema.json"
 import { BasicObj, Recursive, TestChainReference } from "./schema/test";
 
 describe("api defense utils", () => {

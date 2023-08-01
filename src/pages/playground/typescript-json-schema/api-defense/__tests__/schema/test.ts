@@ -41,7 +41,8 @@ export type ApiSchema = {
     testChainReference: ChainReference,
     cycleReference: Recursive
     testReference: Human,
-    testObject: BasicObj
+    testObject: BasicObj,
+    apiSchema2: ApiSchema2
 }
 
 // type Color = "red" | "green" | "blue";

@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validateAPI should support $ref chain 1`] = `
+[
+  {
+    "data": {
+      "reference": {},
+    },
+    "errorDetail": {
+      "instancePath": "",
+      "keyword": "required",
+      "message": "must have required property 'reference'",
+      "params": {
+        "missingProperty": "reference",
+      },
+      "schemaPath": "#/required",
+    },
+    "msg": "missing property",
+    "schema": {
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "$ref": "api#/definitions/ChainReference",
+        },
+      },
+      "required": [
+        "reference",
+      ],
+      "type": "object",
+    },
+    "type": "Required",
+  },
+]
+`;
+
+exports[`validateAPI should support basic null completion, support nested object and array, will skip optional and simple type and type not defined in schema 1`] = `
+[
+  {
+    "data": {
+      "arr": [],
+      "notInSchemaDefinition": null,
+      "obj": {
+        "obj2": {},
+      },
+    },
+    "errorDetail": {
+      "instancePath": "",
+      "keyword": "required",
+      "message": "must have required property 'simpleType'",
+      "params": {
+        "missingProperty": "simpleType",
+      },
+      "schemaPath": "#/required",
+    },
+    "msg": "missing property",
+    "schema": {
+      "additionalProperties": false,
+      "properties": {
+        "arr": {
+          "maxItems": 0,
+          "minItems": 0,
+          "type": "array",
+        },
+        "obj": {
+          "additionalProperties": false,
+          "properties": {
+            "obj2": {
+              "additionalProperties": false,
+              "type": "object",
+            },
+          },
+          "required": [
+            "obj2",
+          ],
+          "type": "object",
+        },
+        "optionalObj": {
+          "additionalProperties": false,
+          "properties": {
+            "key1": {
+              "type": "string",
+            },
+            "key2": {
+              "type": "number",
+            },
+          },
+          "required": [
+            "key1",
+            "key2",
+          ],
+          "type": "object",
+        },
+        "simpleType": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "arr",
+        "obj",
+        "simpleType",
+      ],
+      "type": "object",
+    },
+    "type": "Required",
+  },
+]
+`;
+
+exports[`validateAPI should support cyclic $ref skip null completion, and report error 1`] = `
+[
+  [
+    {
+      "data": {},
+      "errorDetail": {
+        "instancePath": "",
+        "keyword": "required",
+        "message": "must have required property 'recur'",
+        "params": {
+          "missingProperty": "recur",
+        },
+        "schemaPath": "#/anyOf/0/required",
+      },
+      "msg": "missing property",
+      "schema": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "recur": {
+                "$ref": "api#/definitions/Recursive",
+              },
+            },
+            "required": [
+              "recur",
+            ],
+            "type": "object",
+          },
+          {
+            "type": "number",
+          },
+        ],
+      },
+      "type": "Required",
+    },
+  ],
+  [
+    {
+      "data": {},
+      "msg": "Schema contains cyclic reference, will not do complete work; please check api#/definitions/Recursive or use Nullable to fix potential error",
+      "schema": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "recur": {
+                "$ref": "api#/definitions/Recursive",
+              },
+            },
+            "required": [
+              "recur",
+            ],
+            "type": "object",
+          },
+          {
+            "type": "number",
+          },
+        ],
+      },
+      "type": "SchemaContainsRecursiveReference",
+    },
+  ],
+]
+`;

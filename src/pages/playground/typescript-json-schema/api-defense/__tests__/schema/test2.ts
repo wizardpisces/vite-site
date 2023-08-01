@@ -5,5 +5,5 @@ export type ApiSchema2 = {
 }
 
 export type ApiSchema3 = {
-    name: any
+    apiSchema2: ApiSchema2
 }

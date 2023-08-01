@@ -153,6 +153,9 @@
         },
         "testObject": {
           "$ref": "api#/definitions/BasicObj"
+        },
+        "apiSchema2": {
+          "$ref": "api#/definitions/ApiSchema2"
         }
       },
       "required": [
@@ -160,7 +163,8 @@
         "testChainReference",
         "cycleReference",
         "testReference",
-        "testObject"
+        "testObject",
+        "apiSchema2"
       ],
       "additionalProperties": false
     },
@@ -172,21 +176,27 @@
         },
         "age": {
           "type": "number"
+        },
+        "test1": {
+          "type": "number"
         }
       },
       "required": [
         "name",
-        "age"
+        "age",
+        "test1"
       ],
       "additionalProperties": false
     },
     "ApiSchema3": {
       "type": "object",
       "properties": {
-        "name": {}
+        "apiSchema2": {
+          "$ref": "api#/definitions/ApiSchema2"
+        }
       },
       "required": [
-        "name"
+        "apiSchema2"
       ],
       "additionalProperties": false
     }
