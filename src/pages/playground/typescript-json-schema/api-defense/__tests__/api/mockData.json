@@ -1,0 +1,38 @@
+{
+  "Human": {
+    "basicInfo": {
+      "name": "string96",
+      "age": 92
+    },
+    "otherInfo": {
+      "test": "string44"
+    }
+  },
+  "ChainReferenceNumber": {
+    "testChain": 23
+  },
+  "TestChainReference": {
+    "reference": {
+      "testChain": 21
+    }
+  },
+  "BasicObj": {
+    "arr": [],
+    "obj": {
+      "obj2": {}
+    },
+    "simpleType": "string54"
+  },
+  "ApiSchema2": {
+    "name": "string11",
+    "age": 19,
+    "test1": 69
+  },
+  "ApiSchema3": {
+    "apiSchema2": {
+      "name": "string79",
+      "age": 82,
+      "test1": 88
+    }
+  }
+}

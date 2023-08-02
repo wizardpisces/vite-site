@@ -199,6 +199,9 @@
         "apiSchema2"
       ],
       "additionalProperties": false
+    },
+    "ApiSchema4": {
+      "$ref": "api#/definitions/ApiSchema2"
     }
   }
 }
