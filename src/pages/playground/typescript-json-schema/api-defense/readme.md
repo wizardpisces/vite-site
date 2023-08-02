@@ -21,20 +21,20 @@ npm run test
 
 * [x] ts-json-schema-generator 生成 JSON，并用 ajv validate
 * [x] 错误数据对象跟数组等必须对象补全
-* [] 补全 $ref （test cases）
+* [x] 补全 $ref （test cases）
     * [x] 普通的 $ref ：需要找到引用类型，并进一步分析补全
     * [x] 多级引用 a->b->c->d
     * [x] 循环引用 JSON Schema：判定出循环引用的 JSON Schema 后就不做补全，Dev 抛错提示，用 Nullable 等其他方案做兜底
     * [x] Union type 补全：A | {string}，随机选定一个补全
 * [x] 监听文件 API Schema 类型变化并实时生成 JSON schema 
+* [x] 解决编译类型同名覆盖（理论上同名的类型应该是同一类型，目前可以临时通过强制同名类型为同类型解决，但是需要做出编译时候的提示）
 * [] 报错的时候获取到 API path 并上报
 * [] 拆分 API 生成的 JSON Schema 到多个文件
-* [] 解决编译类型同名覆盖（理论上同名的类型应该是同一类型，目前可以临时通过强制同名类型为同类型解决，但是需要做出编译时候的提示）
 
 ## 注意事项
 
 ### 可能触发 BUG
-* 同名覆盖： 如果 ts-json-schema-generator 编译 test.ts 跟 test2.ts 中有同名类型，则会覆盖彼此，只保留一个，相关 Issue: https://github.com/vega/ts-json-schema-generator/issues/1738
+* 同名覆盖（通过 ts2json 前的拦截解决）： 如果 ts-json-schema-generator 编译 test.ts 跟 test2.ts 中有同名类型，则会覆盖彼此，只保留一个，相关 Issue: https://github.com/vega/ts-json-schema-generator/issues/1738
 * ts-json-schema-generator 不支持交叉类型，例如 ColoredShape 生成的类型会有问题
 
 ```ts
@@ -42,7 +42,7 @@ type Color = "red" | "green" | "blue";
 type Shape = "circle" | "square" | "triangle";
 export type ColoredShape = Color & Shape;
 ```
-* ts-json-schema-generator 没有在 $ref 拼上 $id 前缀，目前是手动对结果做的拼接，相关 Issue：https://github.com/vega/ts-json-schema-generator/issues/1732
+* ts-json-schema-generator（通过 ts2json 后的 patch 解决） 没有在 $ref 拼上 $id 前缀，目前是手动对结果做的拼接，相关 Issue：https://github.com/vega/ts-json-schema-generator/issues/1732
 
 * ts-json-schema-generator 只对 export 类型做生成到 definitions（typescript-json-schema 则会生成所有到 definitions）
 

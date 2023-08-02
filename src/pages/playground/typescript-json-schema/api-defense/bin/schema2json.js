@@ -43,7 +43,7 @@ function checkConflictTypeName(filePath) {
                 exportedTypeNames.forEach(typeName => {
                     if(hashMap[typeName]) {
                         isValid = false
-                        console.error(`[api-defense] error: duplicate type name ${typeName} in file \n  ${tsFile} \n  ${hashMap[typeName]} \nresolve to continue...`)
+                        console.error(`[api-defense] error: duplicate type name ${typeName} in file \n  ${tsFile}\n  ${hashMap[typeName]} \nresolve to continue...`)
                     }else{
                         hashMap[typeName] = tsFile
                     }
