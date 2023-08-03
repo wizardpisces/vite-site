@@ -193,15 +193,54 @@
       "properties": {
         "apiSchema2": {
           "$ref": "api#/definitions/ApiSchema2"
+        },
+        "apiSchema4": {
+          "$ref": "api#/definitions/ApiSchema4"
         }
       },
       "required": [
-        "apiSchema2"
+        "apiSchema2",
+        "apiSchema4"
       ],
       "additionalProperties": false
     },
     "ApiSchema4": {
       "$ref": "api#/definitions/ApiSchema2"
+    },
+    "Arr": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ApiSchema5": {
+      "type": [
+        "number",
+        "string"
+      ]
+    },
+    "ApiSchema6": {
+      "anyOf": [
+        {
+          "$ref": "api#/definitions/ApiSchema2"
+        },
+        {
+          "$ref": "api#/definitions/ApiSchema4"
+        }
+      ]
+    },
+    "ApiSchema7": {
+      "anyOf": [
+        {
+          "$ref": "api#/definitions/ApiSchema3"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "ApiSchemaWhole": {
+      "$ref": "api#/definitions/ApiSchema7"
     }
   }
 }

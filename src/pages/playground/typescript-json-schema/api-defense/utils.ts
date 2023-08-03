@@ -68,7 +68,7 @@ export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: 
  * 
  * @param inputData 
  * @param schema 
- * @param missingPropertyName 
+ * @param fullSchema 
  * @returns 
  */
 
