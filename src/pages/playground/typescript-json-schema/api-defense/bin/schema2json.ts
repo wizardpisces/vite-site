@@ -1,11 +1,11 @@
-const fs = require('fs');
-const path = require("path");
-const {
+import { generateMockDataByFullSchema } from "./genMockData";
+import fs from 'fs';
+import path from "path";
+import {
     createGenerator
-} = require("ts-json-schema-generator");
-const ts = require("typescript");
-
-const {generateMockDataBySchema} = require("./genMockData");
+} from "ts-json-schema-generator";
+// import ts from "typescript";
+const ts = require('typescript');
 
 const schemaId = 'api';
 
@@ -100,8 +100,8 @@ module.exports = (filePath, outputPath, tsconfigPath) => {
                 if (err) throw err;
                 console.log('json schema generated successfully!');
 
-                let data = generateMockDataBySchema({},JSON.parse(schemaString))
-                console.log('data',data)
+                let data = generateMockDataByFullSchema({},JSON.parse(schemaString))
+                // console.log('data',data)
                 fs.writeFile(path.dirname(outputPath) + '/mockData.json', JSON.stringify(data,null,2), (err) => {
                     if (err) throw err;
                     console.log('mock data generated successfully!');
@@ -114,5 +114,3 @@ module.exports = (filePath, outputPath, tsconfigPath) => {
 
     ts2json()
 }
-
-export {}

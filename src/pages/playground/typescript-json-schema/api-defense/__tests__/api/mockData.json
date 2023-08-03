@@ -1,82 +1,35 @@
 {
   "Human": {
-    "basicInfo": {
-      "name": "string64",
-      "age": 53
-    },
-    "otherInfo": {
-      "test": "string41"
-    }
+    "basicInfo": {},
+    "otherInfo": {}
   },
-  "ChainReferenceNumber": {
-    "testChain": 27
-  },
-  "ChainReference": {
-    "testChain": 8
-  },
+  "ChainReferenceNumber": {},
+  "ChainReference": {},
   "TestChainReference": {
-    "reference": {
-      "testChain": 16
-    }
+    "reference": {}
   },
   "BasicObj": {
     "arr": [],
     "obj": {
       "obj2": {}
-    },
-    "simpleType": "string91"
+    }
   },
-  "ApiSchema2": {
-    "name": "string77",
-    "age": 48,
-    "test1": 7
-  },
+  "ApiSchema2": {},
   "ApiSchema3": {
-    "apiSchema2": {
-      "name": "string95",
-      "age": 79,
-      "test1": 9
-    },
-    "apiSchema4": {
-      "name": "string87",
-      "age": 35,
-      "test1": 97
-    }
+    "apiSchema2": {},
+    "apiSchema4": {}
   },
-  "ApiSchema4": {
-    "name": "string61",
-    "age": 49,
-    "test1": 62
-  },
+  "ApiSchema4": {},
   "Arr": [],
-  "ApiSchema5": 56,
-  "ApiSchema6": {
-    "name": "string38",
-    "age": 93,
-    "test1": 84
-  },
+  "Simple": {},
+  "ApiSchema5": {},
+  "ApiSchema6": {},
   "ApiSchema7": {
-    "apiSchema2": {
-      "name": "string20",
-      "age": 72,
-      "test1": 24
-    },
-    "apiSchema4": {
-      "name": "string46",
-      "age": 73,
-      "test1": 64
-    }
+    "apiSchema2": {},
+    "apiSchema4": {}
   },
   "ApiSchemaWhole": {
-    "apiSchema2": {
-      "name": "string79",
-      "age": 71,
-      "test1": 52
-    },
-    "apiSchema4": {
-      "name": "string91",
-      "age": 27,
-      "test1": 29
-    }
+    "apiSchema2": {},
+    "apiSchema4": {}
   }
 }

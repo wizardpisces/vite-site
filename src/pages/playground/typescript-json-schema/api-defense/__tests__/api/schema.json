@@ -213,6 +213,9 @@
         "type": "string"
       }
     },
+    "Simple": {
+      "type": "string"
+    },
     "ApiSchema5": {
       "type": [
         "number",

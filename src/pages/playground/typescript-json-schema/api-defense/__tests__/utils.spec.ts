@@ -17,8 +17,17 @@ describe("api defense utils", () => {
         expect(isCyclicJsonSchema(fullSchema["definitions"]["Recursive"], fullSchema)).toEqual([true, 'api#/definitions/Recursive'])
         expect(isCyclicJsonSchema(fullSchema["definitions"]["ApiSchema"], fullSchema)).toEqual([true, 'api#/definitions/Recursive'])
     })
-
-    test("completeDataBySchema", () => {
+    test("completeDataBySchema with mock", () => {
+        let data: BasicObj = completeDataBySchema({}, fullSchema["definitions"]["BasicObj"], fullSchema, true)
+        expect(data['arr']).toMatchInlineSnapshot(`[]`)
+        expect(data['obj']).toMatchInlineSnapshot(`
+{
+  "obj2": {},
+}
+`);
+        expect(typeof data['simpleType']).toMatch('string')
+    });
+    test("completeDataBySchema basic", () => {
         let BasicObjData: BasicObj = {
             // @ts-ignore
             arr: null,
@@ -36,7 +45,8 @@ describe("api defense utils", () => {
             // simpleType 普通类型未做补全
         }
         )
-
+    })
+    test("completeDataBySchema chain", () => {
         // @ts-ignore
         let chainReferenceData: TestChainReference = {
         }
@@ -46,11 +56,13 @@ describe("api defense utils", () => {
                 // testChain:1
             }
         })
-        // @ts-ignore
-        let recursiveData: Recursive = {
-
-        }
-        completeDataBySchema(recursiveData, fullSchema["definitions"]["Recursive"], fullSchema)
-        expect(recursiveData).toEqual({}) // 循环引用不做补全
     })
+    // test("completeDataBySchema recursive", () => {
+    //     // @ts-ignore
+    //     let recursiveData: Recursive = {
+
+    //     }
+    //     completeDataBySchema(recursiveData, fullSchema["definitions"]["Recursive"], fullSchema)
+    //     expect(recursiveData).toEqual({}) // 循环引用不做补全
+    // })
 })

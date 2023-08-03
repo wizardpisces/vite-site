@@ -9,7 +9,7 @@ export function resolveSchemaByRef(ref: string, fullSchema: Record<string, any>)
     return schema
 }
 
-export function reportError(OnErrorOptions: OnErrorOptions = { msg: '', type: ValidateAndFixAPIError.Other }, onError:(error: OnErrorOptions)=>any ) {
+export function reportError(OnErrorOptions: OnErrorOptions = { msg: '', type: ValidateAndFixAPIError.Other }, onError: (error: OnErrorOptions) => any) {
     console.error('[API-Defense]', OnErrorOptions)
     onError(OnErrorOptions)
 }
@@ -54,6 +54,10 @@ export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: 
     return [isCyclic, cycleReferenceName]
 }
 
+export function genMockDataBySchema(data = {}, schema: Record<string, any>, fullSchema: Record<string, any>){
+    return completeDataBySchema(data, schema, fullSchema,true)
+}
+
 /**
  * 场景：兜底 API 没按照预期返回空的数据结构（ BUG 场景是对像跟数组为空时返回 Null，导致前端出现数据处理的错误而白屏）
  * 
@@ -71,51 +75,141 @@ export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: 
  * @param fullSchema 
  * @returns 
  */
-
-export function completeDataBySchema(data, schema: Record<string, any>, fullSchema: Record<string, any>) {
-    if (typeof schema !== "object" || typeof data !== "object") {
-        return
+export function completeDataBySchema(data = {}, schema: Record<string, any>, fullSchema: Record<string, any>, mock = false) {
+    function shouldMend(data) {
+        return data === null || typeof data === 'undefined'
     }
 
-    if (!Array.isArray(schema.required)) { // 跳过属性全是 optional 的 schema
-        return
+    function randomNumber(start = 0, end = 100) { // TODO: 随机数，先写死，后面考虑如何随机出合适的结果
+        // return Math.floor(Math.random() * end) + start
+        return 111
     }
 
-    function completeDataBySchemaInner(parentData = {}, dataKeyRelatedSchema: Record<string, any> = {}, dataKey = '') {
-        function shouldMend(data) {
-            return data === null || typeof data === 'undefined'
-        }
-        if (typeof dataKeyRelatedSchema !== "object" || typeof parentData !== "object") {
-            return
-        }
-        if (dataKeyRelatedSchema.type === 'object') {
+    function completeDataBySchemaInner(parentData: Record<string, any> = {}, dataKeyRelatedSchema: Record<string, any> = {}, dataKey = '') {
+        // if (dataKey === '') {
+        //     console.log(parentData, JSON.stringify(dataKeyRelatedSchema))
+        // }
+
+        if (mock && dataKeyRelatedSchema.type === 'string') {
+            parentData[dataKey] = 'string' + randomNumber()
+        } else if (mock && dataKeyRelatedSchema.type === 'number') {
+            parentData[dataKey] = randomNumber()
+        } else if (dataKeyRelatedSchema.type === 'object') {
             if (shouldMend(parentData[dataKey])) {
                 parentData[dataKey] = {}
             }
-            completeDataBySchema(parentData[dataKey], dataKeyRelatedSchema, fullSchema)
+            complete(parentData[dataKey], dataKeyRelatedSchema)
+
         } else if (dataKeyRelatedSchema.type === 'array') {
             if (shouldMend(parentData[dataKey])) {
                 parentData[dataKey] = []
             }
         } else if (dataKeyRelatedSchema.$ref) {
             /**
-            * 引用类型：需要考虑循环引用，
+            * 引用类型：需要考虑循环引用（已经在入口处做了检查），递归调用
+            * 透传 parentData
             * "human": {
                 "$ref": "api#/definitions/Human"
                 },
             */
             let refSchema = resolveSchemaByRef(dataKeyRelatedSchema.$ref, fullSchema)
-            completeDataBySchemaInner(parentData, refSchema, dataKey) // 递归调用自己，这里需要检测循环引用（在入口处就对 json Schema 做验证）
+            completeDataBySchemaInner(parentData, refSchema, dataKey)
         } else if (dataKeyRelatedSchema.anyOf) {
-            completeDataBySchemaInner(parentData, dataKeyRelatedSchema.anyOf[0], dataKey)  // 选择第一项做补全，递归调用自己
+            /**
+             * 场景 2，选择第一项做补全，构造一个类型 type 出来
+             * 透传 parentData
+             */
+            completeDataBySchemaInner(parentData, dataKeyRelatedSchema.anyOf[0], dataKey)
+        } else if (Array.isArray(dataKeyRelatedSchema.type)) {
+            /**
+             * 场景 3 ，普通类型的 anyOf，选择第一项做补全，递归调用自己
+             * 透传 parentData
+             *  "ApiSchema5": {
+                    "type": [
+                        "number",
+                        "string"
+                    ]
+                }
+             */
+            completeDataBySchemaInner(parentData, { type: dataKeyRelatedSchema.type[0] }, dataKey)
         }
     }
 
-    for (let key of schema.required) { // 对 required 类型做 null 消除
-        let requiredPropertySchema = schema.properties?.[key]
-        if (requiredPropertySchema) {
-            completeDataBySchemaInner(data, requiredPropertySchema, key)
+    function complete(data,schema){
+        if (schema.type === "object") {
+            if (Array.isArray(schema.required)) { // 跳过属性全是 optional 的 schema
+                for (let key of schema.required) { // 对 required 类型做 null 消除
+                    let requiredPropertySchema = schema.properties?.[key]
+                    if (requiredPropertySchema) {
+                        completeDataBySchemaInner(data, requiredPropertySchema, key)
+                    }
+                }
+            }
+        } else {
+            /**
+             * 场景
+             * 1. 直接引用 type Type1 = ApiSchema3
+             * 2. anyOf type Type2 = A | B
+             * 3. 普通类型选择 type Type3 = number | string
+             * 4. 普通类型 type Simple = number
+             * ...
+             */
+            completeDataBySchemaInner(data, schema, '')
         }
     }
 
+    complete(data, schema)
+
+    if (data['']) {// 第一级是非直接对象类型（可能是引用的传递，直接返回引用的数据，对应上面的场景 1-4）
+        return data['']
+    }
+
+    return data
 }
+// export function completeDataBySchema(data, schema: Record<string, any>, fullSchema: Record<string, any>) {
+//     if (typeof schema !== "object" || typeof data !== "object") {
+//         return
+//     }
+
+//     if (!Array.isArray(schema.required)) { // 跳过属性全是 optional 的 schema
+//         return
+//     }
+
+//     function completeDataBySchemaInner(parentData = {}, dataKeyRelatedSchema: Record<string, any> = {}, dataKey = '') {
+//         function shouldMend(data) {
+//             return data === null || typeof data === 'undefined'
+//         }
+//         if (typeof dataKeyRelatedSchema !== "object" || typeof parentData !== "object") {
+//             return
+//         }
+//         if (dataKeyRelatedSchema.type === 'object') {
+//             if (shouldMend(parentData[dataKey])) {
+//                 parentData[dataKey] = {}
+//             }
+//             completeDataBySchema(parentData[dataKey], dataKeyRelatedSchema, fullSchema)
+//         } else if (dataKeyRelatedSchema.type === 'array') {
+//             if (shouldMend(parentData[dataKey])) {
+//                 parentData[dataKey] = []
+//             }
+//         } else if (dataKeyRelatedSchema.$ref) {
+//             /**
+//             * 引用类型：需要考虑循环引用，
+//             * "human": {
+//                 "$ref": "api#/definitions/Human"
+//                 },
+//             */
+//             let refSchema = resolveSchemaByRef(dataKeyRelatedSchema.$ref, fullSchema)
+//             completeDataBySchemaInner(parentData, refSchema, dataKey) // 递归调用自己，这里需要检测循环引用（在入口处就对 json Schema 做验证）
+//         } else if (dataKeyRelatedSchema.anyOf) {
+//             completeDataBySchemaInner(parentData, dataKeyRelatedSchema.anyOf[0], dataKey)  // 选择第一项做补全，递归调用自己
+//         }
+//     }
+
+//     for (let key of schema.required) { // 对 required 类型做 null 消除
+//         let requiredPropertySchema = schema.properties?.[key]
+//         if (requiredPropertySchema) {
+//             completeDataBySchemaInner(data, requiredPropertySchema, key)
+//         }
+//     }
+
+// }
