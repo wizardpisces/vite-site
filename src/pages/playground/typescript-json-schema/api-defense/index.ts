@@ -22,7 +22,7 @@ export function getApiDefenseFn(options: { fullSchema: Record<string, any>, full
 function validateAndFixAPI<T extends (Record<string, any>)>(data: T, schema: Record<string, any>): T {
     try { // 避免校验过程中出现未知错误导致业务代码无法运行
         if (!ajv || !fullSchema) {
-            reportError({ msg: 'ajv is not init, please run initApiDefense(fullSchema,fullSchemaId) to init!' }, onError)
+            reportError({ msg: 'ajv is not init, please run getApiDefenseFn({fullSchema,fullSchemaId}) to init!' }, onError)
             return data
         }
 

@@ -291,41 +291,5 @@ LLM 的知识存储和向量数据库的区别有以下几点：
 数据增强的示例：
 
 原始句子：你喜欢看什么电影？ 同义词替换：你爱看哪些电影？ 句子重排：看什么电影你喜欢？ 噪声注入：你喜欢看什么电 影？ 回译：你喜欢什么样的电影？
-## TODO 问题：
-* 为什么 Prompt 自动构造可以利用梯度和数据驱动来调整 Prompt 的向量
-* 向量数据库？
-* 什么是 AutoGPT？如何安装？看起来很能消耗 Token？agentGPT/https://cognius.ai/？使用生成 fibonacci 例子
-* 什么是损失函数？梯度下降法是什么？
-* ML 主题 
-    *  Machine Learning 101
-    *  Importance of data for ML
-    *  CB & CF Recall
-    *  Model-Based Recall
-    *  Graph Embedding
-    *  General Ranking Model
-    *  Multi-Task Learning
-    *  Cross Network
-    *  Sequential Behavior Modeling
-    *  Delayed Feedback
-    *  Rerank
-    *  Knowledge Distillation
-    *  Transfer Learning
-    *  Causal Inference
-    *  Federated Learning
-    *  图引擎设计及在推荐场景的应用
-    *  向量检索算法与系统架构
-    *  推荐系统工具链的设计和使用
-    *  推荐场景的数据流建设
-    *  推荐场景下深度学习的工程实践
-
-
-百万核K8s集群管理实践
-* 集群管理
-* 编排调度
-* 高级特性
-
-构建高性能、高可靠、高可用分布式块存储服务
-什么是SPBS？ SPBS适应什么业务? 为什么需要SPBS？
-理解高性能、高可靠、高可用分布式块存储的核心设计原理以及在设计过程中思考和实践？
 
 ***Mainly Reference GPT***

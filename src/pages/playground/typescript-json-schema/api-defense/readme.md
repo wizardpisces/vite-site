@@ -32,6 +32,7 @@ npm run test
 * [] 拆分 API 生成的 JSON Schema 到多个文件
 * [] 基础 mock 数据生成
 * [] 调研：定义注释来更精准的校验 跟 生成 mock 数据，eg：注释 // string: 0-100 ,则生成对应的 schema 跟 mock data
+* [] 发布成 package
 
 ## 注意事项
 

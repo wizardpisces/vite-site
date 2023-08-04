@@ -15,7 +15,6 @@ function generateMockDataByFullSchema(data = {}, fullSchema) {
         if (isCyclic) {// 如果包含循环引用则不做 mock 数据生成
             reportError({ msg: `Schema contains cyclic reference; please check ${cycleReferenceName}`, type: ValidateAndFixAPIError.SchemaContainsRecursiveReference, schema, data }, (err) => { })
         } else {
-            data[key] = data[key] || {}
             data[key] = genMockDataBySchema(data[key], schema, fullSchema)
         }
     })

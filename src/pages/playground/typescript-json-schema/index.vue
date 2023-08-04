@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { demo } from "./api-defense/demo";
+import { demo } from "./api-defense/__tests__/demo";
 
 export default defineComponent({
   props: {
