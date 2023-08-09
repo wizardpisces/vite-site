@@ -23,31 +23,31 @@ export function reportError(OnErrorOptions: OnErrorOptions = { msg: '', type: Va
 export function isCyclicJsonSchema(jsonSchema: Record<string, any>, fullSchema: FullSchemaType): [boolean, string] {
     let traversedCache = new Set(), refs: string[] = []
     let isCyclic = false, cycleReferenceName = ''
-    function traverse(obj: SchemaType) { // 深度优先遍历，缓存已经遍历过的对象，检测是否有循环引用
+    function traverse(schemaObj: SchemaType) { // 深度优先遍历，缓存已经遍历过的对象，检测是否有循环引用
         if (isCyclic) { // 判断出循环引用后直接返回
             return true
         }
-        if (obj === null || typeof obj !== 'object') {
-            return obj
+        if (schemaObj === null || typeof schemaObj !== 'object') {
+            return schemaObj
         }
 
-        if (traversedCache.has(obj)) { // 对遍历的节点再次访问，说明遇到循环引用
+        if (traversedCache.has(schemaObj)) { // 对遍历的节点再次访问，说明遇到循环引用
             isCyclic = true
             cycleReferenceName = refs.pop() as string
             return true
         }
 
-        traversedCache.add(obj)
-        for (const key in obj) {
+        traversedCache.add(schemaObj)
+        for (const key in schemaObj) {
             if (key === "$ref") {
-                refs.push(obj[key])
-                traverse(resolveSchemaByRef(obj[key], fullSchema))
+                refs.push(schemaObj[key])
+                traverse(resolveSchemaByRef(schemaObj[key], fullSchema))
             } else {
-                traverse(obj[key]);
+                traverse(schemaObj[key]);
             }
         }
 
-        traversedCache.delete(obj);
+        traversedCache.delete(schemaObj);
     }
 
     traverse(jsonSchema)
@@ -58,23 +58,6 @@ export function genMockDataBySchema(data: any, schema: SchemaType, fullSchema: R
     return completeDataBySchema(data, schema, fullSchema, true)
 }
 
-/**
- * 场景：兜底 API 没按照预期返回空的数据结构（ BUG 场景是对像跟数组为空时返回 Null，导致前端出现数据处理的错误而白屏）
- * 
- * 根据 JSON draft-07 定义 schema 对 data 做分析补全
- * 1. 只对 required 类型做 null 消除
- * 2. 对象需要递归补充为{}
- * 3. 数组补充为[]
- * 4. 其他类型暂时跳过，后面看接口定义实际情况看是否补充
- * 
- * 会递归消除，防止补全的 {} 在多级链式调用时候失败，
- * eg：{a:{b:{c:{}}}}，如果只补 a，那 a.b.c 在 b.c 时候会报错
- * 
- * @param inputData 
- * @param schema 
- * @param fullSchema 
- * @returns 
- */
 // export function completeDataBySchema(data = {}, schema: Record<string, any>, fullSchema: Record<string, any>, mock = false) {
 //     function shouldMend(data) {
 //         return data === null || typeof data === 'undefined'
@@ -169,6 +152,25 @@ export function genMockDataBySchema(data: any, schema: SchemaType, fullSchema: R
 //     return data
 // }
 
+/**
+ * 
+ * 场景：兜底 API 没按照预期返回空的数据结构（ BUG 场景是对像跟数组为空时返回 Null，导致前端出现数据处理的错误而白屏）
+ * 
+ * 根据 JSON draft-07 定义 schema 对 data 做分析补全
+ * 1. 只对 required 类型做 null 消除
+ * 2. 对象需要递归补充为{}
+ * 3. 数组补充为[]
+ * 4. 其他类型暂时跳过，后面看接口定义实际情况看是否补充
+ * 
+ * 会递归消除，防止补全的 {} 在多级链式调用时候失败，
+ * eg：{a:{b:{c:{}}}}，如果只补 a，那 a.b.c 在 b.c 时候会报错
+ * 
+ * @param data 
+ * @param schema 
+ * @param fullSchema 
+ * @param mock 
+ * @returns 
+ */
 export function completeDataBySchema(data: any, schema: SchemaType, fullSchema: FullSchemaType, mock = false) {
     function shouldMend(data) {
         return data === null || typeof data === 'undefined'

@@ -4,6 +4,38 @@
 
 ts -> ts-json-schema-generator 生成 json schema -> ajv validate and 补全
 
+eg: 
+```ts
+type Item = {
+  prop1:string
+  prop2:number
+}
+type Target = {
+  o : {
+    o2:{
+      prop1: number
+      o3:{
+        prop2:number
+      }
+    }
+  },
+  list:Item[]
+} 
+```
+对 {} 补全 Target 结果：
+```json
+{
+  o:{
+    o2:{
+      o3:{
+
+      }
+    }
+  },
+  list:[]
+}
+```
+
 **注意**：非正常的返回则避免使用本校验工具，例如： 返回的 success 是false 或者 code 不为 0 等正确的结果情况，则跳过校验
 ## How to run
 
@@ -30,7 +62,7 @@ npm run test
 * [x] 解决编译类型同名覆盖（理论上同名的类型应该是同一类型，目前可以临时通过强制同名类型为同类型解决，但是需要做出编译时候的提示）
 * [] 报错的时候获取到 API path 并上报
 * [] 拆分 API 生成的 JSON Schema 到多个文件
-* [] 基础 mock 数据生成
+* [] 基础 mock 数据生成，并集成到工程
 * [] 调研：定义注释来更精准的校验 跟 生成 mock 数据，eg：注释 // string: 0-100 ,则生成对应的 schema 跟 mock data
 * [] 发布成 package
 
