@@ -1,0 +1,1352 @@
+{
+    "0": {
+        "#": 1,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.5,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "1": {
+        "#": 101,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 3.3,
+        "petal length in cm": 6.0,
+        "petal width in cm": 2.5,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "2": {
+        "#": 110,
+        "sepal length in cm": 7.2,
+        "sepal width in cm": 3.6,
+        "petal length in cm": 6.1,
+        "petal width in cm": 2.5,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "3": {
+        "#": 145,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.3,
+        "petal length in cm": 5.7,
+        "petal width in cm": 2.5,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "4": {
+        "#": 115,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 5.1,
+        "petal width in cm": 2.4,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "5": {
+        "#": 137,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 5.6,
+        "petal width in cm": 2.4,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "6": {
+        "#": 141,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 5.6,
+        "petal width in cm": 2.4,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "7": {
+        "#": 116,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 5.3,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "8": {
+        "#": 119,
+        "sepal length in cm": 7.7,
+        "sepal width in cm": 2.6,
+        "petal length in cm": 6.9,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "9": {
+        "#": 121,
+        "sepal length in cm": 6.9,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 5.7,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "10": {
+        "#": 136,
+        "sepal length in cm": 7.7,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 6.1,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "11": {
+        "#": 142,
+        "sepal length in cm": 6.9,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 5.1,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "12": {
+        "#": 144,
+        "sepal length in cm": 6.8,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 5.9,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "13": {
+        "#": 146,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.2,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "14": {
+        "#": 149,
+        "sepal length in cm": 6.2,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 5.4,
+        "petal width in cm": 2.3,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "15": {
+        "#": 105,
+        "sepal length in cm": 6.5,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.8,
+        "petal width in cm": 2.2,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "16": {
+        "#": 118,
+        "sepal length in cm": 7.7,
+        "sepal width in cm": 3.8,
+        "petal length in cm": 6.7,
+        "petal width in cm": 2.2,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "17": {
+        "#": 133,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 5.6,
+        "petal width in cm": 2.2,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "18": {
+        "#": 103,
+        "sepal length in cm": 7.1,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.9,
+        "petal width in cm": 2.1,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "19": {
+        "#": 106,
+        "sepal length in cm": 7.6,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 6.6,
+        "petal width in cm": 2.1,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "20": {
+        "#": 113,
+        "sepal length in cm": 6.8,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.5,
+        "petal width in cm": 2.1,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "21": {
+        "#": 125,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.3,
+        "petal length in cm": 5.7,
+        "petal width in cm": 2.1,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "22": {
+        "#": 129,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 5.6,
+        "petal width in cm": 2.1,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "23": {
+        "#": 140,
+        "sepal length in cm": 6.9,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 5.4,
+        "petal width in cm": 2.1,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "24": {
+        "#": 111,
+        "sepal length in cm": 6.5,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 5.1,
+        "petal width in cm": 2.0,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "25": {
+        "#": 114,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 5.0,
+        "petal width in cm": 2.0,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "26": {
+        "#": 122,
+        "sepal length in cm": 5.6,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.9,
+        "petal width in cm": 2.0,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "27": {
+        "#": 123,
+        "sepal length in cm": 7.7,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 6.7,
+        "petal width in cm": 2.0,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "28": {
+        "#": 132,
+        "sepal length in cm": 7.9,
+        "sepal width in cm": 3.8,
+        "petal length in cm": 6.4,
+        "petal width in cm": 2.0,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "29": {
+        "#": 148,
+        "sepal length in cm": 6.5,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.2,
+        "petal width in cm": 2.0,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "30": {
+        "#": 102,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 5.1,
+        "petal width in cm": 1.9,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "31": {
+        "#": 112,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 5.3,
+        "petal width in cm": 1.9,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "32": {
+        "#": 131,
+        "sepal length in cm": 7.4,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 6.1,
+        "petal width in cm": 1.9,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "33": {
+        "#": 143,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 5.1,
+        "petal width in cm": 1.9,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "34": {
+        "#": 147,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 5.0,
+        "petal width in cm": 1.9,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "35": {
+        "#": 71,
+        "sepal length in cm": 5.9,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 4.8,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "36": {
+        "#": 104,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 5.6,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "37": {
+        "#": 108,
+        "sepal length in cm": 7.3,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 6.3,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "38": {
+        "#": 109,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 5.8,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "39": {
+        "#": 117,
+        "sepal length in cm": 6.5,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.5,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "40": {
+        "#": 124,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 4.9,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "41": {
+        "#": 126,
+        "sepal length in cm": 7.2,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 6.0,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "42": {
+        "#": 127,
+        "sepal length in cm": 6.2,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.8,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "43": {
+        "#": 128,
+        "sepal length in cm": 6.1,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.9,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "44": {
+        "#": 138,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 5.5,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "45": {
+        "#": 139,
+        "sepal length in cm": 6.0,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.8,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "46": {
+        "#": 150,
+        "sepal length in cm": 5.9,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.1,
+        "petal width in cm": 1.8,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "47": {
+        "#": 78,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.0,
+        "petal width in cm": 1.7,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "48": {
+        "#": 107,
+        "sepal length in cm": 4.9,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.7,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "49": {
+        "#": 57,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 3.3,
+        "petal length in cm": 4.7,
+        "petal width in cm": 1.6,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "50": {
+        "#": 84,
+        "sepal length in cm": 6.0,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 5.1,
+        "petal width in cm": 1.6,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "51": {
+        "#": 86,
+        "sepal length in cm": 6.0,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.6,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "52": {
+        "#": 130,
+        "sepal length in cm": 7.2,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 5.8,
+        "petal width in cm": 1.6,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "53": {
+        "#": 52,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "54": {
+        "#": 53,
+        "sepal length in cm": 6.9,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 4.9,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "55": {
+        "#": 55,
+        "sepal length in cm": 6.5,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.6,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "56": {
+        "#": 62,
+        "sepal length in cm": 5.9,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.2,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "57": {
+        "#": 67,
+        "sepal length in cm": 5.6,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "58": {
+        "#": 69,
+        "sepal length in cm": 6.2,
+        "sepal width in cm": 2.2,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "59": {
+        "#": 73,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 4.9,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "60": {
+        "#": 79,
+        "sepal length in cm": 6.0,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "61": {
+        "#": 85,
+        "sepal length in cm": 5.4,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "62": {
+        "#": 87,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 4.7,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "63": {
+        "#": 120,
+        "sepal length in cm": 6.0,
+        "sepal width in cm": 2.2,
+        "petal length in cm": 5.0,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "64": {
+        "#": 134,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 5.1,
+        "petal width in cm": 1.5,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "65": {
+        "#": 51,
+        "sepal length in cm": 7.0,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 4.7,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "66": {
+        "#": 60,
+        "sepal length in cm": 5.2,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 3.9,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "67": {
+        "#": 64,
+        "sepal length in cm": 6.1,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 4.7,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "68": {
+        "#": 66,
+        "sepal length in cm": 6.7,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 4.4,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "69": {
+        "#": 76,
+        "sepal length in cm": 6.6,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.4,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "70": {
+        "#": 77,
+        "sepal length in cm": 6.8,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.8,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "71": {
+        "#": 92,
+        "sepal length in cm": 6.1,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.6,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "72": {
+        "#": 135,
+        "sepal length in cm": 6.1,
+        "sepal width in cm": 2.6,
+        "petal length in cm": 5.6,
+        "petal width in cm": 1.4,
+        "Iris_Type": "Iris-virginica",
+        "IrisType_num": 2
+    },
+    "73": {
+        "#": 54,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 2.3,
+        "petal length in cm": 4.0,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "74": {
+        "#": 56,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.5,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "75": {
+        "#": 59,
+        "sepal length in cm": 6.6,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 4.6,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "76": {
+        "#": 65,
+        "sepal length in cm": 5.6,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 3.6,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "77": {
+        "#": 72,
+        "sepal length in cm": 6.1,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.0,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "78": {
+        "#": 75,
+        "sepal length in cm": 6.4,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 4.3,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "79": {
+        "#": 88,
+        "sepal length in cm": 6.3,
+        "sepal width in cm": 2.3,
+        "petal length in cm": 4.4,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "80": {
+        "#": 89,
+        "sepal length in cm": 5.6,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.1,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "81": {
+        "#": 90,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 4.0,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "82": {
+        "#": 95,
+        "sepal length in cm": 5.6,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 4.2,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "83": {
+        "#": 97,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 4.2,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "84": {
+        "#": 98,
+        "sepal length in cm": 6.2,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 4.3,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "85": {
+        "#": 100,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.1,
+        "petal width in cm": 1.3,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "86": {
+        "#": 74,
+        "sepal length in cm": 6.1,
+        "sepal width in cm": 2.8,
+        "petal length in cm": 4.7,
+        "petal width in cm": 1.2,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "87": {
+        "#": 83,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 3.9,
+        "petal width in cm": 1.2,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "88": {
+        "#": 91,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 2.6,
+        "petal length in cm": 4.4,
+        "petal width in cm": 1.2,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "89": {
+        "#": 93,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 2.6,
+        "petal length in cm": 4.0,
+        "petal width in cm": 1.2,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "90": {
+        "#": 96,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 4.2,
+        "petal width in cm": 1.2,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "91": {
+        "#": 70,
+        "sepal length in cm": 5.6,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 3.9,
+        "petal width in cm": 1.1,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "92": {
+        "#": 81,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 2.4,
+        "petal length in cm": 3.8,
+        "petal width in cm": 1.1,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "93": {
+        "#": 99,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 2.5,
+        "petal length in cm": 3.0,
+        "petal width in cm": 1.1,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "94": {
+        "#": 58,
+        "sepal length in cm": 4.9,
+        "sepal width in cm": 2.4,
+        "petal length in cm": 3.3,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "95": {
+        "#": 61,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 2.0,
+        "petal length in cm": 3.5,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "96": {
+        "#": 63,
+        "sepal length in cm": 6.0,
+        "sepal width in cm": 2.2,
+        "petal length in cm": 4.0,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "97": {
+        "#": 68,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 2.7,
+        "petal length in cm": 4.1,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "98": {
+        "#": 80,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 2.6,
+        "petal length in cm": 3.5,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "99": {
+        "#": 82,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 2.4,
+        "petal length in cm": 3.7,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "100": {
+        "#": 94,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 2.3,
+        "petal length in cm": 3.3,
+        "petal width in cm": 1.0,
+        "Iris_Type": "Iris-versicolor",
+        "IrisType_num": 1
+    },
+    "101": {
+        "#": 44,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.5,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.6,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "102": {
+        "#": 24,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.3,
+        "petal length in cm": 1.7,
+        "petal width in cm": 0.5,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "103": {
+        "#": 6,
+        "sepal length in cm": 5.4,
+        "sepal width in cm": 3.9,
+        "petal length in cm": 1.7,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "104": {
+        "#": 16,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 4.4,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "105": {
+        "#": 17,
+        "sepal length in cm": 5.4,
+        "sepal width in cm": 3.9,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "106": {
+        "#": 22,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.7,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "107": {
+        "#": 27,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "108": {
+        "#": 32,
+        "sepal length in cm": 5.4,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "109": {
+        "#": 45,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.8,
+        "petal length in cm": 1.9,
+        "petal width in cm": 0.4,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "110": {
+        "#": 7,
+        "sepal length in cm": 4.6,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "111": {
+        "#": 18,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.5,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "112": {
+        "#": 19,
+        "sepal length in cm": 5.7,
+        "sepal width in cm": 3.8,
+        "petal length in cm": 1.7,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "113": {
+        "#": 20,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.8,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "114": {
+        "#": 41,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.5,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "115": {
+        "#": 42,
+        "sepal length in cm": 4.5,
+        "sepal width in cm": 2.3,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "116": {
+        "#": 46,
+        "sepal length in cm": 4.8,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.3,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "117": {
+        "#": 2,
+        "sepal length in cm": 4.9,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "118": {
+        "#": 3,
+        "sepal length in cm": 4.7,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "119": {
+        "#": 4,
+        "sepal length in cm": 4.6,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "120": {
+        "#": 5,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.6,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "121": {
+        "#": 8,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "122": {
+        "#": 9,
+        "sepal length in cm": 4.4,
+        "sepal width in cm": 2.9,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "123": {
+        "#": 11,
+        "sepal length in cm": 5.4,
+        "sepal width in cm": 3.7,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "124": {
+        "#": 12,
+        "sepal length in cm": 4.8,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "125": {
+        "#": 15,
+        "sepal length in cm": 5.8,
+        "sepal width in cm": 4.0,
+        "petal length in cm": 1.2,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "126": {
+        "#": 21,
+        "sepal length in cm": 5.4,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.7,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "127": {
+        "#": 23,
+        "sepal length in cm": 4.6,
+        "sepal width in cm": 3.6,
+        "petal length in cm": 1.0,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "128": {
+        "#": 25,
+        "sepal length in cm": 4.8,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.9,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "129": {
+        "#": 26,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "130": {
+        "#": 28,
+        "sepal length in cm": 5.2,
+        "sepal width in cm": 3.5,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "131": {
+        "#": 29,
+        "sepal length in cm": 5.2,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "132": {
+        "#": 30,
+        "sepal length in cm": 4.7,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "133": {
+        "#": 31,
+        "sepal length in cm": 4.8,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "134": {
+        "#": 34,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 4.2,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "135": {
+        "#": 36,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 1.2,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "136": {
+        "#": 37,
+        "sepal length in cm": 5.5,
+        "sepal width in cm": 3.5,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "137": {
+        "#": 39,
+        "sepal length in cm": 4.4,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "138": {
+        "#": 40,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.4,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "139": {
+        "#": 43,
+        "sepal length in cm": 4.4,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 1.3,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "140": {
+        "#": 47,
+        "sepal length in cm": 5.1,
+        "sepal width in cm": 3.8,
+        "petal length in cm": 1.6,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "141": {
+        "#": 48,
+        "sepal length in cm": 4.6,
+        "sepal width in cm": 3.2,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "142": {
+        "#": 49,
+        "sepal length in cm": 5.3,
+        "sepal width in cm": 3.7,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "143": {
+        "#": 50,
+        "sepal length in cm": 5.0,
+        "sepal width in cm": 3.3,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.2,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "144": {
+        "#": 10,
+        "sepal length in cm": 4.9,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.1,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "145": {
+        "#": 13,
+        "sepal length in cm": 4.8,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 1.4,
+        "petal width in cm": 0.1,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "146": {
+        "#": 14,
+        "sepal length in cm": 4.3,
+        "sepal width in cm": 3.0,
+        "petal length in cm": 1.1,
+        "petal width in cm": 0.1,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "147": {
+        "#": 33,
+        "sepal length in cm": 5.2,
+        "sepal width in cm": 4.1,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.1,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "148": {
+        "#": 35,
+        "sepal length in cm": 4.9,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.1,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    },
+    "149": {
+        "#": 38,
+        "sepal length in cm": 4.9,
+        "sepal width in cm": 3.1,
+        "petal length in cm": 1.5,
+        "petal width in cm": 0.1,
+        "Iris_Type": "Iris-setosa",
+        "IrisType_num": 0
+    }
+}

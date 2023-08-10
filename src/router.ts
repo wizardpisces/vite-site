@@ -31,6 +31,8 @@ const SassPlayground = () => {
 const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
 const Bookmark = () => import('./pages/bookmark/index.vue')
 
+const MachineLearning = () => import('./pages/machine-learning/index.vue')
+
 const routerHistory = createWebHistory()
 
 export let navRoutes = [
@@ -61,6 +63,13 @@ export let navRoutes = [
     component: Huffman,
     meta: {
       title: "huffman online",
+    },
+  },{
+    path: "/machine-learning",
+    name: "MachineLearning",
+    component: MachineLearning,
+    meta: {
+      title: "Machine Learning",
     },
   }
 ];
