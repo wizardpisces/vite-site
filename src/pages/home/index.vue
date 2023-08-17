@@ -5,6 +5,7 @@
     <p class="desc-feature" @click="proxyClick">
       1. <router-link to="/sass">Demo Page</router-link> of <a href="https://github.com/wizardpisces/tiny-sass-compiler" target="__blank">tiny-sass-compiler</a> <br>
       2. <router-link to="/blog/关于GPT">Blog page</router-link> <br>
+      3. <router-link to="/machine-learning">Machine Learning - Deploy irises prediction model on web</router-link> <br>
     </p>
   </div>
 </template>
