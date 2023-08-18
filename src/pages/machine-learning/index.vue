@@ -1,19 +1,47 @@
 <template>
     <div id="machine-learning">
-        <h1>machine learning</h1>
-        <Irises/>
+        <h1>machine learning Demo</h1>
+        <ul>
+            <li v-on:click="jumpTo('irises')">Irises</li>
+            <li v-on:click="jumpTo('mnist')">Mnist</li>
+        </ul>
+        <router-view></router-view>
     </div>
 </template>
-<script>
-import Irises from './irises/index.vue'
+<script lang="ts">
+import { useRoute, useRouter } from "vue-router";
 export default {
-    components:{
-        Irises
-    },
     setup() {
+        const router = useRouter();
+        const jumpTo = (name) => {
+            router.push({ name });
+        }
         return {
-            
+            jumpTo
         }
     },
 }
 </script>
+<style lang="scss" scoped>
+#machine-learning {
+    padding: 10px 24px;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+li {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  &:hover{
+    background-color: #ddd;
+  }
+}
+</style>

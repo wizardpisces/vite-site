@@ -32,6 +32,8 @@ const VirtualMachine = () => import('./pages/virtual-machine/index.vue')
 const Bookmark = () => import('./pages/bookmark/index.vue')
 
 const MachineLearning = () => import('./pages/machine-learning/index.vue')
+const Mnist = () => import('./pages/machine-learning/mnist/index.vue')
+const Irises = () => import('./pages/machine-learning/irises/index.vue')
 
 const routerHistory = createWebHistory()
 
@@ -71,6 +73,24 @@ export let navRoutes = [
     meta: {
       title: "Machine Learning",
     },
+    children:[
+      {
+        path: "mnist",
+        name: "mnist",
+        component: Mnist,
+        meta: {
+          title: "Mnist",
+        },
+      },
+      {
+        path: "irises",
+        name: "irises",
+        component: Irises,
+        meta: {
+          title: "Irises",
+        },
+      }
+    ]
   }
 ];
 
