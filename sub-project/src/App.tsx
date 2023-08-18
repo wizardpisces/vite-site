@@ -23,8 +23,9 @@ const TodoListRedux = React.lazy(() => {
 });
 
 const TodoListMobx = React.lazy(() => import('./pages/todoListMobx/index'))
+const Demo = React.lazy(() => import('./pages/demo/index'))
 
-export let todoRouteTuple: ([string, JSX.Element])[] = [['/useReducer', <TodoList />], ['/Redux', <TodoListRedux />], ['/Mobx', <TodoListMobx />]]
+export let todoRouteTuple: ([string, JSX.Element])[] = [['/useReducer', <TodoList />], ['/Redux', <TodoListRedux />], ['/Mobx', <TodoListMobx />], ['/demo', <Demo />]]
 
 function App() {
   return (
@@ -63,15 +64,6 @@ function AnimatedRoutes({
   return <Routes location={location} >
       {children}
     </Routes>
-  return (
-    <TransitionGroup {...rest}>
-      <CSSTransition key={location.key} classNames="fade" timeout={300}>
-        <Routes location={location} >
-          {children}
-        </Routes>
-      </CSSTransition>
-    </TransitionGroup>
-  );
 }
 
 export default App
