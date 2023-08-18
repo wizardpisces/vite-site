@@ -25,23 +25,23 @@ export default {
 <style lang="scss" scoped>
 #machine-learning {
     padding: 10px 24px;
-}
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-li {
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-  margin: 10px 0;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  &:hover{
-    background-color: #ddd;
-  }
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    
+    li {
+      background-color: #f2f2f2;
+      border: 1px solid #ddd;
+      margin: 10px 0;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      &:hover{
+        background-color: #ddd;
+      }
+    }
 }
 </style>
