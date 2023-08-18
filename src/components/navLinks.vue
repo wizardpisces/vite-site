@@ -26,15 +26,15 @@
 import { useRoute, useRouter } from "vue-router";
 import { navRoutes } from "../router";
 function isSubsequence(parentRouteArray:string[], currentRouteArray:string[]) {
-  let i = 0; // 指向currentRouteArray
-  let j = 0; // 指向arr2
+  let i = 0; // 指向 parentRouteArray
+  let j = 0; // 指向 currentRouteArray
   while (i < parentRouteArray.length && j < currentRouteArray.length) {
     if (parentRouteArray[i] === currentRouteArray[j] || parentRouteArray[i].startsWith(':')) { // :name 是通配符
       i++; // 如果相等，则同时后移一位
     }
     j++; // 否则只移动j
   }
-  return i === parentRouteArray.length; // 如果i移动到arr1的末尾，则说明arr1是arr2的子序列
+  return i === parentRouteArray.length; // 如果i移动到 parentRouteArray 的末尾，则说明 parentRouteArray 是 currentRouteArray 的子序列
 }
 export default {
   name: "NavLinks",
