@@ -62,7 +62,8 @@ npm run test
 * [x] 解决编译类型同名覆盖（理论上同名的类型应该是同一类型，目前可以临时通过强制同名类型为同类型解决，但是需要做出编译时候的提示）
 * [] 报错的时候获取到 API path 并上报
 * [] 拆分 API 生成的 JSON Schema 到多个文件
-* [] 基础 mock 数据生成，并集成到工程
+* [] 基础 mock 数据生成，并集成到工程 （尝试 json-schema-faker，大概率不会使用，原因：BUG 还有一些，比较复杂，跟本工程调用方式不太契合 ）
+  * [] mock 结果修正，加强 type 判断，在 type='string' 并且包含 enum 属性的时候进行 enum 挑选，而不是单纯的 string 生成
 * [] 调研：定义注释来更精准的校验 跟 生成 mock 数据，eg：注释 // string: 0-100 ,则生成对应的 schema 跟 mock data
 * [] 发布成 package
 
