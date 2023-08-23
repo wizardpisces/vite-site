@@ -19,9 +19,9 @@
 import { onMounted, ref, watch } from "vue";
 import { useRoute, onBeforeRouteUpdate } from "vue-router";
 import useBlog from "@/composition/use-blog";
-import { html as Introduction } from "@/blog/Introduction.md";
+import { html as Introduction } from "@/blog/introduction.md";
 import A from "./a.vue";
-import Comment from '@/components/Comment.vue'
+import Comment from '@/components/comment.vue'
 
 export default {
   name: "BlogVueSSr",

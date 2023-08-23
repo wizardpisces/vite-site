@@ -8,7 +8,7 @@
 <script lang='ts'>
 import { useRoute } from "vue-router";
 import NavLinks from "../navLinks.vue";
-import BlogSidebar from "./blogSidebar.vue";
+import BlogSidebar from "./blog-sidebar.vue";
 
 export default {
   components: {
