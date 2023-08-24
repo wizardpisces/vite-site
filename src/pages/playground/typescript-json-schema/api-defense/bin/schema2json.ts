@@ -9,14 +9,14 @@ const ts = require('typescript');
 
 const schemaId = 'api';
 
-function getExportedTypeNames(filePath) {
+function getExportedTypeNames(filePath:string) {
     const program = ts.createProgram([filePath], {});
     const checker = program.getTypeChecker();
     const sourceFile = program.getSourceFile(filePath);
     if (!sourceFile) return [];
 
     const exps = checker.getExportsOfModule(sourceFile.symbol);
-    return exps.map(e => e.getName());
+    return exps.map((e:any) => e.getName());
 }
 
 /**
@@ -24,11 +24,11 @@ function getExportedTypeNames(filePath) {
  * 这里做一个拦截，在发现不同文件的同名导出类型后直接报错，让开发去定义非重名的类型定义
  * @param {*} filePath 
  */
-function checkConflictTypeName(filePath) {
+function checkConflictTypeName(filePath:string) {
     let isValid = true
-    let hashMap = {} // map type name -> filePath
+    let hashMap: Record<string, string> = {} // map type name -> filePath
     // console.log('exportedTypeNames', getExportedTypeNames(filePath + '/test2.ts'));
-    function traverseFile(filePath) {
+    function traverseFile(filePath:string) {
         if(!isValid){ // 命名冲突就直接报错
             return
         }
@@ -42,7 +42,7 @@ function checkConflictTypeName(filePath) {
             if (filePath.endsWith('.ts')) {
                 let tsFile = filePath;
                 let exportedTypeNames = getExportedTypeNames(tsFile);
-                exportedTypeNames.forEach(typeName => {
+                exportedTypeNames.forEach((typeName:string) => {
                     if(hashMap[typeName]) {
                         isValid = false
                         console.error(`[api-defense] error: duplicate type name ${typeName} in file \n  ${tsFile}\n  ${hashMap[typeName]} \nresolve to continue...`)
@@ -60,7 +60,7 @@ function checkConflictTypeName(filePath) {
     return isValid
 }
 
-module.exports = (filePath, outputPath, tsconfigPath) => {
+module.exports = (filePath:string, outputPath:string, tsconfigPath:string) => {
     // 监听 test.txt 文件的变化
     fs.watch(filePath, (event, filename) => {
         console.log(`file ${filename} ${event}`)

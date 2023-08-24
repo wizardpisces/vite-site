@@ -1,9 +1,9 @@
-import Ajv, { ValidateFunction, Options } from 'ajv'
-import { Response, ValidateAndFixAPIError, OnErrorOptions } from './type'
+import Ajv, { ValidateFunction, Options, ErrorObject } from 'ajv'
+import { Response, ValidateAndFixAPIError, OnErrorOptions, FullSchemaType } from './type'
 
 import { completeDataBySchema, isCyclicJsonSchema, reportError } from './utils'
 
-let ajv, fullSchema
+let ajv:Ajv, fullSchema:FullSchemaType
 let onError: (error: OnErrorOptions) => any = (error)=>void(0)
 /**
  * 初始化 Ajv 并注册 fullSchema 及其 schemaId，方便 $ref 引用
@@ -72,7 +72,7 @@ function validateAndFixAPI<T extends (Record<string, any>)>(data: T, schema: Rec
                 handleError(validate.errors[0]) // 只对遇到的第一个错误做校验，其他的错误会在 handleError 的过程中补全
             }
 
-            function handleError(error){
+            function handleError(error: ErrorObject) {
                 if (error.keyword === 'type') {
                     /**
                      *  

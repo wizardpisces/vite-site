@@ -3,3 +3,8 @@
     * 使用 GAN 生成更多的 MNIST 数据集，并用这些数据再训练一个模型，并部署在前端，对比真实数据跟 GAN 训练数据两种模型的效果
 * [] 用 Blog 训练 Transformer 模型，并部署到前端，作为站内问答系统
 * [] 用 Blog （只用标题+内容？）生成向量，并部署在前端，做 Blog 站内搜索
+
+## Reference
+
+* https://github.com/Microsoft/onnxruntime-web-demo
+

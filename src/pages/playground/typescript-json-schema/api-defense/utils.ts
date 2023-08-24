@@ -172,7 +172,7 @@ export function genMockDataBySchema(data: any, schema: SchemaType, fullSchema: R
  * @returns 
  */
 export function completeDataBySchema(data: any, schema: SchemaType, fullSchema: FullSchemaType, mock = false) {
-    function shouldMend(data) {
+    function shouldMend(data: any) {
         return data === null || typeof data === 'undefined'
     }
 
@@ -181,13 +181,22 @@ export function completeDataBySchema(data: any, schema: SchemaType, fullSchema: 
         return 111
     }
 
-    function isArraySchema(schema) {
+    function isArraySchema(schema: SchemaType) {
+        if(typeof schema !== 'object'){
+            return false
+        }
         return schema && schema.type === 'array'
     }
-    function isObjectSchema(schema) {
+    function isObjectSchema(schema: SchemaType) {
+        if (typeof schema !== 'object') {
+            return false
+        }
         return schema && schema.type === 'object'
     }
-    function completeDataBySchemaInner(data, schema) {
+    function completeDataBySchemaInner(data:any, schema:SchemaType) {
+        if(typeof schema !== 'object'){
+            return data
+        }
         if (schema.type === 'string') {
             if (mock) {
                 data = 'string' + randomNumber()

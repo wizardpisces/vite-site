@@ -24,20 +24,20 @@
 <script lang="ts">
 import SampleDesc from "./sample-desc.vue";
 import "./worker-demo/main";
-import { useSerialTestIrises } from "./hooks/serial";
+// import { useSerialTestIrises } from "./hooks/serial";
 import { useConcurrentIrisesTest } from "./hooks/concurrent";
 
 export default {
   components: { SampleDesc },
   setup() {
-    let isConcurrent = true
-    let result
+    let isConcurrent = true;
+    let result;
 
-    if(isConcurrent){
-      result = useConcurrentIrisesTest()
-    }else{
-      result = useSerialTestIrises()
-    }
+    // if(isConcurrent){
+    result = useConcurrentIrisesTest();
+    // }else{
+    //   result = useSerialTestIrises()
+    // }
 
     return {
       singleResult: result.singleResult,

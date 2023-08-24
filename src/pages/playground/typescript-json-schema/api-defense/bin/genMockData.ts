@@ -1,4 +1,4 @@
-import { ValidateAndFixAPIError } from "../type";
+import { FullSchemaType, ValidateAndFixAPIError } from "../type";
 import { isCyclicJsonSchema, reportError, genMockDataBySchema } from "../utils";
 
 export {
@@ -8,7 +8,7 @@ export {
 /**
  * 根据投放的初始 data 生成的 mock 数据
  */
-function generateMockDataByFullSchema(data = {}, fullSchema) {
+function generateMockDataByFullSchema(data:Record<string, any> = {}, fullSchema: FullSchemaType) {
     Object.keys(fullSchema['definitions']).forEach(key => {
         let schema = fullSchema['definitions'][key]
         const [isCyclic, cycleReferenceName] = isCyclicJsonSchema(schema, fullSchema)
