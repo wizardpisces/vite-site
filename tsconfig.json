@@ -9,7 +9,6 @@
         "skipLibCheck": true,
         "sourceMap": true,
         "resolveJsonModule": true,
-        "noImplicitAny": false,
         "isolatedModules": true,
         "esModuleInterop": true,
         "types": ["node"],

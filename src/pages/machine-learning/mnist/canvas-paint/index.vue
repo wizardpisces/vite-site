@@ -1,14 +1,14 @@
 <template>
   <div class="canvas-paint">
-    <h1>Canvas 画板</h1>
+    <h1>Drawing Board</h1>
     <div class="toolbar">
-      <v3-button @click="download">下载</v3-button>
-      <v3-button @click="clear">清空</v3-button>
-      <v3-button @click="undo">撤销</v3-button>
-      <v3-button @click="redo">重做</v3-button>
-      <label>颜色：</label>
+      <v3-button @click="download">Download</v3-button>
+      <v3-button @click="clear">Clear</v3-button>
+      <v3-button @click="undo">Undo</v3-button>
+      <v3-button @click="redo">Redo</v3-button>
+      <label>Color:</label>
       <input type="color" v-model="color" />
-      <label>粗细：</label>
+      <label>Thickness:</label>
       <input type="range" min="1" max="10" v-model="width" />
     </div>
     <div class="canvas-wrapper">
@@ -80,7 +80,7 @@ export default {
       context.value.putImageData(imageData, 0, 0);
     };
 
-    const startDraw = (e) => {
+    const startDraw = (e: MouseEvent) => {
       if (
         context.value === null ||
         canvas.value === null ||
@@ -96,7 +96,7 @@ export default {
       context.value.moveTo(e.offsetX, e.offsetY);
     };
 
-    const draw = (e) => {
+    const draw = (e: MouseEvent) => {
       if (
         context.value === null ||
         canvas.value === null ||
