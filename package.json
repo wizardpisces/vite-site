@@ -12,7 +12,7 @@
     "build": "vite build",
     "deploy": "sh script/deploy.sh",
     "prepare": "husky install",
-    "t2j": "ts-node bin/schema2json.ts",
+    "t2j": "ts-node --project bin/tsconfig-dev.json bin/schema2json.ts",
     "test": "jest"
   },
   "engines": {

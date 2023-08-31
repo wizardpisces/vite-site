@@ -50,6 +50,7 @@
   },
   "Arr": [],
   "Simple": "string111",
+  "Simple2": false,
   "ApiSchema5": 111,
   "ApiSchema6": {
     "name": "string111",

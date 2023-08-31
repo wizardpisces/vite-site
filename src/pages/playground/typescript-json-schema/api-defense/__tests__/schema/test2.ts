@@ -13,6 +13,7 @@ export type ApiSchema3 = {
 
 export type Arr = string[]
 export type Simple = string
+export type Simple2 = boolean
 export type ApiSchema4 = ApiSchema2
 
 export type ApiSchema5 = number | string

@@ -18,5 +18,5 @@ export type OnErrorOptions = {
     errorDetail?: any
 }
 
-export type SchemaType = 'string' | 'number' | Record<string, any>
+export type SchemaType = Record<string, any>
 export type FullSchemaType = Record<string, any>

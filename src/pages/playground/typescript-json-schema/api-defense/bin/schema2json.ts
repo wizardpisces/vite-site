@@ -4,6 +4,7 @@ import path from "path";
 import {
     createGenerator
 } from "ts-json-schema-generator";
+import { customErrorLog, customLog } from "../utils";
 // import ts from "typescript";
 const ts = require('typescript');
 
@@ -27,7 +28,7 @@ function getExportedTypeNames(filePath:string) {
 function checkConflictTypeName(filePath:string) {
     let isValid = true
     let hashMap: Record<string, string> = {} // map type name -> filePath
-    // console.log('exportedTypeNames', getExportedTypeNames(filePath + '/test2.ts'));
+    // customLog('exportedTypeNames', getExportedTypeNames(filePath + '/test2.ts'));
     function traverseFile(filePath:string) {
         if(!isValid){ // 命名冲突就直接报错
             return
@@ -39,13 +40,13 @@ function checkConflictTypeName(filePath:string) {
                 traverseFile(path.join(filePath, file))
             })
         } else {
-            if (filePath.endsWith('.ts')) {
+            if (filePath.endsWith('.ts') && !filePath.endsWith('.d.ts')) { // 忽略掉.d.ts，因为不是一个 module，会导致 checker.getExportsOfModule(sourceFile.symbol) 报错
                 let tsFile = filePath;
                 let exportedTypeNames = getExportedTypeNames(tsFile);
                 exportedTypeNames.forEach((typeName:string) => {
                     if(hashMap[typeName]) {
                         isValid = false
-                        console.error(`[api-defense] error: duplicate type name ${typeName} in file \n  ${tsFile}\n  ${hashMap[typeName]} \nresolve to continue...`)
+                        customErrorLog(`Duplicate type name ${typeName} in file \n  ${tsFile}\n  ${hashMap[typeName]} \nresolve to continue...`)
                     }else{
                         hashMap[typeName] = tsFile
                     }
@@ -63,7 +64,7 @@ function checkConflictTypeName(filePath:string) {
 module.exports = (filePath:string, outputPath:string, tsconfigPath:string) => {
     // 监听 test.txt 文件的变化
     fs.watch(filePath, (event, filename) => {
-        console.log(`file ${filename} ${event}`)
+        customLog(`File ${filename} ${event}`)
         ts2json()
     })
     // 转换 ts schema -> json schema
@@ -74,7 +75,7 @@ module.exports = (filePath:string, outputPath:string, tsconfigPath:string) => {
                 return
             }
 
-            console.log(`generating json schema from ${filePath}/*.ts...`)
+            customLog(`Generating json schema from ${filePath}/*.ts...`)
             /** @type {import('ts-json-schema-generator/dist/src/Config').Config} */
             const config = {
                 path: path.join(filePath, '/*.ts'),
@@ -98,17 +99,20 @@ module.exports = (filePath:string, outputPath:string, tsconfigPath:string) => {
 
             fs.writeFile(outputPath, schemaString, (err) => {
                 if (err) throw err;
-                console.log('json schema generated successfully!');
-
-                let data = generateMockDataByFullSchema({},JSON.parse(schemaString))
-                // console.log('data',data)
-                fs.writeFile(path.dirname(outputPath) + '/mockData.json', JSON.stringify(data,null,2), (err) => {
-                    if (err) throw err;
-                    console.log('mock data generated successfully!');
-                })
+                customLog('JSON schema generated successfully!');
+                try {
+                    let data = generateMockDataByFullSchema({}, JSON.parse(schemaString))
+                    // customLog('data',data)
+                    fs.writeFile(path.dirname(outputPath) + '/mockData.json', JSON.stringify(data, null, 2), (err) => {
+                        if (err) throw err;
+                        customLog('mock data generated successfully!');
+                    })
+                } catch (e) {
+                    customErrorLog('mock data generated failed!', e)
+                }
             });
         } catch (e) {
-            console.error('[schema2json]: ', e)
+            customErrorLog('[schema2json]: ', e)
         }
     }
 

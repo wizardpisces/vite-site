@@ -1,5 +1,12 @@
 import { ValidateAndFixAPIError, OnErrorOptions, SchemaType, FullSchemaType } from "./type"
 
+export function customLog(...args: any[]) {
+    console.log(`\x1B[43m [API-Defense] \x1B[49m`, ...args);
+}
+export function customErrorLog(...args: any[]) {
+    console.log(`\x1B[41m [API-Defense] \x1B[49m`, ...args);
+}
+
 export function resolveSchemaByRef(ref: string, fullSchema: FullSchemaType): SchemaType { // 需要考虑循环引用 $ref，类型引用自身
     let path: string[] = ref.split('/') // "api#/definitions/Human" => ["api#", "definitions", "Human"]
     let schema = fullSchema['definitions']
@@ -10,7 +17,8 @@ export function resolveSchemaByRef(ref: string, fullSchema: FullSchemaType): Sch
 }
 
 export function reportError(OnErrorOptions: OnErrorOptions = { msg: '', type: ValidateAndFixAPIError.Other }, onError: (error: OnErrorOptions) => any) {
-    console.error('[API-Defense]', OnErrorOptions)
+    // console.error('[API-Defense]', OnErrorOptions)
+    console.error(`\x1B[41m [API-Defense] \x1B[49m`, OnErrorOptions);
     onError(OnErrorOptions)
 }
 
@@ -199,11 +207,19 @@ export function completeDataBySchema(data: any, schema: SchemaType, fullSchema: 
         }
         if (schema.type === 'string') {
             if (mock) {
-                data = 'string' + randomNumber()
+                if(Array.isArray(schema.enum) && schema.enum.length > 0){
+                    data = schema.enum[0]
+                }else{
+                    data = 'string' + randomNumber()
+                }
             }
         } else if (schema.type === 'number') {
             if (mock) {
                 data = randomNumber()
+            }
+        } else if (schema.type === 'boolean') {
+            if (mock) {
+                data = false
             }
         } else if (isObjectSchema(schema)) {
             if (shouldMend(data)) {

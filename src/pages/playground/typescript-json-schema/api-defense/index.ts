@@ -11,7 +11,7 @@ let onError: (error: OnErrorOptions) => any = (error)=>void(0)
  * @param fullSchemaId 
  * @returns validateAndFixAPI
  */
-export function getApiDefenseFn(options: { fullSchema: Record<string, any>, fullSchemaId: string, onError?: (error: OnErrorOptions) => any }) {
+export function getApiDefenseFn(options: { fullSchema: FullSchemaType, fullSchemaId: string, onError?: (error: OnErrorOptions) => any }) {
     ajv = new Ajv()
     ajv.addSchema(options.fullSchema, options.fullSchemaId) // 注册 /api 的路径，便于 $ref 引用准确，让 validate 准确；让补全也准确
     fullSchema = options.fullSchema
@@ -26,8 +26,8 @@ function validateAndFixAPI<T extends (Record<string, any>)>(data: T, schema: Rec
             return data
         }
 
-        if (!schema) {
-            reportError({ msg: 'schema should not be empty' }, onError)
+        if (!schema || typeof schema!== 'object') {
+            reportError({ msg: 'schema should be an Object',schema }, onError)
             return data
         }
 

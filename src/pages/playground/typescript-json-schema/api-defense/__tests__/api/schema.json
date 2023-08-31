@@ -216,6 +216,9 @@
     "Simple": {
       "type": "string"
     },
+    "Simple2": {
+      "type": "boolean"
+    },
     "ApiSchema5": {
       "type": [
         "number",

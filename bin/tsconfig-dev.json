@@ -1,0 +1,6 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS", // 解决 ts-node 启动 schema2json.ts 的模块问题，后续有更好的方案了可以替换掉
+  }
+}
