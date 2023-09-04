@@ -21,3 +21,8 @@ export type ApiSchema6 = ApiSchema2 | ApiSchema4
 export type ApiSchema7 = ApiSchema3 | number
 
 export type ApiSchemaWhole = ApiSchema7
+
+export enum YesOrNo {
+    Yes = 1,
+    No = 2
+}

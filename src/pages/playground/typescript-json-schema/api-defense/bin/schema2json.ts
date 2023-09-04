@@ -61,11 +61,29 @@ function checkConflictTypeName(filePath:string) {
     return isValid
 }
 
+// 定义一个防抖函数
+function debounce(func:()=>any, delay=1000) {
+    // 定义一个定时器变量
+    let timer: NodeJS.Timeout;
+    // 返回一个包装后的函数
+    return function (...args:any) {
+        // 如果定时器存在，就清除它
+        if (timer) {
+            clearTimeout(timer);
+        }
+        // 设置一个新的定时器，并在 delay 时间后调用原始函数，并传入参数
+        timer = setTimeout(() => {
+            func.apply(null, args);
+        }, delay);
+    };
+}
+
 module.exports = (filePath:string, outputPath:string, tsconfigPath:string) => {
     // 监听 test.txt 文件的变化
+    const task = debounce(() => ts2json(), 1000)
     fs.watch(filePath, (event, filename) => {
         customLog(`File ${filename} ${event}`)
-        ts2json()
+        task()
     })
     // 转换 ts schema -> json schema
     function ts2json() {

@@ -247,6 +247,13 @@
     },
     "ApiSchemaWhole": {
       "$ref": "api#/definitions/ApiSchema7"
+    },
+    "YesOrNo": {
+      "type": "number",
+      "enum": [
+        1,
+        2
+      ]
     }
   }
 }
