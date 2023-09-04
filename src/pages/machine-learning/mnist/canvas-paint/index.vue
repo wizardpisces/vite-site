@@ -2,22 +2,25 @@
   <div class="canvas-paint">
     <h1>Drawing Board</h1>
     <div class="toolbar">
-      <v3-button @click="download">Download</v3-button>
-      <v3-button @click="clear">Clear</v3-button>
-      <v3-button @click="undo">Undo</v3-button>
-      <v3-button @click="redo">Redo</v3-button>
-      <label>Color:</label>
-      <input type="color" v-model="color" />
-      <label>Thickness:</label>
-      <input type="range" min="1" max="10" v-model="width" />
+      <div class="action">
+        <button @click="download">Download</button>
+        <button @click="clear">Clear</button>
+        <button @click="undo">Undo</button>
+        <button @click="redo">Redo</button>
+      </div>
+      <div class="action">
+        <span>Color: </span>
+        <input type="color" v-model="color" />
+      </div>
+      <div class="action">
+        <span>Thickness: </span>
+        <input type="range" min="1" max="10" v-model="width" />
+      </div>
+
     </div>
     <div class="canvas-wrapper">
-      <canvas
-        ref="canvas"
-        @mousedown="startDraw"
-        @mousemove="draw"
-        @mouseup="endDraw"
-      ></canvas>
+      <canvas ref="canvas" @mousedown="startDraw" @mousemove="draw" @mouseup="endDraw" @touchstart="touchStartDraw"
+        @touchmove="touchDraw" @touchend="endDraw"></canvas>
     </div>
   </div>
 </template>
@@ -130,6 +133,48 @@ export default {
       index.value++;
     };
 
+    const touchStartDraw = (e: TouchEvent) => {
+      e.preventDefault()
+      if (
+        context.value === null ||
+        canvas.value === null ||
+        canvas.value.parentElement === null
+      ) {
+        return;
+      }
+      // 开始绘制，设置画笔颜色和粗细，获取鼠标位置，并将其作为起点
+      drawing.value = true;
+      context.value.strokeStyle = color.value;
+      context.value.lineWidth = width.value;
+      context.value.beginPath();
+      // 获取触摸点列表
+      const touches = e.changedTouches;
+
+      for (let i = 0; i < touches.length; i++) {
+        context.value.moveTo(touches[i].pageX - canvas.value.offsetLeft, touches[i].pageY - canvas.value.offsetTop);
+      }
+    };
+
+    const touchDraw = (e: TouchEvent) => {
+      e.preventDefault()
+      if (
+        context.value === null ||
+        canvas.value === null ||
+        canvas.value.parentElement === null
+      ) {
+        return;
+      }
+      // 绘制过程，如果正在绘制，就获取鼠标位置，并将其作为终点，然后绘制一条线段，并更新起点
+      if (drawing.value) {
+        const touches = e.changedTouches;
+        for (let i = 0; i < touches.length; i++) {
+          context.value.lineTo(touches[i].pageX - canvas.value.offsetLeft, touches[i].pageY - canvas.value.offsetTop);
+          context.value.stroke();
+          context.value.moveTo(touches[i].pageX - canvas.value.offsetLeft, touches[i].pageY - canvas.value.offsetTop);
+        }
+      }
+    };
+
     const clear = () => {
       if (context.value === null || canvas.value === null) {
         return;
@@ -195,6 +240,8 @@ export default {
       draw,
       endDraw,
       download,
+      touchStartDraw,
+      touchDraw
     };
   },
 };
@@ -204,9 +251,16 @@ export default {
 /* 设置一些样式 */
 .canvas-paint {
   max-width: 1000px;
+
   .toolbar {
     display: flex;
     align-items: center;
+
+    .action {
+      display: flex;
+      margin: 0 10px;
+      align-items: center;
+    }
   }
 
   .canvas-wrapper {
@@ -217,6 +271,7 @@ export default {
     transition: border-color 0.2s ease-in;
     width: 500px;
     height: 500px;
+
     &:hover {
       border-color: #2a6a96;
     }
@@ -224,6 +279,27 @@ export default {
 
   canvas {
     display: block;
+  }
+}
+
+@media (max-width: 719px) {
+  .canvas-paint {
+    max-width: 500px;
+
+    .toolbar {
+      display: flex;
+      flex-direction: column;
+      align-items: baseline;
+
+      .action {
+        margin: 10px 0;
+      }
+    }
+
+    .canvas-wrapper {
+      width: 300px;
+      height: 300px;
+    }
   }
 }
 </style>
