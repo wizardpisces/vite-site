@@ -7,7 +7,7 @@
         'nav-item': true,
         'active-nav': isActive(routeItem),
       }"
-      @click.stop="onTabClick(routeItem.name)"
+      @click.stop="onTabClick(routeItem.name as string)"
     >
       {{ routeItem.name }}
     </div>
@@ -23,7 +23,7 @@
   </div>
 </template>
 <script lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { RouteRecordRaw, useRoute, useRouter } from "vue-router";
 import { navRoutes } from "../router";
 function isSubsequence(parentRouteArray:string[], currentRouteArray:string[]) {
   let i = 0; // 指向 parentRouteArray
@@ -52,7 +52,7 @@ export default {
       }
     }
 
-    let isActive = (routeItem) => {
+    let isActive = (routeItem:RouteRecordRaw) => {
       if (routeItem.path === "/") {
         // 特殊的 Home 路由，单独处理
         if (route.path === "/") {

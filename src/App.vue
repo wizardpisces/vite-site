@@ -23,7 +23,7 @@
 <script lang="ts">
 import { computed, ref } from "@vue/runtime-core";
 import NavLinks from "./components/navLinks.vue";
-import Sidebar from "./components/Sidebar/index.vue";
+import Sidebar from "./components/sidebar/index.vue";
 
 export default {
   name: "App",

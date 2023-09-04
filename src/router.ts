@@ -1,6 +1,7 @@
 import {
   createRouter,
   createWebHistory,
+  RouteComponent,
   RouteRecordRaw
 } from 'vue-router'
 const Test = () => import('./pages/test/index.vue')
@@ -37,7 +38,7 @@ const Irises = () => import('./pages/machine-learning/irises/index.vue')
 
 const routerHistory = createWebHistory()
 
-export let navRoutes = [
+export let navRoutes:RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
