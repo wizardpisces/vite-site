@@ -1,0 +1,93 @@
+{
+  "$id": "test2",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ApiSchema3": {
+      "type": "object",
+      "properties": {
+        "apiSchema2": {
+          "$ref": "test2#/definitions/ApiSchema2"
+        },
+        "apiSchema4": {
+          "$ref": "test2#/definitions/ApiSchema4"
+        }
+      },
+      "required": [
+        "apiSchema2",
+        "apiSchema4"
+      ],
+      "additionalProperties": false
+    },
+    "ApiSchema2": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "age": {
+          "type": "number"
+        },
+        "test1": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "age",
+        "test1"
+      ],
+      "additionalProperties": false
+    },
+    "ApiSchema4": {
+      "$ref": "test2#/definitions/ApiSchema2"
+    },
+    "Arr": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Simple": {
+      "type": "string"
+    },
+    "Simple2": {
+      "type": "boolean"
+    },
+    "ApiSchema5": {
+      "type": [
+        "number",
+        "string"
+      ]
+    },
+    "ApiSchema6": {
+      "anyOf": [
+        {
+          "$ref": "test2#/definitions/ApiSchema2"
+        },
+        {
+          "$ref": "test2#/definitions/ApiSchema4"
+        }
+      ]
+    },
+    "ApiSchema7": {
+      "anyOf": [
+        {
+          "$ref": "test2#/definitions/ApiSchema3"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "ApiSchemaWhole": {
+      "$ref": "test2#/definitions/ApiSchema7"
+    },
+    "YesOrNo": {
+      "type": "number",
+      "enum": [
+        1,
+        2
+      ]
+    }
+  }
+}

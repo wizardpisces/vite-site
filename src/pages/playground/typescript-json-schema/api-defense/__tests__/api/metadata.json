@@ -1,0 +1,20 @@
+{
+  "Recursive": "test",
+  "Human": "test",
+  "ChainReferenceNumber": "test",
+  "ChainReference": "test",
+  "TestChainReference": "test",
+  "BasicObj": "test",
+  "ApiSchema": "test",
+  "ApiSchema2": "test",
+  "ApiSchema3": "test2",
+  "Arr": "test2",
+  "Simple": "test2",
+  "Simple2": "test2",
+  "ApiSchema4": "test2",
+  "ApiSchema5": "test2",
+  "ApiSchema6": "test2",
+  "ApiSchema7": "test2",
+  "ApiSchemaWhole": "test2",
+  "YesOrNo": "test2"
+}

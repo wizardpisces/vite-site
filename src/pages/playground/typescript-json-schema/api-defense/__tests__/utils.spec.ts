@@ -1,21 +1,21 @@
 import { describe, expect, jest, test } from "@jest/globals";
 import { resolveSchemaByRef, isCyclicJsonSchema, completeDataBySchema } from "../utils";
-import fullSchema from "./api/schema.json"
+import fullSchema from './api/jsonschema/test.json'
 import { BasicObj, Recursive, TestChainReference } from "./schema/test";
 
 describe("api defense utils", () => {
     test("resolveSchemaByRef", () => {
-        let humanSchema = resolveSchemaByRef("api#/definitions/Human", fullSchema)
+        let humanSchema = resolveSchemaByRef("test#/definitions/Human", fullSchema)
         expect(humanSchema).toEqual(fullSchema["definitions"]["Human"])
 
-        let recursiveSchema = resolveSchemaByRef("api#/definitions/Recursive", fullSchema)
+        let recursiveSchema = resolveSchemaByRef("test#/definitions/Recursive", fullSchema)
         expect(recursiveSchema).toEqual(fullSchema["definitions"]["Recursive"])
     })
 
     test("isCyclicJsonSchema", () => {
         expect(isCyclicJsonSchema(fullSchema["definitions"]["Human"], fullSchema)).toEqual([false, ""])
-        expect(isCyclicJsonSchema(fullSchema["definitions"]["Recursive"], fullSchema)).toEqual([true, 'api#/definitions/Recursive'])
-        expect(isCyclicJsonSchema(fullSchema["definitions"]["ApiSchema"], fullSchema)).toEqual([true, 'api#/definitions/Recursive'])
+        expect(isCyclicJsonSchema(fullSchema["definitions"]["Recursive"], fullSchema)).toEqual([true, 'test#/definitions/Recursive'])
+        expect(isCyclicJsonSchema(fullSchema["definitions"]["ApiSchema"], fullSchema)).toEqual([true, 'test#/definitions/Recursive'])
     })
     test("completeDataBySchema with mock", () => {
         let data: BasicObj = completeDataBySchema({}, fullSchema["definitions"]["BasicObj"], fullSchema, true)

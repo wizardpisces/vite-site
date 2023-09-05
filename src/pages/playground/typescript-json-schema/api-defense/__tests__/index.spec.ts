@@ -2,12 +2,12 @@ import { beforeEach, describe, expect, jest, test } from '@jest/globals';
 import { getApiDefenseFn } from '..';
 import { BasicObj, Recursive, TestChainReference } from './schema/test';
 import { ValidateAndFixAPIError } from '../type';
-import fullSchema from './api/schema.json'
+import fullSchema from './api/jsonschema/test.json'
 
 global.console.error = () => { } // 避免 reportError 打印错误，影响到测试结果查看
 
 const onError = jest.fn((obj) => { })
-const validateAndFixAPI = getApiDefenseFn({ fullSchema, fullSchemaId: '/api', onError });
+const validateAndFixAPI = getApiDefenseFn({ fullSchema, fullSchemaId: 'test', onError });
 
 describe('validateAPI', () => {
     beforeEach(() => {

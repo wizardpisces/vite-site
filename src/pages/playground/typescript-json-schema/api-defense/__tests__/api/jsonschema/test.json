@@ -1,5 +1,5 @@
 {
-  "$id": "api",
+  "$id": "test",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
     "Recursive": {
@@ -8,7 +8,7 @@
           "type": "object",
           "properties": {
             "recur": {
-              "$ref": "api#/definitions/Recursive"
+              "$ref": "test#/definitions/Recursive"
             }
           },
           "required": [
@@ -72,13 +72,13 @@
       "additionalProperties": false
     },
     "ChainReference": {
-      "$ref": "api#/definitions/ChainReferenceNumber"
+      "$ref": "test#/definitions/ChainReferenceNumber"
     },
     "TestChainReference": {
       "type": "object",
       "properties": {
         "reference": {
-          "$ref": "api#/definitions/ChainReference"
+          "$ref": "test#/definitions/ChainReference"
         }
       },
       "required": [
@@ -143,19 +143,19 @@
           "maxItems": 0
         },
         "testChainReference": {
-          "$ref": "api#/definitions/ChainReference"
+          "$ref": "test#/definitions/ChainReference"
         },
         "cycleReference": {
-          "$ref": "api#/definitions/Recursive"
+          "$ref": "test#/definitions/Recursive"
         },
         "testReference": {
-          "$ref": "api#/definitions/Human"
+          "$ref": "test#/definitions/Human"
         },
         "testObject": {
-          "$ref": "api#/definitions/BasicObj"
+          "$ref": "test#/definitions/BasicObj"
         },
         "apiSchema2": {
-          "$ref": "api#/definitions/ApiSchema2"
+          "$ref": "test#/definitions/ApiSchema2"
         }
       },
       "required": [
@@ -187,73 +187,6 @@
         "test1"
       ],
       "additionalProperties": false
-    },
-    "ApiSchema3": {
-      "type": "object",
-      "properties": {
-        "apiSchema2": {
-          "$ref": "api#/definitions/ApiSchema2"
-        },
-        "apiSchema4": {
-          "$ref": "api#/definitions/ApiSchema4"
-        }
-      },
-      "required": [
-        "apiSchema2",
-        "apiSchema4"
-      ],
-      "additionalProperties": false
-    },
-    "ApiSchema4": {
-      "$ref": "api#/definitions/ApiSchema2"
-    },
-    "Arr": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "Simple": {
-      "type": "string"
-    },
-    "Simple2": {
-      "type": "boolean"
-    },
-    "ApiSchema5": {
-      "type": [
-        "number",
-        "string"
-      ]
-    },
-    "ApiSchema6": {
-      "anyOf": [
-        {
-          "$ref": "api#/definitions/ApiSchema2"
-        },
-        {
-          "$ref": "api#/definitions/ApiSchema4"
-        }
-      ]
-    },
-    "ApiSchema7": {
-      "anyOf": [
-        {
-          "$ref": "api#/definitions/ApiSchema3"
-        },
-        {
-          "type": "number"
-        }
-      ]
-    },
-    "ApiSchemaWhole": {
-      "$ref": "api#/definitions/ApiSchema7"
-    },
-    "YesOrNo": {
-      "type": "number",
-      "enum": [
-        1,
-        2
-      ]
     }
   }
 }

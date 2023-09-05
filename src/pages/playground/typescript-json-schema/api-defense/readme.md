@@ -63,8 +63,13 @@ npm run test
 * [x] 改进点
   * [x] 用工程的类型定义大数据去实验，然后找（发现了 .d.ts 的问题，需要解决）
   * [x] 解决 watch 监听到联系多次改动，导致的重复编译问题； 每次只运行一个任务，用当前的任务取代之前的任务（kill 之前的还在运行的任务）；解决方案：用简单的 debounce 先解决部分问题
+  * [x] 命令合并到 dev 启动命令并着色
 * [] Schema JSON split
-    * 生成的 JSON Schema 跟 Src schema 文件名一一对应，并生成 export Name 到 JSON Schema 的 Meta 数据，在使用的时候根据 Schema Name 索引 JSON Schema 做到按需引入（在打包的时候载入，而不是运行时载入资源）
+    * [] 生成的 JSON Schema 跟 Src schema 文件名一一对应，并生成 export Name 到 JSON Schema 的 Meta 数据，在使用的时候根据 Schema Name 索引 JSON Schema 做到按需引入（在打包的时候载入，而不是运行时载入资源）
+    * [] 支持 schema 文件目录嵌套处理（目前是先不支持schema 文件里面再嵌套目录的）
+* [] 性能
+  * [] benchmark 使用 api-defense 跟不使用的执行速度
+  * [] 优化 ajv validate 代码，避免重复 compile schema
 * [] 基础 mock 数据生成，并集成到工程 （尝试 json-schema-faker，大概率不会使用，原因：BUG 还有一些，比较复杂，跟本工程调用方式不太契合 ）
   * [] mock 结果修正，加强 type 判断，在 type='string' 并且包含 enum 属性的时候进行 enum 挑选（需要继续进行 enum 元素分析，可能是interface 也可能是普通类型）
   * [] 给数组增加一项数据

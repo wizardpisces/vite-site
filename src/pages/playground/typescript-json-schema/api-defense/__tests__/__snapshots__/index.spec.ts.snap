@@ -20,7 +20,7 @@ exports[`validateAPI should support $ref chain 1`] = `
       "additionalProperties": false,
       "properties": {
         "reference": {
-          "$ref": "api#/definitions/ChainReference",
+          "$ref": "test#/definitions/ChainReference",
         },
       },
       "required": [
@@ -127,7 +127,7 @@ exports[`validateAPI should support cyclic $ref skip null completion, and report
             "additionalProperties": false,
             "properties": {
               "recur": {
-                "$ref": "api#/definitions/Recursive",
+                "$ref": "test#/definitions/Recursive",
               },
             },
             "required": [
@@ -146,14 +146,14 @@ exports[`validateAPI should support cyclic $ref skip null completion, and report
   [
     {
       "data": {},
-      "msg": "Schema contains cyclic reference, will not do complete work; please check api#/definitions/Recursive or use Nullable to fix potential error",
+      "msg": "Schema contains cyclic reference, will not do complete work; please check test#/definitions/Recursive or use Nullable to fix potential error",
       "schema": {
         "anyOf": [
           {
             "additionalProperties": false,
             "properties": {
               "recur": {
-                "$ref": "api#/definitions/Recursive",
+                "$ref": "test#/definitions/Recursive",
               },
             },
             "required": [
