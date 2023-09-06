@@ -41,7 +41,7 @@ type Target = {
 
 可以参照 Demo 或者 test case
 ```
-import { demo } from "./api-defense/demo";
+import { demo } from "./api-defense/__test__/demo";
 demo()
 ```
 or

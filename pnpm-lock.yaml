@@ -28,7 +28,6 @@ specifiers:
   json-bigint: ^1.0.0
   markdown-it: ^12.1.0
   md5: ^2.3.0
-  onnxjs: ^0.1.8
   onnxruntime-web: ^1.15.1
   qiankun: ^2.6.3
   sass: ^1.32.4
@@ -57,7 +56,6 @@ dependencies:
   huffman-ts: 0.1.3
   json-bigint: 1.0.0
   md5: 2.3.0
-  onnxjs: 0.1.8
   onnxruntime-web: 1.15.1
   qiankun: 2.10.11
   tiny-sass-compiler: 0.11.0
@@ -3292,13 +3290,6 @@ packages:
     resolution: {integrity: sha512-aldMOB3HRoo6q/phyB6QRQxSt895HNNw82BNyZ2CMh4bjeKv7g/c+VpAFtJuEMVfYLMbRx61hbuqnKceLeDcDA==}
     dependencies:
       protobufjs: 6.11.3
-    dev: false
-
-  /onnxjs/0.1.8:
-    resolution: {integrity: sha512-7yxFq6cOVUm23OW9gUvDcfkG9OR5Fkleaa4Ce+rhExQmI8OTx6hdb2/9I1jRbyVLJRxlL0MDQgQCb4YxdLcZGw==}
-    dependencies:
-      onnx-proto: 4.0.4
-      platform: 1.3.6
     dev: false
 
   /onnxruntime-common/1.15.1:

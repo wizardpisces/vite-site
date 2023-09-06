@@ -3,10 +3,10 @@
     <h1>Drawing Board</h1>
     <div class="toolbar">
       <div class="action">
-        <button @click="download">Download</button>
+        <!-- <button @click="download">Download</button> -->
         <button @click="clear">Clear</button>
-        <button @click="undo">Undo</button>
-        <button @click="redo">Redo</button>
+        <!-- <button @click="undo">Undo</button> -->
+        <!-- <button @click="redo">Redo</button> -->
       </div>
       <div class="action">
         <span>Color: </span>
@@ -18,19 +18,58 @@
       </div>
 
     </div>
-    <div class="canvas-wrapper">
-      <canvas ref="canvas" @mousedown="startDraw" @mousemove="draw" @mouseup="endDraw" @touchstart="touchStartDraw"
-        @touchmove="touchDraw" @touchend="endDraw"></canvas>
+    <div class="canvas-output-wrapper">
+      <div class="canvas-wrapper">
+        <canvas ref="canvas" @mousedown="startDraw" @mousemove="draw" @mouseup="endDraw" @touchstart="startDraw"
+        @touchmove="draw" @touchend="endDraw"></canvas>
+      </div>
+  
+      <div class="output-column">
+        <ul class="output">
+          <li
+            class="output-class"
+            :class="{ predicted: i === predictedClass }"
+            v-for="i in outputClasses"
+            :key="`output-class-${output[i]}`"
+          >
+            <span class="output-label">{{ i }}</span>
+            <span
+              class="output-bar"
+              :style="{ width: `${Math.round(180 * output[i])}px` }"
+            ></span>
+          </li>
+        </ul>
+      </div>
     </div>
+    
   </div>
 </template>
 
 <script lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, onBeforeMount, defineProps, PropType, computed } from "vue";
+
+import { runModelUtils,mathUtils, getPredictedClass } from "../../utils";
+import { InferenceSession, Tensor } from "onnxruntime-web";
+
+// 微软的模型，难道不包含 LogSoftmax 操作？
+const modelUrl = new URL("./mnist.onnx", import.meta.url).href
+
+// 自己训练的模型：报错 TypeError: cannot resolve operator 'LogSoftmax' with opsets: ai.onnx v10
+// const modelUrl = new URL("../mnist.onnx", import.meta.url).href
 
 export default {
   name: "CanvasPaint",
-  setup() {
+  props: {
+    preprocess: {
+      type: Function as PropType<(ctx: CanvasRenderingContext2D) => Tensor>,
+      required: true,
+    },
+    postprocess: {
+      type: Function as PropType<(rawOutput: Tensor) => Float32Array>,
+      required: true,
+    }
+  },
+  setup(props) {
     // 定义一些响应式变量
     const canvas = ref<HTMLCanvasElement | null>(null); // canvas 元素的引用
     const context = ref<CanvasRenderingContext2D | null>(null); // canvas 的绘图上下文
@@ -39,6 +78,51 @@ export default {
     const drawing = ref(false); // 是否正在绘制
     const history = ref<ImageData[]>([]); // 历史记录，用于撤销和重做
     const index = ref(-1); // 历史记录的索引
+
+    const session = ref<InferenceSession | null>(null);
+    const sessionRunning = ref(false); // 是否正在运行模型
+    const inferenceTime = ref(0);
+    const output = ref<Float32Array>(new Float32Array(10));
+    const outputClasses:number[] = [0,1,2,3,4,5,6,7,8,9];
+
+    const initSession = async () => {
+        // init session
+      session.value = await InferenceSession.create(
+        modelUrl,
+        {
+          executionProviders: ["webgl"],
+        }
+      )
+      runModelUtils.warmupModel(session.value, [1, 1, 28, 28]);
+    }
+
+    onBeforeMount(async () => {
+      initSession()
+    });
+
+    const runModelTest = async () => {
+       if (
+        context.value === null||
+        drawing.value||
+        sessionRunning.value
+      ) {
+        return;
+      }
+      if(session.value === null){
+        await initSession()
+      }
+
+      console.log("start mnist model test")
+      drawing.value = false;
+      sessionRunning.value = true;
+      const tensor = props.preprocess(context.value);
+      const [res, time] = await runModelUtils.runModel(session.value as InferenceSession, tensor);
+      output.value = props.postprocess(res);
+      console.log("end mnist model test", time,output.value)
+      
+      inferenceTime.value = time;
+      sessionRunning.value = false;
+    }
 
     // 定义一些生命周期钩子函数
     onMounted(() => {
@@ -83,7 +167,8 @@ export default {
       context.value.putImageData(imageData, 0, 0);
     };
 
-    const startDraw = (e: MouseEvent) => {
+    const startDraw = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault()
       if (
         context.value === null ||
         canvas.value === null ||
@@ -96,10 +181,12 @@ export default {
       context.value.strokeStyle = color.value;
       context.value.lineWidth = width.value;
       context.value.beginPath();
-      context.value.moveTo(e.offsetX, e.offsetY);
+      const coordinates = mathUtils.getCoordinates(e)
+      context.value.moveTo(coordinates[0], coordinates[1]);
     };
 
-    const draw = (e: MouseEvent) => {
+    const draw = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault()
       if (
         context.value === null ||
         canvas.value === null ||
@@ -109,9 +196,10 @@ export default {
       }
       // 绘制过程，如果正在绘制，就获取鼠标位置，并将其作为终点，然后绘制一条线段，并更新起点
       if (drawing.value) {
-        context.value.lineTo(e.offsetX, e.offsetY);
+        const coordinates = mathUtils.getCoordinates(e)
+        context.value.lineTo(coordinates[0], coordinates[1]);
         context.value.stroke();
-        context.value.moveTo(e.offsetX, e.offsetY);
+        context.value.moveTo(coordinates[0], coordinates[1]);
       }
     };
 
@@ -131,48 +219,7 @@ export default {
         )
       );
       index.value++;
-    };
-
-    const touchStartDraw = (e: TouchEvent) => {
-      e.preventDefault()
-      if (
-        context.value === null ||
-        canvas.value === null ||
-        canvas.value.parentElement === null
-      ) {
-        return;
-      }
-      // 开始绘制，设置画笔颜色和粗细，获取鼠标位置，并将其作为起点
-      drawing.value = true;
-      context.value.strokeStyle = color.value;
-      context.value.lineWidth = width.value;
-      context.value.beginPath();
-      // 获取触摸点列表
-      const touches = e.changedTouches;
-
-      for (let i = 0; i < touches.length; i++) {
-        context.value.moveTo(touches[i].pageX - canvas.value.offsetLeft, touches[i].pageY - canvas.value.offsetTop);
-      }
-    };
-
-    const touchDraw = (e: TouchEvent) => {
-      e.preventDefault()
-      if (
-        context.value === null ||
-        canvas.value === null ||
-        canvas.value.parentElement === null
-      ) {
-        return;
-      }
-      // 绘制过程，如果正在绘制，就获取鼠标位置，并将其作为终点，然后绘制一条线段，并更新起点
-      if (drawing.value) {
-        const touches = e.changedTouches;
-        for (let i = 0; i < touches.length; i++) {
-          context.value.lineTo(touches[i].pageX - canvas.value.offsetLeft, touches[i].pageY - canvas.value.offsetTop);
-          context.value.stroke();
-          context.value.moveTo(touches[i].pageX - canvas.value.offsetLeft, touches[i].pageY - canvas.value.offsetTop);
-        }
-      }
+      runModelTest()
     };
 
     const clear = () => {
@@ -228,6 +275,8 @@ export default {
       a.click();
     };
 
+    const predictedClass = computed(()=> getPredictedClass(output.value))
+
     // 返回一些响应式变量和自定义函数，供模板使用
     return {
       canvas,
@@ -240,8 +289,9 @@ export default {
       draw,
       endDraw,
       download,
-      touchStartDraw,
-      touchDraw
+      outputClasses,
+      output,
+      predictedClass
     };
   },
 };
@@ -251,7 +301,6 @@ export default {
 /* 设置一些样式 */
 .canvas-paint {
   max-width: 1000px;
-
   .toolbar {
     display: flex;
     align-items: center;
@@ -263,14 +312,19 @@ export default {
     }
   }
 
+  .canvas-output-wrapper{
+    display: flex;
+
+  }
+
   .canvas-wrapper {
     display: inline-flex;
     justify-content: flex-end;
     margin: 10px 0;
     border: 15px solid #94b4cb;
     transition: border-color 0.2s ease-in;
-    width: 500px;
-    height: 500px;
+    width: 300px;
+    height: 300px;
 
     &:hover {
       border-color: #2a6a96;
@@ -280,12 +334,24 @@ export default {
   canvas {
     display: block;
   }
+  .output-column{
+    .output{
+      display: flex;
+      flex-direction: column;
+      .output-bar{
+        display: inline-block;
+        height: 10px;
+        background-color: #2a6a96;
+      }
+    }
+
+  }
 }
 
 @media (max-width: 719px) {
   .canvas-paint {
     max-width: 500px;
-
+    flex-direction: column;
     .toolbar {
       display: flex;
       flex-direction: column;

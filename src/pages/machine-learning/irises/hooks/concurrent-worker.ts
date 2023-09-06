@@ -10,7 +10,7 @@ const url = new URL("../onnx/irises.onnx", import.meta.url).href
 let rightTestCases: SampleType[] = [];
 
 export async function computeIrises(irisesSample:{ [key: string]: SampleType}) { // 参照 Irises_dataset.json 的数据结构
-    let _resolve
+    let _resolve: Function
     let p = new Promise((resolve, reject) => {
         _resolve = resolve
     })
@@ -30,7 +30,7 @@ export async function computeIrises(irisesSample:{ [key: string]: SampleType}) {
         // run this in an async method:
 
         return session.run({input:inputs},['output']).then((outputMap) => {
-            let mostLikely = 0;
+            let mostLikely: number = 0;
             let outputTensor = outputMap.output.data;
             outputTensor.forEach((item, index) => {
                 if (item > mostLikely) {
