@@ -3,10 +3,12 @@
     <h1>Drawing Board</h1>
     <div class="toolbar">
       <div class="action">
-        <!-- <button @click="download">Download</button> -->
         <button @click="clear">Clear</button>
+
+        <!-- <button @click="download">Download</button> -->
         <!-- <button @click="undo">Undo</button> -->
         <!-- <button @click="redo">Redo</button> -->
+
       </div>
       <div class="action">
         <span>Color: </span>
@@ -21,34 +23,27 @@
     <div class="canvas-output-wrapper">
       <div class="canvas-wrapper">
         <canvas ref="canvas" @mousedown="startDraw" @mousemove="draw" @mouseup="endDraw" @touchstart="startDraw"
-        @touchmove="draw" @touchend="endDraw"></canvas>
+          @touchmove="draw" @touchend="endDraw"></canvas>
       </div>
-  
+
       <div class="output-column">
         <ul class="output">
-          <li
-            class="output-class"
-            :class="{ predicted: i === predictedClass }"
-            v-for="i in outputClasses"
-            :key="`output-class-${output[i]}`"
-          >
+          <li class="output-class" :class="{ predicted: i === predictedClass }" v-for="i in outputClasses"
+            :key="`output-class-${output[i]}`">
             <span class="output-label">{{ i }}</span>
-            <span
-              class="output-bar"
-              :style="{ width: `${Math.round(180 * output[i])}px` }"
-            ></span>
+            <span class="output-bar" :style="{ width: `${Math.round(180 * output[i])}px` }"></span>
           </li>
         </ul>
       </div>
     </div>
-    
+
   </div>
 </template>
 
 <script lang="ts">
 import { ref, onMounted, onUnmounted, onBeforeMount, defineProps, PropType, computed } from "vue";
 
-import { runModelUtils,mathUtils, getPredictedClass } from "../../utils";
+import { runModelUtils, mathUtils, getPredictedClass } from "../../utils";
 import { InferenceSession, Tensor } from "onnxruntime-web";
 
 // 微软的模型，难道不包含 LogSoftmax 操作？
@@ -83,10 +78,10 @@ export default {
     const sessionRunning = ref(false); // 是否正在运行模型
     const inferenceTime = ref(0);
     const output = ref<Float32Array>(new Float32Array(10));
-    const outputClasses:number[] = [0,1,2,3,4,5,6,7,8,9];
+    const outputClasses: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     const initSession = async () => {
-        // init session
+      // init session
       session.value = await InferenceSession.create(
         modelUrl,
         {
@@ -101,25 +96,25 @@ export default {
     });
 
     const runModelTest = async () => {
-       if (
-        context.value === null||
-        drawing.value||
+      if (
+        context.value === null ||
+        drawing.value ||
         sessionRunning.value
       ) {
         return;
       }
-      if(session.value === null){
+
+      if (session.value === null) {
         await initSession()
       }
 
       console.log("start mnist model test")
-      drawing.value = false;
       sessionRunning.value = true;
       const tensor = props.preprocess(context.value);
       const [res, time] = await runModelUtils.runModel(session.value as InferenceSession, tensor);
       output.value = props.postprocess(res);
-      console.log("end mnist model test", time,output.value)
-      
+      console.log("end mnist model test", time, output.value)
+
       inferenceTime.value = time;
       sessionRunning.value = false;
     }
@@ -136,6 +131,7 @@ export default {
       canvas.value.height = (
         canvas.value.parentElement as HTMLElement
       ).clientHeight;
+      history.value.push((context.value as CanvasRenderingContext2D).getImageData(0, 0, canvas.value.width, canvas.value.height));
       // 添加窗口大小变化的监听事件，调整 canvas 的大小
       window.addEventListener("resize", resizeCanvas);
     });
@@ -228,7 +224,8 @@ export default {
       }
       // 清空画板，使用白色填充整个画布，并清空历史记录和索引
       context.value.fillStyle = "#ffffff";
-      context.value.fillRect(0, 0, canvas.value.width, canvas.value.height);
+      // context.value.fillRect(0, 0, canvas.value.width, canvas.value.height);
+      context.value.clearRect(0, 0, canvas.value.width, canvas.value.height);
       history.value = [];
       index.value = -1;
     };
@@ -238,10 +235,11 @@ export default {
         return;
       }
       // 撤销操作，如果历史记录不为空，就将索引减一，并将对应的图像数据恢复到画布上
-      if (history.value.length > 0) {
-        index.value--;
+      if (index.value >= 0) {
         context.value.putImageData(history.value[index.value], 0, 0);
+        index.value--;
       }
+      runModelTest()
     };
 
     const redo = () => {
@@ -255,6 +253,7 @@ export default {
         index.value++;
         context.value.putImageData(history.value[index.value], 0, 0);
       }
+      runModelTest()
     };
 
     //下载图片
@@ -275,7 +274,7 @@ export default {
       a.click();
     };
 
-    const predictedClass = computed(()=> getPredictedClass(output.value))
+    const predictedClass = computed(() => getPredictedClass(output.value))
 
     // 返回一些响应式变量和自定义函数，供模板使用
     return {
@@ -301,6 +300,7 @@ export default {
 /* 设置一些样式 */
 .canvas-paint {
   max-width: 1000px;
+
   .toolbar {
     display: flex;
     align-items: center;
@@ -310,11 +310,6 @@ export default {
       margin: 0 10px;
       align-items: center;
     }
-  }
-
-  .canvas-output-wrapper{
-    display: flex;
-
   }
 
   .canvas-wrapper {
@@ -334,11 +329,13 @@ export default {
   canvas {
     display: block;
   }
-  .output-column{
-    .output{
+
+  .output-column {
+    .output {
       display: flex;
       flex-direction: column;
-      .output-bar{
+
+      .output-bar {
         display: inline-block;
         height: 10px;
         background-color: #2a6a96;
@@ -352,6 +349,7 @@ export default {
   .canvas-paint {
     max-width: 500px;
     flex-direction: column;
+
     .toolbar {
       display: flex;
       flex-direction: column;
@@ -362,10 +360,12 @@ export default {
       }
     }
 
-    .canvas-wrapper {
-      width: 300px;
-      height: 300px;
+    .canvas-output-wrapper {
+      display: flex;
+      flex-direction: column;
     }
+
+
   }
 }
 </style>
