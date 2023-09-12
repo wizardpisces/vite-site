@@ -82,9 +82,13 @@ export default {
 
     const initSession = async () => {
       // init session
+          // const response = await fetch('/mnist.onnx');
+      // const modelFile = await response.arrayBuffer();
       session.value = await InferenceSession.create(
         modelUrl,
+        // modelFile,
         {
+          // executionProviders: ["wasm"],
           executionProviders: ["webgl"],
         }
       )
@@ -224,7 +228,6 @@ export default {
       }
       // 清空画板，使用白色填充整个画布，并清空历史记录和索引
       context.value.fillStyle = "#ffffff";
-      // context.value.fillRect(0, 0, canvas.value.width, canvas.value.height);
       context.value.clearRect(0, 0, canvas.value.width, canvas.value.height);
       history.value = [];
       index.value = -1;
@@ -311,7 +314,9 @@ export default {
       align-items: center;
     }
   }
-
+  .canvas-output-wrapper {
+      display: flex;
+  }
   .canvas-wrapper {
     display: inline-flex;
     justify-content: flex-end;

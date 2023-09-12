@@ -2,8 +2,8 @@
     <div id="machine-learning">
         <h1>machine learning Demo</h1>
         <ul>
-            <li v-on:click="jumpTo('irises')">Irises</li>
             <li v-on:click="jumpTo('mnist')">Mnist</li>
+            <li v-on:click="jumpTo('irises')">Irises</li>
         </ul>
         <router-view></router-view>
     </div>
@@ -13,7 +13,7 @@ import { useRoute, useRouter } from "vue-router";
 export default {
     setup() {
         const router = useRouter();
-        const jumpTo = (name) => {
+        const jumpTo = (name: string) => {
             router.push({ name });
         }
         return {
