@@ -76,7 +76,7 @@ export let navRoutes:RouteRecordRaw[] = [
     },
     children:[
       {
-        path: "mnist",
+        path: "",
         name: "mnist",
         component: Mnist,
         meta: {

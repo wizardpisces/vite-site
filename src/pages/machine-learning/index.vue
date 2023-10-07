@@ -2,8 +2,8 @@
     <div id="machine-learning">
         <h1>machine learning Demo</h1>
         <ul>
-            <li v-on:click="jumpTo('mnist')">Mnist</li>
-            <li v-on:click="jumpTo('irises')">Irises</li>
+            <li v-on:click="jumpTo('mnist')" :class="{active: $route.name === 'mnist'}">Mnist</li>
+            <li v-on:click="jumpTo('irises')" :class="{ active: $route.name === 'irises' }">Irises</li>
         </ul>
         <router-view></router-view>
     </div>
@@ -33,14 +33,17 @@ export default {
     }
     
     li {
-      background-color: #f2f2f2;
-      border: 1px solid #ddd;
+      background-color: #fff;
+      border: 1px solid #eee;
       margin: 10px 0;
       padding: 10px;
       text-align: center;
       cursor: pointer;
       &:hover{
-        background-color: #ddd;
+        background-color: #eee;
+      }
+      &.active {
+        background-color: #eee;
       }
     }
 }
