@@ -199,10 +199,6 @@ prefix prompt 适合于生成任务或者使用自回归 Language Model 的任�
 
 Tensorflow 更适合做生产或者部署模型到不同的平台，因为它有一系列工具和平台可以提高端到端深度学习的效率。Tensorflow 在图像识别、语音识别、推荐系统等领域都有很多成功的案例，很多大型企业和机构都在使用 Tensorflow 进行生产环境的开发。
 
-问：transformer 是用 pytorch 实现的么？
-
-答：Transformer 是一种基于自注意力机制的序列到序列模型，它可以用于自然语言处理、计算机视觉等领域。Transformer 不是用 PyTorch 实现的，而是一种通用的模型架构，可以用不同的框架来实现。PyTorch 提供了一个标准的 Transformer 模块，可以方便地创建和训练 Transformer 模型。Tensorflow 也有一个类似的模块，叫做 Tensorflow Transformer2。除此之外，还有一些第三方的库，如 HuggingFace Transformers3，可以提供更多的预训练模型和功能，支持 PyTorch 和 Tensorflow。
-
 ### save model
 当使用 TensorFlow 的 model.save() 方法保存模型时，默认情况下会生成以下几个文件：
 ```bash

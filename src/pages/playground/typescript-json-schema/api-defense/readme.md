@@ -92,6 +92,7 @@ export type ColoredShape = Color & Shape;
 
 * ts-json-schema-generator 只对 export 类型做生成到 definitions（typescript-json-schema 则会生成所有到 definitions）
 
+* 如果执行生成 JSON 的时候报类似 "Duplicate identifier 'Prepend'." 的错误，请尝试将 tsconfig.json 的 skipLibCheck 设置为 true
 ### 性能相关
 
 * 非 Export 的引用直接合并导致编译的 JSON Schema 膨胀：目前生成的 JSON Schema 只有 export 出去类型，所以会导致如下场景中的 Common 被合并到 A 跟 B 类型两次，而不是通过索引 $ref 链接（只会编译出一个 Common），这样会比较浪费空间
