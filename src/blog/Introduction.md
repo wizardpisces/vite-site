@@ -14,7 +14,7 @@ description: this is wizardpisces blog introduction
 无法通过个体输出判断群体最终的输出特征
 
 ## 传送门
-* [关于GPT](/blog/关于GPT)
 * [技术随笔](/blog/技术随笔)
 * [日常思考](/blog/日常思考)
+* [GPT与开发-TDD](/blog/GPT与开发-TDD)
 * ...
