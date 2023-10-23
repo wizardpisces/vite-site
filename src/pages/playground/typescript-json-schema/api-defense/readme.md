@@ -76,6 +76,7 @@ npm run test
 * [] 错误上报 * API path * error type * error data
 * [] 调研：定义注释来更精准的校验 跟 生成 mock 数据，eg：注释 // string: 0-100 ,则生成对应的 schema 跟 mock data
 * [] 发布成 package
+* [] 支持 server 端验证：例如 BFF 场景的上游校验
 
 ## 注意事项
 
