@@ -19,7 +19,7 @@ function render(props: Props) {
   ReactDOM.render(
     <React.StrictMode>
       <AliveScope>
-        <BrowserRouter>
+        <BrowserRouter basename="/app-react">
           <App />
         </BrowserRouter>
       </AliveScope>
@@ -28,50 +28,26 @@ function render(props: Props) {
   );
 }
 
-// qiankunWindow.customxxx = "test custom";
+render({});
 
-// if (!qiankunWindow.__POWERED_BY_QIANKUN__) {
+// //@ts-ignore
+// if (!window.__POWERED_BY_QIANKUN__) {
 //   console.log("not running in sub app react");
 //   render({});
 // }
 
-// renderWithQiankun({
-//   mount(props = {}) {
-//     console.log("mount");
-//     render(props);
-//   },
-//   bootstrap() {
-//     console.log("bootstrap");
-//   },
-//   unmount(props: Props) {
-//     console.log("unmount");
-//     const { container } = props;
-//     // @ts-ignore
-//     ReactDOM.unmountComponentAtNode( container ? container.querySelector("#root") : document.querySelector("#root")
-//     );
-//   },
-// });
+// export async function bootstrap() {
+//   console.log("[react16] react app bootstraped");
+// }
 
+// export async function mount(props: Props) {
+//   console.log("[react16] props from main framework", props);
+//   render(props);
+// }
 
-
-//@ts-ignore
-if (!window.__POWERED_BY_QIANKUN__) {
-  console.log("not running in sub app react");
-  render({});
-}
-
-export async function bootstrap() {
-  console.log("[react16] react app bootstraped");
-}
-
-export async function mount(props: Props) {
-  console.log("[react16] props from main framework", props);
-  render(props);
-}
-
-export async function unmount(props: Props) {
-  const { container } = props;
-  // @ts-ignore
-  ReactDOM.unmountComponentAtNode(container ? container.querySelector("#root") : document.querySelector("#root")
-  );
-}
+// export async function unmount(props: Props) {
+//   const { container } = props;
+//   // @ts-ignore
+//   ReactDOM.unmountComponentAtNode(container ? container.querySelector("#root") : document.querySelector("#root")
+//   );
+// }

@@ -8,7 +8,8 @@ const Test = () => import('./pages/test/index.vue')
 const NotFound = () => import('./pages/not-found/index.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const Home = () => import('./pages/home/index.vue')
-const SubAppReact = () => import("./pages/sub-app-react/index.vue");
+// const SubAppReact = () => import("./pages/sub-app-react/index.ts");
+const SubAppReact = () => import("./pages/sub-app-react/micro.vue");
 
 const Huffman = () => import('./pages/playground/huffman/index.vue')
 const JSONSchema = () => import('./pages/playground/typescript-json-schema/index.vue')

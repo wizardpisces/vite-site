@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@micro-zoe/micro-app": "1.0.0-rc.3",
     "@reduxjs/toolkit": "^1.8.1",
     "clsx": "^1.1.1",
     "mobx": "^6.5.0",
