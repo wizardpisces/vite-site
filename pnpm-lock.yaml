@@ -59,6 +59,9 @@ dependencies:
   vuex:
     specifier: ^4.0.0
     version: 4.1.0(vue@3.3.4)
+  wujie-vue3:
+    specifier: ^1.0.22
+    version: 1.0.22(vue@3.3.4)
 
 devDependencies:
   '@jest/globals':
@@ -4678,6 +4681,21 @@ packages:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: true
+
+  /wujie-vue3@1.0.22(vue@3.3.4):
+    resolution: {integrity: sha512-/FD52+3rEg4vQb6EhSq+V9WMhaHYyVliUsVDBIzePcX0yUsep+4oC8r3EmyeS2dfEl3DCmMwLz5MnBGL3c4Msw==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.3.4
+      wujie: 1.0.22
+    dev: false
+
+  /wujie@1.0.22:
+    resolution: {integrity: sha512-gzx13fp9hgTHdV9XetkVmp794uDSR93Zs9jLr891RaWRuMiLFoxh3Pe4qbmW604SxI8nMTHeIRydbgC7YxQ50Q==}
+    dependencies:
+      '@babel/runtime': 7.22.6
+    dev: false
 
   /y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}

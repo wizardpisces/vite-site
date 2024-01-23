@@ -19,7 +19,8 @@ function render(props: Props) {
   ReactDOM.render(
     <React.StrictMode>
       <AliveScope>
-        <BrowserRouter basename="/app-react">
+        {/* @ts-ignore */}
+        <BrowserRouter basename={window.__MICRO_APP_BASE_ROUTE__}>
           <App />
         </BrowserRouter>
       </AliveScope>

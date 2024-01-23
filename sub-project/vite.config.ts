@@ -29,7 +29,7 @@ export default ({ command }): UserConfigExport =>{
     ],
 
     server: {
-      port: 3001,
+      port: 3010,
     },
   }
   

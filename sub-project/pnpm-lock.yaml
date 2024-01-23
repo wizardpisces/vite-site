@@ -5,9 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@micro-zoe/micro-app':
-    specifier: 1.0.0-rc.3
-    version: 1.0.0-rc.3
   '@reduxjs/toolkit':
     specifier: ^1.8.1
     version: 1.8.1(react-redux@7.2.6)(react@17.0.2)
@@ -722,10 +719,6 @@ packages:
       '@jridgewell/resolve-uri': 3.0.5
       '@jridgewell/sourcemap-codec': 1.4.11
     dev: true
-
-  /@micro-zoe/micro-app@1.0.0-rc.3:
-    resolution: {integrity: sha512-f6PBW8XjHESERlfHLd/2yoQRXbMoXK8C5aG8yZZBR5iV07Rkj+T7qBuZqdDnL1MW+zsuWpSgeYsZe9kpK+9e4Q==}
-    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}

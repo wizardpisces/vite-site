@@ -25,7 +25,7 @@ const TodoListRedux = React.lazy(() => {
 const TodoListMobx = React.lazy(() => import('./pages/todoListMobx/index'))
 const Demo = React.lazy(() => import('./pages/demo/index'))
 
-export let todoRouteTuple: ([string, JSX.Element])[] = [['/useReducer', <TodoList />], ['/Redux', <TodoListRedux />], ['/Mobx', <TodoListMobx />], ['/demo', <Demo />]]
+export let todoRouteTuple: ([string, JSX.Element])[] = [['/useReducer/aa', <TodoList />], ['/Redux', <TodoListRedux />], ['/Mobx', <TodoListMobx />], ['/demo', <Demo />]]
 
 function App() {
   return (

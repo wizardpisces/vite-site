@@ -9,7 +9,8 @@ const NotFound = () => import('./pages/not-found/index.vue')
 const Blog = () => import('./pages/blog/index.vue')
 const Home = () => import('./pages/home/index.vue')
 // const SubAppReact = () => import("./pages/sub-app-react/index.ts");
-const SubAppReact = () => import("./pages/sub-app-react/micro.vue");
+const MicroSubAppReact = () => import("./pages/sub-app-react/micro.vue");
+const WujieSubAppReact = () => import("./pages/sub-app-react/wujie.vue");
 
 const Huffman = () => import('./pages/playground/huffman/index.vue')
 const JSONSchema = () => import('./pages/playground/typescript-json-schema/index.vue')
@@ -117,9 +118,24 @@ if (import.meta.env.DEV) {
     },
     {
       path: "/app-react",
-      name: "SubAppReact",
-      component: SubAppReact,
+      name: "MicroSubAppReact",
+      component: MicroSubAppReact,
+      children: [
+        {
+          path: '', // 空路径表示匹配 /sub/
+          component: MicroSubAppReact, // 替换为子级组件名称
+        },
+        {
+          path: ':subPath(.*)', // 使用动态路径参数捕获 /sub/ 后面的所有路径
+          component: MicroSubAppReact, // 替换为子级组件名称
+        },
+      ],
     },
+    // {
+    //   path: "/app-react/:sub?",
+    //   name: "WujieSubAppReact",
+    //   component: WujieSubAppReact,
+    // },
     {
       path: "/bookmark",
       name: "Bookmark",
