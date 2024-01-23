@@ -48,12 +48,7 @@ export default {
       if (name === "Blog") {
         router.push({ path: "/blog/Introduction" });
       } else {
-        if(name === 'MicroSubAppReact'){
-          router.push({ path: path.replace("*","") });
-          // router.push({ name });
-        }else{
           router.push({ path });
-        }
       }
     }
 
