@@ -6,12 +6,22 @@ import viteSvgIcons from 'vite-plugin-svg-icons';
 import md2HtmlPlugin from 'vite-plugin-md2html'
 import macrosPlugin from "vite-plugin-babel-macros"
 import checker from 'vite-plugin-checker'
+import federation from "@originjs/vite-plugin-federation";
+
 export default {
   server: {
-    port: 3000,
+    port: 3001,
   },
   plugins: [
     vue(),
+    federation({
+      name: "host-app",
+      filename: "remoteEntry.js",
+      remotes: {
+        'remote-sub-app': "http://localhost:3010/assets/remoteEntry.js",
+      },
+      shared: ["vue"],
+    }),
     viteSvgIcons({
       iconDirs: [path.resolve(__dirname, "src/assets/svg")],
       symbolId: "icon-[name]",

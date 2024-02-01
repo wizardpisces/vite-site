@@ -1,4 +1,3 @@
-import React from 'react';
 import { ComputeTipProps, Item, Operator, Parentheses } from './type';
 import './index.scss';
 

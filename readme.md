@@ -7,4 +7,5 @@
 * [Machine Learning Demo](https://wizardpisces.github.io/machine-learning)  : Deploy and use irises prediction model on web
 * [Blog](https://wizardpisces.github.io/blog/关于GPT)
 * [react+vite demo](https://github.com/wizardpisces/vite-site/tree/master/sub-project)
-* etc
+* 微前端 Demo ： 主应用 vue3 中嵌入 react
+* vite 模块联邦 demo： 主应用 vue3 中使用 react 组件

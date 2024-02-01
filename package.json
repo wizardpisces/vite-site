@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@micro-zoe/micro-app": "1.0.0-rc.3",
+    "@originjs/vite-plugin-federation": "^1.3.4",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.11",
     "@vue/reactivity": "^3.3.4",
@@ -32,6 +33,8 @@
     "md5": "^2.3.0",
     "onnxruntime-web": "^1.15.1",
     "qiankun": "^2.6.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "tiny-sass-compiler": "0.11.0",
     "vite-plugin-babel-macros": "^1.0.6",
     "vite-plugin-md2html": "^1.0.4",

@@ -1,8 +1,15 @@
 //mock data
-import { data } from "../../mock-data";
+// import { data } from "../../mock-data";
 import { Action, ActionType } from "../actions";
 import { Todo } from "..";
 
+const data = [
+    {
+        id: 1,
+        task: 'task 1',
+        complete: false
+    }
+]
 const initialState: Todo[] = data;
 let nextTodoId = data.length;
 

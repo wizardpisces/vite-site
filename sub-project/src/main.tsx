@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import KeepAlive, { AliveScope } from 'react-activation'
+// import KeepAlive, { AliveScope } from 'react-activation'
 
 import { BrowserRouter } from "react-router-dom";
 import "./index.scss";
@@ -18,12 +18,12 @@ function render(props: Props) {
   
   ReactDOM.render(
     <React.StrictMode>
-      <AliveScope>
+      {/* <AliveScope> */}
         {/* @ts-ignore */}
         <BrowserRouter basename={window.__MICRO_APP_BASE_ROUTE__}>
           <App />
         </BrowserRouter>
-      </AliveScope>
+      {/* </AliveScope> */}
     </React.StrictMode>,
     container
   );

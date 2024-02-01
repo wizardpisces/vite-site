@@ -1,12 +1,28 @@
 import { defineConfig, UserConfigExport } from "vite";
 import react from "@vitejs/plugin-react";
 import { viteMockServe } from 'vite-plugin-mock'
+import federation from "@originjs/vite-plugin-federation";
 
 // https://vitejs.dev/config/
 export default ({ command }): UserConfigExport =>{
   return {
+    server: {
+      port: 3010,
+    },
+    build: {
+      target: 'esnext',
+      cssCodeSplit: false
+    },
     plugins: [
       react(),
+      federation({
+        name: "remote-sub-app",
+        filename: "remoteEntry.js",
+        exposes: {
+          "./Demo": "./src/pages/demo/index.tsx",
+        },
+        // shared: ["react"],
+      }),
       /**
        * 原理1（通过客户端的请求到了server）：
        * * 自动搜索config文件生成middleware：拦截url请求并返回结果
@@ -27,10 +43,6 @@ export default ({ command }): UserConfigExport =>{
         // `, // clientOnly mock
       }),
     ],
-
-    server: {
-      port: 3010,
-    },
   }
   
 };

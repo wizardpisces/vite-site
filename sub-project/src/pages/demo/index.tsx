@@ -2,7 +2,7 @@
 import ComputeTip from "./components/ComputeTip";
 import { ComputeTipProps } from "./components/ComputeTip/type";
 import './index.scss'
-function TodoList() {
+function Demo(props:{onClick?:()=>void}) {
     const tipProps: ComputeTipProps = ['(', { title: "Commission 1($)", value: "222.11" }, '-', { title: "Commission 2($)", value: "22" }, ')', 'x', { title: "Commission 3($)", value: "3%" }];
     const tipPropsWithSubTitle: ComputeTipProps = ['(', { title: ["Commission 1($)", 'this is sub title'], value: "222.11" }, '-', { title: ['Commission 2($)','this is sub title'], value: "22" }, ')', 'x', { title: 'Commission 3($)', value: "3%" }];
 
@@ -12,8 +12,12 @@ function TodoList() {
         <div className="demo">
             {ComputeTipNode}
             {ComputeTipNodeWithSubTitle}
+            <button onClick={() => {
+                console.log('click a sub project button')
+                props.onClick && props.onClick()
+                }}> this is a sub project button</button>
         </div>
     );
 }
 
-export default TodoList;
+export default Demo;

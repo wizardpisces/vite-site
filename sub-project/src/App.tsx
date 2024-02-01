@@ -1,7 +1,7 @@
 // import logo from './logo.svg'
 import { Routes, Route, useLocation } from "react-router-dom";
 import React, { ComponentType, useRef } from "react";
-import KeepAlive, { AliveScope } from 'react-activation'
+// import KeepAlive, { AliveScope } from 'react-activation'
 
 import {
   TransitionGroup,
@@ -35,11 +35,11 @@ function App() {
         {
           todoRouteTuple.map(routeTuple =>
             <Route key={routeTuple[0]} path={routeTuple[0]} element={
-              <KeepAlive key={routeTuple[0]}>
+              // <KeepAlive key={routeTuple[0]}>
                 <React.Suspense fallback={<>loading...</>}>
                   {routeTuple[1]}
                 </React.Suspense>
-              </KeepAlive>
+              /* </KeepAlive> */
             }></Route>
           )
         }
@@ -59,7 +59,7 @@ function Default() {
 function AnimatedRoutes({
   children,
   ...rest
-}) {
+}: any) {
   const location = useLocation();
   return <Routes location={location} >
       {children}
