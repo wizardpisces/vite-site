@@ -11,7 +11,13 @@ export default ({ command }): UserConfigExport =>{
     },
     build: {
       target: 'esnext',
+      minify: false,
       cssCodeSplit: false
+    },
+    css: {
+      modules: {
+        localsConvention: 'camelCase'
+      }
     },
     plugins: [
       react(),
