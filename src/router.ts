@@ -10,7 +10,7 @@ const Blog = () => import('./pages/blog/index.vue')
 const Home = () => import('./pages/home/index.vue')
 // const SubAppReact = () => import("./pages/sub-app-react/index.ts");
 const MicroSubAppReact = () => import("./pages/sub-app-react/micro.vue");
-const WujieSubAppReact = () => import("./pages/sub-app-react/wujie.vue");
+// const WujieSubAppReact = () => import("./pages/sub-app-react/wujie.vue");
 
 const Huffman = () => import('./pages/playground/huffman/index.vue')
 const JSONSchema = () => import('./pages/playground/typescript-json-schema/index.vue')

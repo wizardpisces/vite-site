@@ -14,14 +14,14 @@ export default {
   },
   plugins: [
     vue(),
-    federation({
-      name: "host-app",
-      filename: "remoteEntry.js",
-      remotes: {
-        'remote-sub-app': "http://localhost:3010/assets/remoteEntry.js",
-      },
-      shared: ["vue"],
-    }),
+    // federation({
+    //   name: "host-app",
+    //   filename: "remoteEntry.js",
+    //   remotes: {
+    //     'remote-sub-app': process.env.NODE_ENV === "development" ? "http://localhost:3010/assets/remoteEntry.js" : "https://wizardpisces.github.io/assets/remoteEntry.js",
+    //   },
+    //   shared: ["vue"],
+    // }),
     viteSvgIcons({
       iconDirs: [path.resolve(__dirname, "src/assets/svg")],
       symbolId: "icon-[name]",
