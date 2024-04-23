@@ -77,7 +77,7 @@ export default {
   & > .navbar {
     display: flex;
     position: fixed;
-    z-index: 20;
+    z-index: 101;
     top: 0;
     left: 0;
     right: 0;
