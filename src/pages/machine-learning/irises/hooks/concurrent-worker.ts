@@ -17,7 +17,7 @@ export async function computeIrises(irisesSample:{ [key: string]: SampleType}) {
     const session = await InferenceSession.create(
         url,
         {
-            executionProviders: ["webgl"],
+            executionProviders: ["webgl"],// "webgl",
         }
     )
 

@@ -4,8 +4,9 @@
         <ul>
             <li v-on:click="jumpTo('mnist')" :class="{active: $route.name === 'mnist'}">Mnist</li>
             <li v-on:click="jumpTo('irises')" :class="{ active: $route.name === 'irises' }">Irises</li>
+            <li v-on:click="jumpTo('WebGPU')" :class="{ active: $route.name === 'WebGPU' }">WebGPU</li>
         </ul>
-        <router-view></router-view>
+        <Suspense><router-view></router-view></Suspense>
     </div>
 </template>
 <script lang="ts">

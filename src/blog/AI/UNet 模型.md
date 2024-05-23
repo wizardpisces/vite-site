@@ -71,6 +71,8 @@ $$ \text{Recall} = \frac{TP}{TP + FN} $$
 
 * UNet 跟 SAM 的区别？
 
+[SAM 模型介绍](https://ai.meta.com/blog/segment-anything-foundation-model-image-segmentation/)
+
 # Reference
 
 * [UNet详解](https://blog.csdn.net/weixin_45074568/article/details/114901600)

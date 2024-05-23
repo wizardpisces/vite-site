@@ -38,6 +38,8 @@ const MachineLearning = () => import('./pages/machine-learning/index.vue')
 const Mnist = () => import('./pages/machine-learning/mnist/index.vue')
 const Irises = () => import('./pages/machine-learning/irises/index.vue')
 
+const WebGPU = () => import('./pages/machine-learning/webgpu/index.vue')
+
 const routerHistory = createWebHistory()
 
 export let navRoutes:RouteRecordRaw[] = [
@@ -91,6 +93,14 @@ export let navRoutes:RouteRecordRaw[] = [
         component: Irises,
         meta: {
           title: "Irises",
+        },
+      },
+      {
+        path: "WebGPU",
+        name: "WebGPU",
+        component: WebGPU,
+        meta: {
+          title: "WebGPU",
         },
       }
     ]
