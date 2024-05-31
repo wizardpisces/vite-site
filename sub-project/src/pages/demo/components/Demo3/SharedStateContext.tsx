@@ -54,3 +54,7 @@ export const useSharedState = (field: SharedStateFields): [string, (value: strin
 
   return [sharedValue, updateSharedValue];
 };
+
+ export const useComAComB = () => useSharedState(SharedStateFields.ComAComB);
+ export const useComCComD = () => useSharedState(SharedStateFields.ComCComD);
+ export const useComEComF = () => useSharedState(SharedStateFields.ComEComF);

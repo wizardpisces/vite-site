@@ -1,9 +1,10 @@
 // src/ComA.js
 import React from 'react';
-import { SharedStateFields, useSharedState } from './SharedStateContext';
+import { SharedStateFields, useComAComB, useSharedState } from './SharedStateContext';
 
 const ComA = () => {
-  const [sharedValue, updateSharedValue] = useSharedState(SharedStateFields.ComAComB);
+  // const [sharedValue, updateSharedValue] = useSharedState(SharedStateFields.ComAComB);
+  const [sharedValue, updateSharedValue] = useComAComB()
 
   return (
     <div>

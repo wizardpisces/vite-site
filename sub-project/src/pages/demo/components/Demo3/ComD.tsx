@@ -1,9 +1,10 @@
 // src/ComD.js
 import React from 'react';
-import { SharedStateFields, useSharedState } from './SharedStateContext';
+import { SharedStateFields, useComCComD, useSharedState } from './SharedStateContext';
 
 const ComD = () => {
-  const [sharedValue] = useSharedState(SharedStateFields.ComCComD);
+  // const [sharedValue] = useSharedState(SharedStateFields.ComCComD);
+  const [sharedValue, updateSharedValue] = useComCComD();
 
   return (
     <div>
