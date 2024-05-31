@@ -1,4 +1,5 @@
 //components
+import { Communication } from "./components/EventBus";
 import ComputeTip from "./components/ComputeTip";
 import { ComputeTipProps } from "./components/ComputeTip/type";
 import style from './index.module.scss'
@@ -8,7 +9,7 @@ function Demo(props:{onClick?:()=>void}) {
 
     const ComputeTipNode = ComputeTip(tipProps);
     const ComputeTipNodeWithSubTitle = ComputeTip(tipPropsWithSubTitle);
-    return (
+    return <>
         <div className={style.demo}>
             {ComputeTipNode}
             {ComputeTipNodeWithSubTitle}
@@ -17,7 +18,8 @@ function Demo(props:{onClick?:()=>void}) {
                 props.onClick && props.onClick()
                 }}> this is a sub project button</button>
         </div>
-    );
+        <Communication/>
+    </>
 }
 
 export default Demo;

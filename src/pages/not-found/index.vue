@@ -2,7 +2,7 @@
   <div class="not-found">
     <h1>404</h1>
     <p>Not found your route <b>{{route.path}}</b> ,try to navigate from navBar</p>
-    <p class='desc'> this is a test for en-SG, for liuze'blog and tiny-sass-compiler's demo</p>
+    <p class='desc'> this is a test for en-SG, for wizardpisces'blog and tiny-sass-compiler's demo</p>
   </div>
 </template>
 <script type="ts">

@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VitePluginModuleBoundary 1.removeUnUsedIfStatement 1`] = `
+"import { getMENU } from './normal';
+import { getMENU as getSellerMENU } from './seller';
+import { DispatchLogicType } from '@common/constants';
+export default {
+  [DispatchLogicType.Region]: {
+    getMenu: () => {
+      console.log('is my or id');
+      const fn = () => {
+        return 'hello';
+      };
+      return getMENU();
+      return getSellerMENU();
+    }
+  }
+};"
+`;
+
+exports[`VitePluginModuleBoundary 2.removeUnusedReturnStatement 1`] = `
+"import { getMENU } from './normal';
+import { getMENU as getSellerMENU } from './seller';
+import { DispatchLogicType } from '@common/constants';
+export default {
+  [DispatchLogicType.Region]: {
+    getMenu: () => {
+      console.log('is my or id');
+      const fn = () => {
+        return 'hello';
+      };
+      return getMENU();
+    }
+  }
+};"
+`;
+
+exports[`VitePluginModuleBoundary 3.removeUnUsedImports 1`] = `
+"import { getMENU } from './normal';
+import { DispatchLogicType } from '@common/constants';
+export default {
+  [DispatchLogicType.Region]: {
+    getMenu: () => {
+      console.log('is my or id');
+      const fn = () => {
+        return 'hello';
+      };
+      return getMENU();
+    }
+  }
+};"
+`;

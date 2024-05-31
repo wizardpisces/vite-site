@@ -1,0 +1,11 @@
+{
+  "name": "vite-plugin-module-boundary",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "wizardpisces",
+  "license": "MIT"
+}
