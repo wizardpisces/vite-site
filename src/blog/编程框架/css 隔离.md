@@ -36,6 +36,11 @@ CSS Modules 是一种 CSS 文件模块化方案，它的主要目标是解决全
 
 CSS Modules 的原理就是通过在构建过程中为每个 CSS 类名生成一个全局唯一的标识符，然后在 JavaScript 中使用这个标识符来应用样式，从而实现样式的局部作用域。
 
+### 缺陷
+**不方便做样式覆盖**
+
+例如：需要对 ant-table 做样式覆盖，则需要 `className = styles.antTable` 的 jsx 显示覆盖，更期望只对外层的 css 做类似 Vue 的 scoped，而不是每个使用的地方都写 `className = styles.antTable`；
+
 ## styled-components
 `styled-components` 是一个在 React 和其他 JavaScript 库中实现 CSS-in-JS 的库。它使用 JavaScript 来编写 CSS，使得组件的样式和逻辑可以在同一个地方定义，而且可以利用 JavaScript 的全部功能来创建动态的样式。`styled-components` 的样式隔离原理基于以下几个步骤：
 
