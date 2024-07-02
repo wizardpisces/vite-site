@@ -6,7 +6,10 @@ import { getMENU as getSellerMENU } from './seller';
 import { DispatchLogicType } from '@common/constants';
 export default {
   [DispatchLogicType.Region]: {
-    getMenu: () => {
+    getMenu: grayScale => {
+      if (grayScale) {
+        return 'this is grayScale';
+      }
       console.log('is my or id');
       const fn = () => {
         return 'hello';
@@ -24,7 +27,10 @@ import { getMENU as getSellerMENU } from './seller';
 import { DispatchLogicType } from '@common/constants';
 export default {
   [DispatchLogicType.Region]: {
-    getMenu: () => {
+    getMenu: grayScale => {
+      if (grayScale) {
+        return 'this is grayScale';
+      }
       console.log('is my or id');
       const fn = () => {
         return 'hello';
@@ -40,7 +46,10 @@ exports[`VitePluginModuleBoundary 3.removeUnUsedImports 1`] = `
 import { DispatchLogicType } from '@common/constants';
 export default {
   [DispatchLogicType.Region]: {
-    getMenu: () => {
+    getMenu: grayScale => {
+      if (grayScale) {
+        return 'this is grayScale';
+      }
       console.log('is my or id');
       const fn = () => {
         return 'hello';

@@ -9,7 +9,10 @@ import { DispatchLogicType } from '@common/constants';
 
 export default {
   [DispatchLogicType.Region]: {
-    getMenu: () => {
+    getMenu: (grayScale) => {
+      if (grayScale) {
+        return 'this is grayScale';
+      }
       if (IS_BR || IS_SG) {
         console.log('is br or sg');
       } else if (IS_MY || IS_ID) {
@@ -62,6 +65,7 @@ describe("VitePluginModuleBoundary", () => {
     let output = generate(removeUnusedImports(ast), {}, code)
     expect(output.code).toMatchSnapshot();
     expect(output.code).toContain(`import { getMENU } from './normal';`);
+    expect(output.code).toContain(`if (grayScale) {`);
     expect(output.code).not.toContain(`import { getMENU as getSellerMENU } from './seller';`);
   })
 });

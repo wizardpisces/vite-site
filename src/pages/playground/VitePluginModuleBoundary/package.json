@@ -6,6 +6,6 @@
   "scripts": {
     "test": "jest"
   },
-  "author": "wizardpisces",
-  "license": "MIT"
+  "author": "liuze@shopee.com",
+  "license": "ISC"
 }

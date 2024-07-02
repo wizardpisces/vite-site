@@ -9,13 +9,13 @@ export function removeUnUsedIfStatement(ast, envVariables: EnvsType) {
   // 第一次遍历，移除基于环境变量的未使用代码块，removeUnUsedIfStatement
   traverse(ast, {
     IfStatement(path) {
-      const test = path.node.test;
-
-      let testPath = path.get("test");
+      const testPath = path.get("test");
+      const test = testPath.node
       let canRemove = false,
-        composedOfEnvVariables = true;// 判定是否由环境变量控制的
+        composedOfEnvVariables = false;// 判定是否由环境变量控制的
       // 如果测试条件是逻辑表达式（如 IS_MY || IS_ID）
       if (t.isLogicalExpression(testPath)) {
+        composedOfEnvVariables = true
         // 递归检查逻辑表达式中的每个标识符
         traverse(testPath.node, {
           noScope: true,
