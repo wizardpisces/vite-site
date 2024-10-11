@@ -1,0 +1,14 @@
+.drag-move-element {
+  width: 208px;
+  height: 128px;
+  position: absolute;
+  top: -10000px;
+  overflow: hidden;
+  background: lightblue;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.25) 0 0 5px;
+}
+
+.drag-hovered {
+  transform: scale(1.1); /* 动态放大元素 */
+}
