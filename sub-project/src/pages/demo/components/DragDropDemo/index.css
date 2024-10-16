@@ -10,5 +10,6 @@
 }
 
 .drag-hovered {
+  background-color: lightgreen;
   transform: scale(1.1); /* 动态放大元素 */
 }

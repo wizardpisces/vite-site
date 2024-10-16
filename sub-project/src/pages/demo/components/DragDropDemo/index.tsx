@@ -3,7 +3,6 @@ import './index.css';
 import React, { useState } from 'react';
 export const DragDropDemo = () => {
   const [draggedItem, setDraggedItem] = useState(-1);
-  const [onDragOverItem, setOnDragOverItem] = useState(-1);
   const [items, setItems] = useState(['Item 1', 'Item 2', 'Item 3', 'Item 4']);
 
   // 当拖动开始时，保存拖动的项的索引
@@ -13,14 +12,6 @@ export const DragDropDemo = () => {
     event.dataTransfer.effectAllowed = 'move'; // 设置拖动的效果
     const dragIcon = document.createElement('div');
     dragIcon.className = 'drag-move-element';
-    // dragIcon.style.width = '100px';
-    // dragIcon.style.height = '100px';
-    // dragIcon.style.backgroundColor = 'lightgreen';
-    // dragIcon.style.border = '2px dashed red';
-    // dragIcon.style.opacity = '0.7'; // 设置透明度
-    // dragIcon.style.position = 'absolute';
-    // dragIcon.style.top = '-1000px'; // 隐藏在屏幕外，不显示在页面中
-
     document.body.appendChild(dragIcon); // 将它添加到文档中
 
     // 设置自定义的拖动影像，偏移值可以调整以适应视觉效果
@@ -31,7 +22,6 @@ export const DragDropDemo = () => {
   const handleDragOver = (event: any, index: number) => {
     event.preventDefault();
     // event.dataTransfer.dropEffect = 'move'; // 指示可以移动
-    setOnDragOverItem(index);
     event.target?.classList.add('drag-hovered');
   };
 
@@ -50,7 +40,6 @@ export const DragDropDemo = () => {
     setItems(newItems);
     event.target?.classList.remove('drag-hovered');
     setDraggedItem(-1); // 清空拖动的状态
-    setOnDragOverItem(-1);
   };
 
   return (
@@ -69,8 +58,7 @@ export const DragDropDemo = () => {
               padding: '8px',
               margin: '4px',
               width: '100px',
-              backgroundColor:
-                onDragOverItem === index ? 'lightgreen' : 'lightgrey',
+              backgroundColor: 'lightgreen',
               border: '1px solid black',
               cursor: 'move',
               transition: 'transform 0.3s ease'
