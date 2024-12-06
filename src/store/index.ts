@@ -18,7 +18,7 @@ type GlobContext = {
 }
 function loadModules(): any {
     // @ts-ignore
-    const contextGlob: GlobContext = import.meta.globEager('./modules/*.ts')
+    const contextGlob: GlobContext = import.meta.glob('./modules/*.ts', { eager: true })
     return Object.keys(contextGlob).reduce((modules: { [key: string]: any }, modulePath: string) => {
         //@ts-ignore
         let moduleName = modulePath.match(/([a-z_]+)\.ts$/i)[1]

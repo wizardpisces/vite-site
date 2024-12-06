@@ -6,6 +6,7 @@ import viteSvgIcons from 'vite-plugin-svg-icons';
 import md2HtmlPlugin from 'vite-plugin-md2html'
 import macrosPlugin from "vite-plugin-babel-macros"
 import checker from 'vite-plugin-checker'
+import Inspect from 'vite-plugin-inspect'
 import federation from "@originjs/vite-plugin-federation";
 
 export default {
@@ -13,6 +14,10 @@ export default {
     port: 3001,
   },
   plugins: [
+    Inspect({
+      build: true,
+      outputDir: '.vite-inspect',
+    }),
     vue(),
     // federation({
     //   name: "host-app",

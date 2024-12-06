@@ -5,7 +5,7 @@ import metadata from './api/metadata.json'
 import { ApiSchema3 } from "./schema/test2";
 
 
-const modules = import.meta.globEager('./api/jsonschema/*.json');
+const modules = import.meta.glob('./api/jsonschema/*.json', { eager: true });
 
 // 遍历对象，获取每个模块对象
 for (const path in modules) {

@@ -5,3 +5,5 @@ dist
 # logs
 npm-debug.log
 .blog
+
+.vite-inspect
