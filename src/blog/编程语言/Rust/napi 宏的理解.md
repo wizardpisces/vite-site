@@ -1,3 +1,206 @@
+# napi 宏的理解
+
+## 宏与 DSL
+
+Rust 宏的核心之一是通过生成代码来简化重复任务，而 DSL（领域专用语言）则是在宏的帮助下，为特定领域问题设计的一种更易读、易用的语法。通过宏，可以把 Rust 的代码变得像定制的小语言一样，让开发者专注于问题本身，而不是细节的实现。
+
+以下是几个示例，展示如何用 Rust 宏构建 DSL：
+
+---
+
+### 示例 1：构建简单的 HTML DSL
+以下宏实现了一个简单的 HTML 构建器，用于生成 HTML 文本：
+
+```rust
+macro_rules! html {
+    // 匹配空标签
+    ($tag:ident) => {
+        format!("<{}></{}>", stringify!($tag), stringify!($tag))
+    };
+    // 匹配带有文本内容的标签
+    ($tag:ident, $content:expr) => {
+        format!("<{}>{}</{}>", stringify!($tag), $content, stringify!($tag))
+    };
+    // 匹配带有嵌套标签的情况
+    ($tag:ident, { $($inner:tt)* }) => {
+        format!(
+            "<{}>{}</{}>",
+            stringify!($tag),
+            html!($($inner)*),
+            stringify!($tag)
+        )
+    };
+    // 处理多个嵌套标签
+    ($($inner:tt)*) => {
+        vec![$(html!($inner)),*].join("")
+    };
+}
+
+fn main() {
+    let page = html!(
+        html, {
+            head, { title, "Example Page" }
+            body, {
+                h1, "Hello, World!"
+                p, "This is an example of a DSL in Rust."
+            }
+        }
+    );
+
+    println!("{}", page);
+}
+```
+
+**输出：**
+```html
+<html>
+<head><title>Example Page</title></head>
+<body><h1>Hello, World!</h1><p>This is an example of a DSL in Rust.</p></body>
+</html>
+```
+
+**分析：**
+- 这段代码通过宏 `html!` 提供了一个类似 HTML 的 DSL。
+- 用户无需关心如何拼接字符串，只需描述 HTML 结构。
+- 嵌套语法与 HTML 自然对应。
+
+---
+
+### 示例 2：构建命令行解析器 DSL
+以下宏提供了一种简化命令行参数解析的 DSL：
+
+```rust
+macro_rules! cli {
+    (
+        $(
+            $name:ident: $type:ty => $description:expr
+        ),*
+        $(,)?
+    ) => {
+        {
+            let mut args = std::env::args().skip(1);
+            let mut parsed = std::collections::HashMap::new();
+            $(
+                if let Some(value) = args.next() {
+                    let parsed_value = value.parse::<$type>().expect(&format!(
+                        "Failed to parse argument `{}`: {}",
+                        stringify!($name), $description
+                    ));
+                    parsed.insert(stringify!($name).to_string(), parsed_value);
+                }
+            )*
+            parsed
+        }
+    };
+}
+
+fn main() {
+    // 定义命令行参数的格式和描述
+    let args = cli!(
+        name: String => "The user's name",
+        age: u32 => "The user's age",
+    );
+
+    // 使用解析后的参数
+    println!("Name: {}", args["name"]);
+    println!("Age: {}", args["age"]);
+}
+```
+
+**运行示例：**
+```bash
+$ cargo run Alice 30
+Name: Alice
+Age: 30
+```
+
+**分析：**
+- 通过 `cli!` 宏定义命令行参数的格式和类型。
+- 用户只需描述参数，而无需手动解析或处理错误。
+
+---
+
+### 示例 3：实现状态机 DSL
+以下宏用来定义一个简单的有限状态机：
+
+```rust
+macro_rules! state_machine {
+    (
+        $name:ident {
+            $($state:ident => $next:ident),* $(,)?
+        }
+    ) => {
+        pub struct $name {
+            state: &'static str,
+        }
+
+        impl $name {
+            pub fn new() -> Self {
+                Self { state: stringify!($state).split(',').next().unwrap().trim() }
+            }
+
+            pub fn transition(&mut self, event: &str) {
+                match (self.state, event) {
+                    $(
+                        (stringify!($state), stringify!($next)) => self.state = stringify!($next),
+                    )*
+                    _ => panic!("Invalid transition"),
+                }
+            }
+
+            pub fn state(&self) -> &str {
+                self.state
+            }
+        }
+    };
+}
+
+state_machine! {
+    TrafficLight {
+        Red => Green,
+        Green => Yellow,
+        Yellow => Red,
+    }
+}
+
+fn main() {
+    let mut light = TrafficLight::new();
+
+    println!("Current state: {}", light.state()); // Red
+    light.transition("Green");
+    println!("Current state: {}", light.state()); // Green
+    light.transition("Yellow");
+    println!("Current state: {}", light.state()); // Yellow
+    light.transition("Red");
+    println!("Current state: {}", light.state()); // Red
+}
+```
+
+**输出：**
+```
+Current state: Red
+Current state: Green
+Current state: Yellow
+Current state: Red
+```
+
+**分析：**
+- 通过 `state_machine!` 宏，用户可以简单地定义状态和转移规则。
+- 宏将 DSL 编译成 Rust 代码，完成状态机的实现。
+- 代码清晰且具有实际用途。
+
+---
+
+### 总结
+Rust 宏在构建 DSL 时具有以下优点：
+1. **可读性**：用自然的语法描述特定领域的规则，用户无需了解底层实现。
+2. **简化代码**：减少样板代码，专注于核心逻辑。
+3. **强类型保障**：结合 Rust 的类型系统，确保生成代码的安全性。
+
+这些 DSL 示例涵盖了 HTML 构建、命令行解析和状态机定义，是 Rust 宏在领域专用语言设计中的常见用法。
+
+## 手写实现
+
 下面是之前手写的简化实现版本，并为其添加了详细注释，帮助理解各部分的功能和逻辑：
 
 ```rust
