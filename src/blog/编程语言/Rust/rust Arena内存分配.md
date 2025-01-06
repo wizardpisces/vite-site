@@ -250,8 +250,13 @@ impl Arena {
         let size = std::mem::size_of::<T>(); // 获取类型 T 的大小
         let align = std::mem::align_of::<T>(); // 获取对齐要求
 
-        // 确保偏移量满足对齐要求
-        let align_offset = (self.offset + align - 1) & !(align - 1);
+        /**
+         * 确保偏移量满足对齐要求
+         * self.offset + align - 1 确保偏移量足够大，以便在之后的步骤中对齐。
+         * !(align - 1) 取反后，得到 `1111 1000`，这用于清除低于 `align` 的位。
+         * 按位与操作，将偏移量调整到 `align` 的下一个倍数。
+         */
+        let align_offset = (self.offset + align - 1) & !(align - 1); 
 
         if align_offset + size > self.memory.len() {
             panic!("Arena out of memory!"); // 内存不足
@@ -424,6 +429,13 @@ struct Optimized {
 - `b: u16` -> `[6, 7]`。
 
 此时 `Optimized` 的大小仍然是 8 字节，但没有额外的填充。
+
+## Arena vs 动态数组区别
+
+当 Arena 的内存不足时，它不会自动扩容，而是通过新的大块内存来继续分配对象：Arena 会分配一块新的内存区域，原有的对象依然保留，新的对象被分配到新区域中。
+
+* 这和动态数组扩容时需要移动已有数据的方式不同。
+* Arena 是批量分配与集中释放，而动态数组是按需分配与按需释放。
 
 ## 参考
 
