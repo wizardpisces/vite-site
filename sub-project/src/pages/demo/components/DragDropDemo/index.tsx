@@ -1,5 +1,5 @@
 import './index.css';
-
+import { withANhub } from '../../util';
 import React, { useState } from 'react';
 export const DragDropDemo = () => {
   const [draggedItem, setDraggedItem] = useState(-1);
@@ -72,4 +72,4 @@ export const DragDropDemo = () => {
   );
 };
 
-export default DragDropDemo;
+export default withANhub(DragDropDemo);
