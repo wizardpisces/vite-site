@@ -3,18 +3,7 @@ title: Introduction
 description: this is wizardpisces blog introduction
 ---
 
-## 博客内容
-日常工作，读书，学习的思考记录
-
-## 计算机的几种实现
->> lamdda 演算跟图灵机？类似计划经济，需要通过规划来得到结果；可以虚拟元胞自动机
-
->> 元胞自动机? 主要通过演化，类似市场经济，群体涌现出特征；
-初始状态整体就已经包含了指令跟数据，每个单元并无特征，多个单元合起来才涌现出特征，跟蚂蚁社会有点类似
-无法通过个体输出判断群体最终的输出特征
-
-## 传送门
+## If you're not sure which to read, try these
 * [技术随笔](/blog/技术随笔)
 * [日常思考](/blog/日常思考)
-* [GPT与开发-TDD](/blog/GPT与开发-TDD)
-* ...
+* [AI 随笔](/blog/随笔)
