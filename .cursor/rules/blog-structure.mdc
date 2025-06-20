@@ -1,0 +1,30 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# vite-site/src/blog 目录结构说明
+
+该目录用于存放各类知识笔记、随笔、技术文档和专题内容，采用多级子目录进行分类管理。
+
+## 主要子目录与内容类型
+- [AI/](mdc:src/blog/AI)：人工智能相关笔记，包含随笔、模型、应用、数学、观点等子目录和大量 markdown/mdx 文件。
+- [日常思考/](mdc:src/blog/日常思考)：日常随笔、技术随笔、思考类文章，含有随笔子目录。
+- [编程语言/](mdc:src/blog/编程语言)：各类编程语言的学习笔记，按语言细分子目录（如 Rust、Python、Go 等）。
+- [书/](mdc:src/blog/书)：读书笔记、书单、书籍相关 markdown 文件。
+- [存储/](mdc:src/blog/存储)：数据库、存储技术相关内容。
+- [图形/](mdc:src/blog/图形)：图形学、图像处理相关内容。
+- [编程框架/](mdc:src/blog/编程框架)：主流编程框架的理解与实践，含 Vue、React 等子目录。
+- [daily-life/](mdc:src/blog/daily-life)：生活相关随笔、攻略等。
+- [Compiler/](mdc:src/blog/Compiler)：编译器原理、实现、相关工具笔记。
+
+## 典型文件示例
+- [AI/随笔.md](mdc:src/blog/AI/随笔.md)：AI 领域的综合随笔与思考。
+- [日常思考/技术随笔.md](mdc:src/blog/日常思考/技术随笔.md)：日常技术心得。
+- [编程语言/编程语言的发展.md](mdc:src/blog/编程语言/编程语言的发展.md)：编程语言历史与发展。
+- [书/上帝掷骰子了吗.md](mdc:src/blog/书/上帝掷骰子了吗.md)：书籍《上帝掷骰子了吗》的读书笔记。
+
+## 组织原则
+- 采用主题/领域优先的多级目录结构，便于分类检索。
+- 文件以 markdown（.md/.mdx）为主，内容涵盖理论、实践、随笔、读书笔记等。
+- 子目录下可进一步细分为更具体的主题（如 AI/模型、AI/观点等）。
