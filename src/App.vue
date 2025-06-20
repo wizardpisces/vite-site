@@ -74,6 +74,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
   & > .navbar {
     display: flex;
     position: fixed;
@@ -89,16 +90,33 @@ export default {
     padding: 16px 24px;
   }
 
-  & > .sidebar-open {
-    transform: translateX(0);
-  }
-
   & > .content {
     padding-top: 58px;
+    padding-left: 260px;
+    
+    @media (max-width: 719px) {
+      padding-left: 0;
+    }
   }
+
   .mobile-menu-button {
     display: none;
+    margin-right: 1rem;
+    cursor: pointer;
+    
+    &:hover {
+      color: $color-primary;
+    }
   }
-  @import "./mobile.scss";
+
+  @media (max-width: 719px) {
+    .mobile-menu-button {
+      display: block;
+    }
+    
+    .navbar .nav-links {
+      display: none;
+    }
+  }
 }
 </style>

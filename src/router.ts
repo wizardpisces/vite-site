@@ -7,6 +7,7 @@ import {
 const Test = () => import('./pages/test/index.vue')
 const NotFound = () => import('./pages/not-found/index.vue')
 const Blog = () => import('./pages/blog/index.vue')
+const BlogArticle = () => import('./pages/blog/article.vue')
 const Home = () => import('./pages/home/index.vue')
 // const SubAppReact = () => import("./pages/sub-app-react/index.ts");
 const MicroSubAppReact = () => import("./pages/sub-app-react/micro.vue");
@@ -63,6 +64,12 @@ export let navRoutes:RouteRecordRaw[] = [
     path: "/blog/:blogName",
     component: Blog,
     name: "Blog",
+    children: [
+      {
+        path: "",
+        component: BlogArticle
+      }
+    ]
   },
   {
     path: "/playground/huffman",
