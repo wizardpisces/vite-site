@@ -38,12 +38,16 @@ export default {
   overflow-y: auto;
   padding: 20px 0;
   font-size: 14px;
+  box-shadow: -1px 0 2px rgba(0, 0, 0, 0.03);
 
   .toc-header {
     padding: 0 20px;
     font-weight: 600;
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+    border-bottom: 2px solid #eaecef;
+    padding-bottom: 10px;
   }
 
   .toc-content {

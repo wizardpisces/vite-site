@@ -4,7 +4,7 @@
       <v3-icon :type="isExpanded ? 'arrow-down' : 'arrow-right'" size="16" class="folder-icon"></v3-icon>
       {{folder.categoryName}}
     </h2>
-    <ul class="tree-folder-contents" v-show="isExpanded">
+    <ul class="tree-folder-contents" :class="{'is-expanded': isExpanded}">
       <li
         v-for="(item,index) in folder.items"
         :key="index"
@@ -84,20 +84,42 @@ export default {
     &:hover {
       color: $color-primary;
       background-color: rgba(66, 185, 131, 0.08);
+
+      .folder-icon {
+        color: $color-primary;
+      }
     }
 
     .folder-icon {
       margin-right: 0.5rem;
-      transition: transform 0.3s;
+      transition: all 0.3s;
       color: #666;
+
+      &[type="arrow-down"] {
+        transform: rotate(0deg);
+      }
+
+      &[type="arrow-right"] {
+        transform: rotate(-90deg);
+      }
     }
   }
 
-  ul {
+  .tree-folder-contents {
     list-style-type: none;
     padding-left: 1rem;
-    margin: 0.5rem 0;
+    margin: 0;
     border-left: 1px dashed #ddd;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    opacity: 0;
+    max-height: 0;
+
+    &.is-expanded {
+      opacity: 1;
+      margin: 0.5rem 0;
+      max-height: 2000px; // 一个足够大的高度
+    }
     
     li {
       position: relative;
@@ -139,6 +161,10 @@ export default {
       &:hover {
         background-color: rgba(66, 185, 131, 0.05);
       }
+
+      .folder-icon {
+        font-size: 0.9em;
+      }
     }
 
     // 第三层及以下的文件夹
@@ -151,6 +177,10 @@ export default {
 
         &:hover {
           background-color: rgba(66, 185, 131, 0.05);
+        }
+
+        .folder-icon {
+          font-size: 0.85em;
         }
       }
     }
@@ -174,6 +204,7 @@ export default {
 
       .folder-icon {
         color: #1a1a1a;
+        font-size: 1.1em;
       }
     }
   }
