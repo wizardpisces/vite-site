@@ -58,16 +58,34 @@ export default {
     display: block;
     color: #2c3e50;
     transition: all 0.3s;
-    padding: 0.25rem 0;
-    padding-left: 1rem;
-    margin-left: -1rem;
-    border-left: 2px solid transparent;
+    padding: 0.4rem 0.75rem;
+    margin-left: -0.25rem;
+    border-radius: 4px;
     line-height: 1.4;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: #ddd;
+      transition: all 0.3s;
+    }
     
     &:hover {
       color: $color-primary;
-      border-left-color: $color-primary;
       background-color: rgba(66, 185, 131, 0.05);
+      
+      &::before {
+        background-color: $color-primary;
+        width: 6px;
+        height: 6px;
+      }
     }
   }
   
@@ -75,8 +93,13 @@ export default {
     & > a {
       font-weight: 500;
       color: $color-primary;
-      border-left-color: $color-primary;
-      background-color: rgba(66, 185, 131, 0.05);
+      background-color: rgba(66, 185, 131, 0.08);
+      
+      &::before {
+        background-color: $color-primary;
+        width: 6px;
+        height: 6px;
+      }
     }
   }
 }

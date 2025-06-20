@@ -69,30 +69,35 @@ export default {
 
   .sidebar-heading {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 1.1rem;
     margin: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
     color: #2c3e50;
-    transition: color 0.3s;
-    border-left: 2px solid transparent;
+    transition: all 0.3s;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.02);
+    padding-left: 0.5rem;
 
     &:hover {
       color: $color-primary;
+      background-color: rgba(66, 185, 131, 0.08);
     }
 
     .folder-icon {
       margin-right: 0.5rem;
       transition: transform 0.3s;
+      color: #666;
     }
   }
 
   ul {
     list-style-type: none;
     padding-left: 1rem;
-    margin: 0;
+    margin: 0.5rem 0;
+    border-left: 1px dashed #ddd;
     
     li {
       position: relative;
@@ -106,7 +111,7 @@ export default {
         top: 0;
         bottom: 0;
         width: 2px;
-        background-color: #eaecef;
+        background-color: $color-primary;
         opacity: 0;
         transition: opacity 0.3s;
       }
@@ -123,11 +128,53 @@ export default {
 
   // 嵌套的文件夹样式
   .tree-folder {
-    margin-bottom: 0.5rem;
+    margin: 0.5rem 0;
     
     .sidebar-heading {
       font-size: 0.95rem;
-      padding: 0.3rem 0;
+      padding: 0.5rem;
+      background-color: rgba(0, 0, 0, 0.015);
+      border-radius: 4px;
+
+      &:hover {
+        background-color: rgba(66, 185, 131, 0.05);
+      }
+    }
+
+    // 第三层及以下的文件夹
+    .tree-folder {
+      .sidebar-heading {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.5rem;
+        color: #3a3a3a;
+        background: none;
+
+        &:hover {
+          background-color: rgba(66, 185, 131, 0.05);
+        }
+      }
+    }
+  }
+
+  // 根级别的文件夹（通常是主题分类）
+  &:first-child {
+    > .sidebar-heading {
+      font-size: 1.2rem;
+      color: #1a1a1a;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #eaecef;
+      border-radius: 0;
+      background: none;
+      padding: 0.5rem 0;
+
+      &:hover {
+        background: none;
+        color: $color-primary;
+      }
+
+      .folder-icon {
+        color: #1a1a1a;
+      }
     }
   }
 }
