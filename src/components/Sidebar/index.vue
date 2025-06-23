@@ -1,13 +1,13 @@
 <template>
-  <aside class='sidebar'>
-    <!-- 支持小屏幕的 NavLinks -->
-    <NavLinks></NavLinks>
+  <aside class='sidebar' v-if="shouldShowSidebar">
+    <NavLinks class="mobile-only"></NavLinks>
     <BlogSidebar v-if="route.path.startsWith('/blog/')"></BlogSidebar>
   </aside>
 </template>
 
 <script lang='ts'>
 import { useRoute } from "vue-router";
+import { computed } from 'vue';
 import NavLinks from "../navLinks.vue";
 import BlogSidebar from "./blog-sidebar.vue";
 
@@ -19,8 +19,15 @@ export default {
   },
   setup() {
     const route = useRoute();
+    
+    // 只在博客页面或移动端显示侧边栏
+    const shouldShowSidebar = computed(() => {
+      return route.path.startsWith('/blog/');
+    });
+
     return {
       route,
+      shouldShowSidebar
     };
   },
 };
@@ -46,6 +53,10 @@ $sidebar-width: 260px;
     display: none;
     border-bottom: 1px solid #eaecef;
   }
+
+  .mobile-only {
+    display: none;
+  }
 }
 
 @media (max-width: 719px) {
@@ -53,7 +64,7 @@ $sidebar-width: 260px;
     transform: translateX(-100%);
     transition: transform 0.2s ease;
     
-    .nav-links {
+    .mobile-only {
       display: block;
     }
     

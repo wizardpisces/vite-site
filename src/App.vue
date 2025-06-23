@@ -92,7 +92,6 @@ export default {
 
   & > .content {
     padding-top: 58px;
-    padding-left: 260px;
     
     @media (max-width: 719px) {
       padding-left: 0;
