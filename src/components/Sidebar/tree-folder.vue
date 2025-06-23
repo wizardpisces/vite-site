@@ -76,14 +76,15 @@ $folder-hover-bg: #f3f4f6;
 .tree-folder {
   margin-bottom: 1.5rem;
 
+  // 所有层级通用的分组样式
   .sidebar-heading {
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
     color: $folder-text;
     transition: all 0.3s;
     border-radius: 6px;
@@ -118,6 +119,48 @@ $folder-hover-bg: #f3f4f6;
     }
   }
 
+  // 第一级分组特殊样式
+  &.tree-folder--root > .sidebar-heading {
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+    background-color: $folder-bg;
+    font-weight: 600;
+  }
+
+  // 嵌套的文件夹样式
+  .tree-folder {
+    margin: 0.5rem 0;
+    
+    // 第三层及以下的文件夹
+    .tree-folder {
+      .sidebar-heading {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+        background-color: $folder-bg;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: $folder-hover-bg !important;
+          color: $folder-hover !important;
+        }
+
+        .folder-icon {
+          color: rgba($folder-primary, 0.7);
+        }
+
+        .arrow-icon {
+          color: rgba($folder-primary, 0.5);
+        }
+      }
+
+      .tree-folder-contents {
+        border-left-style: dashed;
+        border-color: #e5e7eb;
+      }
+    }
+  }
+
+  // 树形结构内容
   .tree-folder-contents {
     list-style-type: none;
     padding-left: 1.25rem;
@@ -156,115 +199,6 @@ $folder-hover-bg: #f3f4f6;
       &:hover::before {
         background-color: #d1d5db;
         width: 16px;
-      }
-    }
-  }
-
-  a:hover {
-    color: $color-primary;
-  }
-
-  // 嵌套的文件夹样式
-  .tree-folder {
-    margin: 0.5rem 0;
-    
-    .sidebar-heading {
-      font-size: 1rem;
-      padding: 0.6rem 0.75rem;
-      background-color: $folder-bg;
-      border-radius: 4px;
-      color: $folder-text;
-
-      &:hover {
-        background-color: $folder-hover-bg !important;
-        color: $folder-hover !important;
-        border-color: #e5e7eb !important;
-      }
-
-      .folder-icon {
-        color: rgba($folder-primary, 0.8);
-      }
-
-      .arrow-icon {
-        color: rgba($folder-primary, 0.6);
-      }
-    }
-
-    // 第三层及以下的文件夹
-    .tree-folder {
-      .sidebar-heading {
-        font-size: 0.95rem;
-        padding: 0.5rem 0.75rem;
-        color: $folder-text;
-        background-color: $folder-bg;
-        border-radius: 4px;
-
-        &:hover {
-          background-color: $folder-hover-bg !important;
-          color: $folder-hover !important;
-        }
-
-        .folder-icon {
-          color: rgba($folder-primary, 0.7);
-        }
-
-        .arrow-icon {
-          color: rgba($folder-primary, 0.5);
-        }
-      }
-
-      .tree-folder-contents {
-        border-left-style: dashed;
-        border-color: #e5e7eb;
-      }
-    }
-  }
-
-  // 根级别的文件夹（通常是主题分类）
-  &:first-child {
-    > .sidebar-heading {
-      font-size: 1.2rem;
-      color: #1a1a1a;
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #eaecef;
-      border-radius: 0;
-      background: none;
-      padding: 0.5rem 0.5rem;
-
-      &:hover {
-        background: none;
-        color: $color-primary;
-      }
-
-      .folder-icon {
-        color: #1a1a1a;
-        font-size: 1.1em;
-      }
-
-      &::after {
-        width: 4px;
-        height: 80%;
-        background-color: $color-primary;
-        opacity: 0;
-      }
-
-      &:hover::after {
-        opacity: 1;
-      }
-    }
-  }
-
-  // 展开状态的样式
-  &:has(.tree-folder-contents.is-expanded) {
-    > .sidebar-heading {
-      color: $color-primary;
-      
-      &::after {
-        background-color: $color-primary;
-      }
-
-      .folder-icon {
-        color: $color-primary;
       }
     }
   }
