@@ -53,10 +53,11 @@ export default {
 </script>
 
 <style lang="scss">
-// 博客主题色
-$blog-primary: #3b82f6;
-$blog-hover: #2563eb;
-$blog-active: #1d4ed8;
+// 博客主题色 - 使用更柔和的蓝色系
+$blog-text: #4b5563;
+$blog-primary: #60a5fa;
+$blog-hover: #3b82f6;
+$blog-active: #2563eb;
 
 .tree-folder-content {
   font-size: 0.95rem;
@@ -65,29 +66,29 @@ $blog-active: #1d4ed8;
   a {
     display: flex;
     align-items: center;
-    color: #666;
+    color: $blog-text;
     transition: all 0.3s;
     padding: 0.5rem 1rem;
     margin-left: -0.5rem;
     border-radius: 4px;
     line-height: 1.4;
     position: relative;
-    text-decoration: none;
+    text-decoration: none !important;
     border: 1px solid transparent;
     
     .blog-icon {
       margin-right: 0.5rem;
-      color: #999;
+      color: #94a3b8;
       transition: all 0.3s;
     }
     
     &:hover {
-      color: $blog-hover;
-      background-color: rgba($blog-hover, 0.05);
-      border-color: rgba($blog-hover, 0.1);
+      color: $blog-hover !important;
+      background-color: #eff6ff !important;
+      border-color: #bfdbfe !important;
       
       .blog-icon {
-        color: $blog-hover;
+        color: $blog-hover !important;
       }
     }
   }
@@ -95,12 +96,12 @@ $blog-active: #1d4ed8;
   &.active {
     & > a {
       font-weight: 600;
-      color: $blog-active;
-      background-color: rgba($blog-active, 0.08);
-      border-color: rgba($blog-active, 0.2);
+      color: $blog-active !important;
+      background-color: #dbeafe !important;
+      border-color: #93c5fd !important;
       
       .blog-icon {
-        color: $blog-active;
+        color: $blog-active !important;
       }
 
       &::after {

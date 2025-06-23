@@ -65,10 +65,13 @@ export default {
 </script>
 
 <style lang="scss">
-// 分组主题色
-$folder-primary: #f97316;
-$folder-hover: #ea580c;
-$folder-active: #c2410c;
+// 分组主题色 - 使用更柔和的灰色系
+$folder-text: #1f2937;
+$folder-primary: #6b7280;
+$folder-hover: #4b5563;
+$folder-active: #374151;
+$folder-bg: #f9fafb;
+$folder-hover-bg: #f3f4f6;
 
 .tree-folder {
   margin-bottom: 1.5rem;
@@ -81,20 +84,20 @@ $folder-active: #c2410c;
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    color: #1a202c;
+    color: $folder-text;
     transition: all 0.3s;
     border-radius: 6px;
-    background-color: #fff7ed;
+    background-color: $folder-bg;
     position: relative;
     border: 1px solid transparent;
 
     &:hover {
-      color: $folder-hover;
-      background-color: #ffedd5;
-      border-color: rgba($folder-hover, 0.2);
+      color: $folder-hover !important;
+      background-color: $folder-hover-bg !important;
+      border-color: #e5e7eb !important;
 
       .folder-icon {
-        color: $folder-hover;
+        color: $folder-hover !important;
       }
     }
 
@@ -119,7 +122,7 @@ $folder-active: #c2410c;
     list-style-type: none;
     padding-left: 1.25rem;
     margin: 0;
-    border-left: 2px solid rgba($folder-primary, 0.3);
+    border-left: 2px solid #e5e7eb;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     opacity: 0;
@@ -146,12 +149,12 @@ $folder-active: #c2410c;
         top: 50%;
         width: 12px;
         height: 2px;
-        background-color: rgba($folder-primary, 0.3);
+        background-color: #e5e7eb;
         transition: all 0.3s;
       }
 
       &:hover::before {
-        background-color: rgba($folder-primary, 0.5);
+        background-color: #d1d5db;
         width: 16px;
       }
     }
@@ -168,14 +171,14 @@ $folder-active: #c2410c;
     .sidebar-heading {
       font-size: 1rem;
       padding: 0.6rem 0.75rem;
-      background-color: #fff7ed;
+      background-color: $folder-bg;
       border-radius: 4px;
-      color: #2d3748;
+      color: $folder-text;
 
       &:hover {
-        background-color: #ffedd5;
-        color: $folder-hover;
-        border-color: rgba($folder-hover, 0.1);
+        background-color: $folder-hover-bg !important;
+        color: $folder-hover !important;
+        border-color: #e5e7eb !important;
       }
 
       .folder-icon {
@@ -192,13 +195,13 @@ $folder-active: #c2410c;
       .sidebar-heading {
         font-size: 0.95rem;
         padding: 0.5rem 0.75rem;
-        color: #4a5568;
-        background-color: #fff7ed;
+        color: $folder-text;
+        background-color: $folder-bg;
         border-radius: 4px;
 
         &:hover {
-          background-color: #ffedd5;
-          color: $folder-hover;
+          background-color: $folder-hover-bg !important;
+          color: $folder-hover !important;
         }
 
         .folder-icon {
@@ -212,7 +215,7 @@ $folder-active: #c2410c;
 
       .tree-folder-contents {
         border-left-style: dashed;
-        border-color: rgba($folder-primary, 0.2);
+        border-color: #e5e7eb;
       }
     }
   }
