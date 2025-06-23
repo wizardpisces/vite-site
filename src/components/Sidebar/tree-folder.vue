@@ -65,37 +65,34 @@ export default {
 </script>
 
 <style lang="scss">
-// 分组主题色 - 使用更柔和的灰色系
-$folder-text: #1f2937;
-$folder-primary: #6b7280;
-$folder-hover: #4b5563;
-$folder-active: #374151;
-$folder-bg: #f9fafb;
-$folder-hover-bg: #f3f4f6;
+// 分组主题色 - 使用暖色调
+$folder-text: #1a1a1a;
+$folder-secondary: #2c3e50;
+$folder-border: #eaecef;
+$folder-hover: #f97316; // 橙色
+$folder-active: #ea580c;
+$folder-hover-bg: rgba(249, 115, 22, 0.05);
 
 .tree-folder {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 
   // 所有层级通用的分组样式
   .sidebar-heading {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 16px;
     margin: 0;
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 1.25rem;
     color: $folder-text;
     transition: all 0.3s;
-    border-radius: 6px;
-    background-color: $folder-bg;
     position: relative;
-    border: 1px solid transparent;
+    border-radius: 4px;
 
     &:hover {
       color: $folder-hover !important;
-      background-color: $folder-hover-bg !important;
-      border-color: #e5e7eb !important;
+      background-color: $folder-hover-bg;
 
       .folder-icon {
         color: $folder-hover !important;
@@ -105,13 +102,15 @@ $folder-hover-bg: #f3f4f6;
     .folder-icon {
       margin-right: 0.75rem;
       transition: all 0.3s;
-      color: $folder-primary;
+      color: #64748b;
+      font-size: 0.9em;
     }
 
     .arrow-icon {
       margin-left: auto;
       transition: transform 0.3s;
-      color: rgba($folder-primary, 0.7);
+      color: rgba($folder-secondary, 0.7);
+      font-size: 0.85em;
 
       &.is-expanded {
         transform: rotate(180deg);
@@ -121,41 +120,75 @@ $folder-hover-bg: #f3f4f6;
 
   // 第一级分组特殊样式
   &.tree-folder--root > .sidebar-heading {
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    background-color: $folder-bg;
-    font-weight: 600;
+    font-size: 16px;
+    padding: 0.5rem 1.25rem;
+    margin-bottom: 0.5rem;
+    color: $folder-text;
+    border-bottom: 2px solid $folder-border;
+    border-radius: 0;
+
+    &:hover {
+      background: none;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 15%;
+        height: 70%;
+        width: 3px;
+        background-color: $folder-hover;
+        border-radius: 2px;
+      }
+    }
+
+    .folder-icon {
+      color: #475569;
+    }
   }
 
   // 嵌套的文件夹样式
   .tree-folder {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
     
+    .sidebar-heading {
+      font-size: 15px;
+      padding: 0.4rem 1.5rem;
+      color: $folder-secondary;
+      background-color: rgba(241, 245, 249, 0.6);
+
+      &:hover {
+        background-color: rgba(249, 115, 22, 0.08);
+      }
+
+      .folder-icon {
+        color: #64748b;
+      }
+    }
+
     // 第三层及以下的文件夹
     .tree-folder {
       .sidebar-heading {
-        font-size: 0.95rem;
-        padding: 0.5rem 0.75rem;
-        background-color: $folder-bg;
-        border-radius: 4px;
+        font-size: 14px;
+        padding: 0.35rem 1.75rem;
+        color: $folder-secondary;
+        background-color: rgba(241, 245, 249, 0.3);
 
         &:hover {
-          background-color: $folder-hover-bg !important;
-          color: $folder-hover !important;
+          background-color: rgba(249, 115, 22, 0.05);
         }
 
         .folder-icon {
-          color: rgba($folder-primary, 0.7);
+          color: #94a3b8;
         }
 
         .arrow-icon {
-          color: rgba($folder-primary, 0.5);
+          color: rgba($folder-secondary, 0.5);
         }
       }
 
       .tree-folder-contents {
-        border-left-style: dashed;
-        border-color: #e5e7eb;
+        border-left: 1px dashed $folder-border;
       }
     }
   }
@@ -163,42 +196,54 @@ $folder-hover-bg: #f3f4f6;
   // 树形结构内容
   .tree-folder-contents {
     list-style-type: none;
-    padding-left: 1.25rem;
+    padding-left: 1rem;
     margin: 0;
-    border-left: 2px solid #e5e7eb;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 1px solid $folder-border;
+    transition: all 0.3s;
     overflow: hidden;
     opacity: 0;
     max-height: 0;
     transform-origin: top;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 
     &.is-expanded {
       opacity: 1;
-      margin: 0.75rem 0;
+      margin: 0.5rem 0;
       max-height: 2000px;
       transform: translateY(0);
     }
     
     li {
       position: relative;
-      line-height: 1.7;
-      padding: 0.4rem 0;
+      line-height: 1.6;
+      padding: 0.35rem 0;
+      font-size: 14px;
 
       &::before {
         content: '';
         position: absolute;
-        left: -1.25rem;
+        left: -1rem;
         top: 50%;
-        width: 12px;
-        height: 2px;
-        background-color: #e5e7eb;
+        width: 8px;
+        height: 1px;
+        background-color: $folder-border;
         transition: all 0.3s;
       }
 
       &:hover::before {
-        background-color: #d1d5db;
-        width: 16px;
+        background-color: $folder-hover;
+        width: 12px;
+      }
+    }
+  }
+
+  // 展开状态的样式
+  &:has(.tree-folder-contents.is-expanded) {
+    > .sidebar-heading {
+      color: $folder-hover;
+      
+      .folder-icon {
+        color: $folder-hover;
       }
     }
   }

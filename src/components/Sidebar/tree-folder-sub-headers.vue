@@ -47,89 +47,72 @@ export default {
 </script>
 
 <style lang="scss">
+// 使用与左侧一致的颜色变量
+$toc-text: #4b5563;
+$toc-primary: #2563eb;
+$toc-hover: #3b82f6;
+$toc-hover-bg: rgba(59, 130, 246, 0.05);
+$toc-active: #1d4ed8;
+$toc-active-bg: rgba(37, 99, 235, 0.1);
+
 .tree-folder-sub-headers {
   list-style-type: none;
   padding-left: 1rem;
-  margin: 0.5rem 0;
-  border-left: 1px dashed #eaecef;
-
-  a {
-    color: #2c3e50;
-    display: block;
-    padding: 0.35rem 0.5rem;
-    line-height: 1.4;
-    font-size: 0.9em;
-    position: relative;
-    transition: all 0.3s;
-    margin-left: -0.25rem;
-    border-radius: 3px;
-
-    &:hover {
-      color: $color-primary;
-      background-color: rgba(66, 185, 131, 0.05);
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: -0.75rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      background-color: #ddd;
-      transition: all 0.3s;
-    }
-  }
+  margin: 0.35rem 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
 
   .tree-folder-sub-header {
     position: relative;
-    margin: 0.2rem 0;
+    line-height: 1.5;
+    margin: 0.25rem 0;
+
+    a {
+      color: $toc-text;
+      display: block;
+      padding: 0.4rem 0.75rem;
+      font-size: 0.9rem;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+
+      &:hover {
+        color: $toc-hover;
+        background-color: $toc-hover-bg;
+        border-color: rgba(59, 130, 246, 0.1);
+      }
+    }
 
     &.active {
-      > a {
+      & > a {
+        color: $toc-active;
         font-weight: 500;
-        color: $color-primary;
-        background-color: rgba(66, 185, 131, 0.05);
+        background-color: $toc-active-bg;
+        border-color: rgba(37, 99, 235, 0.2);
+        position: relative;
 
-        &::before {
-          background-color: $color-primary;
-          width: 4px;
-          height: 4px;
+        &::after {
+          content: '';
+          position: absolute;
+          right: 0.5rem;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 3px;
+          height: 70%;
+          background-color: $toc-active;
+          border-radius: 3px;
+          opacity: 0.6;
         }
       }
     }
 
-    // 嵌套的子标题样式
+    // 嵌套的子标题
     .tree-folder-sub-headers {
-      margin-top: 0.2rem;
-      margin-bottom: 0.3rem;
+      margin-left: 0.5rem;
       
       a {
-        font-size: 0.85em;
-        padding: 0.25rem 0.5rem;
-        color: #3a3a3a;
-
-        &::before {
-          width: 2px;
-          height: 2px;
-        }
-      }
-
-      // 第三层及以下的标题
-      .tree-folder-sub-headers {
-        margin: 0.1rem 0;
-        
-        a {
-          font-size: 0.8em;
-          padding: 0.2rem 0.5rem;
-          color: #666;
-
-          &::before {
-            display: none;
-          }
-        }
+        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
       }
     }
   }
