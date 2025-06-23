@@ -4,7 +4,10 @@
       href="javascript:void(0)"
       @click="onBlogClick(blog)"
       class="tree-folder-content-title"
-    >{{blog.blogTitle}}</a>
+    >
+      <v3-icon type="document" size="14" class="blog-icon"></v3-icon>
+      {{blog.blogTitle}}
+    </a>
   </div>
 </template>
 
@@ -50,55 +53,67 @@ export default {
 </script>
 
 <style lang="scss">
+// 博客主题色
+$blog-primary: #3b82f6;
+$blog-hover: #2563eb;
+$blog-active: #1d4ed8;
+
 .tree-folder-content {
-  font-size: 0.9rem;
-  padding: 0.25rem 0;
+  font-size: 0.95rem;
+  padding: 0.35rem 0;
   
   a {
-    display: block;
-    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    color: #666;
     transition: all 0.3s;
-    padding: 0.4rem 0.75rem;
-    margin-left: -0.25rem;
+    padding: 0.5rem 1rem;
+    margin-left: -0.5rem;
     border-radius: 4px;
     line-height: 1.4;
     position: relative;
+    text-decoration: none;
+    border: 1px solid transparent;
     
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background-color: #ddd;
+    .blog-icon {
+      margin-right: 0.5rem;
+      color: #999;
       transition: all 0.3s;
     }
     
     &:hover {
-      color: $color-primary;
-      background-color: rgba(66, 185, 131, 0.05);
+      color: $blog-hover;
+      background-color: rgba($blog-hover, 0.05);
+      border-color: rgba($blog-hover, 0.1);
       
-      &::before {
-        background-color: $color-primary;
-        width: 6px;
-        height: 6px;
+      .blog-icon {
+        color: $blog-hover;
       }
     }
   }
   
   &.active {
     & > a {
-      font-weight: 500;
-      color: $color-primary;
-      background-color: rgba(66, 185, 131, 0.08);
+      font-weight: 600;
+      color: $blog-active;
+      background-color: rgba($blog-active, 0.08);
+      border-color: rgba($blog-active, 0.2);
       
-      &::before {
-        background-color: $color-primary;
-        width: 6px;
-        height: 6px;
+      .blog-icon {
+        color: $blog-active;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 70%;
+        background-color: $blog-active;
+        border-radius: 3px;
+        opacity: 0.6;
       }
     }
   }

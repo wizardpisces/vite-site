@@ -1,8 +1,9 @@
 <template>
   <section :class="cls">
     <h2 class="sidebar-heading" v-show="folder.categoryName!=='blog'" @click="toggleFolder">
-      <v3-icon :type="isExpanded ? 'arrow-down' : 'arrow-right'" size="16" class="folder-icon"></v3-icon>
+      <v3-icon :type="isExpanded ? 'folder-open' : 'folder'" size="16" class="folder-icon"></v3-icon>
       {{folder.categoryName}}
+      <v3-icon type="arrow-down" size="12" class="arrow-icon" :class="{'is-expanded': isExpanded}"></v3-icon>
     </h2>
     <ul class="tree-folder-contents" :class="{'is-expanded': isExpanded}">
       <li
@@ -64,6 +65,11 @@ export default {
 </script>
 
 <style lang="scss">
+// 分组主题色
+$folder-primary: #f97316;
+$folder-hover: #ea580c;
+$folder-active: #c2410c;
+
 .tree-folder {
   margin-bottom: 1.5rem;
 
@@ -74,60 +80,46 @@ export default {
     cursor: pointer;
     display: flex;
     align-items: center;
-    padding: 0.75rem 0.5rem;
-    color: #2c3e50;
+    padding: 0.75rem 1rem;
+    color: #1a202c;
     transition: all 0.3s;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+    background-color: #fff7ed;
     position: relative;
+    border: 1px solid transparent;
 
     &:hover {
-      color: $color-primary;
-      background-color: rgba(66, 185, 131, 0.08);
+      color: $folder-hover;
+      background-color: #ffedd5;
+      border-color: rgba($folder-hover, 0.2);
 
       .folder-icon {
-        color: $color-primary;
-      }
-
-      &::after {
-        border-color: $color-primary;
+        color: $folder-hover;
       }
     }
 
     .folder-icon {
-      margin-right: 0.5rem;
+      margin-right: 0.75rem;
       transition: all 0.3s;
-      color: #666;
-      transform-origin: center;
-
-      &[type="arrow-down"] {
-        transform: rotate(0deg);
-      }
-
-      &[type="arrow-right"] {
-        transform: rotate(-90deg);
-      }
+      color: $folder-primary;
     }
 
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 70%;
-      background-color: transparent;
-      transition: all 0.3s;
-      border-radius: 0 3px 3px 0;
+    .arrow-icon {
+      margin-left: auto;
+      transition: transform 0.3s;
+      color: rgba($folder-primary, 0.7);
+
+      &.is-expanded {
+        transform: rotate(180deg);
+      }
     }
   }
 
   .tree-folder-contents {
     list-style-type: none;
-    padding-left: 1rem;
+    padding-left: 1.25rem;
     margin: 0;
-    border-left: 1px dashed #ddd;
+    border-left: 2px solid rgba($folder-primary, 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     opacity: 0;
@@ -137,7 +129,7 @@ export default {
 
     &.is-expanded {
       opacity: 1;
-      margin: 0.5rem 0;
+      margin: 0.75rem 0;
       max-height: 2000px;
       transform: translateY(0);
     }
@@ -145,22 +137,22 @@ export default {
     li {
       position: relative;
       line-height: 1.7;
-      padding: 0.3rem 0;
+      padding: 0.4rem 0;
 
       &::before {
         content: '';
         position: absolute;
-        left: -1rem;
+        left: -1.25rem;
         top: 50%;
-        width: 8px;
-        height: 1px;
-        background-color: #ddd;
+        width: 12px;
+        height: 2px;
+        background-color: rgba($folder-primary, 0.3);
         transition: all 0.3s;
       }
 
       &:hover::before {
-        background-color: $color-primary;
-        width: 12px;
+        background-color: rgba($folder-primary, 0.5);
+        width: 16px;
       }
     }
   }
@@ -174,43 +166,53 @@ export default {
     margin: 0.5rem 0;
     
     .sidebar-heading {
-      font-size: 0.95rem;
-      padding: 0.5rem;
-      background-color: rgba(0, 0, 0, 0.015);
+      font-size: 1rem;
+      padding: 0.6rem 0.75rem;
+      background-color: #fff7ed;
+      border-radius: 4px;
+      color: #2d3748;
 
       &:hover {
-        background-color: rgba(66, 185, 131, 0.05);
+        background-color: #ffedd5;
+        color: $folder-hover;
+        border-color: rgba($folder-hover, 0.1);
       }
 
       .folder-icon {
-        font-size: 0.9em;
+        color: rgba($folder-primary, 0.8);
       }
 
-      // 当前展开的文件夹
-      &::after {
-        height: 60%;
+      .arrow-icon {
+        color: rgba($folder-primary, 0.6);
       }
     }
 
     // 第三层及以下的文件夹
     .tree-folder {
       .sidebar-heading {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.5rem;
-        color: #3a3a3a;
-        background: none;
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+        color: #4a5568;
+        background-color: #fff7ed;
+        border-radius: 4px;
 
         &:hover {
-          background-color: rgba(66, 185, 131, 0.05);
+          background-color: #ffedd5;
+          color: $folder-hover;
         }
 
         .folder-icon {
-          font-size: 0.85em;
+          color: rgba($folder-primary, 0.7);
         }
 
-        &::after {
-          height: 50%;
+        .arrow-icon {
+          color: rgba($folder-primary, 0.5);
         }
+      }
+
+      .tree-folder-contents {
+        border-left-style: dashed;
+        border-color: rgba($folder-primary, 0.2);
       }
     }
   }
