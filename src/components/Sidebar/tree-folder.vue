@@ -209,7 +209,7 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
     &.is-expanded {
       opacity: 1;
       margin: 0.5rem 0;
-      max-height: 2000px;
+      max-height: 15000px; // 增加max-height以支持更多内容
       transform: translateY(0);
     }
     
