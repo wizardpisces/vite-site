@@ -1,3 +1,19 @@
+# Cursor LSP 增强架构
+
+传统LSP：
+```
+编辑器 ←→ Language Server ←→ 代码分析引擎
+```
+
+Cursor 增强架构：
+```
+编辑器 ←→ AI智能层 ←→ LSP ←→ 代码分析引擎
+                ↓
+            语义索引库
+                ↓
+            上下文管理器
+```
+
 # LlamaIndex + LangChain
 ```
  原始数据             用户提问
