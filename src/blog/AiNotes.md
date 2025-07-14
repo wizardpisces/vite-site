@@ -1,3 +1,39 @@
+# LlamaIndex 是多层索引体系（Index over Index）
+LlamaIndex 是数据知识库的“索引协调器”，它不替代数据库，而是组织向量索引 + 文本内容 + Metadata + LLM 调用的多层索引系统，构建一个 Agent 可检索、可记忆、可回答的知识结构。
+```
+原始文档
+   │
+   ▼
+  切分器（chunking / NodeParser）
+   │
+   ▼
+Chunk（Node） ←→ Metadata
+   │             ↘
+   ▼              ▼
+Embedding       文本数据库（DocStore）
+   │
+   ▼
+向量数据库（VectorStore，如 FAISS / Qdrant）
+   │
+   ▼
+LlamaIndex 的顶层索引（VectorStoreIndex） ←→ Retriever / QueryEngine
+```
+例子：“我给一段 query，查找与之最相似的旧 issue 说明文”
+```
+用户 query 文本
+   ↓
+Tokenizer + Embedding（BGE）
+   ↓
+VectorStore（如 FAISS）→ 找出相似向量（返回 ID）
+   ↓
+DocumentStore → 根据 ID 找回原始 chunk 文本 + metadata
+   ↓
+LlamaIndex Index → 合并上下文、拼接 Prompt
+   ↓
+LLM 回答 or 做分类 / 推理
+```
+
+
 # Cursor LSP 增强架构
 
 传统LSP：
