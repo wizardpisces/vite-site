@@ -1,3 +1,11 @@
+# AI IDE 的演进猜想
+
+需求文档本质上就是“新形态的代码”，而传统代码只是对需求的一种有损投影。因此，需求分析与编码这两个工种很可能会逐步融合，以减少信息转化的损耗。
+
+如果将 LLM 视为新一代操作系统，它或许可以跳过“将 spec 转换为 code 并编译执行”的流程，直接理解并运行需求本身。在这种演化路径下，AI 编辑器的核心功能也将从编写代码转向管理和演化 spec，实现真正的“以意图驱动开发”。
+
+阶段：code → code with LLM assist → spec-driven code（当下 AI IDE） → spec-driven execution
+
 # 何时需要 Agent，而不是 Call LLM
 
 * 本质：许多“Agent”系统其实只是复杂版 prompt 拼接器的本质。
