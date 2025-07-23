@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+
+必须使用 pnpm 来管理工程
+
+1. 安装: pnpm add, pnpm remove
+2. 启动: pnpm run vite

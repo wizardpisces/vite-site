@@ -12,6 +12,7 @@ import federation from "@originjs/vite-plugin-federation";
 export default {
   server: {
     port: 3001,
+    cors: true, // 启用CORS支持
   },
   plugins: [
     Inspect({
@@ -63,5 +64,7 @@ export default {
       },
     },
   },
-
+  build: {
+    target: 'esnext',
+  }
 };
