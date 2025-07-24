@@ -12,7 +12,6 @@ const blogDir = path.join(rootDir, 'src', 'blog');
 const publicDir = path.join(rootDir, 'public');
 
 // 输出文件路径
-const contentOutputPath = path.join(publicDir, 'blog-content.json');
 const embeddingsOutputPath = path.join(publicDir, 'blog-embeddings-bge.json');
 const chunksOutputPath = path.join(publicDir, 'blog-chunks.json');
 
@@ -291,31 +290,25 @@ async function main() {
     // 2. 生成文档分段
     const chunks = generateDocumentChunks(blogData);
     
-    // 3. 生成内容索引（保持兼容性）
-    console.log('📝 生成内容索引...');
-    fs.writeFileSync(contentOutputPath, JSON.stringify(blogData, null, 2));
-    console.log(`✅ 内容索引已保存到: ${contentOutputPath}`);
-    
-    // 4. 保存分段数据
+    // 3. 保存分段数据
     console.log('📄 保存分段数据...');
     fs.writeFileSync(chunksOutputPath, JSON.stringify(chunks, null, 2));
     console.log(`✅ 分段数据已保存到: ${chunksOutputPath}`);
     
-    // 5. 生成段落级嵌入向量
+    // 4. 生成段落级嵌入向量
     const embeddings = await generateChunkEmbeddings(chunks);
     
-    // 6. 保存嵌入向量
+    // 5. 保存嵌入向量
     fs.writeFileSync(embeddingsOutputPath, JSON.stringify(embeddings, null, 2));
     console.log(`✅ 嵌入向量已保存到: ${embeddingsOutputPath}`);
     
-    // 7. 输出统计信息
+    // 6. 输出统计信息
     console.log('\n📊 统计信息:');
     console.log(`- 原始文档数: ${blogData.length}`);
     console.log(`- 分段数量: ${chunks.length}`);
     console.log(`- 嵌入向量数: ${embeddings.length}`);
     console.log(`- 向量维度: ${embeddings[0]?.embedding?.length || 'N/A'}`);
     console.log(`- 平均段落长度: ${Math.round(chunks.reduce((sum, c) => sum + c.content.length, 0) / chunks.length)} 字符`);
-    console.log(`- 内容索引大小: ${(fs.statSync(contentOutputPath).size / 1024).toFixed(2)} KB`);
     console.log(`- 分段数据大小: ${(fs.statSync(chunksOutputPath).size / 1024).toFixed(2)} KB`);
     console.log(`- 嵌入向量大小: ${(fs.statSync(embeddingsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
     

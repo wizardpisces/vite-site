@@ -11,11 +11,12 @@
     "blog": "ts-node script/blog.ts",
     "watchblog": "ts-node script/watchblog.ts",
     "build": "vite build",
-    "deploy": "npm run generate-blog-index && sh script/deploy.sh",
+    "deploy": "npm run generate-search-index && sh script/deploy.sh",
+    "deploy:only": "sh script/deploy.sh",
     "prepare": "husky install",
     "t2j": "ts-node --project bin/tsconfig-dev.json bin/schema2json.ts",
     "test": "jest",
-    "generate-blog-index": "node script/generate-blog-index.js"
+    "generate-search-index": "node script/generate-search-index.js"
   },
   "engines": {
     "node": ">=10.0.0"
@@ -34,6 +35,7 @@
     "json-bigint": "^1.0.0",
     "md5": "^2.3.0",
     "online-json-diff": "github:blitlabs/online-json-diff",
+    "onnxruntime-web": "^1.22.0",
     "qiankun": "^2.6.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
