@@ -87,7 +87,7 @@ async function generateBlogIndex() {
     }
     
     // 查找所有 Markdown 文件
-    const files = await glob('**/*.{md,mdx}', {
+    const files = await glob('**/*.{md}', {
       cwd: BLOG_DIR,
       absolute: true
     });

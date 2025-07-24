@@ -1,251 +1,421 @@
 <template>
   <div class="blog-search">
     <div class="search-container">
-      <input
-        type="text"
-        v-model="searchQuery"
-        @keyup.enter="handleSearch"
-        placeholder="搜索博客内容..."
-        :disabled="isLoading"
-      />
-      <button 
-        @click="handleSearch" 
-        :disabled="isLoading || !searchQuery.trim()"
-      >
-        <span v-if="isLoading">搜索中...</span>
-        <span v-else>搜索</span>
-      </button>
-    </div>
-
-    <div v-if="searchResults.length > 0" class="search-results">
-      <h3>搜索结果 ({{ searchResults.length }})</h3>
-      <div v-for="(result, index) in searchResults" :key="index" class="result-item">
-        <h4>
-          <a :href="result.url">{{ result.title }}</a>
-        </h4>
-        <p class="result-content" v-if="result.snippet" v-html="highlightQuery(result.snippet)"></p>
-        <p class="result-content" v-else v-html="highlightQuery(result.content.substring(0, 200) + (result.content.length > 200 ? '...' : ''))"></p>
-        <div class="result-meta">
-          <span class="result-path">{{ result.url }}</span>
-          <span v-if="result.score" class="result-score">相关度: {{ (result.score * 100).toFixed(1) }}%</span>
-        </div>
+      <div class="search-mode-selector">
+        <label>
+          <input type="radio" v-model="searchMode" value="semantic" />
+          语义搜索
+        </label>
+        <label>
+          <input type="radio" v-model="searchMode" value="keyword" />
+          关键词搜索
+        </label>
+      </div>
+      
+      <div class="search-input-container">
+        <input 
+          v-model="searchQuery" 
+          type="text" 
+          placeholder="搜索博客内容..." 
+          @keyup.enter="handleSearch"
+          class="search-input"
+        />
+        <button @click="handleSearch" class="search-button" :disabled="isLoading">
+          {{ isLoading ? '搜索中...' : '搜索' }}
+        </button>
       </div>
     </div>
 
-    <div v-else-if="hasSearched && !isLoading" class="no-results">
-      <p>未找到与 "{{ searchQuery }}" 相关的内容</p>
+    <!-- 搜索模式说明 -->
+    <div v-if="searchMode === 'semantic'" class="search-notice search-notice-semantic">
+      <p>🧠 使用语义搜索模式</p>
+      <p class="search-tip">基于 BGE 中文模型的向量相似度，能找到语义相关的内容</p>
+    </div>
+    <div v-else-if="searchMode === 'keyword'" class="search-notice">
+      <p>🔍 使用关键词搜索模式</p>
+      <p class="search-tip">基于关键词匹配，查找包含搜索词的内容</p>
     </div>
 
-    <div v-if="error" class="search-error">
-      <p>{{ error }}</p>
+    <!-- 搜索结果 -->
+    <div v-if="searchResults.length > 0" class="search-results">
+      <div class="results-header">
+        <h3>搜索结果 ({{ searchResults.length }})</h3>
+      </div>
+      
+      <div v-for="result in searchResults" :key="result.url" class="search-result-item">
+        <h4>
+          <a :href="result.url">{{ result.title }}</a>
+          <span v-if="result.containsQuery" class="match-tag">包含匹配词</span>
+          <span v-if="searchMode === 'semantic' && result.score" class="score-tag">
+            相似度: {{ (result.score * 100).toFixed(1) }}%
+          </span>
+        </h4>
+        <p class="result-content" v-if="result.snippet" v-html="highlightQuery(result.snippet)"></p>
+      </div>
+    </div>
+
+    <!-- 无结果 -->
+    <div v-else-if="hasSearched && !isLoading" class="no-results">
+      <p>未找到与 "{{ searchQuery }}" 相关的内容</p>
+      <p v-if="searchMode === 'semantic'" class="search-tip">
+        尝试使用不同的关键词或切换到关键词搜索
+        <button @click="switchToKeywordSearch" class="switch-mode-btn">切换到关键词搜索</button>
+      </p>
+    </div>
+
+    <!-- 初始化状态 -->
+    <div v-if="isInitializing" class="initializing">
+      <p>🚀 正在初始化搜索引擎...</p>
+    </div>
+
+    <!-- 错误状态 -->
+    <div v-if="error" class="error-message">
+      <p>❌ {{ error }}</p>
+      <button @click="switchToKeywordSearch" class="switch-mode-btn">切换到关键词搜索</button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import * as blogSearch from '@/utils/blog-search';
+import { ref, onMounted, watch } from 'vue';
+import { semanticSearch, isSemanticSearchAvailable } from '@/utils/semantic-search';
 
 export default {
   name: 'BlogSearch',
   setup() {
     const searchQuery = ref('');
     const searchResults = ref([]);
+    const searchMode = ref('semantic'); // 默认使用语义搜索
     const isLoading = ref(false);
     const hasSearched = ref(false);
+    const isInitializing = ref(true);
+    const semanticAvailable = ref(false);
     const error = ref('');
-    
-    // 高亮搜索查询词
-    const highlightQuery = (text) => {
-      if (!searchQuery.value.trim() || !text) return text;
-      
-      const query = searchQuery.value.trim();
-      const regex = new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-      
-      return text.replace(regex, match => `<span class="highlight">${match}</span>`);
+
+    // 简单的关键词搜索函数
+    const keywordSearch = async (query, limit = 10) => {
+      try {
+        const response = await fetch('/blog-content.json');
+        const content = await response.json();
+        
+        const lowerQuery = query.toLowerCase();
+        const results = [];
+        
+        for (const item of content) {
+          const title = item.title || '';
+          const text = item.content || '';
+          const lowerTitle = title.toLowerCase();
+          const lowerText = text.toLowerCase();
+          
+          // 简单的匹配逻辑
+          if (lowerTitle.includes(lowerQuery) || lowerText.includes(lowerQuery)) {
+            let snippet = text.length > 200 ? text.substring(0, 200) + '...' : text;
+            
+            // 如果包含查询词，提取相关部分
+            if (lowerText.includes(lowerQuery)) {
+              const queryIndex = lowerText.indexOf(lowerQuery);
+              const start = Math.max(0, queryIndex - 100);
+              const end = Math.min(text.length, queryIndex + query.length + 100);
+              snippet = text.substring(start, end).trim();
+              if (start > 0) snippet = '...' + snippet;
+              if (end < text.length) snippet += '...';
+            }
+            
+            results.push({
+              title,
+              url: item.url,
+              snippet,
+              containsQuery: true,
+              score: lowerTitle.includes(lowerQuery) ? 0.9 : 0.7 // 标题匹配优先
+            });
+          }
+        }
+        
+        // 按分数排序
+        return results
+          .sort((a, b) => b.score - a.score)
+          .slice(0, limit);
+          
+      } catch (error) {
+        console.error('❌ 关键词搜索失败:', error);
+        return [];
+      }
     };
-    
+
+    // 初始化
+    onMounted(async () => {
+      try {
+        // 检查语义搜索是否可用
+        const available = await isSemanticSearchAvailable();
+        semanticAvailable.value = available;
+        
+        if (available) {
+          console.log('✅ 语义搜索可用');
+        } else {
+          console.log('⚠️ 语义搜索不可用，使用关键词搜索');
+          searchMode.value = 'keyword';
+        }
+        
+        isInitializing.value = false;
+      } catch (err) {
+        console.error('❌ 搜索引擎初始化失败:', err);
+        error.value = '搜索引擎初始化失败';
+        searchMode.value = 'keyword';
+        isInitializing.value = false;
+      }
+    });
+
+    // 监听搜索模式变化
+    watch(searchMode, (newMode) => {
+      if (newMode === 'semantic' && !semanticAvailable.value) {
+        searchMode.value = 'keyword';
+        error.value = '语义搜索不可用，已切换到关键词搜索';
+      } else {
+        error.value = '';
+      }
+    });
+
     // 执行搜索
     const handleSearch = async () => {
-      if (!searchQuery.value.trim() || isLoading.value) return;
-      
+      if (!searchQuery.value.trim()) {
+        return;
+      }
+
+      isLoading.value = true;
+      hasSearched.value = true;
+      error.value = '';
+
       try {
-        isLoading.value = true;
-        error.value = '';
-        hasSearched.value = true;
+        let results = [];
         
-        const results = await blogSearch.search(searchQuery.value, 5);
+        if (searchMode.value === 'semantic') {
+          console.log(`🧠 使用语义搜索: "${searchQuery.value}"`);
+          results = await semanticSearch(searchQuery.value, 10);
+        } else {
+          console.log(`🔍 使用关键词搜索: "${searchQuery.value}"`);
+          results = await keywordSearch(searchQuery.value, 10);
+        }
+
         searchResults.value = results;
-      } catch (e) {
-        console.error('搜索失败', e);
+        console.log(`✅ 搜索完成，返回 ${results.length} 个结果`);
+        
+      } catch (err) {
+        console.error('❌ 搜索失败:', err);
         error.value = '搜索失败，请重试';
         searchResults.value = [];
       } finally {
         isLoading.value = false;
       }
     };
-    
-    // 组件挂载时初始化
-    onMounted(() => {
-      // 延迟初始化，避免阻塞页面渲染
-      setTimeout(() => {
-        blogSearch.initSearchEngine().catch(e => {
-          console.warn('搜索引擎初始化失败，将在搜索时重试', e);
-        });
-      }, 1000);
-    });
-    
+
+    // 切换到关键词搜索
+    const switchToKeywordSearch = () => {
+      searchMode.value = 'keyword';
+      error.value = '';
+      if (searchQuery.value.trim()) {
+        handleSearch();
+      }
+    };
+
+    // 高亮查询词
+    const highlightQuery = (text) => {
+      if (!searchQuery.value.trim()) {
+        return text;
+      }
+      
+      const query = searchQuery.value.trim();
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<mark>$1</mark>');
+    };
+
     return {
       searchQuery,
       searchResults,
+      searchMode,
       isLoading,
       hasSearched,
+      isInitializing,
+      semanticAvailable,
       error,
       handleSearch,
+      switchToKeywordSearch,
       highlightQuery
     };
   }
 };
 </script>
 
-<style lang="scss">
+<style scoped>
 .blog-search {
-  margin-bottom: 2rem;
-
-  .search-container {
-    display: flex;
-    margin-bottom: 1rem;
-
-    input {
-      flex: 1;
-      padding: 0.5rem 1rem;
-      border: 1px solid #ddd;
-      border-radius: 4px 0 0 4px;
-      font-size: 1rem;
-      outline: none;
-
-      &:focus {
-        border-color: $color-primary;
-      }
-
-      &:disabled {
-        background-color: #f5f5f5;
-        cursor: not-allowed;
-      }
-    }
-
-    button {
-      padding: 0.5rem 1.5rem;
-      background-color: $color-primary;
-      color: white;
-      border: none;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: background-color 0.2s;
-
-      &:hover:not(:disabled) {
-        background-color: darken($color-primary, 10%);
-      }
-
-      &:disabled {
-        background-color: #cccccc;
-        cursor: not-allowed;
-      }
-    }
-  }
-
-  .search-results {
-    h3 {
-      margin-bottom: 1rem;
-      font-size: 1.2rem;
-      color: #333;
-    }
-
-    .result-item {
-      padding: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #eee;
-      border-radius: 4px;
-      background-color: #f9f9f9;
-      transition: transform 0.2s, box-shadow 0.2s;
-
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      }
-
-      h4 {
-        margin: 0 0 0.5rem;
-        font-size: 1.1rem;
-
-        a {
-          color: $color-primary;
-          text-decoration: none;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      .result-content {
-        margin: 0.5rem 0;
-        font-size: 0.95rem;
-        color: #555;
-        line-height: 1.5;
-        
-        .highlight {
-          background-color: rgba($color-primary, 0.2);
-          padding: 0 2px;
-          border-radius: 2px;
-          font-weight: bold;
-        }
-      }
-
-      .result-meta {
-        font-size: 0.85rem;
-        color: #888;
-        display: flex;
-        justify-content: space-between;
-        
-        .result-score {
-          font-weight: 500;
-          color: $color-primary;
-        }
-      }
-    }
-  }
-
-  .no-results, .search-error {
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-    text-align: center;
-    color: #666;
-  }
-
-  .search-error {
-    background-color: #fff0f0;
-    color: #d32f2f;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-@media (max-width: 768px) {
-  .blog-search {
-    .search-container {
-      flex-direction: column;
+.search-container {
+  margin-bottom: 20px;
+}
 
-      input {
-        border-radius: 4px;
-        margin-bottom: 0.5rem;
-      }
+.search-mode-selector {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 20px;
+}
 
-      button {
-        border-radius: 4px;
-        width: 100%;
-      }
-    }
-  }
+.search-mode-selector label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.search-input-container {
+  display: flex;
+  gap: 10px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.search-button {
+  padding: 12px 24px;
+  background: #007acc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-button:hover:not(:disabled) {
+  background: #005999;
+}
+
+.search-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.search-notice {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.search-notice-semantic {
+  background: #f0f8ff;
+  border-color: #b3d9ff;
+}
+
+.search-notice p {
+  margin: 0;
+}
+
+.search-tip {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.search-results {
+  margin-top: 20px;
+}
+
+.results-header h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.search-result-item {
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result-item h4 {
+  margin: 0 0 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-result-item h4 a {
+  color: #007acc;
+  text-decoration: none;
+  flex: 1;
+}
+
+.search-result-item h4 a:hover {
+  text-decoration: underline;
+}
+
+.match-tag {
+  background: #e7f3ff;
+  color: #0066cc;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.score-tag {
+  background: #f0f8ff;
+  color: #333;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.result-content {
+  margin: 0;
+  color: #555;
+  line-height: 1.5;
+}
+
+.result-content :deep(mark) {
+  background: #ffeb3b;
+  padding: 1px 2px;
+  border-radius: 2px;
+}
+
+.no-results, .initializing, .error-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.switch-mode-btn {
+  margin-left: 10px;
+  padding: 4px 12px;
+  background: #007acc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.switch-mode-btn:hover {
+  background: #005999;
+}
+
+.error-message {
+  color: #d32f2f;
 }
 </style> 

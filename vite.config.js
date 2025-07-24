@@ -13,6 +13,7 @@ export default {
   server: {
     port: 3001,
     cors: true, // 启用CORS支持
+    host: '0.0.0.0',
   },
   plugins: [
     Inspect({
@@ -66,5 +67,11 @@ export default {
   },
   build: {
     target: 'esnext',
-  }
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+  },
+  optimizeDeps: {
+    exclude: ['@xenova/transformers'],
+  },
 };

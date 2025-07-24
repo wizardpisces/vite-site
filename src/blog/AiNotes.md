@@ -14,7 +14,7 @@
 | 🔐 结合工具链、API 调用路径等多模态数据进行监督 | 不光看语言，还看行为路径、调用链等多维线索               |
 | 🚨 将 CoT 监控作为部署前安全审核必要项     | 和 RLHF 或 red teaming 一样，成为标准安全流程一部分 |
 
-reference:
+* Reference
 * [白盒监控的提出与实验结果](https://openai.com/index/chain-of-thought-monitoring/)
 * [大型联合呼吁：“思维链的可监控性”是当前窗口期](https://arxiv.org/abs/2507.11473)
 
