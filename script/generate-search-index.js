@@ -117,7 +117,7 @@ async function generateEmbeddings(blogData) {
   console.log('🚀 开始生成嵌入向量...');
   
   // 动态导入 transformers
-  const { pipeline } = await import('@xenova/transformers');
+  const { pipeline } = await import('@huggingface/transformers');
   
   // 初始化中文 BGE 模型
   console.log('📥 加载 BGE 中文模型...');

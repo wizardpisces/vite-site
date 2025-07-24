@@ -26,10 +26,16 @@
       </div>
     </div>
 
+    <!-- 预热状态 -->
+    <div v-if="isWarmingUp" class="warmup-notice">
+      <p>🚀 {{ warmupProgress }}</p>
+      <div class="warmup-spinner"></div>
+    </div>
+
     <!-- 搜索模式说明 -->
-    <div v-if="searchMode === 'semantic'" class="search-notice search-notice-semantic">
+    <div v-else-if="searchMode === 'semantic'" class="search-notice search-notice-semantic">
       <p>🧠 使用语义搜索模式</p>
-      <p class="search-tip">基于 BGE 中文模型的向量相似度，能找到语义相关的内容</p>
+      <p class="search-tip">基于 BGE 中文模型的语义向量相似度，能找到语义相关的内容</p>
     </div>
     <div v-else-if="searchMode === 'keyword'" class="search-notice">
       <p>🔍 使用关键词搜索模式</p>
@@ -78,7 +84,7 @@
 
 <script>
 import { ref, onMounted, watch } from 'vue';
-import { semanticSearch, isSemanticSearchAvailable } from '@/utils/semantic-search';
+import { semanticSearch, isSemanticSearchAvailable, warmupSemanticSearch } from '@/utils/semantic-search';
 
 export default {
   name: 'BlogSearch',
@@ -91,6 +97,8 @@ export default {
     const isInitializing = ref(true);
     const semanticAvailable = ref(false);
     const error = ref('');
+    const isWarmingUp = ref(false);
+    const warmupProgress = ref('');
 
     // 简单的关键词搜索函数
     const keywordSearch = async (query, limit = 10) => {
@@ -142,7 +150,7 @@ export default {
       }
     };
 
-    // 初始化
+    // 初始化和预热
     onMounted(async () => {
       try {
         // 检查语义搜索是否可用
@@ -151,6 +159,26 @@ export default {
         
         if (available) {
           console.log('✅ 语义搜索可用');
+          
+          // 在后台预热模型
+          isWarmingUp.value = true;
+          warmupProgress.value = '正在加载语义搜索模型...';
+          
+          try {
+            await warmupSemanticSearch();
+            warmupProgress.value = '语义搜索已准备就绪！';
+            console.log('🔥 语义搜索预热完成');
+            
+            // 显示完成状态一小段时间
+            setTimeout(() => {
+              isWarmingUp.value = false;
+              warmupProgress.value = '';
+            }, 1500);
+          } catch (warmupError) {
+            console.warn('⚠️ 语义搜索预热失败，但仍可使用:', warmupError);
+            isWarmingUp.value = false;
+            warmupProgress.value = '';
+          }
         } else {
           console.log('⚠️ 语义搜索不可用，使用关键词搜索');
           searchMode.value = 'keyword';
@@ -190,7 +218,14 @@ export default {
         
         if (searchMode.value === 'semantic') {
           console.log(`🧠 使用语义搜索: "${searchQuery.value}"`);
-          results = await semanticSearch(searchQuery.value, 10);
+          
+          try {
+            results = await semanticSearch(searchQuery.value, 10);
+          } catch (semanticError) {
+            console.error('❌ 语义搜索失败，回退到关键词搜索:', semanticError);
+            error.value = '语义搜索失败，自动切换到关键词搜索';
+            results = await keywordSearch(searchQuery.value, 10);
+          }
         } else {
           console.log(`🔍 使用关键词搜索: "${searchQuery.value}"`);
           results = await keywordSearch(searchQuery.value, 10);
@@ -237,6 +272,8 @@ export default {
       isInitializing,
       semanticAvailable,
       error,
+      isWarmingUp,
+      warmupProgress,
       handleSearch,
       switchToKeywordSearch,
       highlightQuery
@@ -330,6 +367,38 @@ export default {
   font-size: 14px;
   color: #666;
   margin-top: 5px;
+}
+
+.warmup-notice {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.warmup-notice p {
+  margin: 0;
+  font-weight: 500;
+}
+
+.warmup-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .search-results {

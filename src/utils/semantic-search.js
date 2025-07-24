@@ -1,11 +1,12 @@
 /**
  * 本地语义搜索 - 基于预生成嵌入向量的语义检索
- * 使用 TF-IDF + 向量相似度的混合方法
+ * 使用 BGE 中文模型进行真正的语义搜索
  */
 
 // 缓存
 let blogEmbeddings = null;
 let blogContent = null;
+let embedder = null;
 
 /**
  * 加载博客嵌入向量
@@ -52,6 +53,36 @@ async function loadBlogContent() {
 }
 
 /**
+ * 初始化 BGE 嵌入模型
+ */
+async function initializeEmbedder() {
+  if (embedder) {
+    return embedder;
+  }
+  
+  try {
+    console.log('🤖 正在加载 BGE 中文嵌入模型...');
+    // 动态导入 transformers
+    const { pipeline } = await import('@huggingface/transformers');
+    
+    // 使用与生成博客嵌入向量相同的模型
+    embedder = await pipeline('feature-extraction', 'Xenova/bge-small-zh-v1.5', {
+      progress_callback: (progress) => {
+        if (progress.status === 'downloading') {
+          console.log(`📥 下载模型: ${progress.name} - ${Math.round(progress.progress || 0)}%`);
+        }
+      }
+    });
+    
+    console.log('✅ BGE 嵌入模型加载完成');
+    return embedder;
+  } catch (error) {
+    console.error('❌ 加载嵌入模型失败:', error);
+    throw error;
+  }
+}
+
+/**
  * 计算余弦相似度
  */
 function cosineSimilarity(vecA, vecB) {
@@ -77,117 +108,23 @@ function cosineSimilarity(vecA, vecB) {
 }
 
 /**
- * 简单的中文分词 + TF-IDF 权重计算
+ * 为查询文本生成语义嵌入向量
+ * 使用与博客内容相同的 BGE 模型
  */
-function extractKeywords(text, topK = 10) {
-  // 中文分词（简化版）
-  const words = text
-    .toLowerCase()
-    .replace(/[^\u4e00-\u9fa5a-zA-Z0-9\s]/g, ' ') // 保留中文、英文、数字
-    .split(/\s+/)
-    .filter(word => word.length > 1); // 过滤单字符
-  
-  // 计算词频
-  const wordCount = {};
-  words.forEach(word => {
-    wordCount[word] = (wordCount[word] || 0) + 1;
-  });
-  
-  // 按频率排序，返回前 topK 个关键词
-  return Object.entries(wordCount)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, topK)
-    .map(([word]) => word);
-}
-
-/**
- * 基于关键词匹配生成查询向量
- * 使用多个相关文档的加权平均向量
- */
-async function generateQueryVector(query) {
-  const embeddings = await loadBlogEmbeddings();
-  const content = await loadBlogContent();
-  
-  // 提取查询关键词
-  const queryKeywords = extractKeywords(query, 5);
-  console.log(`🔍 查询关键词:`, queryKeywords);
-  
-  // 找到包含这些关键词的文档
-  const candidateDocs = [];
-  
-  for (const doc of content) {
-    let score = 0;
-    const docText = (doc.title + ' ' + doc.content).toLowerCase();
-    const docKeywords = extractKeywords(docText, 20);
+async function generateQueryEmbedding(query) {
+  try {
+    const model = await initializeEmbedder();
     
-    // 计算关键词重叠度
-    for (const queryWord of queryKeywords) {
-      if (docKeywords.includes(queryWord)) {
-        score += 2; // 关键词完全匹配
-      } else {
-        // 模糊匹配
-        for (const docWord of docKeywords) {
-          if (docWord.includes(queryWord) || queryWord.includes(docWord)) {
-            score += 1;
-          }
-        }
-      }
-    }
+    // 生成嵌入向量（与生成博客向量时使用相同的参数）
+    const output = await model(query, { pooling: 'mean', normalize: true });
+    const embedding = Array.from(output.data);
     
-    if (score > 0) {
-      candidateDocs.push({
-        doc,
-        score,
-        keywords: docKeywords
-      });
-    }
+    console.log(`🎯 为查询生成了 ${embedding.length} 维语义向量`);
+    return embedding;
+  } catch (error) {
+    console.error('❌ 生成查询嵌入向量失败:', error);
+    throw error;
   }
-  
-  // 按分数排序
-  candidateDocs.sort((a, b) => b.score - a.score);
-  console.log(`📝 找到 ${candidateDocs.length} 个候选文档`);
-  
-  if (candidateDocs.length === 0) {
-    return null;
-  }
-  
-  // 使用前几个最相关文档的向量进行加权平均
-  const topDocs = candidateDocs.slice(0, Math.min(3, candidateDocs.length));
-  const vectors = [];
-  
-  for (const { doc, score } of topDocs) {
-    const embedding = embeddings.find(e => e.url === doc.url);
-    if (embedding) {
-      vectors.push({
-        vector: embedding.embedding,
-        weight: score
-      });
-    }
-  }
-  
-  if (vectors.length === 0) {
-    return null;
-  }
-  
-  // 计算加权平均向量
-  const dimensions = vectors[0].vector.length;
-  const queryVector = new Array(dimensions).fill(0);
-  let totalWeight = 0;
-  
-  for (const { vector, weight } of vectors) {
-    for (let i = 0; i < dimensions; i++) {
-      queryVector[i] += vector[i] * weight;
-    }
-    totalWeight += weight;
-  }
-  
-  // 归一化
-  for (let i = 0; i < dimensions; i++) {
-    queryVector[i] /= totalWeight;
-  }
-  
-  console.log(`✨ 使用 ${vectors.length} 个文档生成查询向量`);
-  return queryVector;
 }
 
 /**
@@ -201,22 +138,18 @@ export async function semanticSearch(query, limit = 5) {
   try {
     console.log(`🚀 开始语义搜索: "${query}"`);
     
-    // 1. 生成查询向量
-    const queryVector = await generateQueryVector(query);
-    if (!queryVector) {
-      console.log('⚠️ 无法生成查询向量，查询词可能过于特殊');
-      return [];
-    }
+    // 1. 生成查询的语义嵌入向量
+    const queryEmbedding = await generateQueryEmbedding(query);
     
     // 2. 加载数据
     const embeddings = await loadBlogEmbeddings();
     const content = await loadBlogContent();
     
-    // 3. 计算相似度
+    // 3. 计算语义相似度
     const results = [];
     
     for (const embedding of embeddings) {
-      const similarity = cosineSimilarity(queryVector, embedding.embedding);
+      const similarity = cosineSimilarity(queryEmbedding, embedding.embedding);
       
       if (similarity > 0.1) { // 设置最低阈值
         const blogItem = content.find(c => c.url === embedding.url);
@@ -225,13 +158,13 @@ export async function semanticSearch(query, limit = 5) {
           const text = blogItem.content || '';
           let snippet = text.length > 200 ? text.substring(0, 200) + '...' : text;
           
-          // 检查是否包含查询词
+          // 检查是否包含查询关键词（用于显示和排序参考）
           const lowerText = text.toLowerCase();
           const lowerQuery = query.toLowerCase();
           const containsQuery = lowerText.includes(lowerQuery);
           
           if (containsQuery) {
-            // 如果包含查询词，提取相关部分
+            // 如果包含查询词，提取相关部分作为摘要
             const queryIndex = lowerText.indexOf(lowerQuery);
             const start = Math.max(0, queryIndex - 100);
             const end = Math.min(text.length, queryIndex + query.length + 100);
@@ -245,24 +178,38 @@ export async function semanticSearch(query, limit = 5) {
             url: blogItem.url,
             snippet,
             score: similarity,
-            containsQuery
+            containsQuery,
+            // 添加一些调试信息
+            semanticScore: similarity
           });
         }
       }
     }
     
-    // 4. 排序和返回结果
+    // 4. 排序：主要按语义相似度排序，关键词匹配作为次要因素
     const sortedResults = results
       .sort((a, b) => {
-        // 优先显示包含查询词的结果
-        if (a.containsQuery && !b.containsQuery) return -1;
-        if (!a.containsQuery && b.containsQuery) return 1;
-        // 然后按相似度排序
+        // 如果语义相似度相近（差异小于0.05），优先显示包含关键词的结果
+        const scoreDiff = Math.abs(a.score - b.score);
+        if (scoreDiff < 0.05) {
+          if (a.containsQuery && !b.containsQuery) return -1;
+          if (!a.containsQuery && b.containsQuery) return 1;
+        }
+        // 主要按语义相似度排序
         return b.score - a.score;
       })
       .slice(0, limit);
     
     console.log(`✅ 语义搜索完成，返回 ${sortedResults.length} 个结果`);
+    
+    // 输出调试信息
+    if (sortedResults.length > 0) {
+      console.log('🎯 语义搜索结果排序:');
+      sortedResults.forEach((result, index) => {
+        console.log(`  ${index + 1}. ${result.title} - 相似度: ${(result.score * 100).toFixed(1)}%${result.containsQuery ? ' (包含关键词)' : ''}`);
+      });
+    }
+    
     return sortedResults;
     
   } catch (error) {
@@ -278,8 +225,32 @@ export async function isSemanticSearchAvailable() {
   try {
     await loadBlogEmbeddings();
     await loadBlogContent();
+    // 尝试初始化模型（但不等待完全加载）
+    const initPromise = initializeEmbedder();
+    // 给模型加载一点时间，但不阻塞太久
+    const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(true), 2000));
+    await Promise.race([initPromise, timeoutPromise]);
     return true;
   } catch (error) {
+    console.error('❌ 语义搜索不可用:', error);
+    return false;
+  }
+}
+
+/**
+ * 预热语义搜索（可选）
+ * 在后台预加载模型，提升首次搜索速度
+ */
+export async function warmupSemanticSearch() {
+  try {
+    console.log('🔥 开始预热语义搜索...');
+    await loadBlogEmbeddings();
+    await loadBlogContent();
+    await initializeEmbedder();
+    console.log('✅ 语义搜索预热完成');
+    return true;
+  } catch (error) {
+    console.error('❌ 语义搜索预热失败:', error);
     return false;
   }
 } 
