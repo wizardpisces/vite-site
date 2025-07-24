@@ -56,9 +56,10 @@ function readMarkdownFiles(dir, baseUrl = '/blog') {
         const cleanContent = cleanMarkdownContent(content);
         
         // 构建 URL
-        const url = currentUrl === '/blog' && fileName === 'Introduction' 
-          ? '/blog/Introduction'
-          : `${currentUrl}/${fileName}`;
+        // const url = currentUrl === '/blog' && fileName === 'Introduction' 
+        //   ? '/blog/Introduction'
+        //   : `${currentUrl}/${fileName}`;
+        const url = `/blog/${fileName}`;
         
         files.push({
           title,
