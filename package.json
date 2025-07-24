@@ -11,7 +11,7 @@
     "blog": "ts-node script/blog.ts",
     "watchblog": "ts-node script/watchblog.ts",
     "build": "vite build",
-    "deploy": "sh script/deploy.sh",
+    "deploy": "npm run generate-blog-index && sh script/deploy.sh",
     "prepare": "husky install",
     "t2j": "ts-node --project bin/tsconfig-dev.json bin/schema2json.ts",
     "test": "jest",

@@ -34,8 +34,8 @@
 
     <!-- 搜索模式说明 -->
     <div v-else-if="searchMode === 'semantic'" class="search-notice search-notice-semantic">
-      <p>🧠 使用语义搜索模式</p>
-      <p class="search-tip">基于 BGE 中文模型的语义向量相似度，能找到语义相关的内容</p>
+      <p>🧠 使用分段语义搜索模式</p>
+      <p class="search-tip">基于 BGE 中文模型的分段向量相似度，精准匹配文档段落内容</p>
     </div>
     <div v-else-if="searchMode === 'keyword'" class="search-notice">
       <p>🔍 使用关键词搜索模式</p>
@@ -54,6 +54,9 @@
           <span v-if="result.containsQuery" class="match-tag">包含匹配词</span>
           <span v-if="searchMode === 'semantic' && result.score" class="score-tag">
             相似度: {{ (result.score * 100).toFixed(1) }}%
+          </span>
+          <span v-if="searchMode === 'semantic' && result.matchedChunks" class="chunk-tag">
+            {{ result.matchedChunks }}/{{ result.totalChunks }} 段落匹配
           </span>
         </h4>
         <p class="result-content" v-if="result.snippet" v-html="highlightQuery(result.snippet)"></p>
@@ -162,11 +165,11 @@ export default {
           
           // 在后台预热模型
           isWarmingUp.value = true;
-          warmupProgress.value = '正在加载语义搜索模型...';
+          warmupProgress.value = '正在加载分段语义搜索模型...';
           
           try {
             await warmupSemanticSearch();
-            warmupProgress.value = '语义搜索已准备就绪！';
+            warmupProgress.value = '分段语义搜索已准备就绪！';
             console.log('🔥 语义搜索预热完成');
             
             // 显示完成状态一小段时间
@@ -445,6 +448,15 @@ export default {
 .score-tag {
   background: #f0f8ff;
   color: #333;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.chunk-tag {
+  background: #fff3cd;
+  color: #856404;
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 12px;

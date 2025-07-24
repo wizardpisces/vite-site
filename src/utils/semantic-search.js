@@ -1,15 +1,16 @@
 /**
- * 本地语义搜索 - 基于预生成嵌入向量的语义检索
- * 使用 BGE 中文模型进行真正的语义搜索
+ * 本地语义搜索 - 基于分段嵌入向量的语义检索
+ * 采用 LlamaIndex 式的分段召回策略，提升搜索精度
  */
 
 // 缓存
 let blogEmbeddings = null;
 let blogContent = null;
+let blogChunks = null;
 let embedder = null;
 
 /**
- * 加载博客嵌入向量
+ * 加载博客嵌入向量（分段级别）
  */
 async function loadBlogEmbeddings() {
   if (blogEmbeddings) {
@@ -22,7 +23,7 @@ async function loadBlogEmbeddings() {
       throw new Error(`Failed to load embeddings: ${response.status}`);
     }
     blogEmbeddings = await response.json();
-    console.log(`✅ 已加载 ${blogEmbeddings.length} 个博客嵌入向量`);
+    console.log(`✅ 已加载 ${blogEmbeddings.length} 个段落嵌入向量`);
     return blogEmbeddings;
   } catch (error) {
     console.error('❌ 加载嵌入向量失败:', error);
@@ -31,23 +32,23 @@ async function loadBlogEmbeddings() {
 }
 
 /**
- * 加载博客内容
+ * 加载博客分段数据
  */
-async function loadBlogContent() {
-  if (blogContent) {
-    return blogContent;
+async function loadBlogChunks() {
+  if (blogChunks) {
+    return blogChunks;
   }
   
   try {
-    const response = await fetch('/blog-content.json');
+    const response = await fetch('/blog-chunks.json');
     if (!response.ok) {
-      throw new Error(`Failed to load blog content: ${response.status}`);
+      throw new Error(`Failed to load chunks: ${response.status}`);
     }
-    blogContent = await response.json();
-    console.log(`✅ 已加载 ${blogContent.length} 篇博客内容`);
-    return blogContent;
+    blogChunks = await response.json();
+    console.log(`✅ 已加载 ${blogChunks.length} 个文档段落`);
+    return blogChunks;
   } catch (error) {
-    console.error('❌ 加载博客内容失败:', error);
+    console.error('❌ 加载分段数据失败:', error);
     throw error;
   }
 }
@@ -109,7 +110,6 @@ function cosineSimilarity(vecA, vecB) {
 
 /**
  * 为查询文本生成语义嵌入向量
- * 使用与博客内容相同的 BGE 模型
  */
 async function generateQueryEmbedding(query) {
   try {
@@ -128,6 +128,132 @@ async function generateQueryEmbedding(query) {
 }
 
 /**
+ * 分段级别的语义搜索
+ */
+async function searchChunks(query, topK = 15) {
+  console.log(`🔍 分段搜索: "${query}"`);
+  
+  // 1. 生成查询的语义嵌入向量
+  const queryEmbedding = await generateQueryEmbedding(query);
+  
+  // 2. 加载数据
+  const embeddings = await loadBlogEmbeddings();
+  const chunks = await loadBlogChunks();
+  
+  // 3. 计算所有段落的语义相似度
+  const chunkResults = [];
+  
+  for (const embedding of embeddings) {
+    const similarity = cosineSimilarity(queryEmbedding, embedding.embedding);
+    
+    if (similarity > 0.1) { // 设置最低阈值
+      const chunk = chunks.find(c => c.chunkId === embedding.chunkId);
+      if (chunk) {
+        // 检查是否包含查询关键词
+        const lowerText = chunk.content.toLowerCase();
+        const lowerQuery = query.toLowerCase();
+        const containsQuery = lowerText.includes(lowerQuery);
+        
+        chunkResults.push({
+          chunkId: chunk.chunkId,
+          url: chunk.url,
+          title: chunk.title,
+          originalTitle: chunk.originalTitle,
+          content: chunk.content,
+          chunkIndex: chunk.chunkIndex,
+          totalChunks: chunk.totalChunks,
+          similarity,
+          containsQuery,
+          startPos: chunk.startPos,
+          endPos: chunk.endPos
+        });
+      }
+    }
+  }
+  
+  // 4. 按相似度排序
+  chunkResults.sort((a, b) => b.similarity - a.similarity);
+  
+  console.log(`📄 找到 ${chunkResults.length} 个相关段落`);
+  return chunkResults.slice(0, topK);
+}
+
+/**
+ * 聚合段落结果为文档级别结果
+ */
+function aggregateChunkResults(chunkResults, limit = 5) {
+  const documentMap = new Map();
+  
+  // 按文档分组段落
+  for (const chunk of chunkResults) {
+    if (!documentMap.has(chunk.url)) {
+      documentMap.set(chunk.url, {
+        url: chunk.url,
+        title: chunk.originalTitle,
+        chunks: [],
+        maxSimilarity: 0,
+        avgSimilarity: 0,
+        containsQuery: false,
+        totalChunks: chunk.totalChunks
+      });
+    }
+    
+    const doc = documentMap.get(chunk.url);
+    doc.chunks.push(chunk);
+    doc.maxSimilarity = Math.max(doc.maxSimilarity, chunk.similarity);
+    doc.containsQuery = doc.containsQuery || chunk.containsQuery;
+  }
+  
+  // 计算每个文档的综合分数
+  const documentResults = Array.from(documentMap.values()).map(doc => {
+    // 计算平均相似度
+    doc.avgSimilarity = doc.chunks.reduce((sum, chunk) => sum + chunk.similarity, 0) / doc.chunks.length;
+    
+    // 生成摘要：选择最相关的段落作为摘要
+    const bestChunk = doc.chunks[0]; // 已按相似度排序
+    let snippet = bestChunk.content;
+    
+    // 如果段落过长，截取前部分
+    if (snippet.length > 350) {
+      snippet = snippet.substring(0, 350) + '...';
+    }
+    
+    // 计算综合分数：最高相似度 * 0.7 + 平均相似度 * 0.3
+    const score = doc.maxSimilarity * 0.7 + doc.avgSimilarity * 0.3;
+    
+    return {
+      title: doc.title,
+      url: doc.url,
+      snippet,
+      score,
+      containsQuery: doc.containsQuery,
+      semanticScore: doc.maxSimilarity,
+      avgSimilarity: doc.avgSimilarity,
+      matchedChunks: doc.chunks.length,
+      totalChunks: doc.totalChunks,
+      bestChunk: {
+        index: bestChunk.chunkIndex,
+        similarity: bestChunk.similarity,
+        content: bestChunk.content
+      }
+    };
+  });
+  
+  // 按综合分数排序
+  documentResults.sort((a, b) => {
+    // 如果分数相近，优先显示包含关键词的结果
+    const scoreDiff = Math.abs(a.score - b.score);
+    if (scoreDiff < 0.03) {
+      if (a.containsQuery && !b.containsQuery) return -1;
+      if (!a.containsQuery && b.containsQuery) return 1;
+    }
+    return b.score - a.score;
+  });
+  
+  return documentResults.slice(0, limit);
+}
+
+/**
  * 语义搜索主函数
  */
 export async function semanticSearch(query, limit = 5) {
@@ -136,84 +262,37 @@ export async function semanticSearch(query, limit = 5) {
   }
   
   try {
-    console.log(`🚀 开始语义搜索: "${query}"`);
+    console.log(`🚀 开始分段语义搜索: "${query}"`);
     
-    // 1. 生成查询的语义嵌入向量
-    const queryEmbedding = await generateQueryEmbedding(query);
+    // 1. 分段级别搜索
+    const chunkResults = await searchChunks(query, limit * 3);
     
-    // 2. 加载数据
-    const embeddings = await loadBlogEmbeddings();
-    const content = await loadBlogContent();
-    
-    // 3. 计算语义相似度
-    const results = [];
-    
-    for (const embedding of embeddings) {
-      const similarity = cosineSimilarity(queryEmbedding, embedding.embedding);
-      
-      if (similarity > 0.1) { // 设置最低阈值
-        const blogItem = content.find(c => c.url === embedding.url);
-        if (blogItem) {
-          // 生成摘要
-          const text = blogItem.content || '';
-          let snippet = text.length > 200 ? text.substring(0, 200) + '...' : text;
-          
-          // 检查是否包含查询关键词（用于显示和排序参考）
-          const lowerText = text.toLowerCase();
-          const lowerQuery = query.toLowerCase();
-          const containsQuery = lowerText.includes(lowerQuery);
-          
-          if (containsQuery) {
-            // 如果包含查询词，提取相关部分作为摘要
-            const queryIndex = lowerText.indexOf(lowerQuery);
-            const start = Math.max(0, queryIndex - 100);
-            const end = Math.min(text.length, queryIndex + query.length + 100);
-            snippet = text.substring(start, end).trim();
-            if (start > 0) snippet = '...' + snippet;
-            if (end < text.length) snippet += '...';
-          }
-          
-          results.push({
-            title: blogItem.title,
-            url: blogItem.url,
-            snippet,
-            score: similarity,
-            containsQuery,
-            // 添加一些调试信息
-            semanticScore: similarity
-          });
-        }
-      }
+    if (chunkResults.length === 0) {
+      console.log('⚠️ 未找到相关段落');
+      return [];
     }
     
-    // 4. 排序：主要按语义相似度排序，关键词匹配作为次要因素
-    const sortedResults = results
-      .sort((a, b) => {
-        // 如果语义相似度相近（差异小于0.05），优先显示包含关键词的结果
-        const scoreDiff = Math.abs(a.score - b.score);
-        if (scoreDiff < 0.05) {
-          if (a.containsQuery && !b.containsQuery) return -1;
-          if (!a.containsQuery && b.containsQuery) return 1;
-        }
-        // 主要按语义相似度排序
-        return b.score - a.score;
-      })
-      .slice(0, limit);
+    // 2. 聚合为文档级别结果
+    const documentResults = aggregateChunkResults(chunkResults, limit);
     
-    console.log(`✅ 语义搜索完成，返回 ${sortedResults.length} 个结果`);
+    console.log(`✅ 分段语义搜索完成，返回 ${documentResults.length} 个结果`);
     
     // 输出调试信息
-    if (sortedResults.length > 0) {
-      console.log('🎯 语义搜索结果排序:');
-      sortedResults.forEach((result, index) => {
-        console.log(`  ${index + 1}. ${result.title} - 相似度: ${(result.score * 100).toFixed(1)}%${result.containsQuery ? ' (包含关键词)' : ''}`);
+    if (documentResults.length > 0) {
+      console.log('🎯 分段搜索结果排序:');
+      documentResults.forEach((result, index) => {
+        console.log(`  ${index + 1}. ${result.title}`);
+        console.log(`     - 综合分数: ${(result.score * 100).toFixed(1)}%`);
+        console.log(`     - 最高相似度: ${(result.semanticScore * 100).toFixed(1)}%`);
+        console.log(`     - 匹配段落: ${result.matchedChunks}/${result.totalChunks}`);
+        console.log(`     - 包含关键词: ${result.containsQuery ? '是' : '否'}`);
       });
     }
     
-    return sortedResults;
+    return documentResults;
     
   } catch (error) {
-    console.error('❌ 语义搜索失败:', error);
+    console.error('❌ 分段语义搜索失败:', error);
     return [];
   }
 }
@@ -224,7 +303,7 @@ export async function semanticSearch(query, limit = 5) {
 export async function isSemanticSearchAvailable() {
   try {
     await loadBlogEmbeddings();
-    await loadBlogContent();
+    await loadBlogChunks();
     // 尝试初始化模型（但不等待完全加载）
     const initPromise = initializeEmbedder();
     // 给模型加载一点时间，但不阻塞太久
@@ -239,18 +318,17 @@ export async function isSemanticSearchAvailable() {
 
 /**
  * 预热语义搜索（可选）
- * 在后台预加载模型，提升首次搜索速度
  */
 export async function warmupSemanticSearch() {
   try {
-    console.log('🔥 开始预热语义搜索...');
+    console.log('🔥 开始预热分段语义搜索...');
     await loadBlogEmbeddings();
-    await loadBlogContent();
+    await loadBlogChunks();
     await initializeEmbedder();
-    console.log('✅ 语义搜索预热完成');
+    console.log('✅ 分段语义搜索预热完成');
     return true;
   } catch (error) {
-    console.error('❌ 语义搜索预热失败:', error);
+    console.error('❌ 分段语义搜索预热失败:', error);
     return false;
   }
 } 
