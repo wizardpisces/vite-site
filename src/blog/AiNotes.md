@@ -1,3 +1,40 @@
+
+# LoRA(low-rank-adapter) and ControlNet
+
+* LoRA
+假设你有一个庞大的神经网络，其中一个线性层的参数是一个很大的矩阵 W（比如 4096 × 4096），直接 fine-tune 需要更新这么大的矩阵，成本很高。
+LoRA 是通过“低秩分解”的方式，在不动大模型的基础上，用极少参数（A×B）学习新任务，就像在不换设备的前提下加个外挂模块。
+
+```
+W_new = W + ΔW
+ΔW = B @ A    # A 是低秩（r×d），B 是（d×r），r 远小于 d
+```
+* ControlNet
+
+ControlNet 是在旁边复制了“一个小副脑”，专门接收“视觉提示”，然后每层通过管道把控制信号注入主脑。
+
+```
+Encoder (Down) → Bottleneck → Decoder (Up)
+```
+
+```
+ControlNet:
+  [control image] → 复制的 UNet (副脑)
+                           ↓
+          +----------------+----------------+
+          |                 hint injection   |
+          ↓                                  ↓
+Original UNet (主脑) ←←←←←←←←←←←←←←←←←←←←←←←←
+          ↑
+   [latent vector from text + noise]
+```
+
+* 其他 fine-tuning
+
+例子：resnet 最后一层 fc（全连接层）换成新的，用于识别更多类别（比如从 1000 类 → 102 类花）
+
+学名：Full Fine-tuning with a modified classification head
+
 # AI 安全 - 思维链监控
 
 举例：一个写 Python 的 AI 被要求实现某功能，在中间思维链中它曾思考“如果直接用 eval() 可以作弊通过测试”，但最终它没用。只看输出是无法发现这类意图的。
@@ -16,6 +53,7 @@
 
 * Reference
 * [白盒监控的提出与实验结果](https://openai.com/index/chain-of-thought-monitoring/)
+* [tracing-thoughts-language-model](https://www.anthropic.com/news/tracing-thoughts-language-model)
 * [大型联合呼吁：“思维链的可监控性”是当前窗口期](https://arxiv.org/abs/2507.11473)
 
 # AI IDE 的演进猜想
