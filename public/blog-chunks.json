@@ -1025,12 +1025,12 @@
   {
     "chunkId": "/blog/Introduction#chunk-0",
     "title": "Introduction",
-    "content": "If you're not sure which to read, try these\nTech Notes\nDaily Reflections\nAI Notes\nAI Related\nResearch\nhttps://openai.com/research/\nhttps://www.anthropic.com/research\nhttps://research.google/\nNews/Blog\nhttps://openai.com/news/\nhttps://www.anthropic.com/news\nhttps://cloud.google.com/blog\nhttps://blog.google/technology/ai/",
+    "content": "If you're not sure which to read, try these\nTech Notes\nDaily Reflections\nAI Notes\nAI Related\nBlog\nhttps://www.anthropic.com/research#overview\nhttps://openai.com/research/index/\nhttps://www.microsoft.com/en-us/research/blog/\nhttps://ai.meta.com/blog/\nhttps://deepmind.google/discover/blog/",
     "url": "/blog/Introduction",
     "chunkIndex": 0,
     "totalChunks": 1,
     "startPos": 0,
-    "endPos": 321,
+    "endPos": 288,
     "originalTitle": "Introduction"
   },
   {
