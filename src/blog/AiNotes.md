@@ -1,3 +1,18 @@
+# LLM 的智能来源
+* Compression（压缩）
+* Composition（组合）
+* Retrospection（反思）
+
+其他智能：Emergence (涌现能力)，Reasoning (推理)
+# Transformer 理解
+
+1. Embedding + 位置编码（绝对/相对/旋转/可学习，RoPE 旋转编码能够表示相对关系）
+2. 稀疏/多头/线性自注意力（QK 关系）
+3. 注意力权重加权 V（全局信息融合）
+4. 前馈网络（FC/MoE/门控/分离）
+5. 归一化与残差（LayerNorm/Residual）
+6. 正则化与高效训练（Dropout/蒸馏/混合精度）
+7. 只在推理使用：输出与解码（高效采样/KV Cache）
 
 # LoRA(low-rank-adapter) and ControlNet
 
