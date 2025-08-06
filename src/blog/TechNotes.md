@@ -1,28 +1,31 @@
-## MCP SSE 的缺陷
+# TechNotes
+简介：个人技术思考与总结
+
+# MCP SSE 的缺陷
 当前 MCP 基于的 sse 无状态通信还是有缺陷，会导致客户端多次访问丢失 session（多个 pod 负载均衡的时候很容易出现），还得往 websocket 方向演进
 
 曾经前端热替换（HMR）有过类似的演变
 
-## 为什么 mac 不再使用 CUDA？
+# 为什么 mac 不再使用 CUDA？
 核心原因：符合 Apple 的封闭生态技术路线，转向 Metal 让 Apple 能更好地优化自己的硬件与软件系统，而不依赖外部技术。
 
-## 为什么 jest 需要 watchman？
+# 为什么 jest 需要 watchman？
 * 原因：因为 jest 需要监听文件变化，而 watchman 是文件系统监听工具，更适合大型项目（所以 watchman 得崩溃可能会导致 jest 无法正常工作）
 * watchman 的启动 ：在第一次 run jest 时，会启动 watchman 持续监听文件变化
 * watch 范围：历史启动过 jest 的目录都会纳入到 watchman 的监听范围，在 MAC 的活动监视器找到 watchman 打开的文件或者窗口看到
 
-## 为什么 git 有了分支还需要 tag？
+# 为什么 git 有了分支还需要 tag？
 * 分支：一个指向提交的可变指针，随着你在分支上提交新的更改，分支会自动向前移动。这意味着分支是动态的、可变的，它们通常代表开发进度，例如 master、develop、feature/xyz 等分支名。
 * 标签：一个指向特定提交的不可变的指针。标签通常用于标记代码的特定状态，比如一个版本发布（v1.0.0），而这个标签一旦打上，它就永久指向那个特定的提交，不会随时间变化。
 
-## Trace ID 三段 代表啥？
+# Trace ID 三段 代表啥？
 * e9e976fde12bc6745f1c51fa80652d01:000000788c34c719:0000000000000000
 * 第一段全局唯一 Trace ID
 * 第二段：spanId
 * 第三段：parentSpanId
 
-## 图像相似度
-### [pixelmatch 图片相似度](https://www.npmjs.com/package/pixelmatch)
+# 图像相似度
+## [pixelmatch 图片相似度](https://www.npmjs.com/package/pixelmatch)
 简介：具有准确的抗锯齿像素检测（通过色差阈值不一定是差异，还可能是锯齿）和感知色差度量（[YIQ](https://zh.wikipedia.org/wiki/YIQ) ）。 
 * Y 是最重要的信息，因为黑白电视只依赖亮度。
 * I（橙蓝对比）次重要，它对人眼的视觉感知贡献较大。
@@ -34,7 +37,7 @@
 
 场景：专注于精确检测像素差异，常用于回归测试、差异图生成等场景，优先考虑性能。
 
-### 结构相似性指标（structural similarity index，SSIM index）
+## 结构相似性指标（structural similarity index，SSIM index）
 简介：是一种用以衡量两张数字图像相似程度的指标。当两张图像其中一张为无失真图像，另一张为失真后的图像，二者的结构相似性可以看成是失真图像的图像质量衡量指标。
 
 为啥有用
@@ -43,7 +46,7 @@
 
 场景：专注于结构相似性，常用于图像质量评估、图像压缩、图像增强等场景，优先考虑准确性。
 
-## 
+# 
 # [识别深度伪造](https://www.zdnet.com/article/intels-new-deepfake-detector-can-spot-a-real-or-fake-video-based-on-blood-flow-in-video-pixels/)
 英特尔公司宣布了一个叫做 FakeCatcher 的软件，号称可以查出某个视频是否为深度伪造，准确度高达96%。
 
