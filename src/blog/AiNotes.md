@@ -1,9 +1,16 @@
 # AiNotes
-简介：个人 AI 的思考总结
+AI 的摘要与思考
 
-当然，以下是这次对话的**简要思考总结**：
 
 ---
+
+# 模拟实验
+
+* 模拟 = 想象：模拟实验体现了 AI 的“想象力”，它不只是重复人类发现的知识，而是通过“再现过程”来理解规律。
+* 过程优于结果：实验让 AI 不再是黑箱地直接吐答案，而是通过一个透明的“试验过程”得出结论。
+* 走向具身智能：这也是“具身智能（embodied intelligence）”的重要思想——AI 不只是语言符号操作，而是与世界互动。
+
+* [Mind’s Eye: Grounded Language Model Reasoning through Simulation](https://arxiv.org/abs/2210.05359?utm_source=chatgpt.com)
 
 # 推理的本质
 
