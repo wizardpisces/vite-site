@@ -4,6 +4,42 @@ AI 的摘要与思考
 
 ---
 
+# [Defeating Nondeterminism in LLM Inference](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)
+
+* LLM 推理结果不一致，根本原因是浮点数加法顺序受 kernel 并行实现影响，尤其是 attention kernel 的分段加法。
+* 解决方案：只要让加法顺序与 batch 大小无关（batch-invariant），就能实现完全确定性的推理。（采用“固定分段大小”的策略（fixed split-size），而不是“固定分段数”。对于同一个序列长度，无论这个序列在什么样的batch中，拆分方式都完全一样。）
+
+# [《Why Language Models Hallucinate》](https://www.arxiv.org/pdf/2509.04664)
+
+* LLM 的“幻觉”（生成自信但错误的信息）并非单纯实现缺陷，而是训练与评估流程在统计上会鼓励“瞎蒙/猜测”而不是承认不确定性——换言之，现有的 benchmarking/leaderboard 激励把模型当“考试机器”训练，猜答案能拿高分
+
+* 从评估层面改动：不要再用简单的二元正确/错误来主导 leaderboard；改成允许并奖励合理的置信表达（explicit confidence targets）、部分信用或使用 proper scoring rules
+
+AI 应用启发
+* 认识“幻觉”的本质：不可避免的下界，是统计学习的必然产物（尤其在低频/未见过的知识点上）。
+* 改变评估与训练目标：奖励“诚实”而非“乱猜”
+* 结合检索与外部验证：RAG + 校验链，让模型返回 {answer, confidence, evidence} 三元组，而不是裸文本。
+* 产品层面的用户体验设计：预期管理，高风险业务辅助决策，设计 “检索失败时拒答” 的路径。
+
+# 可解释性技术
+
+* 稀疏自编码器（Sparse Autoencoders, SAEs）
+* 激活可视化
+* 注意力追踪
+
+# LLM 的可解释性研究 > 其他多模态
+
+* 可解释性在 LLM 领域盛行，是因为文本输出与人类逻辑、推理、知识系统高度对齐，错误成本高，需要理解决策因果；
+* 而视觉、视频生成输出高维、主观性强，现有可解释性更多偏向感知可视化，而非严格的逻辑可追溯。
+
+# [不适感让你变强大](https://desunit.com/blog/in-the-long-run-llms-make-us-dumber/)
+
+* 明智地使用 AI，不要让它帮你解数学方程式，而要让它查看你的答案，来解释你可能错在哪里。你的原则是坚持独立思考，在这个基础上再加入 AI。
+
+个人思考：使用 AI 做启发性的事情，自己得出结果，再让 AI Review；
+
+经常思考困难的问题，让思想经受考验，你才能学会思考。
+
 # 模拟实验
 
 * 模拟 = 想象：模拟实验体现了 AI 的“想象力”，它不只是重复人类发现的知识，而是通过“再现过程”来理解规律。
