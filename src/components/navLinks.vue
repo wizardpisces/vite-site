@@ -78,14 +78,63 @@ export default {
   .nav-item {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 1rem;
     cursor: pointer;
     font-weight: 500;
-    color: #2c3e50;
-    font-size: 16px;
-    &.active-nav,
+    color: $color-text-secondary;
+    font-size: 15px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    
+    // 添加微妙的内发光效果
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.15), transparent);
+      transition: left 0.6s ease;
+    }
+    
     &:hover {
-      border-bottom: 2px solid $color-primary;
+      color: $color-primary;
+      background: rgba(37, 99, 235, 0.08);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 
+        0 4px 15px rgba(37, 99, 235, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      
+      &::before {
+        left: 100%;
+      }
+    }
+    
+    &.active-nav {
+      color: $color-primary;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 165, 233, 0.08));
+      box-shadow: 
+        0 2px 12px rgba(37, 99, 235, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      
+      // 底部指示器重新设计
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 3px;
+        background: $gradient-primary;
+        border-radius: 2px 2px 0 0;
+        box-shadow: 0 -2px 8px rgba(37, 99, 235, 0.4);
+      }
     }
   }
   a {

@@ -1,4 +1,5 @@
 @use './normalize.scss';
+@use './vars.scss' as *;
 
 *,
 *:before,
@@ -7,12 +8,43 @@
 }
 
 body {
-    line-height: 1.5;
-    font-size: 14px;
-    font-weight: normal;
+    line-height: 1.6;
+    font-size: 15px;
+    font-weight: 400;
     width: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    background-color: #fff;
+    background-color: #fafafa;
+    color: $color-text-primary;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Noto Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+    text-rendering: optimizeLegibility;
+    position: relative;
+    overflow-x: hidden;
+    
+    // 独特的装饰性背景
+    &::before {
+        content: '';
+        position: fixed;
+        top: -20%;
+        left: -20%;
+        width: 140%;
+        height: 140%;
+        background: 
+            radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.03) 0%, transparent 40%),
+            radial-gradient(circle at 85% 85%, rgba(14, 165, 233, 0.02) 0%, transparent 40%),
+            radial-gradient(circle at 50% 10%, rgba(59, 130, 246, 0.01) 0%, transparent 30%);
+        animation: float 30s ease-in-out infinite;
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(1deg); }
+    66% { transform: translateY(10px) rotate(-1deg); }
 }
 
 pre {
@@ -23,7 +55,50 @@ pre {
 
 a {
     text-decoration: none;
-    // color: $color-primary;
+    color: inherit;
     user-select: none;
     -webkit-user-select: none;
+    transition: color 0.2s ease;
+}
+
+// 微妙的现代化增强
+::selection {
+    background: rgba(37, 99, 235, 0.2);
+    color: $color-text-primary;
+}
+
+::-moz-selection {
+    background: rgba(37, 99, 235, 0.2);
+    color: $color-text-primary;
+}
+
+// 现代化滚动条
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    
+    &:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+
+// 全局过渡动画 (仅对特定元素应用)
+a, button, input, .nav-item {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+// 响应式字体
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
 }

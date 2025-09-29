@@ -39,6 +39,7 @@ export default {
   padding: 20px 0;
   font-size: 14px;
   box-shadow: -1px 0 2px rgba(0, 0, 0, 0.03);
+  z-index: 120; // 设置合适的z-index，低于工具栏
 
   .toc-header {
     padding: 0 20px;

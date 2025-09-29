@@ -6,8 +6,12 @@ AI 的摘要与思考
 
 # [Defeating Nondeterminism in LLM Inference](https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/)
 
-* LLM 推理结果不一致，根本原因是浮点数加法顺序受 kernel 并行实现影响，尤其是 attention kernel 的分段加法。
+* 现象：LLM 推理结果不一致，根本原因是浮点数加法顺序受 kernel 并行实现影响，尤其是 attention kernel 的分段加法。
 * 解决方案：只要让加法顺序与 batch 大小无关（batch-invariant），就能实现完全确定性的推理。（采用“固定分段大小”的策略（fixed split-size），而不是“固定分段数”。对于同一个序列长度，无论这个序列在什么样的batch中，拆分方式都完全一样。）
+
+* 性能 vs 确定性的权衡：
+    * 非确定性策略：根据 GPU 利用率动态调整拆分，性能更好
+    * 确定性策略：固定拆分规则，牺牲一些性能换取完全可复现
 
 # [《Why Language Models Hallucinate》](https://www.arxiv.org/pdf/2509.04664)
 

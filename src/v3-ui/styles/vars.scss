@@ -1,2 +1,16 @@
-$color-primary: #ff5722;
-// $color-primary: #3eaf7c;
+// 现代简约配色
+$color-primary: #2563eb;  // 更沉稳的蓝色
+$color-secondary: #64748b; // 中性灰
+$color-accent: #0ea5e9;   // 亮蓝色
+
+// 文字颜色优化
+$color-text-primary: #1e293b;
+$color-text-secondary: #475569;
+$color-text-muted: #94a3b8;
+
+// 背景色
+$color-bg-subtle: #f8fafc;
+$color-border-light: #e2e8f0;
+
+// 渐变色定义
+$gradient-primary: linear-gradient(135deg, $color-primary, $color-accent);
