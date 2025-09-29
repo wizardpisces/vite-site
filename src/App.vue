@@ -23,7 +23,10 @@
         @enter="onEnter"
         @leave="onLeave"
       >
-        <component :is="Component" :key="route.path" />
+        <component 
+          :is="Component" 
+          :key="route.path"
+        />
       </transition>
     </router-view>
   </main>
@@ -50,13 +53,29 @@ export default {
     
     function onEnter(el: any) {
       // 页面进入时的微交互
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(20px)';
-      setTimeout(() => {
-        el.style.transition = 'all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, 50);
+      // 检查当前路由是否为博客页面
+      const currentPath = window.location.pathname;
+      const isBlogPage = currentPath.startsWith('/blog');
+      
+      if (isBlogPage) {
+        // 博客页面使用更温和的进入动画，让内部的content transition接管主要动画
+        el.style.opacity = '0.2';
+        el.style.transform = 'translateY(8px)';
+        setTimeout(() => {
+          el.style.transition = 'all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 30);
+      } else {
+        // 非博客页面保持原有动画
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+          el.style.transition = 'all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 50);
+      }
     }
     
     function onLeave(el: any) {

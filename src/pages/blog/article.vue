@@ -1,22 +1,27 @@
 <template>
   <div class="blog-article">
-    <div 
-      v-if="blogContent && !loadingBlog" 
-      v-html="blogContent" 
-      class="article-content"
-      :class="`font-${currentFontSize}`"
-    ></div>
+    <!-- 优雅的加载状态，避免内容突然出现 -->
+    <transition name="blog-content" mode="out-in">
+      <div 
+        v-if="blogContent && !loadingBlog && contentReady" 
+        v-html="blogContent" 
+        class="article-content"
+        :class="`font-${currentFontSize}`"
+        key="content"
+      ></div>
+      
+      <div v-else-if="shouldShowLoading" class="loading-container" key="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在加载文章内容...</div>
+      </div>
+    </transition>
     
-    <div v-if="loadingBlog" class="loading">
-      Loading...
-    </div>
-    
-    <Comment :key="blogName"></Comment>
+    <Comment :key="blogName" v-if="contentReady"></Comment>
   </div>
 </template>
 
 <script lang="ts">
-import { onMounted, ref, watch, inject } from "vue";
+import { onMounted, ref, watch, inject, nextTick, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import useBlog from "@/composition/use-blog";
 import Comment from '@/components/comment.vue';
@@ -30,14 +35,53 @@ export default {
     const route = useRoute();
     const { blogContent, initBlogByTitle, loadingBlog } = useBlog();
     const blogName = ref(0);
+    const contentReady = ref(false);
+    const shouldShowLoading = ref(false);
+    let loadingTimer: ReturnType<typeof setTimeout> | null = null;
 
     // 从父组件注入当前字体大小
     const currentFontSize = inject('currentFontSize', ref('medium'));
 
     function initBlog() {
+      contentReady.value = false;
+      shouldShowLoading.value = false;
+      
+      // 清除之前的定时器
+      if (loadingTimer) {
+        clearTimeout(loadingTimer);
+      }
+      
+      // 3秒后如果还没加载完成才显示loading
+      loadingTimer = setTimeout(() => {
+        if (!contentReady.value) {
+          shouldShowLoading.value = true;
+        }
+      }, 3000);
+      
       initBlogByTitle(route.params.blogName as string, route.hash).then(() => {
-        location.hash = "";
-        location.hash = route.hash;
+        // 内容加载完成，清除定时器
+        if (loadingTimer) {
+          clearTimeout(loadingTimer);
+          loadingTimer = null;
+        }
+        shouldShowLoading.value = false;
+        
+        // 确保内容加载完成后再显示，避免闪现
+        nextTick(() => {
+          contentReady.value = true;
+          // 延迟一帧再处理hash，确保DOM更新完成
+          setTimeout(() => {
+            location.hash = "";
+            location.hash = route.hash;
+          }, 100);
+        });
+      }).catch(() => {
+        // 如果加载出错，也要清除定时器
+        if (loadingTimer) {
+          clearTimeout(loadingTimer);
+          loadingTimer = null;
+        }
+        shouldShowLoading.value = false;
       });
     }
 
@@ -58,12 +102,22 @@ export default {
     onMounted(() => {
       initBlog();
     });
+    
+    onUnmounted(() => {
+      // 组件卸载时清除定时器
+      if (loadingTimer) {
+        clearTimeout(loadingTimer);
+        loadingTimer = null;
+      }
+    });
 
     return {
       blogContent,
       loadingBlog,
       blogName,
       currentFontSize,
+      contentReady,
+      shouldShowLoading,
     };
   }
 };
@@ -429,6 +483,110 @@ export default {
   }
 }
 
+// 博客内容过渡动画
+.blog-content-enter-active {
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.blog-content-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.blog-content-enter-from {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  filter: blur(4px);
+}
+
+.blog-content-leave-to {
+  opacity: 0;
+  transform: translateY(-15px) scale(1.02);
+  filter: blur(2px);
+}
+
+// 现代化的加载状态
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 4rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  margin: 20px;
+  box-shadow: 
+    0 4px 20px rgba(37, 99, 235, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  
+  .loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba(37, 99, 235, 0.1);
+    border-top: 4px solid #2563eb;
+    border-radius: 50%;
+    animation: loading-spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    margin-bottom: 24px;
+    
+    // 添加渐变效果
+    background: conic-gradient(from 0deg, transparent, rgba(37, 99, 235, 0.1));
+  }
+  
+  .loading-text {
+    color: #64748b;
+    font-size: 1.1em;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-align: center;
+    animation: loading-pulse 2s ease-in-out infinite;
+    
+    // 微妙的文字动效
+    background: linear-gradient(
+      90deg,
+      #64748b,
+      #2563eb,
+      #64748b
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: loading-shimmer 2.5s ease-in-out infinite;
+  }
+}
+
+@keyframes loading-spin {
+  0% { 
+    transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+  }
+}
+
+@keyframes loading-pulse {
+  0%, 100% { 
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// 旧的loading样式（保留作为备用）
 .loading {
   text-align: center;
   padding: 4rem 2rem;
@@ -437,13 +595,15 @@ export default {
   
   &::after {
     content: '...';
-    animation: loading 1.4s infinite;
+    animation: loading-dots 1.4s infinite;
   }
 }
 
-@keyframes loading {
+@keyframes loading-dots {
   0% { content: '.'; }
   33% { content: '..'; }
   66% { content: '...'; }
 }
+
+// 移除了空白容器，现在在静默加载期间完全不渲染任何内容
 </style> 

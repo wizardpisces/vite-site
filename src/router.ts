@@ -185,7 +185,34 @@ let routes: RouteRecordRaw[] = navRoutes.concat([
 
 const router = createRouter({
   history: routerHistory,
-  routes
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    // 如果跳转到博客页面，总是回到顶部
+    if (to.path.startsWith('/blog')) {
+      return { top: 0, left: 0 }
+    }
+    
+    // 如果有保存的滚动位置（比如浏览器前进/后退），使用保存的位置
+    if (savedPosition) {
+      return savedPosition
+    }
+    
+    // 如果有锚点，滚动到锚点位置
+    if (to.hash) {
+      return {
+        el: to.hash,
+        behavior: 'smooth'
+      }
+    }
+    
+    // 对于其他情况，如果是从不同的页面跳转，回到顶部
+    if (to.path !== from.path) {
+      return { top: 0, left: 0 }
+    }
+    
+    // 默认不改变滚动位置
+    return false
+  }
 })
 
 router.beforeEach((to, from) => {
