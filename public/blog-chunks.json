@@ -1606,6 +1606,72 @@
     "originalTitle": "ControlNet 与 LoRA 插件"
   },
   {
+    "chunkId": "/blog/Ego 推理#chunk-0",
+    "title": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破",
+    "content": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破\n核心概念\n**字面含义**：\"ego\" = 自我，Ego Reasoning = 从自我视角出发的有限推理\n**本质**：基于\"我知道、相信、感受到\"的信息进行推理，而非从全知视角推理\n认知科学层面：Theory of Mind 的前置阶段\n三个递进层次\n| 推理类型 | 定义 | 示例 |\n|---------|------|------|\n| **Ego Reasoning** | 我认为 X | 小孩 A 看到玩具被藏，回答\"玩具在盒子里\" |\n| **ToM Reasoning** | 我认为你认为 X | 小孩 A 理解 B 没看到，回答\"B 会以为在桌上\" |",
+    "url": "/blog/Ego 推理",
+    "chunkIndex": 0,
+    "totalChunks": 6,
+    "startPos": 0,
+    "endPos": 324,
+    "originalTitle": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破"
+  },
+  {
+    "chunkId": "/blog/Ego 推理#chunk-1",
+    "title": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破 (第2段)",
+    "content": "...小孩 A 理解 B 没看到，回答\"B 会以为在桌上\" | | **Meta Reasoning** | 我思考我如何思考 X | 反思自己的推理过程 |\n限制\n无法预测他人行为（缺乏心智建模）\n在博弈、协作、对话中表现\"自以为是\"\n存在 ego-centric bias（自我中心偏差）\nAI 应用层面\n当前 LLM 的推理特征\n**✅ 确实具有 Ego Reasoning 特征：**\n有限视角：只基于可见上下文推理\n无真实信念状态：模式匹配而非真实\"相信\"\n自我中心知识库：依赖训练数据的统计投影\n**🎯 但被训练出\"模拟 ToM\"能力：**\n用户意图建模：推断用户可能不知道什么\n知识状态推断：判断是否需要解释概念\n视角切换：在不同场景下考虑不同视角\n架构对比\n如何突破现有模式\n技术层面的可能路径\n1️⃣ 持久化信念状态追踪",
+    "url": "/blog/Ego 推理",
+    "chunkIndex": 1,
+    "totalChunks": 6,
+    "startPos": 324,
+    "endPos": 663,
+    "originalTitle": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破"
+  },
+  {
+    "chunkId": "/blog/Ego 推理#chunk-2",
+    "title": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破 (第3段)",
+    "content": "...破现有模式\n技术层面的可能路径\n1️⃣ 持久化信念状态追踪 **技术实现：** Memory Networks、Bayesian Belief Networks、Multi-agent RL\n2️⃣ 反事实推理能力\n**关键能力**：因果推理、反事实生成、意图推断\n**技术路径**：Causal Language Models、Structured World Models、Intent Recognition Networks\n3️⃣ 自我模型与他人模型的显式分离\n4️⃣ 交互式信念校准\n主动探测用户知识边界\n根据反馈动态调整用户模型\n**技术**：Active Learning、RLHF、Dialogue State Tracking\n认知层面的核心能力\n| 能力 | 描述 | 价值 |\n|------|------|------|",
+    "url": "/blog/Ego 推理",
+    "chunkIndex": 2,
+    "totalChunks": 6,
+    "startPos": 663,
+    "endPos": 1007,
+    "originalTitle": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破"
+  },
+  {
+    "chunkId": "/blog/Ego 推理#chunk-3",
+    "title": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破 (第4段)",
+    "content": "...| 价值 |\n|------|------|------| | **元认知** | 我知道我不知道什么 | 明确知识边界 |\n| **情感与动机理解** | 理解用户为什么问这个问题 | 深层意图推理 |\n| **社会推理** | 理解社会情境中的规范和期望 | 情境适配能力 |\n哲学层面的根本困境\n**问题 1：无真实\"自我\"**\n**问题 2：训练范式限制**\n**问题 3：中文房间悖论**\n表现得像理解 ≠ 真正理解？功能主义 vs 意识主义\n现实主义路线图\n短期（1-3年）：增强的模拟 ToM\n多轮对话信念追踪\n显式知识状态建模\n更好的反事实推理\n主动知识探测\n中期（3-10年）：嵌入式认知架构\n持久化记忆和自我模型\n显式的 ego/other 分离架构\n强化学习 + 社会互动学习\n多模态信念建模\n长期（10年+）：？？？",
+    "url": "/blog/Ego 推理",
+    "chunkIndex": 3,
+    "totalChunks": 6,
+    "startPos": 1007,
+    "endPos": 1348,
+    "originalTitle": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破"
+  },
+  {
+    "chunkId": "/blog/Ego 推理#chunk-4",
+    "title": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破 (第5段)",
+    "content": "...+ 社会互动学习\n多模态信念建模\n长期（10年+）：？？？ 是否需要\"意识\"才能有真正的 ToM？\n是否需要\"情感\"才能真正理解他人？\nAI 的 ToM 可能就是不同的物种\n实践层面的改进\n对当前 AI 助手来说，可以做到：\n1. **更谦逊**：\"我基于 X 推测你可能想..., 对吗？\"\n2. **更主动探测**：\"你对这个概念熟悉吗？\"\n3. **更显式的推理**：\"我注意到你提到了 X，所以我推测你可能关心 Y\"\n4. **承认限制**：\"这个情境我可能理解得不准，因为我缺乏真实的社会经验\"\n5. **主动更新**：根据反馈动态调整用户模型\n关键洞察\n**Ego Reasoning 是所有高级推理的基础**，但其局限在于\"无法跳出自己的视角\"。\n当前 LLM 的突破路径不是追求\"真正的 ToM\"，而是追求\"足够好的 ToM 近似\"——",
+    "url": "/blog/Ego 推理",
+    "chunkIndex": 4,
+    "totalChunks": 6,
+    "startPos": 1348,
+    "endPos": 1695,
+    "originalTitle": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破"
+  },
+  {
+    "chunkId": "/blog/Ego 推理#chunk-5",
+    "title": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破 (第6段)",
+    "content": "...\"真正的 ToM\"，而是追求\"足够好的 ToM 近似\"—— 就像飞机不需要像鸟一样飞，但能达到飞的目的。\n个人思考：理解 AI 推理的本质边界，有助于我们更好地设计人机协作模式，在 AI 擅长的地方发挥其优势，在 AI 局限的地方保持人类的主导和校验。\n---",
+    "url": "/blog/Ego 推理",
+    "chunkIndex": 5,
+    "totalChunks": 6,
+    "startPos": 1695,
+    "endPos": 1795,
+    "originalTitle": "Ego Reasoning（自我推理）：AI 认知能力的边界与突破"
+  },
+  {
     "chunkId": "/blog/GPT与开发-TDD#chunk-0",
     "title": "GPT与开发-TDD",
     "content": "GPT 是什么？\nGPT 是“Generative Pre-trained Transformer”的缩写，即生成式预训练变换模型，是一种语言模型，可以执行非常复杂的任务，如回答问题、生成文章和代码，或者翻译文章内容等。\n实质：文字接龙（bert 是完形填空）\n如何训练：\nPre-trained （无监督学习）\n自动学习各种资料，熟悉各种语义关系\n好处：学习资料丰富，成本相对低\n劣势：学的杂，不成体系，不好为人所用\n模板规范（监督学习）\n条件：优质范例 \n目标：矫正成符合人类习惯的回答\n例如：有害内容过滤，回答问题并给出原因等；）；\n附加能力：in-context learning 能力（语境内学习）\n使用过程中评分反馈（强化学习）\n目标：提升创意能力",
