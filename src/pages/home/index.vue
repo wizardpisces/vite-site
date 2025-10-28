@@ -11,7 +11,7 @@
           分享AI、前端、机器学习等领域的见解与实践，记录技术成长的每一步
         </p>
         <div class="hero-actions">
-          <router-link to="/blog/Introduction" class="cta-primary">
+          <router-link to="/blog/AiNotes" class="cta-primary">
             开始阅读博客
             <span class="arrow">→</span>
           </router-link>
