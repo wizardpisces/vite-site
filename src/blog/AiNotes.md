@@ -4,6 +4,14 @@ AI 的摘要与思考
 
 ---
 
+# Prompt 工程个人思考
+
+> **熵减原则**：好的 prompt 是在减少 LLM 输出空间的熵，将其引导到高质量解的子空间。
+
+> **迁移而非教学**：不是临时传授知识，而是唤醒已有的暗知识（implicit knowledge）。
+
+> **对齐税**（Alignment Tax）：每增加一个 token，要么降低对齐成本（clarify），要么增加噪音（confuse）。优秀的 prompt 实现了最低的对齐税。
+
 # Agentic Context Engineering（ACE）
 
 ACE 是一种让大模型靠上下文（Prompt）自己成长的策略。它不改模型参数，而是通过“生成 → 反思 → 整理”循环，让提示和记忆不断进化，从而让智能体越用越聪明。
