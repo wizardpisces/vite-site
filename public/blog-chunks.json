@@ -2002,6 +2002,39 @@
     "originalTitle": "NAS-RL"
   },
   {
+    "chunkId": "/blog/Prompt 工程的本质#chunk-0",
+    "title": "Prompt 工程的本质",
+    "content": "Prompt 工程的本质：概念空间对齐\n核心论断\nPrompt 调整不是\"教会 LLM\"，而是**激活 LLM 训练时已固化的最优推理路径**。本质是用最小信息量实现概念空间的精确对齐。\n三层对齐机制\n**表层对齐**（语法触发）\n特定术语和格式模式：、\n效果：激活特定推理风格的概率分布\n**中层对齐**（范式激活）\nFew-shot examples、Chain-of-Thought、Self-consistency\n效果：触发预训练阶段学会的推理框架\n**深层对齐**（表征共振）\n问题分解方式、概念关联网络、解决方案模式\n效果：直接激活高维语义空间中的最优轨迹\n关键洞察\n**熵减原则**：好的 prompt 是在减少 LLM 输出空间的熵，将其引导到高质量解的子空间。",
+    "url": "/blog/Prompt 工程的本质",
+    "chunkIndex": 0,
+    "totalChunks": 3,
+    "startPos": 0,
+    "endPos": 341,
+    "originalTitle": "Prompt 工程的本质"
+  },
+  {
+    "chunkId": "/blog/Prompt 工程的本质#chunk-1",
+    "title": "Prompt 工程的本质 (第2段)",
+    "content": "...在减少 LLM 输出空间的熵，将其引导到高质量解的子空间。 **迁移而非教学**：不是临时传授知识，而是唤醒已有的暗知识（implicit knowledge）。\n**对齐税**（Alignment Tax）：每增加一个 token，要么降低对齐成本（clarify），要么增加噪音（confuse）。优秀的 prompt 实现了最低的对齐税。\n实践公式\n类比\n**调频收音机**：不改变电台（模型权重），只调整接收频率（prompt）\n**化学催化剂**：不参与反应本身，但降低激活能，加速到达目标状态\n**量子纠缠**：精确的 prompt 让 LLM 的输出坍缩到期望的特征空间\n可操作启示\n1. **学习 LLM 的\"母语\"**：研究高质量数据集的表达模式（如 Chain-of-Thought 论文中的示例）",
+    "url": "/blog/Prompt 工程的本质",
+    "chunkIndex": 1,
+    "totalChunks": 3,
+    "startPos": 341,
+    "endPos": 671,
+    "originalTitle": "Prompt 工程的本质"
+  },
+  {
+    "chunkId": "/blog/Prompt 工程的本质#chunk-2",
+    "title": "Prompt 工程的本质 (第3段)",
+    "content": "...模式（如 Chain-of-Thought 论文中的示例） 2. **用例子替代解释**：一个好的 few-shot 胜过百字说明\n3. **格式即信号**：结构化的输入（markdown、JSON）本身就是强对齐信号\n4. **迭代寻优**：prompt 调试是搜索问题，需要系统化测试不同的\"频道\"\n元认知\n这个过程本身体现了**人机协同的双向对齐**：\n人类学习 LLM 的表征空间 ←→ LLM 理解人类的意图空间\n最终收敛点：用最简洁的\"协议\"实现最高效的\"握手\"\n---\n*启发来源：信息论（最小描述长度）+ 认知科学（概念激活）+ 迁移学习（特征复用）*",
+    "url": "/blog/Prompt 工程的本质",
+    "chunkIndex": 2,
+    "totalChunks": 3,
+    "startPos": 671,
+    "endPos": 925,
+    "originalTitle": "Prompt 工程的本质"
+  },
+  {
     "chunkId": "/blog/UNet 模型#chunk-0",
     "title": "UNet",
     "content": "UNet\nUNet是像素级分类，输出的则是每个像素点的类别，常常用在生物医学图像上，而该任务中图片数据往往较少。(卷积神经网络一般输出的结果是整个图像的类标签。)\nUNet采用全卷积神经网络\n左边网络为特征提取网络：使用conv和pooling\n右边网络为特征融合网络：使用上采样产生的特征图与左侧特征图进行concatenate操作。原因",
