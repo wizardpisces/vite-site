@@ -1135,12 +1135,23 @@
   {
     "chunkId": "/blog/Introduction#chunk-0",
     "title": "Introduction",
-    "content": "If you're not sure which to read, try these\nTech Notes\nDaily Reflections\nAI Notes\nAI Related\nBlog\nhttps://www.anthropic.com/research#overview\nhttps://openai.com/research/index/\nhttps://www.microsoft.com/en-us/research/blog/\nhttps://ai.meta.com/blog/\nhttps://deepmind.google/discover/blog/",
+    "content": "If you're not sure which to read, try these\nTech Notes\nDaily Reflections\nAI Notes\nAI Related\nBlog\nhttps://www.anthropic.com/research#overview\nhttps://www.anthropic.com/engineering\nhttps://openai.com/research/index/\nhttps://www.microsoft.com/en-us/research/blog/\nhttps://ai.meta.com/blog/\nhttps://deepmind.google/discover/blog/",
     "url": "/blog/Introduction",
     "chunkIndex": 0,
-    "totalChunks": 1,
+    "totalChunks": 2,
     "startPos": 0,
-    "endPos": 288,
+    "endPos": 327,
+    "originalTitle": "Introduction"
+  },
+  {
+    "chunkId": "/blog/Introduction#chunk-1",
+    "title": "Introduction (第2段)",
+    "content": "...eepmind.google/discover/blog/ https://research.google/pubs/",
+    "url": "/blog/Introduction",
+    "chunkIndex": 1,
+    "totalChunks": 2,
+    "startPos": 327,
+    "endPos": 356,
     "originalTitle": "Introduction"
   },
   {
@@ -1527,6 +1538,39 @@
     "startPos": 1588,
     "endPos": 1741,
     "originalTitle": "AI 阻碍新技术传播"
+  },
+  {
+    "chunkId": "/blog/Claude code JIT 索引对比预构建索引#chunk-0",
+    "title": "详细解析",
+    "content": "**Claude 的 JIT 检索其实就是“在对话时临时做索引”，因此有冷启动成本；\n而类似 zilliz/claude-context 的 MCP 插件提供“预构建、持久化、高质量索引”，让 Claude 可以跳过 JIT 的昂贵推理步骤，直接走“高质量捷径”。**\n换句话说：\n**JIT = 模型现算现查（token 贵、慢、有概率错）**\n**MCP = 给模型准备好的全局知识图（token 少、快、稳定）**\n详细解析\n1. Claude 的 JIT 检索，本质就是“临时索引”\nClaude Code 的流程是：\n1. 模型扫描文件列表（token 消耗巨大）\n2. 分析路径关系（再次消耗 token）\n3. 猜测依赖结构、模块边界\n4. 决定哪些文件要 load 进上下文窗口",
+    "url": "/blog/Claude code JIT 索引对比预构建索引",
+    "chunkIndex": 0,
+    "totalChunks": 3,
+    "startPos": 0,
+    "endPos": 348,
+    "originalTitle": "详细解析"
+  },
+  {
+    "chunkId": "/blog/Claude code JIT 索引对比预构建索引#chunk-1",
+    "title": "详细解析 (第2段)",
+    "content": "...构、模块边界\n4. 决定哪些文件要 load 进上下文窗口 5. 重复多轮（探索 → 试错 → 再探索）\n这个就是典型的 **“即时索引（JIT indexing）”**。\n它有两个明确问题：\n**问题 1：冷启动成本高**\n第一次理解仓库结构，需要几十万 token。\n**问题 2：模型推理成本高**\n模型必须用思考（reasoning）来构建临时知识图。\n**问题 3：不稳定（猜结构可能错）**\n尤其在：\nmonorepo\n多语言混合项目\n复杂依赖图\n  中更容易出错。\n安装 MCP 后 Claude 会“更偏向使用 MCP 的知识，而非自行 JIT 推理”？\nClaude 会自动根据工具的“成本”来决定是否使用它\n当 Claude 看到 MCP 工具提供：\n结构化搜索（语义 + 路径 + AST）\n相关性极高的文件 top-k",
+    "url": "/blog/Claude code JIT 索引对比预构建索引",
+    "chunkIndex": 1,
+    "totalChunks": 3,
+    "startPos": 348,
+    "endPos": 690,
+    "originalTitle": "详细解析"
+  },
+  {
+    "chunkId": "/blog/Claude code JIT 索引对比预构建索引#chunk-2",
+    "title": "详细解析 (第3段)",
+    "content": "...语义 + 路径 + AST）\n相关性极高的文件 top-k 经过 embedding 聚类的结果\n直接带关键代码段\nClaude 会自动判断：\n**“既然 MCP 给了高置信度知识，我没必要浪费 token 去做 JIT 索引。”**\n🧭 4. 更深一层：MCP 不是替代 JIT，而是让模型的“注意力资本”更有效率\nClaude 的注意力（attention budget）是有限的。\nJIT 会消耗大量注意力做：\n文件扫描\n依赖关系推理\n路径推理\n多轮检索试错\nMCP 把这些注意力省下来，使 Claude 把预算用在：\n逻辑推理\n代码理解\n修复\n审查\nrefactor\n这才是为何 MCP 能显著提升 Claude 的 Code Intelligence。",
+    "url": "/blog/Claude code JIT 索引对比预构建索引",
+    "chunkIndex": 2,
+    "totalChunks": 3,
+    "startPos": 690,
+    "endPos": 992,
+    "originalTitle": "详细解析"
   },
   {
     "chunkId": "/blog/ControlNet 与 LoRA 插件#chunk-0",
@@ -2847,6 +2891,94 @@
     "startPos": 1864,
     "endPos": 2176,
     "originalTitle": "晕3D"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-0",
+    "title": "核心概念：什么是“上下文工程”？",
+    "content": "这篇文章来自 Anthropic 的工程团队，标题为 **《Effective context engineering for AI agents》（AI Agent 的高效上下文工程）**。\n这不仅是一篇技术文章，更是大模型应用开发范式的一次重要转变宣言：**从“提示词工程（Prompt Engineering）”向“上下文工程（Context Engineering）”进阶。**\n核心策略：构建高效 Agent 的三大支柱\n文章从三个维度详细讲解了如何实施上下文工程：\n一、 上下文的解剖学 (The Anatomy of Effective Context)\n要想省 token 且效果好，需要优化以下组件：\n1.  **系统提示词 (System Prompts)**",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 0,
+    "totalChunks": 8,
+    "startPos": 0,
+    "endPos": 341,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-1",
+    "title": "核心概念：什么是“上下文工程”？ (第2段)",
+    "content": "....  **系统提示词 (System Prompts)** **寻找“合适的高度”**：避免两个极端。不要写死板的  逻辑（太脆弱），也不要写过于笼统的“你是一个有用的助手”（太模糊）。\n**结构化**：使用 XML 标签（如 , ）或 Markdown 标题来区分板块。\n**策略**：先用最简提示词测试，发现失败案例后再针对性地添加指令。\n2.  **工具 (Tools)**\n工具是 Agent 与世界的接口。\n**清晰性**：如果人类工程师通过阅读工具定义，都无法确定在某种情况下该用哪个工具，那么 Agent 也做不到。\n**避免臃肿**：工具集要精简、正交（功能不重叠）。\n3.  **示例 (Examples/Few-shot)**",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 1,
+    "totalChunks": 8,
+    "startPos": 341,
+    "endPos": 635,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-2",
+    "title": "核心概念：什么是“上下文工程”？ (第3段)",
+    "content": "....  **示例 (Examples/Few-shot)** **即兴展示**：给模型看“典型的高质量示例”比写一堆“禁止做什么”的规则要有效得多。示例就是 LLM 的“千言万语不如一张图”。\n二、 动态上下文检索 (Context Retrieval)\nAgent 在运行时如何获取信息？文章对比了三种模式：\n1.  **RAG (检索增强生成)**：预先计算索引，速度快，但内容是静态的，容易过时。\n2.  **Agentic Search (智能体搜索)**：让 Agent 自己用工具去搜、去读文件。最灵活，但速度慢，且容易迷失在海量信息中。\n3.  **混合策略 (Hybrid Strategy)**：**这是 Anthropic 推荐的方案（以 Claude Code 为例）**。",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 2,
+    "totalChunks": 8,
+    "startPos": 635,
+    "endPos": 953,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-3",
+    "title": "核心概念：什么是“上下文工程”？ (第4段)",
+    "content": "...ic 推荐的方案（以 Claude Code 为例）**。 **预置上下文**：把关键的、高频的上下文（如项目结构、核心规范）直接放在上下文中（例如 ）。\n**即时检索**：给 Agent 提供 、 等基础工具，让它在需要细节时自己去查。这种“按需加载”避免了被无关代码淹没。\n三、 长程任务的上下文管理 (Context Engineering for Long-horizon Tasks)\n这是文章最精彩的部分，针对运行数小时、涉及大量交互的任务（如大规模代码重构），提出了三种具体技术来对抗“上下文污染”：\n1. 压缩 (Compaction)\n当上下文快满时，不要简单截断，而是进行**有损压缩**。",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 3,
+    "totalChunks": 8,
+    "startPos": 953,
+    "endPos": 1229,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-4",
+    "title": "核心概念：什么是“上下文工程”？ (第5段)",
+    "content": "...当上下文快满时，不要简单截断，而是进行**有损压缩**。 **做法**：将历史消息传给模型，要求它总结关键信息（如：架构决策、未解决的 bug、用户意图），同时**丢弃**那些不再需要的中间过程（如：详细的工具调用日志、错误的尝试路径）。\n**Claude Code 的实践**：保留压缩后的摘要 + 最近访问的 5 个文件。\n**技巧**：清理工具结果（Tool Result Clearing）。一旦工具调用完成且信息已被吸收，原始的大段输出就可以删除了。\n2. 结构化笔记 (Structured Note-taking / Agentic Memory)\n让 Agent 像人一样做笔记。\n**做法**：维护一个上下文窗口之外的持久化文件（如  或内存工具）。",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 4,
+    "totalChunks": 8,
+    "startPos": 1229,
+    "endPos": 1535,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-5",
+    "title": "核心概念：什么是“上下文工程”？ (第6段)",
+    "content": "...：维护一个上下文窗口之外的持久化文件（如  或内存工具）。 **场景**：Claude 玩宝可梦游戏的例子。它会在笔记里记录：“过去 1000 步我在 Route 1 练级，皮卡丘升了 8 级”。\n**优势**：即使上下文重置（Reset），Agent 只要读取这个笔记，就能“回忆”起之前的进度和策略，保持连贯性。\n3. 子智能体架构 (Sub-agent Architectures)\n分而治之。\n**主 Agent**：负责高层计划和协调。\n**子 Agent**：负责具体的深层任务。\n**流程**：子 Agent 在一个全新的、干净的上下文窗口中工作（可能消耗数万 token 进行探索），最后只返回一个**几百字的精华摘要**给主 Agent。\n**收益**：主 Agent 的上下文永远保持清爽，不会被细节淹没。\n---\n总结与讲解",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 5,
+    "totalChunks": 8,
+    "startPos": 1535,
+    "endPos": 1879,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-6",
+    "title": "核心概念：什么是“上下文工程”？ (第7段)",
+    "content": "...的上下文永远保持清爽，不会被细节淹没。\n---\n总结与讲解 这篇文章的核心思想可以总结为一句话：**Context is Money (上下文即金钱/资源)**。\n作为开发者，我们不能因为现在模型支持 200k 或 1M 的上下文就“无脑”地把所有文件都塞进去。这不仅贵，而且会导致模型变笨（上下文腐烂）。\n**行动指南（对于你的开发工作）：**\n1.  **清理无关信息**：在使用 MCP 或其他工具时，尽量只返回必要的字段，而不是整个 JSON 对象。\n2.  **动态修剪**：在多轮对话中，如果之前的报错日志已经解决了，考虑从历史记录中移除它们，只保留“曾遇到错误 X 并通过 Y 解决了”的摘要。\n3.  **外部记忆**：如果你在开发复杂的代码助手，考虑引入一个  或  机制，让 AI 把当前的任务状态写下来，而不是全靠翻阅几十轮前的对话历史。",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 6,
+    "totalChunks": 8,
+    "startPos": 1879,
+    "endPos": 2230,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
+  },
+  {
+    "chunkId": "/blog/有效的 AI Agent 上下文工程#chunk-7",
+    "title": "核心概念：什么是“上下文工程”？ (第8段)",
+    "content": "...把当前的任务状态写下来，而不是全靠翻阅几十轮前的对话历史。 4.  **工具设计**：检查你的工具定义。如果有两个工具功能类似，合并它们；如果一个工具参数极其复杂，拆分它。\n这篇文章实际上解释了为什么像 Cursor、Claude Code 这样的工具有时比直接在网页版复制粘贴代码效果好——因为它们在后台默默地做了大量的“上下文工程”，帮你筛选了最相关的文件和定义喂给模型。",
+    "url": "/blog/有效的 AI Agent 上下文工程",
+    "chunkIndex": 7,
+    "totalChunks": 8,
+    "startPos": 2230,
+    "endPos": 2388,
+    "originalTitle": "核心概念：什么是“上下文工程”？"
   },
   {
     "chunkId": "/blog/机器与人类的视角#chunk-0",
