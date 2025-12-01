@@ -4,11 +4,55 @@ AI 的摘要与思考
 
 ---
 
-# 为什么需要 Flash-Attention
+# [CTM（Continuous Thought Machine）](https://pub.sakana.ai/ctm/)
 
-Flash-Attention不是改变注意力算法本身，而是改变“计算的方式”。
 
-注意力计算本质是“内存绑定”（memory-bound），传统实现会产生大量临时矩阵，导致显存爆炸且速度慢。Flash-Attention 通过分块计算（tiling）避免中间结果落到显存，从而同时节省显存和加速训练/推理。
+# [mini-SWE-agent](https://github.com/SWE-agent/mini-swe-agent)
+
+核心机制：
+1. 问题
+2. LLM 问答（要求输出一条指令）
+3. 执行指令
+4. 链接新 context，进行步骤 2
+
+| 阶段            | mini-SWE-agent 内部对应                                                           |
+| ------------- | ----------------------------------------------------------------------------- |
+| 感知 (Perceive) | 当前文件系统状态 / 任务 prompt / 历史 messages 作为 context 传给 LLM                          |
+| 计划 (Plan)     | LLM 在 LitellmModel 中生成下一步 action (shell command / patch / test)               |
+| 行动 (Act)      | DefaultAgent 调用 LocalEnvironment，通过 subprocess 执行 action                      |
+| 验证 (Check)    | 收集执行结果 (stdout / exit code / test output / file change)，追加到 history / context |
+
+特性 / 设计哲学 — 为什么它能“仅 100 行”还有效
+
+1. 只用 Bash / shell：不需要为每种操作 (read file, write file, run tests, search, git, etc.) 写专门工具 wrapper。让 LLM 自己决定如何用 shell 实现。
+2. 每一步都独立：用 subprocess.run，无持久 shell 环境；命令之间无隐式状态 (session state)，因此更容易沙箱化，也容易并发 / 批量运行。
+3. 线性历史 (trajectory)：所有 prompt / action / result 都按顺序追加，没有复杂的 branching / stack / tool 状态 —— 有利于调试、审查、fine-tune、重放。
+4. 最大兼容性：因为仅依赖 shell，几乎可以搭配任意 LLM；也不依赖 Python 包以外的东西。
+
+
+# [Building Efficient Agent](https://www.anthropic.com/engineering/code-execution-with-mcp)
+
+模型不是直接调用 MCP 工具，而是写代码，用代码 orchestrate 工具。
+
+核心就是“**任务转换** + 决策外化”
+* 外化 ≠ 去模型化
+* 外化 = 让模型产出的推理结果可执行、可重复、可审计、可调试。
+
+大模型原本要做的复杂决策（多步、多工具、分支、重试、循环…）被转换为：一段可执行的、有结构的、可控的代码：这段代码 代替模型 执行 orchestrate
+而模型只负责：
+
+* 写出代码模板
+* 决定流程逻辑
+* 决定何时使用工具
+* 何时重试
+* 如何组合结果
+* 把模型的“链式思考”转化为真实可执行的逻辑。
+
+**“让模型生成 agent programs，而不是让模型当 agent”**
+
+思考：外化的工具链调用过程中需要调用大模型推理怎么办？
+
+方案：把「昂贵且慢的复杂推理」留给大模型，把「重复、低复杂度、可确定性逻辑」给代码/小模型/工具；当执行需要模型判断时，用受控、结构化、尽量轻量的“回调”模式，并结合缓存、验证与降级策略。
 
 # 为什么“先扩展维度再压缩维度”能提升模型容量？
 
