@@ -4,6 +4,39 @@ AI 的摘要与思考
 
 ---
 
+# [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md)
+
+核心观点：通过精简和优化 `CLAUDE.md`（或 `AGENTS.md`）来提升 AI Agent 的表现。
+
+1.  **Instruction Limit (指令上限)**：
+    *   **关键数据**：前沿模型（Frontier LLMs）大概只能稳定遵循 **[150-200 条指令](https://arxiv.org/pdf/2507.11538)**。
+    *   Claude Code 自身的 system prompt 已经占用了约 50 条指令。
+    *   **指令衰减**：随着指令数量增加，模型**不会**只忽略新的指令，而是**均匀地忽略所有指令**，导致整体表现下降。小模型是指数级下降，大模型是线性下降。
+
+2.  **Less is More (少即是多)**：
+    *   **长度建议**：`CLAUDE.md` 最好控制在 **300 行以内**，甚至越短越好（HumanLayer 自己的只有 60 行）。
+    *   **通用性**：只放对**所有会话**都通用的内容（如项目结构、核心原则）。不要放特定任务的细节（如具体的数据库 schema）。
+
+3.  **Progressive Disclosure (渐进式披露)**：
+    *   **策略**：不要把所有文档都塞进 `CLAUDE.md`。
+    *   **做法**：创建 `agent_docs/` 目录，存放具体的文档（如 `running_tests.md`, `code_conventions.md`），然后在 `CLAUDE.md` 里只放这些文件的**索引/描述**，让 Agent 按需读取。
+
+4.  **Claude 不是昂贵的 Linter**：
+    *   **反模式**：不要把几百行的代码风格指南（Style Guide）塞进 Prompt。
+    *   **替代方案**：使用 deterministic tools（如 eslint, prettier, biome）。如果非要检查风格，写一个 hook 让 Claude 运行 linter 并修复报错，而不是让它靠"阅读理解"来检查缩进。
+
+# [Claude Advanced Tool Use](https://www.anthropic.com/engineering/advanced-tool-use)
+
+* Tool Search Tool, which allows Claude to use search tools to access thousands of tools without consuming its context window （按需加载 + 内置搜索，解决工具占用太多 Context）
+* Programmatic Tool Calling, which allows Claude to invoke tools in a code execution environment reducing the impact on the model’s context window （代码执行沙盒，适用于大数据处理、批量操作）
+* Tool Use Examples, which provides a universal standard for demonstrating how to effectively use a given tool （Few-shot in schema，解决参数调用不准确）
+
+# 理解 Claude Agent Skills
+
+Agent Skills 的魅力在于它能让 Claude 从“通用语言模型”变成“专精执行特定任务的 agent/助手”。
+
+Skill 类似 Agent 的 MoE，动态的外接专家
+
 # [CTM（Continuous Thought Machine）](https://pub.sakana.ai/ctm/)
 
 
