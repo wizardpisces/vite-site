@@ -4,6 +4,35 @@ AI 的摘要与思考
 
 ---
 
+# [promptions-helps-make-ai-prompting-more-precise-with-dynamic-ui-controls](https://www.microsoft.com/en-us/research/blog/promptions-helps-make-ai-prompting-more-precise-with-dynamic-ui-controls/)
+
+微软研究院推出的 **Promptions** (Prompt + Options) 框架，试图解决生成式 AI “不可控”和“交互累”的两大难题。
+
+*   **核心机制**：**让 AI 自己生成控制它的界面**。系统根据用户输入，**动态生成** UI 控件（如按钮、下拉菜单），让用户通过点击选项来微调 AI 的行为，而不是反复修改 Prompt。
+*   **范式转变**：从“提示工程”（Prompt Engineering）转向“混合界面”（NLP + GUI）。
+*   **价值**：
+    *   **降低门槛**：将自然语言的模糊性转化为 UI 控件的确定性，用户无需记住复杂指令。
+    *   **引导思考**：动态生成的选项能引导用户澄清模糊的需求（增强元认知）。
+
+# [OpenAI CoT monitor](https://openai.com/index/evaluating-chain-of-thought-monitorability/)
+
+OpenAI 的 CoT 研究是**“行为心理学”，侧重工程实用**：验证能否通过审查思维链（CoT）来监管模型，类似“测谎仪”。这为 o1/o3 的商业落地提供了低成本的安全方案，但理论上难防高阶的“思维隐写”。
+
+Anthropic 的电路研究则是**“脑神经科学”，侧重底层原理**：试图打开黑盒解读神经元。虽处于早期且昂贵，但能从物理层面识破欺骗。
+
+总结：前者求当下可控（治标），后者求终极透明（治本），二者互补。
+
+# Gemini Deep Research / DeepSearchQA Benchmark
+
+**核心本质**：AI 从“搜索引擎”向“独立研究员”的范式转变。
+
+- **因果链 (Causal Chains)**：DeepSearchQA 的核心。不再测试单步问答，而是 900 个环环相扣的任务。AI 必须像人类一样，根据第一步搜到的线索（如：能量密度）去推演第二步该搜什么（如：适配机型），直到闭环。
+- **深度研究示例**：分析 2030 年固态电池对航空货运的影响。
+  - *逻辑链*：查能量密度 → 推算航程 → 找匹配机型 → 算燃油/电力差价 → 结合碳税政策产出报告。
+- **启发与洞察**：
+  - **检索 ≠ 研究**：真正的深度研究不在于处理信息的**总量**，而在于自我修正搜索**方向**的能力。
+  - **在不确定中导航**：Gemini 3 Pro 的 SOTA 表现证明，AI 正在攻克“只有模糊目标、没有标准路径”的复杂长程任务。
+
 # LLM 限制输出长度思考
 
 **核心问题**：LLM 是概率接龙（自回归），不会提前规划字数，如何让字数限制生效？
