@@ -1,4 +1,6 @@
-DeepSeek 2025-01-22 发布的 **DeepSeek-R1**（论文标题为《[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948)》）在 AI 圈引起了很大关注。
+*论文发布时间：2025-01-22*
+
+DeepSeek 发布的 **DeepSeek-R1**（论文标题为《[DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning](https://arxiv.org/abs/2501.12948)》）在 AI 圈引起了很大关注。
 
 简单来说，这篇论文揭示了如何仅通过**强化学习（RL）**而非大规模人工监督微调（SFT），让大模型“涌现”出复杂的推理能力（Reasoning），并详细阐述了从纯 RL 探索到工程化落地的完整路径。
 
