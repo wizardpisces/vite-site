@@ -18,3 +18,6 @@ Blog
 * [https://ai.meta.com/blog/](https://ai.meta.com/blog/)
 * [https://deepmind.google/discover/blog/](https://deepmind.google/discover/blog/)
 * [https://research.google/pubs/](https://research.google/pubs/)
+
+Trending Papers
+* [trending papers homepage](https://huggingface.co/papers/trending)
