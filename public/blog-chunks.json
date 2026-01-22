@@ -3294,7 +3294,7 @@
     "content": "*论文发布时间：2026-01-12*\nDeepSeek 发布的 **Engram**（论文标题为《Conditional Memory via Scalable Lookup: A New Axis of Sparsity for Large Language Models》）在 AI 圈引起了很大关注。\n简单来说，这篇论文提出了一种**“条件存储”（Conditional Memory）**机制，旨在为大语言模型（LLM）增加一个像“词典”或“百科全书”一样的外部查询模块，让模型不再需要把所有知识都死记硬背在神经元的权重里。\nEngram 解决了什么问题？\n**核心问题：Transformer 模型在处理“静态知识”时极度低效。**",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 0,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 0,
     "endPos": 323,
     "originalTitle": "参考资料"
@@ -3305,7 +3305,7 @@
     "content": "...ansformer 模型在处理“静态知识”时极度低效。** 目前主流的 Transformer（包括 GPT-4 和 DeepSeek-V3 这种 MoE 模型）存在一个根本缺陷：**它们缺乏原生的“查询”能力。**\n**计算浪费：** 当模型遇到一个常见的短语或事实（比如“巴黎的首都是...”）时，它依然需要动用昂贵的注意力机制（Attention）和全连接层（FFN）去进行复杂的矩阵运算，从权重中“重新计算”出答案。\n**存储压力：** 为了记住海量事实，模型必须不断增加参数量。这导致显存（HBM）需求激增，计算成本极高。\n**Engram 的作用：** 它引入了一个  复杂度的查找表。模型在处理文本时，可以通过哈希（Hashing）直接从一个海量的 N-gram 嵌入表中“提取”相关知识，而不需要经过层层神经网络的重度计算。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 1,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 323,
     "endPos": 664,
     "originalTitle": "参考资料"
@@ -3316,7 +3316,7 @@
     "content": "...表中“提取”相关知识，而不需要经过层层神经网络的重度计算。 这个问题真实存在吗？\n**真实存在且是目前大模型进一步扩展（Scaling）的头号瓶颈。**\n**机械记忆 vs. 逻辑推理：** 研究发现，模型的前几层往往在做“低级”的模式识别和事实提取，后几层才在做真正的“思考”。把事实和逻辑混在一起处理，导致神经元的有效深度被浪费了。\n**硬件瓶颈：** GPU 的显存（HBM）贵且稀缺，但内存（DRAM）和硬盘（NVMe）相对便宜。如果能把“知识”从 GPU 显存里剥离出来，放到 CPU 内存里随用随取，AI 的成本将大幅下降。\n为什么现在才有人去解决？\n其实“检索增强”或“外部存储”的概念一直有（比如 RAG、KNN-LM），但 Engram 解决得更底层、更高效，现在爆发主要有三个原因：",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 2,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 664,
     "endPos": 986,
     "originalTitle": "参考资料"
@@ -3327,7 +3327,7 @@
     "content": "...ngram 解决得更底层、更高效，现在爆发主要有三个原因： 1. **MoE 技术的成熟：** 现在的模型已经通过混合专家（MoE）实现了“条件计算”（只激活部分神经元）。DeepSeek 认为除了计算可以“稀疏化”，**存储也应该“稀疏化”**。\n2. **PCIe 带宽的进步：** 过去通过 CPU 内存读取数据太慢。但 Engram 采用了**确定性寻址**和**异步预取**技术，可以在模型计算的同时把知识从内存拉到 GPU，几乎零延迟。\n3. **大模型 Scaling Law 的瓶颈：** 盲目堆参数已经边际效应递减了。DeepSeek 发现了一种新的 **U 型比例定律（U-shaped scaling law）**：将 20%-25% 的参数分配给 Engram（存储），剩下的给计算，性能远好于纯计算模型。\n它是如何解决的？",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 3,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 986,
     "endPos": 1331,
     "originalTitle": "参考资料"
@@ -3338,7 +3338,7 @@
     "content": "...），剩下的给计算，性能远好于纯计算模型。\n它是如何解决的？ Engram 的架构包含几个核心组件：\n**Tokenizer 压缩：** 把意义相近的词合并（比如 \"Hello\" 和 \"hello\"），减少查找表的冗余。\n**多头哈希（Multi-Head Hashing）：** 类似 Attention 的多头机制，通过多个哈希函数处理上下文，减少冲突，确保存储的知识能被精准定位。\n**上下文感知门控（Context-Aware Gating）：** 这是最关键的一步。查出来的知识不是盲目相加，而是通过一个“闸门”根据当前语境决定吸取多少。如果查出的知识和当前逻辑不符，模型会选择忽略。\n**解耦存储：** 巨大的知识库（可能达 1000 亿参数）可以存在廉价的 CPU 内存中，只有用到的那一小部分会在推理时通过 PCIe 快速拉取。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 4,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 1331,
     "endPos": 1673,
     "originalTitle": "参考资料"
@@ -3349,7 +3349,7 @@
     "content": "...，只有用到的那一小部分会在推理时通过 PCIe 快速拉取。 还有更好的解决方案吗？\nEngram 是目前最前沿的方向之一，但确实存在其他竞争路线：\n**RAG（检索增强生成）：** 这种是在模型外面挂个搜索引擎。优点是知识可以实时更新，缺点是速度慢、推理成本高，且无法改变模型底座的效率。\n**K-NN LM：** 类似思路，但通常计算成本巨大，难以在超大规模预训练中使用。\n**Infini-transformer：** 谷歌提出的方案，试图通过特殊的注意力机制实现无限长记忆，但工程实现难度极大。\n**Engram 的优势在于“工程美学”：** 它非常符合硬件（CPU/GPU 分层存储）的现状，且能直接集成进预训练过程中。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 5,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 1673,
     "endPos": 1958,
     "originalTitle": "参考资料"
@@ -3360,7 +3360,7 @@
     "content": "...U/GPU 分层存储）的现状，且能直接集成进预训练过程中。 要深入理解 DeepSeek Engram，我们需要把这些硬核的技术名词拆解成直观的模型。Engram 的核心逻辑其实就是：**既然模型记不住那么多东西，那就给它一套高效的“查词典”系统。**\n关键词解析\n1. 存储“稀疏化” (Storage Sparsity)\n这是相对于**计算稀疏化（MoE）**提出的概念。\n**传统模型（稠密）：** 每处理一个字，都要动用全身所有神经元（权重），这叫“全量计算”。\n**MoE 模型（计算稀疏）：** 处理一个字时，只激活一部分“专家”神经元。这减少了计算量，但所有专家的知识依然存在显存里。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 6,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 1958,
     "endPos": 2228,
     "originalTitle": "参考资料"
@@ -3371,7 +3371,7 @@
     "content": "...”神经元。这减少了计算量，但所有专家的知识依然存在显存里。 **Engram（存储稀疏）：** 既然模型中很多参数只是为了记住“周杰伦是歌手”这种死知识，那干脆把这些知识存进一个巨大的“外挂查找表”里。模型在推理时，只从表中提取相关的**一小部分**向量，剩下的 99.9% 知识都躺在内存里不动。\n**通俗理解：** 以前是考试前把整本书背下来（稠密），现在是允许你带一本巨大的字典进考场，但你每次只翻开那一页（稀疏）。\n2. 确定性寻址和异步预取 (Deterministic Addressing & Asynchronous Prefetching)\n这是解决**“由于查找表太大导致变慢”**的工程方案。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 7,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 2228,
     "endPos": 2506,
     "originalTitle": "参考资料"
@@ -3382,7 +3382,7 @@
     "content": "...)\n这是解决**“由于查找表太大导致变慢”**的工程方案。 **确定性寻址：** Engram 使用固定的哈希函数（Hash Function）来计算知识存放在哪。模型看到“苹果”两个字，不需要去搜索，而是直接根据公式计算出地址。复杂度是 。\n**异步预取：** 内存（CPU）读取速度远慢于显存（GPU）。为了不让 GPU 闲着等数据，Engram 采用了“提前下单”策略。\n当模型在计算第 1 层时，它已经算好了第 2 层需要的知识地址。\n它通过 PCIe 总线**异步**地把数据从内存搬往 GPU。\n等第 2 层开算时，数据已经在那等着了，几乎实现了“零成本”查询。\n3. U 型比例定律 (U-shaped Scaling Law)\n这是该论文最重大的理论发现。DeepSeek 重新定义了模型性能与参数分配的关系。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 8,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 2506,
     "endPos": 2840,
     "originalTitle": "参考资料"
@@ -3390,10 +3390,10 @@
   {
     "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-9",
     "title": "参考资料 (第10段)",
-    "content": "...现。DeepSeek 重新定义了模型性能与参数分配的关系。 **传统认识：** 增加参数就能变强，曲线是单调下降的。\n**Engram 的发现：** 在**固定总参数**（计算参数 + 存储参数）的情况下，如果把存储参数比例从 0% 逐渐增加，模型损失（Loss）会先下降后上升。\n**结论：** 存在一个**最优配比**（通常在 20%-25% 左右）。这意味着如果你有 100 亿参数的预算，全给计算（模型权重）不是最优的；给 80 亿计算，20 亿做 Engram 存储，效果最好。这个最优点的凹陷处就是“U 型”的底部。\n4. 多头哈希 (Multi-Head Hashing)\n这个灵感来源于 Transformer 的“多头注意力机制”。",
+    "content": "...现。DeepSeek 重新定义了模型性能与参数分配的关系。 **传统认识：** 增加参数就能变强，曲线是单调下降的。\n**Engram 的发现：** 在**固定总参数**（计算参数 + 存储参数）的情况下，如果把存储参数比例从 0% 逐渐增加，模型损失（Loss）会先下降后上升。\n**结论：** 存在一个**最优配比**（通常在 20%-25% 左右）。这意味着如果你有 100 亿参数的预算，全给计算（模型权重）不是最优的；给 80 亿计算，20 亿做 Engram 存储，效果最好。这个最优点的凹陷处就是“U 型”的底部。\n**深层原因（Zipf 定律）：** 这个比例并非偶然，而是对应了自然语言和代码中的**Zipf 分布（长尾分布）**。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 9,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 2840,
     "endPos": 3136,
     "originalTitle": "参考资料"
@@ -3401,23 +3401,67 @@
   {
     "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-10",
     "title": "参考资料 (第11段)",
-    "content": "...灵感来源于 Transformer 的“多头注意力机制”。 **问题：** 哈希会有“冲突”。比如“苹果”既是水果也是公司，如果只用一个哈希函数，可能会把这两个含义混在一起。\n**解决方案：** 像 Attention 有 8 个头一样，Engram 也用多个哈希函数。\n头 1 可能关注词义。\n头 2 可能关注语法。\n头 3 可能关注上下文关联。\n**效果：** 通过多个维度进行查询，模型能更精准地从海量表里勾勒出它现在最需要的那部分知识，极大地减少了查询误差。\n5. 上下文感知门控 (Context-Aware Gating)\n这是为了防止模型“查字典查傻了”。\n**逻辑：** 并不是所有从 Engram 里查出来的东西都是对的或有用的。",
+    "content": "...应了自然语言和代码中的**Zipf 分布（长尾分布）**。 语言中少量的**高频静态模式**（如常见短语、固定搭配）占据了大部分出现频率，适合用 Engram 这种低成本的“查表”方式**死记硬背**。\n而剩下的**长尾复杂逻辑**（需要推理的部分）则交给昂贵的 MoE 计算参数去处理。\n20% 的存储参数解决了 80% 的常见模式查找，这就是“好钢用在刀刃上”的统计学体现。\n4. 多头哈希 (Multi-Head Hashing)\n这个灵感来源于 Transformer 的“多头注意力机制”。\n**问题：** 哈希会有“冲突”。比如“苹果”既是水果也是公司，如果只用一个哈希函数，可能会把这两个含义混在一起。\n**解决方案：** 像 Attention 有 8 个头一样，Engram 也用多个哈希函数。\n头 1 可能关注词义。\n头 2 可能关注语法。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 10,
-    "totalChunks": 12,
+    "totalChunks": 16,
     "startPos": 3136,
-    "endPos": 3431,
+    "endPos": 3487,
     "originalTitle": "参考资料"
   },
   {
     "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-11",
     "title": "参考资料 (第12段)",
-    "content": "...不是所有从 Engram 里查出来的东西都是对的或有用的。 **机制：** Engram 查出来的向量会先经过一个“门”（Gating）。这个门会结合当前句子的语境（Context）算出一个权重系数（0 到 1 之间）。\n**应用场景：**\n如果查到的内容与语境极度契合，权重接近 1，模型会大量吸收这个外部知识。\n如果查到的内容风马牛不相及，门控会把它设为接近 0，模型依然靠自己的逻辑推理。\n**数学表达：** 最终输出 。\n---\n总结\nEngram 的本质是**“知识的降本增效”**：\n1. **存储稀疏化**让知识不再占用昂贵的 GPU 神经元。\n2. **多头哈希和确定性寻址**让找知识变得极快。\n3. **门控**确保知识用得对。\n4. **U 型定律**指导我们如何科学地分配大脑容量。\n参考资料\n项目地址\n*编辑：2026-01-19*",
+    "content": "...哈希函数。\n头 1 可能关注词义。\n头 2 可能关注语法。 头 3 可能关注上下文关联。\n**效果：** 通过多个维度进行查询，模型能更精准地从海量表里勾勒出它现在最需要的那部分知识，极大地减少了查询误差。\n5. 上下文感知门控 (Context-Aware Gating)\n这是为了防止模型“查字典查傻了”。\n**逻辑：** 并不是所有从 Engram 里查出来的东西都是对的或有用的。\n**机制：** Engram 查出来的向量会先经过一个“门”（Gating）。这个门会结合当前句子的语境（Context）算出一个权重系数（0 到 1 之间）。\n**应用场景：**\n如果查到的内容与语境极度契合，权重接近 1，模型会大量吸收这个外部知识。\n如果查到的内容风马牛不相及，门控会把它设为接近 0，模型依然靠自己的逻辑推理。\n**数学表达：** 最终输出 。",
     "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
     "chunkIndex": 11,
-    "totalChunks": 12,
-    "startPos": 3431,
-    "endPos": 3780,
+    "totalChunks": 16,
+    "startPos": 3487,
+    "endPos": 3837,
+    "originalTitle": "参考资料"
+  },
+  {
+    "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-12",
+    "title": "参考资料 (第13段)",
+    "content": "...型依然靠自己的逻辑推理。\n**数学表达：** 最终输出 。 还有哪些值得深挖的洞察？\n除了 Zipf 定律，Engram 还有几个非常反直觉但深刻的架构洞察，值得深入思考：\n1. 位置的哲学：记忆是“低级”认知\n论文中一个有趣的细节是 Engram 模块的最佳插入位置通常在模型的**浅层（如第 2-4 层）**。\n**反直觉：** 我们通常认为“知识”是高级的，应该在深层处理。\n**深层解释：** 事实回忆其实是一种**“反射”**，而非**“思考”**。\n当你看到“白日依山”，大脑瞬间弹出“尽”，这不需要复杂的逻辑推理。\nEngram 在浅层把这些“死记硬背”的工作做完了，**解放了深层网络**。",
+    "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
+    "chunkIndex": 12,
+    "totalChunks": 16,
+    "startPos": 3837,
+    "endPos": 4111,
+    "originalTitle": "参考资料"
+  },
+  {
+    "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-13",
+    "title": "参考资料 (第14段)",
+    "content": "...层把这些“死记硬背”的工作做完了，**解放了深层网络**。 结果：深层的 Attention 和 FFN 不再需要浪费算力去重构“巴黎在法国”这种简单事实，而是可以全心全意进行复杂的逻辑推演（Reasoning）。这也解释了为什么加了 Engram 后，模型的**推理能力**（如数学、代码）反而提升了。\n2. 内化的 RAG：模糊了“模型”与“数据”的界限\nEngram 经常被拿来和 RAG（检索增强生成）做对比，但它们有一个本质区别：**可微性（Differentiability）**。\n**RAG 是“外挂”：** 数据库是冻结的，检索器通常是独立训练的。模型发现检索错了，很难直接通过反向传播去“修正”数据库的索引策略。\n**Engram 是“器官”：** 它是**端到端训练（End-to-End Trained）**的。",
+    "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
+    "chunkIndex": 13,
+    "totalChunks": 16,
+    "startPos": 4111,
+    "endPos": 4450,
+    "originalTitle": "参考资料"
+  },
+  {
+    "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-14",
+    "title": "参考资料 (第15段)",
+    "content": "...端到端训练（End-to-End Trained）**的。 Engram 的查表过程、门控机制、甚至存储的向量（在训练时），都是参与梯度下降的。\n这意味着模型不仅学会了“怎么查”，还学会了“存什么”以及“什么时候信，什么时候不信”。这是一个**有自我意识的知识库**。\n3. 信息熵的极限压缩\nEngram 在构建查找表时做了一个 **Tokenizer Compression（词表压缩）** 的操作，比如把 \"The\", \"the\", \" THE\" 映射到同一个键值。\n**表面看：** 这是一个节省空间的工程技巧。\n**深层看：** 这是对**语义空间**的再定义。\n传统 Transformer 对大小写敏感，是因为它们是不同的 token ID。",
+    "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
+    "chunkIndex": 14,
+    "totalChunks": 16,
+    "startPos": 4450,
+    "endPos": 4749,
+    "originalTitle": "参考资料"
+  },
+  {
+    "chunkId": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup#chunk-15",
+    "title": "参考资料 (第16段)",
+    "content": "...er 对大小写敏感，是因为它们是不同的 token ID。 Engram 强迫模型在存储层面进行**语义归一化**。这实际上是在降低信息的**熵（Entropy）**，让有限的存储空间（RAM）能装下更高密度的“概念”，而非“字符串”。这是对 Scaling Law 中数据质量的一种隐式提升。\n---\n总结\nEngram 的本质是**“知识的降本增效”**：\n1. **存储稀疏化**让知识不再占用昂贵的 GPU 神经元。\n2. **多头哈希和确定性寻址**让找知识变得极快。\n3. **门控**确保知识用得对。\n4. **U 型定律**指导我们如何科学地分配大脑容量。\n参考资料\n项目地址\n*创建：2026-01-19*\n*编辑：2026-01-22*",
+    "url": "/blog/DeepSeek - Engram - Conditional Memory via Scalable Lookup",
+    "chunkIndex": 15,
+    "totalChunks": 16,
+    "startPos": 4749,
+    "endPos": 5047,
     "originalTitle": "参考资料"
   },
   {
