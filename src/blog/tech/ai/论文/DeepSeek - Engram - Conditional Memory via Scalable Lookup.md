@@ -31,12 +31,46 @@ DeepSeek 发布的 **Engram**（论文标题为《[Conditional Memory via Scalab
 
 ## 它是如何解决的？
 
-Engram 的架构包含几个核心组件：
+Engram 的架构包含几个核心组件。为了理解它的实现细节，我们需要深入 Transformer 的内部结构。
 
-* **Tokenizer 压缩：** 把意义相近的词合并（比如 "Hello" 和 "hello"），减少查找表的冗余。
-* **多头哈希（Multi-Head Hashing）：** 类似 Attention 的多头机制，通过多个哈希函数处理上下文，减少冲突，确保存储的知识能被精准定位。
-* **上下文感知门控（Context-Aware Gating）：** 这是最关键的一步。查出来的知识不是盲目相加，而是通过一个“闸门”根据当前语境决定吸取多少。如果查出的知识和当前逻辑不符，模型会选择忽略。
-* **解耦存储：** 巨大的知识库（可能达 1000 亿参数）可以存在廉价的 CPU 内存中，只有用到的那一小部分会在推理时通过 PCIe 快速拉取。
+### 1. 物理位置：插入在哪里？
+
+Engram 模块通常被插入在 Transformer 的 **FFN (Feed-Forward Network)** 之前或之后，作为一个**并行**的分支。
+
+*   **标准 Transformer Block：**
+    $$ x = x + \text{Attention}(x) $$
+    $$ x = x + \text{FFN}(x) $$
+*   **Engram 增强 Block：**
+    $$ x = x + \text{Attention}(x) $$
+    $$ x = x + \text{FFN}(x) + \alpha \cdot \text{EngramLookup}(x) $$
+
+DeepSeek 的研究发现，最佳的插入位置通常在模型的**浅层（如第 2-4 层）**。
+*   **深层解释：** 事实回忆（如“巴黎在法国”）是一种**“低级反射”**，而非高级推理。让浅层通过 Engram 快速解决这些死记硬背的任务，可以**解放深层网络**（Attention 和 FFN）去专注于复杂的逻辑推演（Reasoning）。
+
+### 2. 核心机制：三步走
+
+*   **Tokenizer 压缩：** 把意义相近的词合并（比如 "Hello" 和 "hello"），减少查找表的冗余。
+*   **多头哈希（Multi-Head Hashing）：** 
+    *   **原理：** 类似 Attention 的多头机制，Engram 使用多个独立的哈希函数。
+    *   **作用：** 解决哈希冲突（Hash Collision）。如果只用一个哈希函数，“苹果”作为水果和作为公司可能会撞车。多头机制确保了从多个维度定位知识的准确性。
+*   **上下文感知门控（Context-Aware Gating）：** 
+    *   **公式：** $Output = \text{FFN}(x) + \text{Gate}(x) \cdot \text{Lookup}(x)$
+    *   **机制：** 查出来的知识不是盲目相加，而是通过一个可训练的门控网络 $\text{Gate}(x)$ 决定权重。
+    *   **效果：** 如果查出的知识（如 N-gram 统计规律）与当前语境不符，门控会将其权重置为 0，防止噪音干扰。
+
+### 3. U 型比例定律 (U-shaped Scaling Law)与权重分配
+
+DeepSeek 重新定义了模型性能与参数分配的关系，发现了一个反直觉的 **U 型曲线**。
+
+*   **占用了谁的权重？** 主要是 **FFN**。
+    *   正如我们之前讨论的，FFN 占据了模型约 2/3 的参数，主要负责存储静态知识。
+    *   Engram 的本质是用廉价的**存储参数（Memory Parameters）**去替代昂贵的**计算参数（Compute Parameters, 即 FFN 权重）**。
+*   **U 型发现：** 在**固定总预算**（计算成本 + 存储成本）的情况下：
+    *   **纯计算（100% FFN）：** 成本高，且容易遗忘长尾知识。
+    *   **纯存储（100% N-gram）：** 泛化能力差，只能复读。
+    *   **混合最优（~75% FFN + ~25% Engram）：** 曲线的**最低点（Sweet Spot）**。这意味着将约 25% 的 FFN 参数“割让”给 Engram 存储表，能获得最佳的 Scaling 效果。
+
+这背后的统计学原理是 **Zipf 定律**：语言中 20% 的高频静态模式（适合查表）覆盖了 80% 的日常表达，而剩下的长尾逻辑（需要推理）则交给昂贵的 FFN 处理。
 
 ## 还有更好的解决方案吗？
 

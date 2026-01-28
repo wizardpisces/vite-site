@@ -36,9 +36,20 @@
 
 ## 它是如何解决的？
 
-Gated Attention 的实现极其优雅，核心改动只有一行公式，却蕴含了深刻的直觉：
+Gated Attention 的实现极其优雅，核心改动只有一行公式，却蕴含了深刻的直觉。
 
-**公式对比：**
+### 1. 物理位置：发生在 Attention 层内部
+
+首先澄清一个关键点：**Gated Attention 是对 Attention 层的改造，而不是 FFN 层。**
+
+*   **标准 Transformer Layer:**
+    $$ x = \text{LayerNorm}(x + \text{Attention}(x)) $$
+    $$ x = \text{LayerNorm}(x + \text{FFN}(x)) $$
+
+*   **Gated Attention:** 修改的是上面的 `Attention(x)` 部分。
+    它并没有动 FFN（FFN 本身就有激活函数，天然具备一定的门控能力）。它解决的是 Attention 机制**天生缺乏非线性控制**的问题。
+
+### 2. 核心公式对比
 *   **标准版：** $Output = \text{Softmax}(\frac{QK^T}{\sqrt{d}})V$
     *   *潜台词：无论如何，我都要输出点什么。*
 *   **Gated 版：** $Output = (\text{Softmax}(\frac{QK^T}{\sqrt{d}})V) \odot \sigma(X W_G)$
