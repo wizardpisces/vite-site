@@ -161,17 +161,95 @@ $$ Output = F(x) + x $$
 ## 关键词解析
 
 ### 1. 自注意力 (Self-Attention)
-Transformer 抛弃 RNN 的底气。
-*   **原理：** 输入一句话，每个词生成三个向量：**Query (查询)**、**Key (键)**、**Value (值)**。
-*   **比喻：** 档案室查资料。拿着你的问题 (Q)，去匹配档案标签 (K)，根据匹配度提取档案内容 (V)，最后融合所有内容。
-*   **公式：** $Attention(Q, K, V) = softmax(\frac{QK^T}{\sqrt{d_k}})V$
+Transformer 抛弃 RNN 的底气。核心在于**“寻址（Addressing）”**与**“提取（Extraction）”**的分离。
+
+*   **第一步：$Q \cdot K$ (寻址与评分)**
+    *   **回答问题：** “我应该信谁？”
+    *   **过程：** 拿着你的需求向量 ($Q$) 去和所有人的标签向量 ($K$) 做点积。
+    *   **结果：** 得到一个**评分 (Attention Score)**。比如 "The" 找 "apple"，匹配度 0.9；找 "is"，匹配度 0.1。这一步只决定了**“视线看向哪里”**。
+
+*   **第二步：Score $\cdot V$ (提取与合成)**
+    *   **回答问题：** “我到底获得了什么信息？”
+    *   **过程：** 根据刚才的评分，按比例去提取实际的内容向量 ($V$)。
+    *   **结果：** 提取 90% 的 "apple" 的语义，10% 的 "is" 的语义，混合成一个新的向量。这解释了为什么 K 和 V 要分开：**“用来搜索的特征”**（书脊标签）和**“实际包含的内容”**（书内正文）往往不同。
+
+*   **公式：** $$ Attention(Q, K, V) = \underbrace{softmax(\frac{QK^T}{\sqrt{d_k}})}_{\text{寻址 (Weights)}} \cdot \underbrace{V}_{\text{提取 (Content)}} $$
 
 ### 2. 多头机制 (Multi-Head)
 增强模型的“容错率”和“语义捕获力”。
 *   **解法：** 把向量切成多份（如 8 头），独立计算 Attention 后拼接。
 *   **效果：** 就像瞎子摸象，不同的人摸不同的部位，汇总后才能还原整只象。
 
-### 3. 缩放点积 (Scaled Dot-Product)
+### 3. KV Cache：推理加速的关键技术
+
+在 GPT 等 Decoder-only 模型的**推理（Inference）**阶段，**KV Cache** 是降低计算成本的核心技术。为什么我们只缓存 Key 和 Value，而不缓存 Query？这涉及到 Attention 机制的内在逻辑。
+
+#### A. 为什么 Q 和 K 必须投影到不同空间？（非对称性建模）
+输入虽然是同一个词向量 $x$，但通过 $W_Q$ 和 $W_K$ 投影后，它们承载了完全不同的语义功能：
+*   **数学视角的非对称性 (Asymmetry)：** 注意力机制本质上是在建模词与词之间的**有向关系**。
+    *   例如在 "The apple" 中，定冠词 "The" 需要强关注名词 "apple"，但名词 "apple" 对 "The" 的关注度通常较低。
+    *   如果强制 $W_Q = W_K$（即 $Q=K$），那么 $Q \cdot K^T$ 将变成一个**对称矩阵**，意味着 $Attention(A \to B)$ 恒等于 $Attention(B \to A)$，这将严重限制模型捕捉复杂语言关系的能力。
+*   **功能视角的差异：**
+    *   **Query (Q)：** 代表**查询向量**，编码了“当前位置需要什么信息”的意图。
+    *   **Key (K)：** 代表**索引向量**，编码了“当前位置包含什么特征”的信息，用于被检索。
+
+#### B. 为什么 Q 不需要 Cache？（自回归的瞬时性）
+在自回归（Autoregressive）生成过程中，模型逐个生成 Token。让我们分析生成第 $t$ 个 Token 时的计算流：
+
+1.  **当前状态 (Query)：** 模型根据当前的输入 $x_t$，计算出查询向量 $q_t$。这个 $q_t$ 仅反映了**当前这一步**的查询需求（例如：寻找下一个搭配词）。
+2.  **历史检索 (Key/Value)：** $q_t$ 需要与所有历史时刻的键值对 $(K_{1:t-1}, V_{1:t-1})$ 进行运算。
+3.  **用完即弃：** 一旦第 $t$ 步的计算完成，生成了下一个 Token，$q_t$ 的生命周期就结束了。在第 $t+1$ 步时，会有全新的 $q_{t+1}$ 出现。旧的 Query 对未来的计算没有复用价值。
+4.  **持久化价值：** 相反，历史 Token 的 $K$ 和 $V$ 向量在未来的**每一步**生成中都会被作为“被查询对象”反复使用。因此，将它们缓存（Cache）在显存中，可以避免重复计算，大幅降低 FLOPs。
+
+#### C. 工程权衡与优化 (GQA / PagedAttention / MLA)
+KV Cache 是一种典型的**空间换时间**策略：
+$$ Output_t = \text{softmax}( \color{red}{q_t} \cdot [ \color{blue}{K_{cache}}, k_t ]^T ) \cdot [ \color{green}{V_{cache}}, v_t ] $$
+随着序列长度增长，显存占用（VRAM）呈线性增长。为了解决**显存爆炸**问题，业界提出了多种优化方案：
+
+1.  **GQA (Grouped-Query Attention)：** Llama-2/3 采用的方案。
+    *   **机制：** 让多个 Head **共享**同一组 KV。例如 8 个 Query 头共享 1 个 KV 头。
+    *   **原理：** 虽然 Query (意图) 需要多样化，但 Key/Value (底层特征) 往往高度冗余，可以共用。
+    *   **代价：** 显存减少 8 倍，但属于**有损压缩**（丢失了部分多头信息）。
+
+2.  **MLA (Multi-Head Latent Attention)：** DeepSeek-V2/V3 的核心创新。
+    *   **机制：** **架构层面的先天设计**。
+        *   与传统 Transformer 直接映射 ($Input \to K$) 不同，MLA 在网络结构定义时就强制插入了**“低秩瓶颈”**：$Input \to \text{压缩向量 } c \to \text{解压} \to K$。
+        *   这就好比规定模型**只能**用 500 个常用字（压缩向量 $c$）来写文章，逼迫模型在训练阶段就学会极高密度的信息表达。
+    *   **原理：** 利用矩阵乘法的结合律 $q^T \cdot (c \cdot W_{Up}) = (q^T \cdot W_{Up}) \cdot c$。
+        *   **存储时：** KV Cache 只存那个极小的 $c$（压缩态）。
+        *   **计算时：** 不需要把 $c$ 还原成巨大的 $K$，而是直接把解压矩阵 $W_{Up}$ **“吸收”** 到 Query 一侧处理（即用 $q$ 去乘 $W_{Up}$）。
+    *   **优势：** **无损压缩**（数学上严格等价），显存占用比 GQA 更低，却能保留 MHA 的完整表达能力。
+
+3.  **PagedAttention (vLLM)：** 借鉴操作系统虚拟内存的分页技术。将 KV Cache 切分为非连续的显存块，解决显存碎片化问题，大幅提升推理吞吐量。
+
+### 4. 位置编码 (Positional Encoding)
+
+Transformer 引入位置编码是为了解决 Attention 的无序性。它经历了从**“绝对加法”**到**“相对旋转”**的进化。
+
+#### A. 1.0 时代：Sinusoidal Absolute PE (Transformer 原作)
+Google 团队在 2017 年提出使用不同频率的正弦/余弦函数生成位置向量，并**直接加**到词向量上：
+$$ \mathbf{x}_{pos} = \mathbf{x}_{embed} + \mathbf{p}_{pos} $$
+*   **局限性分析（展开 Attention 公式）：**
+    当计算两个位置 $m$ 和 $n$ 的 Attention 时：
+    $$ (x_m + p_m)^T (x_n + p_n) = \underbrace{x_m^T x_n}_{\text{内容-内容}} + \underbrace{x_m^T p_n}_{\text{内容-位置}} + \underbrace{p_m^T x_n}_{\text{位置-内容}} + \underbrace{p_m^T p_n}_{\text{位置-位置}} $$
+    *   虽然最后一项 $p_m^T p_n$ 确实包含相对位置信息，但中间两项交叉项（内容乘以位置）带来了**强烈的干扰**。
+    *   这意味着：**“我是谁”（内容）和“我在哪”（位置）纠缠在了一起，无法解耦。** 这导致模型难以纯粹地根据“距离”来判断关系，从而限制了长文本外推能力。
+
+#### B. 2.0 时代：RoPE (Rotary Positional Embedding) (现代标配)
+Llama、DeepSeek 等现代模型均采用 RoPE。它的核心洞见是：**不要改变向量的模长（加法），而是改变向量的角度（旋转）。**
+
+*   **机制：** 将词向量（二维切片）在复数平面上进行旋转。
+    *   位置 $m$ 的向量旋转角度为 $m\theta$： $f(x, m) = x \cdot e^{i m \theta}$
+    *   位置 $n$ 的向量旋转角度为 $n\theta$： $f(y, n) = y \cdot e^{i n \theta}$
+*   **数学魔法：**
+    当计算 Attention (内积) 时，旋转效果会发生奇妙的对消：
+    $$ \begin{aligned} Score &= \text{Real}(q_m \cdot k_n^*) \\ &= \text{Real}((x_q e^{i m \theta}) \cdot (x_k e^{i n \theta})^*) \\ &= \text{Real}(x_q x_k^* \cdot e^{i(m-n)\theta}) \end{aligned} $$
+    *   **结果：** 最终的 Attention 分数严格只取决于 **$(m-n)$**，即**相对距离**。
+*   **优势：**
+    1.  **纯粹的相对性：** 彻底消除了绝对坐标 $m$ 和 $n$ 的干扰。
+    2.  **外推性 (Extrapolation)：** 模型能通过旋转规律理解比训练长度更远的距离（只要距离远，旋转频率高，相关性自然衰减），是 Long Context 模型的基石。
+
+### 5. 缩放点积 (Scaled Dot-Product)
 公式里的 $\sqrt{d_k}$。
 *   **作用：** 防止梯度消失。高维向量点积结果过大回导致 Softmax 进入饱和区（梯度近 0）。除以缩放系数能把数值拉回舒适区，利于训练。
 
