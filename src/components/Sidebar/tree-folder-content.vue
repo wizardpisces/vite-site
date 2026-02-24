@@ -4,10 +4,10 @@
       href="javascript:void(0)"
       @click="onBlogClick(blog)"
       class="tree-folder-content-title"
+      :title="blog.blogTitle"
     >
-      <v3-icon type="document" size="14" class="blog-icon"></v3-icon>
-      <span v-if="searchTerm" v-html="highlightTitle"></span>
-      <span v-else>{{blog.blogTitle}}</span>
+      <span class="blog-title" v-if="searchTerm" v-html="highlightTitle"></span>
+      <span class="blog-title" v-else>{{blog.blogTitle}}</span>
     </a>
   </div>
 </template>
@@ -75,33 +75,24 @@ $blog-hover-bg: rgba(59, 130, 246, 0.05);
 $blog-active-bg: rgba(37, 99, 235, 0.1);
 
 .tree-folder-content {
-  font-size: 14px;
+  font-size: 13px;
   
   a {
-    display: flex;
-    align-items: center;
+    display: block;
     color: $blog-text;
-    transition: all 0.3s;
-    padding: 0.35rem 1.5rem;
+    transition: all 0.2s;
+    padding: 4px 10px;
     line-height: 1.4;
     text-decoration: none !important;
     border-radius: 4px;
     position: relative;
-    
-    .blog-icon {
-      margin-right: 0.5rem;
-      color: #94a3b8;
-      transition: all 0.3s;
-      font-size: 0.9em;
-    }
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     
     &:hover {
       color: $blog-hover !important;
       background-color: $blog-hover-bg;
-      
-      .blog-icon {
-        color: $blog-hover !important;
-      }
     }
   }
   
@@ -117,10 +108,6 @@ $blog-active-bg: rgba(37, 99, 235, 0.1);
       color: $blog-active !important;
       font-weight: 500;
       background-color: $blog-active-bg;
-      
-      .blog-icon {
-        color: $blog-active !important;
-      }
 
       &::after {
         content: '';
@@ -129,7 +116,7 @@ $blog-active-bg: rgba(37, 99, 235, 0.1);
         top: 50%;
         transform: translateY(-50%);
         width: 3px;
-        height: 16px;
+        height: 14px;
         background-color: $blog-active;
         border-radius: 2px;
       }
