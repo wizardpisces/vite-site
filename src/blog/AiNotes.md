@@ -4,6 +4,14 @@ AI 的摘要与思考
 
 ---
 
+# 先升维后降维
+
+神经网络中“升维—降维”常见于卷积、全连接或注意力层设计中。
+* 升维（增加特征维度）可以让网络捕捉更丰富、更抽象的特征，增强表达能力；
+* 降维（压缩特征维度）则减少计算量、抑制冗余信息，同时帮助提取核心信息，类似“浓缩精华”。
+* 这种操作也有助于非线性变换的效果，让网络在高维空间分离特征，再回到低维进行决策或输出。
+* 简单说，就是先拓展能力，再提炼精华。
+
 # RL (强化学习) 与 SFT (监督微调) 的区别
 
 * 表层原因（数据层面）：
@@ -1091,6 +1099,16 @@ Reference
 Reference
 * [positional encoding blog](https://kazemnejad.com/blog/transformer_architecture_positional_encoding/)
 * [positional encoding stackexchange + youtube](https://datascience.stackexchange.com/questions/51065/what-is-the-positional-encoding-in-the-transformer-model)
+
+## 卷积
+
+卷积不是被“设计”出来的，而是被“发现”出来的。
+
+只要研究线性、平移不变、局部规则反复使用，最终一定会遇到它。
+
+卷积是“线性 + 平移不变性”的必然形式，而参数共享是它的直接后果。
+* 典型网络 CNN 不是因为图像“必须”卷积，而是因为卷积给了我们“物体不关心位置”的强假设
+* 一旦叫它“卷积”，就得到了一整套工具：Fourier 变换、z-transform、Laplace 变换、FFT 加速、稳定性分析、频域直觉
 
 ## self-attention
 

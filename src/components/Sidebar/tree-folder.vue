@@ -1,8 +1,9 @@
 <template>
-  <section :class="cls">
+  <section :class="cls" v-show="isVisible">
     <h2 class="sidebar-heading" v-show="folder.categoryName!=='blog'" @click="toggleFolder">
       <v3-icon :type="isExpanded ? 'folder-open' : 'folder'" size="16" class="folder-icon"></v3-icon>
       {{folder.categoryName}}
+      <span class="blog-count">{{ blogCount }}</span>
       <v3-icon type="arrow-down" size="12" class="arrow-icon" :class="{'is-expanded': isExpanded}"></v3-icon>
     </h2>
     <ul class="tree-folder-contents" :class="{'is-expanded': isExpanded}">
@@ -24,8 +25,8 @@
 </template>
 
 <script lang="ts">
-import { PropType, ref } from "vue";
-import { CategoryGroup, BlogDescriptor } from "@/composition/use-blog";
+import { PropType, ref, computed, watch, inject, Ref } from "vue";
+import useBlog, { CategoryGroup, BlogDescriptor } from "@/composition/use-blog";
 import TreeFolderContent from "./tree-folder-content.vue";
 
 export default {
@@ -40,25 +41,69 @@ export default {
     TreeFolderContent,
   },
   setup(props) {
-    const isExpanded = ref(true);
-
-    const toggleFolder = () => {
-      isExpanded.value = !isExpanded.value;
-    };
+    const { activeBlog } = useBlog();
+    const searchTerm = inject<Ref<string>>('blogSearchTerm', ref(''));
 
     const isCategory = (item: CategoryGroup | BlogDescriptor): item is CategoryGroup => {
       return 'categoryName' in item;
     };
 
-    let cls = {
-      "tree-folder": true,
+    function containsBlog(folder: CategoryGroup, blogLink: string): boolean {
+      return folder.items.some(item =>
+        isCategory(item) ? containsBlog(item, blogLink) : item.blogLink === blogLink
+      );
+    }
+
+    function matchesSearch(folder: CategoryGroup, term: string): boolean {
+      return folder.items.some(item =>
+        isCategory(item)
+          ? matchesSearch(item, term)
+          : item.blogTitle.toLowerCase().includes(term)
+      );
+    }
+
+    function countBlogs(folder: CategoryGroup): number {
+      return folder.items.reduce((n, item) =>
+        n + (isCategory(item) ? countBlogs(item) : 1), 0
+      );
+    }
+
+    const isRoot = props.folder.categoryName === 'blog';
+    const isExpanded = ref(isRoot || containsBlog(props.folder, activeBlog.value.blogLink));
+    const blogCount = computed(() => countBlogs(props.folder));
+
+    const isVisible = computed(() => {
+      if (!searchTerm.value) return true;
+      return matchesSearch(props.folder, searchTerm.value.toLowerCase());
+    });
+
+    watch(() => activeBlog.value.blogLink, (link) => {
+      if (containsBlog(props.folder, link)) {
+        isExpanded.value = true;
+      }
+    });
+
+    watch(searchTerm, (term) => {
+      if (term) {
+        if (matchesSearch(props.folder, term.toLowerCase())) {
+          isExpanded.value = true;
+        }
+      } else {
+        isExpanded.value = isRoot || containsBlog(props.folder, activeBlog.value.blogLink);
+      }
+    });
+
+    const toggleFolder = () => {
+      isExpanded.value = !isExpanded.value;
     };
 
     return {
-      cls,
+      cls: { "tree-folder": true },
       isExpanded,
       toggleFolder,
-      isCategory
+      isCategory,
+      blogCount,
+      isVisible,
     };
   },
 };
@@ -104,6 +149,19 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
       transition: all 0.3s;
       color: #64748b;
       font-size: 0.9em;
+    }
+
+    .blog-count {
+      margin-left: 0.5rem;
+      font-size: 11px;
+      font-weight: 500;
+      color: #94a3b8;
+      background: #f1f5f9;
+      padding: 0 6px;
+      border-radius: 10px;
+      line-height: 18px;
+      min-width: 18px;
+      text-align: center;
     }
 
     .arrow-icon {

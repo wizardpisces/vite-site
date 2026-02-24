@@ -1,18 +1,19 @@
 <template>
-  <div :class="cls">
+  <div :class="cls" v-show="isVisible">
     <a
       href="javascript:void(0)"
       @click="onBlogClick(blog)"
       class="tree-folder-content-title"
     >
       <v3-icon type="document" size="14" class="blog-icon"></v3-icon>
-      {{blog.blogTitle}}
+      <span v-if="searchTerm" v-html="highlightTitle"></span>
+      <span v-else>{{blog.blogTitle}}</span>
     </a>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, PropType } from "vue";
+import { computed, PropType, inject, ref, Ref } from "vue";
 import { useRouter } from "vue-router";
 import useBlog, { BlogDescriptor } from "@/composition/use-blog";
 
@@ -27,12 +28,22 @@ export default {
   setup(props) {
     const router = useRouter();
     const { setActiveBlog, activeBlog, fetchMetaByBlogLink } = useBlog();
-    
-    const cls = computed(() => {
-      return {
-        "tree-folder-content": true,
-        active: activeBlog.value.blogLink === props.blog?.blogLink,
-      };
+    const searchTerm = inject<Ref<string>>('blogSearchTerm', ref(''));
+
+    const cls = computed(() => ({
+      "tree-folder-content": true,
+      active: activeBlog.value.blogLink === props.blog?.blogLink,
+    }));
+
+    const isVisible = computed(() => {
+      if (!searchTerm.value) return true;
+      return props.blog.blogTitle.toLowerCase().includes(searchTerm.value.toLowerCase());
+    });
+
+    const highlightTitle = computed(() => {
+      if (!searchTerm.value) return props.blog.blogTitle;
+      const regex = new RegExp(`(${searchTerm.value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return props.blog.blogTitle.replace(regex, '<mark>$1</mark>');
     });
 
     const onBlogClick = async (blog: BlogDescriptor) => {
@@ -47,6 +58,9 @@ export default {
       blog: props.blog,
       onBlogClick,
       cls,
+      isVisible,
+      searchTerm,
+      highlightTitle,
     };
   },
 };
@@ -91,6 +105,13 @@ $blog-active-bg: rgba(37, 99, 235, 0.1);
     }
   }
   
+  mark {
+    background: rgba(250, 204, 21, 0.4);
+    color: inherit;
+    padding: 0 1px;
+    border-radius: 2px;
+  }
+
   &.active {
     & > a {
       color: $blog-active !important;

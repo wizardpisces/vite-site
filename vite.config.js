@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 import viteSvgIcons from 'vite-plugin-svg-icons';
 // import md2HtmlPlugin from './plugins/vite-plugin-markdown2html'
 import md2HtmlPlugin from 'vite-plugin-md2html'
+import mathPlugin from './plugins/vite-plugin-math'
 import macrosPlugin from "vite-plugin-babel-macros"
 import checker from 'vite-plugin-checker'
 import Inspect from 'vite-plugin-inspect'
@@ -33,6 +34,7 @@ export default {
       iconDirs: [path.resolve(__dirname, "src/assets/svg")],
       symbolId: "icon-[name]",
     }),
+    mathPlugin(),
     md2HtmlPlugin({
       markdownIt: {
         html: true,

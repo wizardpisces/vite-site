@@ -25,6 +25,7 @@ import { onMounted, ref, watch, inject, nextTick, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
 import useBlog from "@/composition/use-blog";
 import Comment from '@/components/comment.vue';
+import 'katex/dist/katex.min.css';
 
 export default {
   name: "BlogArticle",
@@ -39,7 +40,6 @@ export default {
     const shouldShowLoading = ref(false);
     let loadingTimer: ReturnType<typeof setTimeout> | null = null;
 
-    // 从父组件注入当前字体大小
     const currentFontSize = inject('currentFontSize', ref('medium'));
 
     function initBlog() {
@@ -66,10 +66,8 @@ export default {
         }
         shouldShowLoading.value = false;
         
-        // 确保内容加载完成后再显示，避免闪现
         nextTick(() => {
           contentReady.value = true;
-          // 延迟一帧再处理hash，确保DOM更新完成
           setTimeout(() => {
             location.hash = "";
             location.hash = route.hash;
@@ -408,6 +406,18 @@ export default {
       td {
         color: #2d3748;
       }
+    }
+
+    // KaTeX 数学公式样式
+    .katex-display {
+      margin: 1.5em 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.5em 0;
+    }
+    
+    .katex {
+      font-size: 1.1em;
     }
 
     a {
