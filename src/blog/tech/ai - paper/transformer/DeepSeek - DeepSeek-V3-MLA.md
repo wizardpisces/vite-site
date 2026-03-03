@@ -30,6 +30,8 @@ DeepSeek 团队发布的 **DeepSeek-V3**（论文标题为《[DeepSeek-V3 Techni
 
 DeepSeek-V3 的架构可以概括为两个核心“手术”：
 
+![DeepSeek-V3 模型架构总览](https://arxiv.org/html/2412.19437v1/x1.png)
+
 *   **手术一：DeepSeekMoE（极致的专家细分）**：
     *   **传统 MoE：** 只有几个大专家（比如 8 个），每次选 2 个。就像把活儿分给几个全能工匠。
     *   **DeepSeekMoE：** 把专家切得非常细（256 个），每次选 64 个，并且还有“共享专家”（Shared Experts）。这就像把活儿拆解，分给几十个专门拧螺丝、专门刷漆的流水线工人，同时还有几个“工头”负责统筹通用知识。
@@ -55,6 +57,8 @@ DeepSeek-V3 代表了当前 **Transformer + MoE** 架构的巅峰优化。
 ## 关键词解析
 
 ### 1. MLA (Multi-Head Latent Attention)
+
+![MLA 多头潜在注意力架构细节](https://arxiv.org/html/2412.19437v1/x2.png)
 
 [这是 V3 最核心的创新，解决了 KV Cache 显存爆炸的问题]
 

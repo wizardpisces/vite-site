@@ -1,6 +1,16 @@
 <template>
   <div class="blog-toolbar">
     <div class="toolbar-content">
+      <!-- 左侧栏切换 -->
+      <button
+        class="layout-toggle-btn"
+        :class="{ active: showLeftSidebar }"
+        @click="toggleLeftSidebar"
+        title="切换左侧菜单"
+      >
+        <span class="toggle-icon">☰</span>
+      </button>
+
       <!-- 搜索组件 -->
       <div class="search-section">
         <blog-search />
@@ -20,6 +30,16 @@
           </button>
         </div>
       </div>
+
+      <!-- 右侧目录切换 -->
+      <button
+        class="layout-toggle-btn"
+        :class="{ active: showRightToc }"
+        @click="toggleRightToc"
+        title="切换右侧目录"
+      >
+        <span class="toggle-icon">≡</span>
+      </button>
     </div>
   </div>
 </template>
@@ -27,6 +47,7 @@
 <script lang="ts">
 import { ref, computed, provide, inject } from 'vue';
 import BlogSearch from './blog-search.vue';
+import useLayout from '@/composition/use-layout';
 
 export default {
   name: 'BlogToolbar',
@@ -64,13 +85,18 @@ export default {
       currentFontSize.value = savedFontSize;
     }
 
-    // 提供字体大小给子组件使用
     provide('currentFontSize', currentFontSize);
+
+    const { showLeftSidebar, showRightToc, toggleLeftSidebar, toggleRightToc } = useLayout();
 
     return {
       currentFontSize,
       fontSizes,
       setFontSize,
+      showLeftSidebar,
+      showRightToc,
+      toggleLeftSidebar,
+      toggleRightToc,
     };
   }
 };
@@ -100,6 +126,38 @@ export default {
   gap: 20px;
   width: 100%; // 确保宽度
   box-sizing: border-box; // 确保padding不会导致溢出
+}
+
+.layout-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  color: #94a3b8;
+
+  .toggle-icon {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  &:hover {
+    background: rgba(37, 99, 235, 0.08);
+    border-color: #3b82f6;
+    color: #3b82f6;
+  }
+
+  &.active {
+    background: #2563eb;
+    border-color: #2563eb;
+    color: #fff;
+  }
 }
 
 .search-section {

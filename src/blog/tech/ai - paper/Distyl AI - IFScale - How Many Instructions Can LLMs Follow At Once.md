@@ -40,6 +40,8 @@ Distyl AI 发布的论文 **《[How Many Instructions Can LLMs Follow At Once?](
 
 这种方法避开了主观评价，提供了一个纯粹的、硬核的**“指令召回率”**测试。
 
+![IFScale 各模型在不同指令密度下的准确率表现：揭示阈值衰减、线性衰减与指数衰减三种模式](https://arxiv.org/html/2507.11538v1/figs/accuracy_all_v3.png)
+
 ## 还有更好的解决方案吗？
 
 目前的评估多侧重于“推理深度”而非“指令广度”：
@@ -75,6 +77,8 @@ Distyl AI 发布的论文 **《[How Many Instructions Can LLMs Follow At Once?](
     *   **特征：** 哪怕只增加少量指令，性能也会迅速下降，无法处理高密度任务。
 
 ### 3. 首因效应 (Primacy Bias)
+
+![IFScale 首因效应：指令在列表中的位置对完成度的影响，前面指令显著高于后面](https://arxiv.org/html/2507.11538v1/figs/primacy_effect_split.png)
 
 研究发现，模型更容易忽略列表**后面**的指令。
 *   **位置偏差：** 在高密度下，排在前面的指令完成度显著高于排在后面的。

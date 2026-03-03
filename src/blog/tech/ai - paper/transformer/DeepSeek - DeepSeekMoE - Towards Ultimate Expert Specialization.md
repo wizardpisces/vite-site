@@ -71,6 +71,8 @@ DeepSeekMoE 的核心创新在于重新设计了 FFN 的物理结构和路由逻
 
 为了直观理解，我们对比一下**标准 FFN**、**传统 MoE (GShard)** 和 **DeepSeekMoE** 在网络结构上的差异。
 
+![架构对比图：Dense vs GShard vs DeepSeekMoE 三种网络结构](https://arxiv.org/html/2401.06066v1/x1.png)
+
 #### A. 标准 FFN (Dense)
 最原始的 Transformer 结构，所有 Token 走同一条路。
 *   **输入：** $h_{in}$
@@ -121,6 +123,48 @@ $$
     *   **激活参数量：** $2048 + 6144 = 8192$。
 
 **关键点：** 注意到了吗？**激活参数量（计算量）完全一样（都是 8192 维度的计算）**，但在 DeepSeekMoE 中，我们组合了 **2 个共享专家 + 6 个细粒度专家**，相比 GShard 的 **2 个粗粒度专家**，组合的灵活性指数级上升。
+
+### 3. 网络层面的具体实现逻辑
+
+要在神经网络中实现“一部分固定、一部分筛选”，在代码和张量（Tensor）层面其实是通过**两组独立的计算流**再相加来实现的。这一过程在物理实现上主要依赖于 **Dense 计算（共享专家）** 和 **Sparse Gather-Scatter 计算（路由专家）** 的并行执行。
+
+假设输入张量为 $X$，形状为 `[batch_size, seq_len, hidden_dim]`。
+
+#### A. 共享专家通道 (Dense Path)
+这部分最简单，因为它本质上就是标准的 Transformer FFN 计算。
+
+1.  **定义**：模型维护一个包含 $K_{shared}$ 个 FFN 的列表。
+2.  **计算**：输入 $X$ 完整地流过每一个共享专家。
+    *   $H_{shared} = \sum_{i=1}^{K_{shared}} \text{FFN}_i(X)$
+3.  **特点**：这里没有“选择”的过程，物理上就是矩阵乘法（GEMM），对所有 Token 一视同仁。
+
+#### B. 路由专家通道 (Sparse Path)
+这是 MoE 实现的核心难点。为了效率，我们不能对所有专家都计算一遍再 mask 掉，必须**只计算被选中的专家**。在 GPU 上，这通常通过 **"Permutation (重排) -> Computation (计算) -> Un-permutation (还原)"** 的范式实现。
+
+1.  **Router 判决 (Gating)**：
+    *   **投影**：输入 $X$ 经过一个线性层 $W_{gate}$，得到路由分数 $S$ (形状 `[..., N_routed]`)。
+    *   **Top-K**：使用 `topk` 算子选出每个 Token 对应的 $K$ 个专家索引 (`indices`) 和分数 (`scores`)。
+    *   **归一化**：对 `scores` 进行 Softmax 得到最终权重 `weights`。
+
+2.  **Token 重排 (Dispatch/Permutation)**：
+    *   **核心逻辑**：GPU 喜欢批量计算。如果 Token 1 选专家 A，Token 2 选专家 B，直接算效率很低。
+    *   **实现**：根据 `indices` 生成一个索引映射。将所有分配给“专家 1”的 Token 挑出来聚在一起，分配给“专家 2”的 Token 聚在一起……形成一个新的、按专家排序的张量 $X_{permuted}$。
+
+3.  **专家并行计算 (Grouped GEMM)**：
+    *   现在，输入 $X_{permuted}$ 是规整的。我们可以调用高效的算子（如 `GroupedGEMM` 或 `BMM`），一次性并行执行所有路由专家的 FFN 计算。
+    *   $Y_{permuted} = \text{AllRoutedExperts}(X_{permuted})$。
+    *   *注：这里只计算了被激活的部分，未被选中的专家完全不参与计算，从而节省算力。*
+
+4.  **结果还原 (Combine/Un-permutation)**：
+    *   计算出的 $Y_{permuted}$ 顺序是乱的（按专家排列）。
+    *   根据之前的索引映射，将结果散射（Scatter）回原来的 Token 位置。
+    *   最后乘上路由权重：$H_{routed} = Y_{restored} \times weights$。
+
+#### C. 最终融合
+最后，将两条通路的输出在张量层面上直接相加：
+$$H_{out} = H_{shared} + H_{routed} + X_{residual}$$
+
+这种设计使得 DeepSeekMoE 可以在现有的深度学习框架（PyTorch/TensorFlow）上高效运行，同时享受 Dense 的稳定性（共享专家）和 Sparse 的灵活性（路由专家）。
 
 ## 这种改动不会带来副作用吗？
 
@@ -193,6 +237,8 @@ DeepSeekMoE 是目前 MoE 架构优化的一条强力路线，但也存在竞争
 ### 3. 极致专家专业化 (Ultimate Expert Specialization)
 
 这是 DeepSeekMoE 的终极目标。
+
+![专家特化可视化：不同专家在知识空间中的专业化分布](https://arxiv.org/html/2401.06066v1/x3.png)
 
 *   通过**细粒度**，确保专家足够“小”，小到只能装下一个特定领域的知识。
 *   通过**共享**，确保专家足够“纯”，不需要去记那些到处都是的通用废话。

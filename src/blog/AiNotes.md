@@ -4,6 +4,48 @@ AI 的摘要与思考
 
 ---
 
+# Prompt Engineering - 结构化/压缩 CoT + 证据链
+
+结构化/压缩 CoT + 证据链 = 可控、可验证、可解释的推理摘要，是工程化实践中最优的输出形式。
+
+* 定义
+
+    * 压缩 CoT（Summarized / Structured CoT）：只保留关键推理步骤，不展开冗长内部试探或自我修正。
+
+    * 证据链（Evidence Trace）：明确指向输入或数据片段的可验证锚点，如代码行、关键文本、逻辑判断依据。
+
+* 核心目的
+
+    * 提升可解释性：让用户理解模型决策依据。
+    * 便于错误定位与调试：每一步可单独检查。
+    * 增强工程可控性：避免原始完整 CoT 冗长、噪声大或误导。
+
+* 示例输出要求
+
+```json
+{
+  "reasoning": {
+    "step1_code_patterns": {
+      "patterns_found": ["SQL 字符串拼接", "未参数化"]
+    },
+    "step2_risk_mapping": {
+      "SQL Injection": ["匹配 SQL 拼接", "用户输入未过滤"],
+      "性能问题": ["未发现"]
+    },
+    "step3_risk_evaluation": {
+      "SQL Injection": {
+        "severity": "Critical",
+        "evidence": "query = 'SELECT ...' + user_input"
+      }
+    },
+    "step4_final_decision": {
+      "main_issue": "SQL Injection",
+      "reason": "SQL 拼接 + 用户输入未过滤，存在高风险"
+    }
+  }
+}
+```
+
 # 先升维后降维
 
 神经网络中“升维—降维”常见于卷积、全连接或注意力层设计中。

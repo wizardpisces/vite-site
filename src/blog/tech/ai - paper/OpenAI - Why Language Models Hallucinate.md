@@ -4,6 +4,8 @@ OpenAI 和 Georgia Tech 联合发布的 **《Why Language Models Hallucinate》*
 
 简单来说，这篇论文认为**幻觉（Hallucination）**不仅仅是模型能力的缺陷，更是**训练和评估体系（Leaderboards）**一手“逼”出来的。模型就像一个被迫参加考试的学生，因为现在的考试机制鼓励“猜答案”而不是承认“我不知道”，所以模型学会了不懂装懂。
 
+![幻觉成因与 IIV 二元分类框架：生成错误与内部分类错误的关系](https://arxiv.org/html/2509.04664v1/x1.png)
+
 ## 这篇论文解决了什么问题？
 
 **核心问题：揭示了幻觉在统计学上的必然性和评估机制的误导性。**
@@ -39,6 +41,8 @@ OpenAI 和 Georgia Tech 联合发布的 **《Why Language Models Hallucinate》*
 *   **提出解决方案：**
     *   **修改评分规则（Proper Scoring Rules）：** 引入新的计分方式。例如，回答“我不知道”得 0 分，答错扣分（或得分显著低于答对），答对得正分。这样模型在没把握时会倾向于选择“我不知道”以避免惩罚。
     *   **校准训练（Calibration）：** 在后训练（Post-training）阶段，明确奖励模型输出真实的置信度，而不是仅仅奖励最终答案的匹配。
+
+![GPT-4 预训练与 PPO 后的校准曲线：展示置信度与准确率的对应关系](https://arxiv.org/html/2509.04664v1/gpt4_calibration_pretrain.png)
 
 ## 还有更好的解决方案吗？
 

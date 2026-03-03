@@ -1,5 +1,5 @@
 <template>
-  <aside class='sidebar' v-if="shouldShowSidebar">
+  <aside class='sidebar' :class="{ 'sidebar-collapsed': !showLeftSidebar }" v-if="shouldShowSidebar">
     <NavLinks class="mobile-only"></NavLinks>
     <BlogSidebar v-if="route.path.startsWith('/blog/')"></BlogSidebar>
   </aside>
@@ -10,6 +10,7 @@ import { useRoute } from "vue-router";
 import { computed } from 'vue';
 import NavLinks from "../navLinks.vue";
 import BlogSidebar from "./blog-sidebar.vue";
+import useLayout from "@/composition/use-layout";
 
 export default {
   name: "Sidebar",
@@ -19,15 +20,16 @@ export default {
   },
   setup() {
     const route = useRoute();
-    
-    // 只在博客页面或移动端显示侧边栏
+    const { showLeftSidebar } = useLayout();
+
     const shouldShowSidebar = computed(() => {
       return route.path.startsWith('/blog/');
     });
 
     return {
       route,
-      shouldShowSidebar
+      shouldShowSidebar,
+      showLeftSidebar,
     };
   },
 };
@@ -51,6 +53,13 @@ $sidebar-width: 280px;
   box-sizing: border-box;
   border-right: 1px solid rgba(37, 99, 235, 0.15);
   overflow-y: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  &.sidebar-collapsed {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
   box-shadow: 
     0 0 20px rgba(37, 99, 235, 0.08),
     inset 1px 0 0 rgba(255, 255, 255, 0.5);
