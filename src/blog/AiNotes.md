@@ -2,6 +2,14 @@
 AI 的摘要与思考
 
 ---
+# 指令风格
+
+OpenAI和Anthropic两家的指令风格取向其实不太一样。OpenAI更多在告诉AI「应该做什么」，Anthropic更多在告诉AI「不能做什么」。
+
+我个人更赞同Anthropic这条路。原因很简单——人对自己需要什么往往说不清，对自己不接受什么倒是清楚得多。把「红线」讲明白，剩下的留给模型发挥，既给了空间，也守住了底线。可能这也是为什么不少人觉得Claude比ChatGPT「更有人味」——不一定是模型本身的差异，而是规则风格让模型保留了更多发挥空间。
+
+- 摘要自 [harness guide](https://liziran.com/zh/column/2026-05-14-harness-complete-guide/)
+
 # [Token 帕金森定律 - 大模型时代的组织行为学](https://mp.weixin.qq.com/s/G0TazN_cHs2crJaNTrt4FA)
 
 经典的帕金森定律是“‌工作会自动膨胀，占满所有可用的时间‌”
