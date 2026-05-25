@@ -5,7 +5,7 @@
         <input
           v-model="searchTerm"
           type="text"
-          placeholder="🔍 搜索文章..."
+          placeholder="搜索文章..."
           class="search-input"
         />
         <span v-if="searchTerm" class="search-clear" @click="searchTerm = ''">×</span>
@@ -57,22 +57,21 @@ export default {
     .search-input {
       width: 100%;
       padding: 8px 30px 8px 12px;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
+      border: 1px solid #d8d0c4;
+      border-radius: 0;
       font-size: 13px;
-      color: #334155;
-      background: #f8fafc;
+      color: #141413;
+      background: transparent;
       outline: none;
-      transition: all 0.2s;
+      transition: border-color 0.18s ease, background 0.18s ease;
 
       &::placeholder {
-        color: #94a3b8;
+        color: #8a8178;
       }
 
       &:focus {
-        border-color: #3b82f6;
-        background: #fff;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        border-color: #141413;
+        background: #fffdf8;
       }
     }
 
@@ -80,14 +79,14 @@ export default {
       position: absolute;
       right: 8px;
       cursor: pointer;
-      color: #94a3b8;
+      color: #8a8178;
       font-size: 18px;
       line-height: 1;
       padding: 2px;
       transition: color 0.2s;
 
       &:hover {
-        color: #475569;
+        color: #141413;
       }
     }
   }

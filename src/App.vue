@@ -16,19 +16,7 @@
     v-clickoutside = "hideSidebar"
   ></sidebar>
   <main class="content">
-    <router-view v-slot="{ Component, route }">
-      <transition 
-        :name="getTransitionName(route)"
-        mode="out-in"
-        @enter="onEnter"
-        @leave="onLeave"
-      >
-        <component 
-          :is="Component" 
-          :key="route.path"
-        />
-      </transition>
-    </router-view>
+    <router-view />
   </main>
 </template>
 
@@ -43,46 +31,7 @@ export default {
     NavLinks,
     Sidebar,
   },
-  setup(props, ctx) {
-    // 页面转换动画逻辑
-    function getTransitionName(route: any) {
-      if (route.name === 'Home') return 'slide-down';
-      if (route.path.startsWith('/blog')) return 'slide-up';
-      return 'fade';
-    }
-    
-    function onEnter(el: any) {
-      // 页面进入时的微交互
-      // 检查当前路由是否为博客页面
-      const currentPath = window.location.pathname;
-      const isBlogPage = currentPath.startsWith('/blog');
-      
-      if (isBlogPage) {
-        el.style.opacity = '0.2';
-        el.style.transform = 'translateY(8px)';
-        setTimeout(() => {
-          el.style.transition = 'all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1)';
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-          setTimeout(() => { el.style.transform = ''; el.style.transition = ''; }, 350);
-        }, 30);
-      } else {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          el.style.transition = 'all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1)';
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-          setTimeout(() => { el.style.transform = ''; el.style.transition = ''; }, 650);
-        }, 50);
-      }
-    }
-    
-    function onLeave(el: any) {
-      el.style.transition = 'all 0.3s ease-out';
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(-10px)';
-    }
+  setup() {
     /**
      * TypeError: Failed to construct 'URL': Invalid URL
      * https://github.com/vitejs/vite/issues/5558
@@ -115,9 +64,6 @@ export default {
       hideSidebar,
       sideBarOpened,
       menuRef,
-      getTransitionName,
-      onEnter,
-      onLeave,
       // logo
     };
   },
@@ -138,51 +84,10 @@ export default {
     left: 0;
     right: 0;
     height: 70px;
-    background: rgba(250, 250, 250, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #f7f4ed;
     box-sizing: border-box;
-    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
+    border-bottom: 1px solid #d8d0c4;
     padding: 0 2.5rem;
-    box-shadow: 
-      0 4px 20px rgba(37, 99, 235, 0.08),
-      0 2px 8px rgba(0, 0, 0, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    
-    // 重新设计的底部分界线
-    &::before {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 5%;
-      right: 5%;
-      height: 2px;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(37, 99, 235, 0.2) 10%,
-        rgba(37, 99, 235, 0.4) 30%, 
-        rgba(14, 165, 233, 0.5) 50%, 
-        rgba(37, 99, 235, 0.4) 70%,
-        rgba(37, 99, 235, 0.2) 90%, 
-        transparent 100%
-      );
-      border-radius: 1px;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-    }
-    
-    // 添加动态背景装饰
-    &::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -10%;
-      width: 120%;
-      height: 200%;
-      background: radial-gradient(ellipse 800px 100px at 50% 50%, rgba(37, 99, 235, 0.03) 0%, transparent 70%);
-      animation: float-header 15s ease-in-out infinite;
-      z-index: -1;
-      pointer-events: none;
-    }
   }
 
   & > .content {
@@ -219,56 +124,4 @@ export default {
   }
 }
 
-// 独特的页面转换动画
-.slide-down-enter-active,
-.slide-down-leave-active {
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.slide-down-enter-from {
-  opacity: 0;
-  transform: translateY(-30px) scale(0.98);
-  filter: blur(4px);
-}
-
-.slide-down-leave-to {
-  opacity: 0;
-  transform: translateY(20px) scale(1.02);
-  filter: blur(2px);
-}
-
-.slide-up-enter-active,
-.slide-up-leave-active {
-  transition: all 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.slide-up-enter-from {
-  opacity: 0;
-  transform: translateY(40px) rotateX(8deg);
-  transform-origin: center bottom;
-}
-
-.slide-up-leave-to {
-  opacity: 0;
-  transform: translateY(-20px) rotateX(-4deg);
-  transform-origin: center top;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-// Header动画
-@keyframes float-header {
-    0%, 100% { transform: translateX(0px) scaleX(1); }
-    33% { transform: translateX(20px) scaleX(1.1); }
-    66% { transform: translateX(-10px) scaleX(0.95); }
-}
 </style>

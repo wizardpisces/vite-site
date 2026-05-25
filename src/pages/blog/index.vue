@@ -58,7 +58,7 @@ export default {
   padding-left: 280px;
   padding-right: 240px;
   min-height: calc(100vh - 70px);
-  background: #fafafa;
+  background: #f7f4ed;
   position: relative;
   overflow-x: hidden;
   transition: padding 0.3s ease;
@@ -76,7 +76,6 @@ export default {
     margin: 0;
     padding: 0;
     position: relative;
-    margin-top: -16px;
     overflow-x: hidden;
   }
 

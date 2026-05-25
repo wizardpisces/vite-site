@@ -67,12 +67,11 @@ export default {
 </script>
 
 <style lang="scss">
-// 博客主题色 - 使用蓝色系
-$blog-text: #2c3e50;
-$blog-hover: #3b82f6;
-$blog-active: #2563eb;
-$blog-hover-bg: rgba(59, 130, 246, 0.05);
-$blog-active-bg: rgba(37, 99, 235, 0.1);
+$blog-text: #5f574f;
+$blog-hover: #8a3f2d;
+$blog-active: #141413;
+$blog-hover-bg: #eee8dc;
+$blog-active-bg: #eee8dc;
 
 .tree-folder-content {
   font-size: 13px;
@@ -84,7 +83,7 @@ $blog-active-bg: rgba(37, 99, 235, 0.1);
     padding: 4px 10px;
     line-height: 1.4;
     text-decoration: none !important;
-    border-radius: 4px;
+    border-radius: 0;
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,7 +117,6 @@ $blog-active-bg: rgba(37, 99, 235, 0.1);
         width: 3px;
         height: 14px;
         background-color: $blog-active;
-        border-radius: 2px;
       }
     }
   }

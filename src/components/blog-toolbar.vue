@@ -11,48 +11,56 @@
         <span class="toggle-icon">☰</span>
       </button>
 
-      <!-- 搜索组件 -->
-      <div class="search-section">
-        <blog-search />
-      </div>
-      
-      <!-- 字体控制器 -->
-      <div class="font-control" v-if="showFontControl">
-        <div class="font-size-buttons">
-          <button 
-            v-for="size in fontSizes" 
-            :key="size.value"
-            @click="setFontSize(size.value)"
-            :class="['font-btn', { active: currentFontSize === size.value }]"
-            :title="`字体大小: ${size.label}`"
-          >
-            <span :class="size.iconClass">{{ size.icon }}</span>
-          </button>
+      <div class="toolbar-actions">
+        <!-- 字体控制器 -->
+        <div class="font-control" v-if="showFontControl">
+          <div class="font-size-buttons">
+            <button 
+              v-for="size in fontSizes" 
+              :key="size.value"
+              @click="setFontSize(size.value)"
+              :class="['font-btn', { active: currentFontSize === size.value }]"
+              :title="`字体大小: ${size.label}`"
+            >
+              <span :class="size.iconClass">{{ size.icon }}</span>
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- 右侧目录切换 -->
-      <button
-        class="layout-toggle-btn"
-        :class="{ active: showRightToc }"
-        @click="toggleRightToc"
-        title="切换右侧目录"
-      >
-        <span class="toggle-icon">≡</span>
-      </button>
+        <button
+          class="text-toggle-btn"
+          :class="{ active: contentSearchOpen }"
+          type="button"
+          @click="contentSearchOpen = !contentSearchOpen"
+        >
+          搜索内容
+        </button>
+
+        <!-- 右侧目录切换 -->
+        <button
+          class="layout-toggle-btn"
+          :class="{ active: showRightToc }"
+          @click="toggleRightToc"
+          title="切换右侧目录"
+        >
+          <span class="toggle-icon">≡</span>
+        </button>
+      </div>
     </div>
+
+    <blog-content-search v-if="contentSearchOpen" />
   </div>
 </template>
 
 <script lang="ts">
-import { ref, computed, provide, inject } from 'vue';
-import BlogSearch from './blog-search.vue';
+import { ref, provide } from 'vue';
+import BlogContentSearch from './blog-content-search.vue';
 import useLayout from '@/composition/use-layout';
 
 export default {
   name: 'BlogToolbar',
   components: {
-    BlogSearch
+    BlogContentSearch,
   },
   props: {
     showFontControl: {
@@ -64,6 +72,7 @@ export default {
   setup(props, { emit }) {
     // 字体大小控制
     const currentFontSize = ref('medium');
+    const contentSearchOpen = ref(false);
     const fontSizes = [
       { value: 'small', label: '小', icon: 'A', iconClass: 'small-icon' },
       { value: 'medium', label: '中', icon: 'A', iconClass: 'medium-icon' },
@@ -93,6 +102,7 @@ export default {
       currentFontSize,
       fontSizes,
       setFontSize,
+      contentSearchOpen,
       showLeftSidebar,
       showRightToc,
       toggleLeftSidebar,
@@ -104,16 +114,14 @@ export default {
 
 <style lang="scss" scoped>
 .blog-toolbar {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(37, 99, 235, 0.08);
-  position: sticky;
-  top: 10px; // 考虑主导航栏高度  
-  z-index: 150; // 提高z-index，确保在TOC上方
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.06);
-  width: 100%; // 确保宽度
-  overflow: hidden; // 防止子元素溢出
+  background: #f7f4ed;
+  border-bottom: 1px solid #d8d0c4;
+  position: relative;
+  z-index: 1;
+  box-shadow: none;
+  width: 100%;
+  overflow: hidden;
+  min-height: 56px;
 }
 
 .toolbar-content {
@@ -122,10 +130,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 4px 20px; // 进一步减少padding
+  padding: 12px 24px;
   gap: 20px;
-  width: 100%; // 确保宽度
-  box-sizing: border-box; // 确保padding不会导致溢出
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .layout-toggle-btn {
@@ -134,13 +142,13 @@ export default {
   justify-content: center;
   width: 30px;
   height: 30px;
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
-  border-radius: 6px;
+  border: 1px solid #d8d0c4;
+  background: transparent;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s;
   flex-shrink: 0;
-  color: #94a3b8;
+  color: #8a8178;
 
   .toggle-icon {
     font-size: 16px;
@@ -148,44 +156,61 @@ export default {
   }
 
   &:hover {
-    background: rgba(37, 99, 235, 0.08);
-    border-color: #3b82f6;
-    color: #3b82f6;
+    background: #eee8dc;
+    border-color: #141413;
+    color: #141413;
   }
 
   &.active {
-    background: #2563eb;
-    border-color: #2563eb;
+    background: #141413;
+    border-color: #141413;
     color: #fff;
   }
 }
 
-.search-section {
-  flex: 1;
-  max-width: 600px;
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.text-toggle-btn {
+  height: 30px;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
+  background: transparent;
+  color: $color-text-secondary;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 10px;
+  white-space: nowrap;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+
+  &:hover,
+  &.active {
+    border-color: #141413;
+    color: #141413;
+    background: #eee8dc;
+  }
 }
 
 .font-control {
   flex-shrink: 0;
-  min-width: 140px; // 固定最小宽度，防止移动
-  position: static; // 使用静态定位，防止脱离文档流
+  min-width: 140px;
+  position: static;
   display: flex;
   align-self: self-start;
   
   .font-size-buttons {
     display: flex;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 8px; // 稍微减少圆角
-    padding: 2px; // 减少padding
-    box-shadow: 
-      0 2px 8px rgba(37, 99, 235, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(37, 99, 235, 0.12);
-    gap: 1px; // 减少间距
-    justify-content: center; // 居中对齐
-    position: static !important; // 强制确保不会脱离正常文档流
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    border: 1px solid #d8d0c4;
+    gap: 0;
+    justify-content: center;
+    position: static !important;
   }
 
   .font-btn {
@@ -195,24 +220,28 @@ export default {
     width: 28px; // 稍微减少尺寸
     height: 28px;
     border: none;
+    border-right: 1px solid #d8d0c4;
     background: transparent;
-    border-radius: 4px; // 减少圆角
+    border-radius: 0;
     cursor: pointer;
-    transition: all 0.2s ease;
-    color: #64748b;
+    transition: background 0.18s ease, color 0.18s ease;
+    color: #5f574f;
     font-weight: 600;
-    position: static; // 确保按钮不会脱离正常布局
+    position: static;
+
+    &:last-child {
+      border-right: 0;
+    }
 
     &:hover {
-      background: rgba(37, 99, 235, 0.08);
-      color: #2563eb;
-      transform: scale(1.05);
+      background: #eee8dc;
+      color: #141413;
     }
 
     &.active {
-      background: #2563eb;
+      background: #141413;
       color: white;
-      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+      box-shadow: none;
     }
 
     // 不同大小的A字母图标
@@ -248,19 +277,13 @@ export default {
 }
 
 @media (max-width: 480px) {
-  .blog-toolbar {
-    position: sticky; // 保持粘顶，确保字体控制始终可见
-    top: 70px;
-  }
-  
   .toolbar-content {
-    flex-direction: column;
-    gap: 8px;
+    gap: 12px;
     padding: 8px 12px;
   }
-  
-  .search-section {
-    max-width: 100%;
+
+  .toolbar-actions {
+    gap: 10px;
   }
 }
 

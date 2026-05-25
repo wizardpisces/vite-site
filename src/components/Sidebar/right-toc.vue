@@ -113,14 +113,12 @@ export default {
   right: 0;
   bottom: 0;
   width: 220px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-left: 1px solid #eaecef;
+  background: #f7f4ed;
+  border-left: 1px solid #d8d0c4;
   overflow-y: auto;
   padding: 12px 0;
   font-size: 13px;
-  box-shadow: -1px 0 2px rgba(0, 0, 0, 0.03);
+  box-shadow: none;
   z-index: 120;
   transition: transform 0.3s ease, opacity 0.3s ease;
 
@@ -136,10 +134,10 @@ export default {
     padding: 0 12px 8px;
     font-weight: 600;
     font-size: 12px;
-    color: #94a3b8;
+    color: #8a8178;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid #d8d0c4;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -147,8 +145,8 @@ export default {
     .toc-progress {
       font-size: 10px;
       font-weight: 500;
-      color: #2563eb;
-      background: rgba(37, 99, 235, 0.08);
+      color: #5f574f;
+      background: #eee8dc;
       padding: 1px 6px;
       border-radius: 8px;
       letter-spacing: 0;

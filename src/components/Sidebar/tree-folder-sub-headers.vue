@@ -48,12 +48,12 @@ export default {
 </script>
 
 <style lang="scss">
-$toc-text: #4b5563;
-$toc-hover: #3b82f6;
-$toc-active: #1d4ed8;
-$toc-hover-bg: rgba(59, 130, 246, 0.05);
-$toc-active-bg: rgba(37, 99, 235, 0.08);
-$toc-border: #e5e7eb;
+$toc-text: #5f574f;
+$toc-hover: #8a3f2d;
+$toc-active: #141413;
+$toc-hover-bg: #eee8dc;
+$toc-active-bg: #eee8dc;
+$toc-border: #d8d0c4;
 
 .tree-folder-sub-headers {
   list-style-type: none;
@@ -72,7 +72,7 @@ $toc-border: #e5e7eb;
       padding: 3px 8px;
       font-size: 12px;
       text-decoration: none;
-      border-radius: 3px;
+      border-radius: 0;
       transition: all 0.15s;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -96,7 +96,7 @@ $toc-border: #e5e7eb;
       a {
         font-size: 11px;
         padding: 2px 8px;
-        color: #6b7280;
+        color: #8a8178;
       }
     }
   }

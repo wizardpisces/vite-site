@@ -387,35 +387,29 @@ export default {
 .compact-search-bar {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(37, 99, 235, 0.15);
-  border-radius: 20px;
-  padding: 6px 12px; // 减少padding，使更紧凑
-  box-shadow: 
-    0 2px 12px rgba(37, 99, 235, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  background: transparent;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
+  padding: 6px 12px;
+  box-shadow: none;
+  transition: border-color 0.18s ease, background 0.18s ease;
   max-width: 400px;
-  margin: 0 auto 8px; // 减少下边距
-  min-height: 32px; // 减少最小高度
+  margin: 0 auto 8px;
+  min-height: 32px;
 }
 
 .compact-search-bar:hover {
-  border-color: rgba(37, 99, 235, 0.25);
-  box-shadow: 
-    0 4px 16px rgba(37, 99, 235, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border-color: #141413;
+  background: #fffdf8;
 }
 
 .search-icon {
-  color: #64748b;
+  color: #5f574f;
   cursor: pointer;
   padding: 4px;
   margin-right: 8px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  border-radius: 0;
+  transition: color 0.18s ease, background 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -431,8 +425,8 @@ export default {
 }
 
 .search-icon:hover {
-  color: #2563eb;
-  background: rgba(37, 99, 235, 0.08);
+  color: #141413;
+  background: #eee8dc;
 }
 
 .compact-search-input {
@@ -442,22 +436,22 @@ export default {
   background: transparent;
   font-size: 14px;
   padding: 4px 0;
-  color: #1a202c;
+  color: #141413;
 }
 
 .compact-search-input::placeholder {
-  color: #94a3b8;
+  color: #8a8178;
 }
 
 .search-mode-toggle {
   padding: 4px 8px;
   margin-left: 8px;
-  border-radius: 8px;
+  border-radius: 0;
   cursor: pointer;
   font-size: 14px;
   transition: all 0.2s ease;
-  background: rgba(37, 99, 235, 0.08);
-  color: #2563eb;
+  background: #eee8dc;
+  color: #5f574f;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -467,23 +461,16 @@ export default {
 }
 
 .search-mode-toggle:hover {
-  background: rgba(37, 99, 235, 0.15);
-  transform: scale(1.05);
+  background: #e6ded0;
 }
 
-/* 展开的搜索界面 */
 .expanded-search {
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(37, 99, 235, 0.15);
-  border-radius: 16px;
+  background: #fffdf8;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
   padding: 20px;
   margin-bottom: 16px;
-  box-shadow: 
-    0 4px 20px rgba(37, 99, 235, 0.12),
-    0 2px 8px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: none;
 }
 
 .search-header {
@@ -500,27 +487,27 @@ export default {
 .search-input {
   flex: 1;
   padding: 12px 16px;
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  border-radius: 12px;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
   font-size: 14px;
-  background: rgba(255, 255, 255, 0.9);
-  transition: all 0.3s ease;
+  background: transparent;
+  transition: border-color 0.18s ease, background 0.18s ease;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  border-color: #141413;
+  background: #fff;
 }
 
 .search-button {
   padding: 12px;
-  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  background: #141413;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 0;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -535,12 +522,11 @@ export default {
 }
 
 .search-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #1d4ed8, #0284c7);
-  transform: translateY(-1px);
+  background: #8a3f2d;
 }
 
 .search-button:disabled {
-  background: #94a3b8;
+  background: #8a8178;
   cursor: not-allowed;
 }
 
@@ -566,43 +552,39 @@ export default {
 
 .mode-btn {
   padding: 6px 12px;
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  background: rgba(255, 255, 255, 0.9);
-  color: #64748b;
-  border-radius: 8px;
+  border: 1px solid #d8d0c4;
+  background: transparent;
+  color: #5f574f;
+  border-radius: 0;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .mode-btn:hover {
-  border-color: rgba(37, 99, 235, 0.3);
-  background: rgba(37, 99, 235, 0.05);
+  border-color: #141413;
+  background: #eee8dc;
 }
 
 .mode-btn.active {
-  background: #2563eb;
+  background: #141413;
   color: white;
-  border-color: #2563eb;
+  border-color: #141413;
 }
 
 .collapse-btn {
   padding: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(99, 102, 241, 0.15);
-  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.18s ease, border-color 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32px;
   height: 32px;
-  box-shadow: 
-    0 2px 8px rgba(99, 102, 241, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: none;
   
   .close-icon {
     position: relative;
@@ -617,10 +599,9 @@ export default {
     position: absolute;
     width: 14px;
     height: 2px;
-    background: linear-gradient(90deg, #6366f1, #8b5cf6);
-    border-radius: 1px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px rgba(99, 102, 241, 0.2);
+    background: #5f574f;
+    border-radius: 0;
+    transition: background 0.18s ease;
     
     &.close-line-1 {
       transform: rotate(45deg);
@@ -633,52 +614,26 @@ export default {
 }
 
 .collapse-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(99, 102, 241, 0.25);
-  box-shadow: 
-    0 4px 16px rgba(99, 102, 241, 0.15),
-    0 2px 8px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transform: translateY(-1px);
+  background: #eee8dc;
+  border-color: #141413;
   
   .close-line {
-    background: linear-gradient(90deg, #4f46e5, #7c3aed);
-    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
-    
-    &.close-line-1 {
-      transform: rotate(45deg) scale(1.15);
-    }
-    
-    &.close-line-2 {
-      transform: rotate(-45deg) scale(1.15);
-    }
+    background: #141413;
   }
 }
 
 .collapse-btn:active {
   transform: translateY(0);
-  box-shadow: 
-    0 2px 8px rgba(99, 102, 241, 0.2),
-    inset 0 2px 4px rgba(99, 102, 241, 0.1);
   
   .close-line {
-    background: linear-gradient(90deg, #3730a3, #6b21a8);
-    transform: scale(0.95);
-    
-    &.close-line-1 {
-      transform: rotate(45deg) scale(0.95);
-    }
-    
-    &.close-line-2 {
-      transform: rotate(-45deg) scale(0.95);
-    }
+    background: #141413;
   }
 }
 
 .warmup-notice {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px;
+  background: #eee8dc;
+  color: #5f574f;
+  border-radius: 0;
   padding: 12px 16px;
   margin-top: 12px;
   display: flex;
@@ -702,18 +657,13 @@ export default {
   100% { transform: rotate(360deg); }
 }
 
-/* 搜索结果容器 */
 .search-results-container {
   position: relative;
   margin-top: 16px;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(37, 99, 235, 0.15);
-  border-radius: 16px;
-  box-shadow: 
-    0 4px 20px rgba(37, 99, 235, 0.12),
-    0 2px 8px rgba(0, 0, 0, 0.05);
+  background: #fffdf8;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
+  box-shadow: none;
   overflow: hidden;
 }
 
@@ -722,34 +672,30 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(37, 99, 235, 0.1);
-  background: rgba(37, 99, 235, 0.02);
+  border-bottom: 1px solid #d8d0c4;
+  background: #f7f4ed;
 }
 
 .results-header h3 {
   margin: 0;
-  color: #1a202c;
+  color: #141413;
   font-size: 16px;
   font-weight: 600;
 }
 
 .close-results-btn {
   padding: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(239, 68, 68, 0.15);
-  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.18s ease, border-color 0.18s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32px;
   height: 32px;
-  box-shadow: 
-    0 2px 8px rgba(239, 68, 68, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: none;
   
   .close-icon {
     position: relative;
@@ -764,10 +710,9 @@ export default {
     position: absolute;
     width: 14px;
     height: 2px;
-    background: linear-gradient(90deg, #ef4444, #f87171);
-    border-radius: 1px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px rgba(239, 68, 68, 0.2);
+    background: #5f574f;
+    border-radius: 0;
+    transition: background 0.18s ease;
     
     &.close-line-1 {
       transform: rotate(45deg);
@@ -780,51 +725,24 @@ export default {
 }
 
 .close-results-btn:hover {
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(239, 68, 68, 0.25);
-  box-shadow: 
-    0 4px 16px rgba(239, 68, 68, 0.15),
-    0 2px 8px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  transform: translateY(-1px);
+  background: #eee8dc;
+  border-color: #141413;
   
   .close-line {
-    background: linear-gradient(90deg, #dc2626, #ef4444);
-    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.3);
-    
-    &.close-line-1 {
-      transform: rotate(45deg) scale(1.15);
-    }
-    
-    &.close-line-2 {
-      transform: rotate(-45deg) scale(1.15);
-    }
+    background: #141413;
   }
 }
 
 .close-results-btn:active {
   transform: translateY(0);
-  box-shadow: 
-    0 2px 8px rgba(239, 68, 68, 0.2),
-    inset 0 2px 4px rgba(239, 68, 68, 0.1);
-  
   .close-line {
-    background: linear-gradient(90deg, #b91c1c, #dc2626);
-    transform: scale(0.95);
-    
-    &.close-line-1 {
-      transform: rotate(45deg) scale(0.95);
-    }
-    
-    &.close-line-2 {
-      transform: rotate(-45deg) scale(0.95);
-    }
+    background: #141413;
   }
 }
 
 .search-results {
-  max-height: 60vh; // 限制最大高度，避免超出视窗
-  overflow-y: auto; // 添加垂直滚动
+  max-height: 60vh;
+  overflow-y: auto;
   padding: 16px 20px;
   
   // 自定义滚动条样式
@@ -833,35 +751,31 @@ export default {
   }
   
   &::-webkit-scrollbar-track {
-    background: rgba(37, 99, 235, 0.05);
+    background: #eee8dc;
     border-radius: 3px;
   }
   
   &::-webkit-scrollbar-thumb {
-    background: rgba(37, 99, 235, 0.2);
+    background: #d8d0c4;
     border-radius: 3px;
     
     &:hover {
-      background: rgba(37, 99, 235, 0.3);
+      background: #8a8178;
     }
   }
 }
 
-// 已在上面定义了.results-header h3样式
-
 .search-result-item {
   margin-bottom: 16px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(37, 99, 235, 0.08);
-  border-radius: 12px;
-  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  background: transparent;
+  border: 1px solid #d8d0c4;
+  border-radius: 0;
+  transition: background 0.18s ease, border-color 0.18s ease;
   
   &:hover {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(37, 99, 235, 0.15);
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
-    transform: translateY(-1px);
+    background: #f7f4ed;
+    border-color: #141413;
   }
   
   &:last-child {
@@ -877,7 +791,7 @@ export default {
 }
 
 .search-result-item h4 a {
-  color: #2563eb;
+  color: #141413;
   text-decoration: none;
   flex: 1;
   font-weight: 600;
@@ -885,57 +799,55 @@ export default {
 }
 
 .search-result-item h4 a:hover {
-  color: #1d4ed8;
+  color: #8a3f2d;
   text-decoration: none;
 }
 
 .match-tag {
-  background: rgba(37, 99, 235, 0.1);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  color: #2563eb;
+  background: #eee8dc;
+  color: #5f574f;
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.1);
+  border: 1px solid #d8d0c4;
+  box-shadow: none;
 }
 
 .score-tag {
-  background: #f0f8ff;
-  color: #333;
+  background: #eee8dc;
+  color: #5f574f;
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: normal;
 }
 
 .chunk-tag {
-  background: #fff3cd;
-  color: #856404;
+  background: #eee8dc;
+  color: #5f574f;
   padding: 2px 8px;
-  border-radius: 12px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: normal;
 }
 
 .result-content {
   margin: 0;
-  color: #555;
+  color: #5f574f;
   line-height: 1.5;
 }
 
 .result-content :deep(mark) {
-  background: #ffeb3b;
+  background: #e6ded0;
   padding: 1px 2px;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .no-results, .initializing, .error-message {
   text-align: center;
   padding: 40px 20px;
-  color: #666;
+  color: #5f574f;
 }
 
 .switch-mode-btn {

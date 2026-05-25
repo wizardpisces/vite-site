@@ -110,13 +110,12 @@ export default {
 </script>
 
 <style lang="scss">
-// 分组主题色 - 使用暖色调
-$folder-text: #1a1a1a;
-$folder-secondary: #2c3e50;
-$folder-border: #eaecef;
-$folder-hover: #f97316; // 橙色
-$folder-active: #ea580c;
-$folder-hover-bg: rgba(249, 115, 22, 0.05);
+$folder-text: #141413;
+$folder-secondary: #5f574f;
+$folder-border: #d8d0c4;
+$folder-hover: #8a3f2d;
+$folder-active: #8a3f2d;
+$folder-hover-bg: #eee8dc;
 
 .tree-folder {
   margin-bottom: 2px;
@@ -133,7 +132,7 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
     color: $folder-text;
     transition: all 0.2s;
     position: relative;
-    border-radius: 4px;
+    border-radius: 0;
 
     &:hover {
       color: $folder-hover !important;
@@ -147,7 +146,7 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
     .folder-icon {
       margin-right: 6px;
       transition: all 0.2s;
-      color: #64748b;
+      color: #8a8178;
       flex-shrink: 0;
     }
 
@@ -155,8 +154,8 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
       margin-left: 6px;
       font-size: 10px;
       font-weight: 500;
-      color: #94a3b8;
-      background: #f1f5f9;
+      color: #8a8178;
+      background: #eee8dc;
       padding: 0 5px;
       border-radius: 10px;
       line-height: 16px;
@@ -183,8 +182,8 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
     padding: 6px 8px;
     margin-bottom: 2px;
     color: $folder-text;
-    background: linear-gradient(90deg, rgba(241, 245, 249, 0.8), transparent);
-    border-left: 3px solid #cbd5e1;
+    background: transparent;
+    border-left: 2px solid #d8d0c4;
 
     &:hover {
       border-left-color: $folder-hover;
@@ -199,11 +198,11 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
       font-size: 13px;
       padding: 4px 8px;
       color: $folder-secondary;
-      border-left: 2px solid #e2e8f0;
+      border-left: 2px solid #d8d0c4;
 
       &:hover {
         border-left-color: $folder-hover;
-        background-color: rgba(249, 115, 22, 0.06);
+        background-color: #eee8dc;
       }
     }
 
@@ -211,8 +210,8 @@ $folder-hover-bg: rgba(249, 115, 22, 0.05);
     .tree-folder > .sidebar-heading {
       font-size: 12px;
       padding: 3px 8px;
-      color: #64748b;
-      border-left: 2px solid #f1f5f9;
+      color: #8a8178;
+      border-left: 2px solid #d8d0c4;
     }
   }
 
