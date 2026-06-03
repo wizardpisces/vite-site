@@ -6,8 +6,11 @@
       class="tree-folder-content-title"
       :title="blog.blogTitle"
     >
-      <span class="blog-title" v-if="searchTerm" v-html="highlightTitle"></span>
-      <span class="blog-title" v-else>{{blog.blogTitle}}</span>
+      <span class="blog-row">
+        <span class="blog-title" v-if="searchTerm" v-html="highlightTitle"></span>
+        <span class="blog-title" v-else>{{blog.blogTitle}}</span>
+      </span>
+      <span class="blog-freshness-date">{{ formatBlogFreshnessDate(blog) }}</span>
     </a>
   </div>
 </template>
@@ -15,7 +18,11 @@
 <script lang="ts">
 import { computed, PropType, inject, ref, Ref } from "vue";
 import { useRouter } from "vue-router";
-import useBlog, { BlogDescriptor } from "@/composition/use-blog";
+import useBlog, {
+  BlogDescriptor,
+  createBlogRoutePath,
+  formatBlogFreshnessDate
+} from "@/composition/use-blog";
 
 export default {
   name: "TreeFolderContent",
@@ -49,9 +56,7 @@ export default {
     const onBlogClick = async (blog: BlogDescriptor) => {
       setActiveBlog(blog);
       await fetchMetaByBlogLink(blog.blogLink);
-      router.push({
-        path: `/blog/${blog.blogTitle}`,
-      });
+      router.push(createBlogRoutePath(blog));
     };
 
     return {
@@ -61,6 +66,7 @@ export default {
       isVisible,
       searchTerm,
       highlightTitle,
+      formatBlogFreshnessDate,
     };
   },
 };
@@ -80,21 +86,42 @@ $blog-active-bg: #eee8dc;
     display: block;
     color: $blog-text;
     transition: all 0.2s;
-    padding: 4px 10px;
+    padding: 5px 10px;
     line-height: 1.4;
     text-decoration: none !important;
     border-radius: 0;
     position: relative;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     
     &:hover {
       color: $blog-hover !important;
       background-color: $blog-hover-bg;
     }
   }
-  
+
+  .blog-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .blog-title {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .blog-freshness-date {
+    display: block;
+    margin-top: 2px;
+    color: #8a8178;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
   mark {
     background: rgba(250, 204, 21, 0.4);
     color: inherit;

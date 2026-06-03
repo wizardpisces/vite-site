@@ -13,7 +13,7 @@
     <section class="articles">
       <div class="section-header">
         <h2>Latest writing</h2>
-        <router-link to="/blog/Introduction">进入文章目录</router-link>
+        <router-link to="/blog/Introduction">更多</router-link>
       </div>
       <div class="article-list">
         <router-link
@@ -22,7 +22,9 @@
           :to="createBlogRoutePath(article)"
           class="article-row"
         >
-          <span class="article-category">{{ formatFreshness(article) }}</span>
+          <span class="article-meta">
+            <span class="article-date">{{ formatFreshnessDate(article) }}</span>
+          </span>
           <span class="article-title">{{ article.blogTitle }}</span>
           <span class="article-excerpt">{{ formatBlogPath(article) }}</span>
         </router-link>
@@ -32,41 +34,17 @@
 </template>
 <script lang="ts">
 import { computed } from 'vue';
-import useBlog, { createBlogRoutePath } from '@/composition/use-blog';
+import useBlog, {
+  createBlogRoutePath,
+  formatBlogFreshnessDate
+} from '@/composition/use-blog';
 import type { BlogDescriptor } from '@/composition/use-blog';
-
-const FRESHNESS_STATUS_LABEL: Record<BlogDescriptor['blogFreshness']['status'], string> = {
-  added: '新增',
-  modified: '修改',
-  unknown: '文章',
-};
-
-function formatDate(timestamp: number) {
-  if (!timestamp) {
-    return '';
-  }
-
-  const date = new Date(timestamp * 1000);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
 
 export default {
   name: 'Home',
   setup() {
     const { getLatestBlogs } = useBlog();
-    const latestBlogs = computed(() => getLatestBlogs(8));
-
-    function formatFreshness(article: BlogDescriptor) {
-      const freshness = article.blogFreshness;
-      const date = formatDate(freshness.changedAt);
-      const status = FRESHNESS_STATUS_LABEL[freshness.status];
-
-      return date ? `${date} · ${status}` : status;
-    }
+    const latestBlogs = computed(() => getLatestBlogs(10));
 
     function formatBlogPath(article: BlogDescriptor) {
       const pathParts = article.blogLink
@@ -84,7 +62,7 @@ export default {
     return {
       latestBlogs,
       createBlogRoutePath,
-      formatFreshness,
+      formatFreshnessDate: formatBlogFreshnessDate,
       formatBlogPath,
     };
   }
@@ -194,7 +172,7 @@ export default {
 
   .article-row {
     display: grid;
-    grid-template-columns: 150px minmax(220px, 0.8fr) minmax(260px, 1.2fr);
+    grid-template-columns: 120px minmax(220px, 0.8fr) minmax(260px, 1.2fr);
     gap: 1.5rem;
     align-items: baseline;
     padding: 1.25rem 0;
@@ -213,9 +191,17 @@ export default {
       border-bottom: 0;
     }
 
-    .article-category {
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-width: 0;
+    }
+
+    .article-date {
       color: $color-text-muted;
       font-size: 0.88rem;
+      white-space: nowrap;
     }
 
     .article-title {
@@ -250,6 +236,10 @@ export default {
     .article-row {
       grid-template-columns: 1fr;
       gap: 0.4rem;
+    }
+
+    .article-meta {
+      flex-wrap: wrap;
     }
   }
 }

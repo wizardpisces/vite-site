@@ -1,5 +1,11 @@
 <template>
   <div class="blog-article">
+    <div
+      v-if="activeBlog.blogLink && !loadingBlog && contentReady"
+      class="article-freshness-bar"
+    >
+      更新于 {{ formatBlogFreshnessDate(activeBlog) }}
+    </div>
     <div 
       v-if="blogContent && !loadingBlog && contentReady" 
       v-html="blogContent" 
@@ -33,7 +39,7 @@
 <script lang="ts">
 import { computed, defineAsyncComponent, onMounted, ref, watch, inject, nextTick, onUnmounted } from "vue";
 import { useRoute } from "vue-router";
-import useBlog from "@/composition/use-blog";
+import useBlog, { formatBlogFreshnessDate } from "@/composition/use-blog";
 import 'katex/dist/katex.min.css';
 
 export default {
@@ -43,7 +49,7 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const { blogContent, initBlogByTitle, loadingBlog } = useBlog();
+    const { blogContent, initBlogByTitle, loadingBlog, activeBlog } = useBlog();
     const contentReady = ref(false);
     const shouldShowLoading = ref(false);
     const commentPanelOpen = ref(false);
@@ -121,12 +127,14 @@ export default {
 
     return {
       blogContent,
+      activeBlog,
       loadingBlog,
       currentFontSize,
       contentReady,
       shouldShowLoading,
       commentPanelOpen,
       commentId,
+      formatBlogFreshnessDate,
     };
   }
 };
@@ -138,11 +146,20 @@ export default {
   min-height: calc(100vh - 70px);
   position: relative;
 
+  .article-freshness-bar {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 56px 0;
+    box-sizing: border-box;
+    color: $color-text-muted;
+    font-size: 13px;
+  }
+
   .article-content {
     max-width: 980px;
     width: 100%;
     margin: 0 auto;
-    padding: 40px 56px 56px;
+    padding: 18px 56px 56px;
     box-sizing: border-box;
     font-size: 15px;
     line-height: 1.72;
@@ -410,18 +427,30 @@ export default {
   }
 
   @media (max-width: 1024px) {
+    .article-freshness-bar {
+      padding: 1.25rem 1.5rem 0;
+    }
+
     .article-content {
       padding: 1rem 1.5rem 3rem 1.5rem;
     }
   }
 
   @media (max-width: 768px) {
+    .article-freshness-bar {
+      padding: 1.25rem 1.2rem 0;
+    }
+
     .article-content {
       padding: 1rem 1.2rem 3rem 1.2rem;
     }
   }
 
   @media (max-width: 480px) {
+    .article-freshness-bar {
+      padding: 1rem 1rem 0;
+    }
+
     .article-content {
       padding: 0.8rem 1rem 3rem 1rem;
       

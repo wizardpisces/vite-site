@@ -50,6 +50,12 @@ const BLOG_FRESHNESS_STATUS_ORDER: Record<BlogFreshness['status'], number> = {
     unknown: 2,
 }
 
+const BLOG_FRESHNESS_STATUS_LABEL: Record<BlogFreshness['status'], string> = {
+    added: '新增',
+    modified: '修改',
+    unknown: '文章',
+}
+
 function createBlogTree(): BlogTree {
     let blogTree: BlogTree = {}
 
@@ -171,6 +177,24 @@ function blogLinkToRouteParam(blogLink: string) {
 
 export function createBlogRoutePath(blogDescriptor: BlogDescriptor) {
     return `/blog/${encodeURIComponent(blogLinkToRouteParam(blogDescriptor.blogLink))}`
+}
+
+export function formatBlogFreshnessDate(blogDescriptor: BlogDescriptor) {
+    const timestamp = blogDescriptor.blogFreshness.changedAt
+    if (!timestamp) {
+        return '未记录'
+    }
+
+    const date = new Date(timestamp * 1000)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+
+    return `${year}-${month}-${day}`
+}
+
+export function formatBlogFreshnessStatus(blogDescriptor: BlogDescriptor) {
+    return BLOG_FRESHNESS_STATUS_LABEL[blogDescriptor.blogFreshness.status]
 }
 
 export function findSubHeaderByTitle(title: string, subHeaders: SubHeader[] = activeBlog.value.subHeaders || []): SubHeader {
@@ -309,7 +333,7 @@ function composition() {
         })
     }
 
-    function getLatestBlogs(limit: number = 8) {
+    function getLatestBlogs(limit: number = 10) {
         return collectBlogDescriptors(categoryGroup.value)
             .filter((blogDescriptor) => blogDescriptor.blogTitle !== 'Introduction')
             .sort(compareBlogFreshness)
