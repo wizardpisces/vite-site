@@ -1,5 +1,7 @@
 import { ref } from "vue";
 import { NestedHItem, NestedHList, Md2HtmlExports } from "vite-plugin-md2html";
+import blogFreshnessByLink from "virtual:blog-freshness";
+import type { BlogFreshness } from "virtual:blog-freshness";
 
 export default composition
 
@@ -15,6 +17,7 @@ export type BlogDescriptor = {
     blogTitle: string
     blogContent?: string
     blogLink: string // import() path
+    blogFreshness: BlogFreshness
     subHeaders?: SubHeader[]
 }
 
@@ -33,6 +36,19 @@ const debug = (...args: any[]) => console.log.apply(null, ['group-generation.ts:
 
 // @ts-ignore
 const blogMap: Record<string, () => Promise<any>> = import.meta.glob("/src/blog/**/*.md");
+
+const UNKNOWN_BLOG_FRESHNESS: BlogFreshness = {
+    status: 'unknown',
+    changedAt: 0,
+    commitHash: '',
+    source: 'unknown',
+}
+
+const BLOG_FRESHNESS_STATUS_ORDER: Record<BlogFreshness['status'], number> = {
+    added: 0,
+    modified: 1,
+    unknown: 2,
+}
 
 function createBlogTree(): BlogTree {
     let blogTree: BlogTree = {}
@@ -68,6 +84,7 @@ function createBlogDescriptor(blogLink: string, blogTitle: string): BlogDescript
     return {
         blogTitle: blogTitle,
         blogLink: blogLink,
+        blogFreshness: blogFreshnessByLink[blogLink] || UNKNOWN_BLOG_FRESHNESS,
         subHeaders: [] // lazy load subHeaders bt dynamic import
     }
 }
@@ -89,8 +106,8 @@ function createCategoryGroup(categoryDir: Record<string, any>, categoryName: str
     return group
 }
 
-function findBlogDescriptorByBlogTitleOrBlogLink(blogTitle: string = '', blogLink: string = ''): BlogDescriptor {
-    let blogDescriptor: BlogDescriptor
+function findBlogDescriptorByBlogTitleOrBlogLink(blogTitle: string = '', blogLink: string = ''): BlogDescriptor | undefined {
+    let blogDescriptor: BlogDescriptor | undefined
     function isCategory(categoryOrBlog: CategoryGroup | BlogDescriptor): boolean {
         return Object.prototype.hasOwnProperty.call(categoryOrBlog, 'items')
     }
@@ -122,7 +139,7 @@ function findBlogDescriptorByBlogTitleOrBlogLink(blogTitle: string = '', blogLin
     }
     findBlogByTitle(categoryGroup.value)
 
-    return blogDescriptor!
+    return blogDescriptor
 }
 
 export function findBlogDescriptorByBlogLink(blogLink: string) {
@@ -130,6 +147,30 @@ export function findBlogDescriptorByBlogLink(blogLink: string) {
 }
 export function findBlogDescriptorByBlogTitle(blogTitle: string) {
     return findBlogDescriptorByBlogTitleOrBlogLink(blogTitle)
+}
+
+function normalizeRouteParam(routeParam: string) {
+    try {
+        return decodeURIComponent(routeParam)
+    } catch {
+        return routeParam
+    }
+}
+
+function blogRouteParamToBlogLink(routeParam: string) {
+    const normalizedRouteParam = normalizeRouteParam(routeParam).replace(/\.md$/, '')
+
+    return `/src/blog/${normalizedRouteParam}.md`
+}
+
+function blogLinkToRouteParam(blogLink: string) {
+    return blogLink
+        .replace('/src/blog/', '')
+        .replace(/\.md$/, '')
+}
+
+export function createBlogRoutePath(blogDescriptor: BlogDescriptor) {
+    return `/blog/${encodeURIComponent(blogLinkToRouteParam(blogDescriptor.blogLink))}`
 }
 
 export function findSubHeaderByTitle(title: string, subHeaders: SubHeader[] = activeBlog.value.subHeaders || []): SubHeader {
@@ -178,12 +219,45 @@ function updateBlogDescriptor(blogDescriptor: BlogDescriptor, meta: Md2HtmlExpor
 
 }
 
+function isCategory(categoryOrBlog: CategoryGroup | BlogDescriptor): categoryOrBlog is CategoryGroup {
+    return Object.prototype.hasOwnProperty.call(categoryOrBlog, 'items')
+}
+
+function collectBlogDescriptors(categoryGroup: CategoryGroup): BlogDescriptor[] {
+    return categoryGroup.items.flatMap((categoryOrBlog) => {
+        if (isCategory(categoryOrBlog)) {
+            return collectBlogDescriptors(categoryOrBlog)
+        }
+
+        return [categoryOrBlog]
+    })
+}
+
+function compareBlogFreshness(left: BlogDescriptor, right: BlogDescriptor) {
+    const leftFreshness = left.blogFreshness || UNKNOWN_BLOG_FRESHNESS
+    const rightFreshness = right.blogFreshness || UNKNOWN_BLOG_FRESHNESS
+    const changedAtDiff = rightFreshness.changedAt - leftFreshness.changedAt
+
+    if (changedAtDiff !== 0) {
+        return changedAtDiff
+    }
+
+    const statusDiff = BLOG_FRESHNESS_STATUS_ORDER[leftFreshness.status] - BLOG_FRESHNESS_STATUS_ORDER[rightFreshness.status]
+
+    if (statusDiff !== 0) {
+        return statusDiff
+    }
+
+    return left.blogTitle.localeCompare(right.blogTitle, 'zh-Hans-CN')
+}
+
 let blogTree = createBlogTree()
 let categoryGroup = ref<CategoryGroup>(createCategoryGroup(blogTree)),
     activeBlog = ref<BlogDescriptor>({
         blogTitle: 'blog',
         blogLink: '',
         blogContent: '',
+        blogFreshness: UNKNOWN_BLOG_FRESHNESS,
         subHeaders: []
     }),
     activeSubHeader = ref<SubHeader>({
@@ -212,6 +286,9 @@ function composition() {
         loadingBlog.value = true
         return blogMap[blogLink]().then((meta: Md2HtmlExports )=> {
             let blogDescriptor = findBlogDescriptorByBlogLink(blogLink)
+            if (!blogDescriptor) {
+                throw new Error(`Blog not found: ${blogLink}`)
+            }
             updateBlogDescriptor(blogDescriptor, meta)
             setActiveBlog(blogDescriptor)
             setBlogContent(meta.html)
@@ -221,12 +298,22 @@ function composition() {
     }
 
     async function initBlogByTitle(blogTitle: string, blogHash: string) {
-        let blogDescriptor: BlogDescriptor = findBlogDescriptorByBlogTitle(blogTitle) as BlogDescriptor
+        let blogDescriptor = findBlogDescriptorByBlogLink(blogRouteParamToBlogLink(blogTitle)) || findBlogDescriptorByBlogTitle(blogTitle)
+        if (!blogDescriptor) {
+            return Promise.reject(new Error(`Blog not found: ${blogTitle}`))
+        }
         return fetchMetaByBlogLink(blogDescriptor.blogLink).then(meta => {
             if (blogHash) {
                 setActiveSubHeader(findSubHeaderByTitle(blogHash.substring(1), activeBlog.value.subHeaders))
             }
         })
+    }
+
+    function getLatestBlogs(limit: number = 8) {
+        return collectBlogDescriptors(categoryGroup.value)
+            .filter((blogDescriptor) => blogDescriptor.blogTitle !== 'Introduction')
+            .sort(compareBlogFreshness)
+            .slice(0, limit)
     }
 
     return {
@@ -238,6 +325,7 @@ function composition() {
         setActiveSubHeader,
         fetchMetaByBlogLink,
         initBlogByTitle,
+        getLatestBlogs,
         loadingBlog,
     }
 }

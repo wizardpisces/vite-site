@@ -16,32 +16,77 @@
         <router-link to="/blog/Introduction">进入文章目录</router-link>
       </div>
       <div class="article-list">
-        <router-link to="/blog/AiNotes" class="article-row">
-          <span class="article-category">AI Notes</span>
-          <span class="article-title">AI 技术思考与实践</span>
-          <span class="article-excerpt">关于 AI agent、LLM、产品判断和工程落地的长期笔记。</span>
-        </router-link>
-        
-        <router-link to="/blog/TechNotes" class="article-row">
-          <span class="article-category">Engineering</span>
-          <span class="article-title">技术学习笔记</span>
-          <span class="article-excerpt">前端、后端、构建工具和软件工程实践中的结构化记录。</span>
-        </router-link>
-
-        <router-link to="/blog/DailyReflections" class="article-row">
-          <span class="article-category">Reflections</span>
-          <span class="article-title">日常思考与感悟</span>
-          <span class="article-excerpt">关于工作、学习、判断和生活观察的短记录。</span>
+        <router-link
+          v-for="article in latestBlogs"
+          :key="article.blogLink"
+          :to="createBlogRoutePath(article)"
+          class="article-row"
+        >
+          <span class="article-category">{{ formatFreshness(article) }}</span>
+          <span class="article-title">{{ article.blogTitle }}</span>
+          <span class="article-excerpt">{{ formatBlogPath(article) }}</span>
         </router-link>
       </div>
     </section>
   </div>
 </template>
-<script type="ts">
+<script lang="ts">
+import { computed } from 'vue';
+import useBlog, { createBlogRoutePath } from '@/composition/use-blog';
+import type { BlogDescriptor } from '@/composition/use-blog';
+
+const FRESHNESS_STATUS_LABEL: Record<BlogDescriptor['blogFreshness']['status'], string> = {
+  added: '新增',
+  modified: '修改',
+  unknown: '文章',
+};
+
+function formatDate(timestamp: number) {
+  if (!timestamp) {
+    return '';
+  }
+
+  const date = new Date(timestamp * 1000);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
 export default {
   name: 'Home',
   setup() {
-    return {};
+    const { getLatestBlogs } = useBlog();
+    const latestBlogs = computed(() => getLatestBlogs(8));
+
+    function formatFreshness(article: BlogDescriptor) {
+      const freshness = article.blogFreshness;
+      const date = formatDate(freshness.changedAt);
+      const status = FRESHNESS_STATUS_LABEL[freshness.status];
+
+      return date ? `${date} · ${status}` : status;
+    }
+
+    function formatBlogPath(article: BlogDescriptor) {
+      const pathParts = article.blogLink
+        .replace('/src/blog/', '')
+        .replace(/\.md$/, '')
+        .split('/');
+
+      if (pathParts.length === 1) {
+        return 'blog';
+      }
+
+      return pathParts.slice(0, -1).join(' / ');
+    }
+
+    return {
+      latestBlogs,
+      createBlogRoutePath,
+      formatFreshness,
+      formatBlogPath,
+    };
   }
 }
 </script>

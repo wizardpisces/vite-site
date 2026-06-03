@@ -18,3 +18,17 @@ declare module '*.md' {
         html
     };
 }
+
+declare module 'virtual:blog-freshness' {
+    export type BlogFreshnessStatus = 'added' | 'modified' | 'unknown';
+
+    export type BlogFreshness = {
+        status: BlogFreshnessStatus;
+        changedAt: number;
+        commitHash: string;
+        source: 'git' | 'working-tree' | 'unknown';
+    };
+
+    const freshnessByBlogLink: Record<string, BlogFreshness>;
+    export default freshnessByBlogLink;
+}

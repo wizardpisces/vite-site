@@ -9,6 +9,7 @@ import macrosPlugin from "vite-plugin-babel-macros"
 import checker from 'vite-plugin-checker'
 import Inspect from 'vite-plugin-inspect'
 import federation from "@originjs/vite-plugin-federation";
+import blogFreshnessPlugin from './plugins/vite-plugin-blog-freshness';
 
 export default {
   server: {
@@ -22,6 +23,7 @@ export default {
       outputDir: '.vite-inspect',
     }),
     vue(),
+    blogFreshnessPlugin(),
     // federation({
     //   name: "host-app",
     //   filename: "remoteEntry.js",

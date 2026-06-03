@@ -139,11 +139,13 @@ export default {
   position: relative;
 
   .article-content {
-    max-width: 100%;
+    max-width: 980px;
     width: 100%;
+    margin: 0 auto;
     padding: 40px 56px 56px;
+    box-sizing: border-box;
     font-size: 15px;
-    line-height: 1.6;
+    line-height: 1.72;
     color: $color-text-primary;
     position: relative;
     z-index: 1;
@@ -156,7 +158,7 @@ export default {
     
     &.font-medium {
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.72;
     }
     
     &.font-large {
@@ -170,15 +172,13 @@ export default {
     }
 
     h1, h2, h3, h4, h5, h6 {
-      padding-top: 60px;
-      margin-top: -44px;
+      scroll-margin-top: 84px;
       font-weight: 500;
       line-height: 1.25;
       color: $color-text-primary;
       
       &:first-child {
         margin-top: 0;
-        padding-top: 0;
       }
     }
 
@@ -186,7 +186,7 @@ export default {
       font-family: Georgia, 'Times New Roman', serif;
       font-size: 2.4em;
       font-weight: 400;
-      margin-bottom: 1em;
+      margin: 0 0 1.25rem;
     }
 
     h2 {
@@ -194,26 +194,35 @@ export default {
       font-size: 1.8em;
       padding-bottom: 0.65em;
       border-bottom: 1px solid #d8d0c4;
-      margin: 2.5em 0 1.5em;
+      margin: 2.2rem 0 1.15rem;
       font-weight: 400;
       position: relative;
     }
 
     h3 {
       font-size: 1.35em;
-      margin: 1.4em 0 0.8em;
+      margin: 1.75rem 0 0.75rem;
     }
 
     h4 {
       font-size: 1.15em;
+      margin: 1.4rem 0 0.65rem;
+    }
+
+    h5, h6 {
+      margin: 1.2rem 0 0.55rem;
     }
 
     p {
-      margin: 1.5em 0;
+      margin: 1rem 0;
       line-height: 1.8;
       color: $color-text-primary;
       text-align: justify;
       text-justify: inter-ideograph;
+
+      &:empty {
+        display: none;
+      }
     }
 
     img {
@@ -221,20 +230,20 @@ export default {
       height: auto;
       border-radius: 0;
       box-shadow: none;
-      margin: 2em auto;
+      margin: 1.5rem auto;
       display: block;
       border: 1px solid #d8d0c4;
     }
 
     pre {
-      margin: 2em 0;
-      padding: 1.5rem 1.75rem;
+      margin: 1.4rem 0;
+      padding: 1.1rem 1.25rem;
       border-radius: 0;
       background: #efe9dd;
       border: 1px solid #d8d0c4;
       overflow-x: auto;
       font-size: 0.9em;
-      line-height: 1.6;
+      line-height: 1.65;
       position: relative;
     }
     
@@ -260,8 +269,8 @@ export default {
     }
 
     blockquote {
-      margin: 2em 0;
-      padding: 1.25em 1.5em;
+      margin: 1.35rem 0;
+      padding: 1rem 1.25rem;
       border-left: 2px solid $color-text-primary;
       background: #efe9dd;
       border-radius: 0;
@@ -280,10 +289,10 @@ export default {
 
     ul, ol {
       padding-left: 2em;
-      margin: 1.5em 0;
+      margin: 1rem 0;
 
       li {
-        margin: 0.75em 0;
+        margin: 0.45em 0;
         line-height: 1.7;
         color: $color-text-primary;
         
@@ -303,14 +312,14 @@ export default {
     }
 
     hr {
-      margin: 2em 0;
+      margin: 1.8rem 0;
       border: none;
       border-top: 1px solid #eaecef;
     }
 
     table {
       width: 100%;
-      margin: 2em 0;
+      margin: 1.5rem 0;
       border-collapse: collapse;
       border-radius: 0;
       overflow: hidden;
@@ -318,7 +327,7 @@ export default {
       border-left: 1px solid #d8d0c4;
 
       th, td {
-        padding: 1em 1.5em;
+        padding: 0.75rem 1rem;
         text-align: left;
         border-right: 1px solid #d8d0c4;
         border-bottom: 1px solid #d8d0c4;
@@ -348,7 +357,7 @@ export default {
 
     // KaTeX 数学公式样式
     .katex-display {
-      margin: 1.5em 0;
+      margin: 1.25rem 0;
       overflow-x: auto;
       overflow-y: hidden;
       padding: 0.5em 0;
@@ -417,8 +426,10 @@ export default {
 
   .article-comments {
     border-top: 1px solid #d8d0c4;
-    margin: 0 56px;
+    max-width: 980px;
+    margin: 0 auto;
     padding: 24px 0 56px;
+    box-sizing: border-box;
   }
 
   .comment-toggle {
