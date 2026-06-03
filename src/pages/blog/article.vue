@@ -237,10 +237,11 @@ export default {
 
     pre {
       margin: 1.4rem 0;
-      padding: 1.1rem 1.25rem;
-      border-radius: 0;
-      background: #efe9dd;
-      border: 1px solid #d8d0c4;
+      padding: 1.15rem 1.35rem;
+      border-radius: 6px;
+      background: #f0eadf;
+      border: 0;
+      box-shadow: inset 3px 0 0 #d3c6b4;
       overflow-x: auto;
       font-size: 0.9em;
       line-height: 1.65;
@@ -250,21 +251,32 @@ export default {
     code {
       font-family: 'SF Mono', Monaco, 'Cascadia Code', Menlo, Consolas, 'Courier New', monospace;
       font-size: 0.88em;
-      padding: 0.2em 0.5em;
-      margin: 0 0.1em;
-      border-radius: 4px;
-      background: #efe9dd;
+      padding: 0.12em 0.35em;
+      margin: 0 0.05em;
+      border-radius: 3px;
+      background: rgba(105, 72, 39, 0.08);
       color: #8a3f2d;
-      border: 1px solid #d8d0c4;
+      border: 0;
       font-weight: 500;
       font-variant-ligatures: none;
     }
 
     pre code {
-      background-color: transparent;
+      display: block;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
       padding: 0;
       margin: 0;
       font-size: 1em;
+      color: inherit;
+      font-weight: 400;
+      white-space: pre;
+      min-width: max-content;
+    }
+
+    pre .hljs {
+      background: transparent;
       color: inherit;
     }
 
