@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1080" viewBox="0 0 1600 1080" role="img" aria-labelledby="title desc">
+  <title id="title">AICR Anti Pattern 实现全过程</title>
+  <desc id="desc">从历史评论与反馈中生成 Anti Pattern，再在新 MR Review 中召回、LLM 判定、拦截或放行，并通过 Tracing 和反馈持续迭代。</desc>
+
+  <defs>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .lane { fill: #ffffff; stroke: #d7deea; stroke-width: 2; }
+      .lane-title { fill: #1f2937; font: 700 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .lane-subtitle { fill: #667085; font: 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .box { fill: #ffffff; stroke: #98a2b3; stroke-width: 2; rx: 14; }
+      .box-blue { fill: #eef6ff; stroke: #4e8dd8; }
+      .box-green { fill: #edfbf3; stroke: #35a66d; }
+      .box-orange { fill: #fff4e8; stroke: #e58b32; }
+      .box-purple { fill: #f4f0ff; stroke: #8564d8; }
+      .box-red { fill: #fff1f1; stroke: #d95b5b; }
+      .box-gray { fill: #f2f4f7; stroke: #98a2b3; }
+      .decision { fill: #fff9db; stroke: #d7a800; stroke-width: 2; }
+      .title { fill: #111827; font: 700 22px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .text { fill: #344054; font: 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .small { fill: #667085; font: 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .tag { fill: #ffffff; stroke: #c6d0df; stroke-width: 1.5; rx: 10; }
+      .tag-text { fill: #475467; font: 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .arrow { stroke: #667085; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .arrow-blue { stroke: #4e8dd8; }
+      .arrow-green { stroke: #35a66d; }
+      .arrow-orange { stroke: #e58b32; }
+      .arrow-red { stroke: #d95b5b; }
+      .dashed { stroke-dasharray: 8 8; }
+      .note { fill: #111827; font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+    <marker id="arrowhead" markerWidth="12" markerHeight="8" refX="11" refY="4" orient="auto">
+      <path d="M0,0 L12,4 L0,8 Z" fill="#667085" />
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#101828" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect class="bg" width="1600" height="1080" />
+
+  <text x="80" y="68" fill="#101828" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="38" font-weight="800">
+    AICR Anti Pattern 实现全过程
+  </text>
+  <text x="80" y="104" class="lane-subtitle">
+    从历史反馈中学习“什么不该报”，再在新 Review 中按上下文判定是否拦截，最后用 Tracing 回到质量闭环
+  </text>
+
+  <!-- Lane 1 -->
+  <rect x="60" y="140" width="1480" height="285" rx="24" class="lane" filter="url(#shadow)" />
+  <text x="95" y="185" class="lane-title">1. Anti Pattern 生成链路</text>
+  <text x="95" y="214" class="lane-subtitle">把历史 Bad / OK 反馈与人工评论，转成有适用范围的“负向经验”</text>
+
+  <rect x="95" y="250" width="210" height="120" class="box box-blue" />
+  <text x="118" y="286" class="title">历史 Review 数据</text>
+  <text x="118" y="320" class="text">AI Comments</text>
+  <text x="118" y="348" class="text">G / O / B Feedback</text>
+
+  <rect x="350" y="250" width="210" height="120" class="box box-blue" />
+  <text x="375" y="286" class="title">Human Comments</text>
+  <text x="375" y="320" class="text">人工 Review 意见</text>
+  <text x="375" y="348" class="text">团队隐性规则</text>
+
+  <rect x="605" y="250" width="240" height="120" class="box box-orange" />
+  <text x="630" y="286" class="title">相似 Case 召回</text>
+  <text x="630" y="320" class="text">按仓库 / 文件 / 语义</text>
+  <text x="630" y="348" class="text">聚合相关历史评论</text>
+
+  <rect x="890" y="250" width="260" height="120" class="box box-purple" />
+  <text x="915" y="286" class="title">LLM 归因总结</text>
+  <text x="915" y="320" class="text">为什么这类评论不成立</text>
+  <text x="915" y="348" class="text">适用边界是什么</text>
+
+  <rect x="1195" y="250" width="275" height="120" class="box box-green" />
+  <text x="1220" y="286" class="title">Anti Pattern Rule</text>
+  <text x="1220" y="320" class="text">Pattern + Scope</text>
+  <text x="1220" y="348" class="text">Evidence + Confidence</text>
+
+  <path d="M305 310 H350" class="arrow arrow-blue" />
+  <path d="M560 310 H605" class="arrow arrow-blue" />
+  <path d="M845 310 H890" class="arrow arrow-orange" />
+  <path d="M1150 310 H1195" class="arrow arrow-green" />
+
+  <rect x="1220" y="382" width="90" height="28" class="tag" />
+  <text x="1235" y="402" class="tag-text">Project</text>
+  <rect x="1320" y="382" width="62" height="28" class="tag" />
+  <text x="1337" y="402" class="tag-text">Dir</text>
+  <rect x="1392" y="382" width="64" height="28" class="tag" />
+  <text x="1408" y="402" class="tag-text">File</text>
+
+  <!-- Lane 2 -->
+  <rect x="60" y="460" width="1480" height="365" rx="24" class="lane" filter="url(#shadow)" />
+  <text x="95" y="505" class="lane-title">2. 新 MR 在线判定链路</text>
+  <text x="95" y="534" class="lane-subtitle">AICR 先生成候选评论，再用历史 Anti Pattern 判断“这次是否应该报”</text>
+
+  <rect x="95" y="575" width="210" height="120" class="box box-blue" />
+  <text x="120" y="611" class="title">新 MR Diff</text>
+  <text x="120" y="645" class="text">代码变更</text>
+  <text x="120" y="673" class="text">文件路径 / 上下文</text>
+
+  <rect x="350" y="575" width="230" height="120" class="box box-purple" />
+  <text x="375" y="611" class="title">AICR 生成候选</text>
+  <text x="375" y="645" class="text">description</text>
+  <text x="375" y="673" class="text">explanation / code span</text>
+
+  <rect x="625" y="575" width="230" height="120" class="box box-orange" />
+  <text x="650" y="611" class="title">召回相似规则</text>
+  <text x="650" y="645" class="text">Embedding / 语义召回</text>
+  <text x="650" y="673" class="text">历史评论 + Feedback</text>
+
+  <polygon points="1010,555 1160,635 1010,715 860,635" class="decision" />
+  <text x="938" y="622" class="title">LLM Rerank</text>
+  <text x="923" y="652" class="text">当前场景是否命中</text>
+  <text x="943" y="679" class="text">Anti Pattern?</text>
+
+  <rect x="1230" y="540" width="230" height="90" class="box box-red" />
+  <text x="1260" y="576" class="title">SKIP / Block</text>
+  <text x="1260" y="608" class="text">拦截低价值或误报评论</text>
+
+  <rect x="1230" y="680" width="230" height="90" class="box box-green" />
+  <text x="1260" y="716" class="title">KEEP / Publish</text>
+  <text x="1260" y="748" class="text">发布到 GitLab MR</text>
+
+  <path d="M305 635 H350" class="arrow arrow-blue" />
+  <path d="M580 635 H625" class="arrow arrow-blue" />
+  <path d="M855 635 H865" class="arrow arrow-orange" />
+  <path d="M1160 615 C1190 600 1205 585 1230 585" class="arrow arrow-red" />
+  <path d="M1160 655 C1190 675 1205 725 1230 725" class="arrow arrow-green" />
+
+  <rect x="910" y="737" width="245" height="58" rx="12" class="box box-gray" />
+  <text x="934" y="763" class="small">判定输入：当前评论、代码片段、</text>
+  <text x="934" y="785" class="small">文件路径、历史反馈、人工评论</text>
+
+  <!-- Lane 3 -->
+  <rect x="60" y="860" width="1480" height="165" rx="24" class="lane" filter="url(#shadow)" />
+  <text x="95" y="905" class="lane-title">3. Tracing 与持续迭代</text>
+  <text x="95" y="934" class="lane-subtitle">记录每次判断的证据链，让规则能被评估、修正和淘汰</text>
+
+  <rect x="95" y="960" width="235" height="42" class="box box-gray" />
+  <text x="120" y="987" class="text">记录召回规则与判定原因</text>
+
+  <rect x="385" y="960" width="235" height="42" class="box box-gray" />
+  <text x="410" y="987" class="text">收集最终用户反馈</text>
+
+  <rect x="675" y="960" width="235" height="42" class="box box-gray" />
+  <text x="700" y="987" class="text">BadCase / OK Case Review</text>
+
+  <rect x="965" y="960" width="235" height="42" class="box box-gray" />
+  <text x="990" y="987" class="text">Benchmark 回归验证</text>
+
+  <rect x="1255" y="960" width="235" height="42" class="box box-gray" />
+  <text x="1280" y="987" class="text">更新 / 废弃 Anti Pattern</text>
+
+  <path d="M330 981 H385" class="arrow" />
+  <path d="M620 981 H675" class="arrow" />
+  <path d="M910 981 H965" class="arrow" />
+  <path d="M1200 981 H1255" class="arrow" />
+
+  <path d="M1372 960 C1455 880 1475 790 1460 725" class="arrow arrow-green dashed" />
+  <text x="1265" y="900" class="note">反馈回流到规则库</text>
+
+  <!-- Key insight -->
+  <rect x="85" y="108" width="1430" height="1" fill="#d7deea" />
+  <text x="1120" y="90" fill="#475467" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18">
+    核心：不是简单屏蔽相似评论，而是判断“历史 Bad 的原因是否适用于当前上下文”
+  </text>
+</svg>
