@@ -3,6 +3,21 @@ AI 的摘要与思考
 
 ---
 
+# AI Coding Agent 的 IR  是什么
+
+（这是所有 agent 共享的世界，或者 State，或者是 Agent 直接沟通的契约）
+
+这可能不是一个 Agent 问题，而是一个 Computer Science 问题。
+如果把历史串起来，会发现每一次大的工程能力提升，都伴随着一种新的"中间表示"（Representation）出现：
+* 编译器有 IR，所以不同语言可以共享优化能力。
+* 数据库有 关系模型，所以不同应用可以共享数据。
+* 浏览器有 DOM，所以 HTML、CSS、JavaScript 可以协同工作。
+* Kubernetes 有 Resource Object，所以调度器、控制器、Operator 能协同工作。
+而 AI Software Engineering 今天可能正处于一个类似的阶段。
+我们已经有了很强的"执行器"（Claude Code、Codex、Cursor），却还没有一个大家都认可的Engineering Representation。
+所以你会看到大家都在卷 Agent、卷 Prompt、卷 MCP，但这些更像是在优化"执行器"；真正缺失的，是那个让所有执行器都能理解同一种工程世界的表示层。
+我不知道最终答案是什么，也不认为目前已经有成熟方案。但如果未来五年这个领域出现一次范式变化，我反而会期待它首先出现在Representation层，而不是又一个更大的模型。因为没有稳定的表示，再强的模型也只能不断从 PRD、代码、文档和聊天记录里重新拼凑世界。
+
 # 关于 AI 的 Review 深度 
 
 起初：Review 不够深入。

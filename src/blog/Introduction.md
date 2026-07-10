@@ -13,6 +13,7 @@ description: this is wizardpisces blog introduction
 Blog
 * [https://www.anthropic.com/research#overview](https://www.anthropic.com/research#overview)
 * [https://www.anthropic.com/engineering](https://www.anthropic.com/engineering)
+* [https://www.anthropic.com/news](https://www.anthropic.com/news)
 * [https://openai.com/research/index/](https://openai.com/research/index/)
 * [https://www.microsoft.com/en-us/research/blog/](https://www.microsoft.com/en-us/research/blog/)
 * [https://ai.meta.com/blog/](https://ai.meta.com/blog/)
