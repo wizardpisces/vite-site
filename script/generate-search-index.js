@@ -16,6 +16,8 @@ const contentOutputPath = path.join(publicDir, 'blog-content.json');
 const embeddingsOutputPath = path.join(publicDir, 'blog-embeddings-bge.json');
 const chunksOutputPath = path.join(publicDir, 'blog-chunks.json');
 
+const shouldGenerateEmbeddings = process.argv.includes('--embeddings');
+
 // 分段配置 - 基于BGE模型最佳实践优化
 const CHUNK_CONFIG = {
   maxChunkSize: 350,      // 每段最大字符数（≈ 350-500 tokens，更接近BGE推荐的512 tokens）
@@ -304,23 +306,30 @@ async function main() {
     fs.writeFileSync(chunksOutputPath, JSON.stringify(chunks, null, 2));
     console.log(`✅ 分段数据已保存到: ${chunksOutputPath}`);
     
-    // 5. 生成段落级嵌入向量
-    const embeddings = await generateChunkEmbeddings(chunks);
-    
-    // 6. 保存嵌入向量
-    fs.writeFileSync(embeddingsOutputPath, JSON.stringify(embeddings, null, 2));
-    console.log(`✅ 嵌入向量已保存到: ${embeddingsOutputPath}`);
+    // 5. 生成段落级嵌入向量（耗时较长，默认 deploy 不执行）
+    let embeddings = [];
+    if (shouldGenerateEmbeddings) {
+      embeddings = await generateChunkEmbeddings(chunks);
+
+      // 6. 保存嵌入向量
+      fs.writeFileSync(embeddingsOutputPath, JSON.stringify(embeddings, null, 2));
+      console.log(`✅ 嵌入向量已保存到: ${embeddingsOutputPath}`);
+    } else {
+      console.log('⏭️  跳过嵌入向量生成；如需更新语义搜索索引，请运行 npm run generate-search-index:embeddings');
+    }
     
     // 7. 输出统计信息
     console.log('\n📊 统计信息:');
     console.log(`- 原始文档数: ${blogData.length}`);
     console.log(`- 分段数量: ${chunks.length}`);
-    console.log(`- 嵌入向量数: ${embeddings.length}`);
-    console.log(`- 向量维度: ${embeddings[0]?.embedding?.length || 'N/A'}`);
+    console.log(`- 嵌入向量数: ${shouldGenerateEmbeddings ? embeddings.length : '未更新'}`);
+    console.log(`- 向量维度: ${shouldGenerateEmbeddings ? (embeddings[0]?.embedding?.length || 'N/A') : '未更新'}`);
     console.log(`- 平均段落长度: ${Math.round(chunks.reduce((sum, c) => sum + c.content.length, 0) / chunks.length)} 字符`);
     console.log(`- 内容索引大小: ${(fs.statSync(contentOutputPath).size / 1024).toFixed(2)} KB`);
     console.log(`- 分段数据大小: ${(fs.statSync(chunksOutputPath).size / 1024).toFixed(2)} KB`);
-    console.log(`- 嵌入向量大小: ${(fs.statSync(embeddingsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+    if (fs.existsSync(embeddingsOutputPath)) {
+      console.log(`- 嵌入向量大小: ${(fs.statSync(embeddingsOutputPath).size / 1024 / 1024).toFixed(2)} MB`);
+    }
     
     console.log('\n🎉 分段语义搜索索引生成完成！');
     

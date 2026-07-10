@@ -12,11 +12,13 @@
     "watchblog": "ts-node script/watchblog.ts",
     "build": "vite build",
     "deploy": "npm run generate-search-index && sh script/deploy.sh",
+    "deploy:full-index": "npm run generate-search-index:embeddings && sh script/deploy.sh",
     "deploy:only": "sh script/deploy.sh",
     "prepare": "husky install",
     "t2j": "ts-node --project bin/tsconfig-dev.json bin/schema2json.ts",
     "test": "jest",
-    "generate-search-index": "node script/generate-search-index.js"
+    "generate-search-index": "node script/generate-search-index.js",
+    "generate-search-index:embeddings": "node script/generate-search-index.js --embeddings"
   },
   "engines": {
     "node": ">=10.0.0"

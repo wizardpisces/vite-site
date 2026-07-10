@@ -3,6 +3,23 @@
 # 发生任何错误时终止
 set -e
 
+repo_root=$(cd "$(dirname "$0")/.." && pwd)
+cd "$repo_root"
+
+commit_source_changes() {
+  git add -A
+
+  if git diff --cached --quiet; then
+    echo "No source changes to commit."
+    return
+  fi
+
+  git commit -m "${SOURCE_COMMIT_MESSAGE:-blog: publish}"
+}
+
+# 先提交源仓库变更，确保构建时新增文章能拿到稳定的 git 发布时间
+commit_source_changes
+
 # 构建
 npm run build
 
